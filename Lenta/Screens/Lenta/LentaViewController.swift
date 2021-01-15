@@ -13,12 +13,12 @@ protocol LentaViewInput: class {
 
 class LentaViewController: UIViewController {
 
-    @IBOutlet weak var lentaCollectionView: UICollectionView! {
+    @IBOutlet weak var lentaTableView: UITableView! {
         didSet {
             let nibName = String(describing: LentaCell.self)
-            lentaCollectionView.register(UINib(nibName: nibName, bundle: nil), forCellWithReuseIdentifier: nibName)
-            lentaCollectionView.dataSource = self
-            lentaCollectionView.delegate = self
+            lentaTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
+            lentaTableView.dataSource = self
+            lentaTableView.delegate = self
         }
     }
     
@@ -26,42 +26,57 @@ class LentaViewController: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setup()
+        presenter.viewDidLoad()
+    }
+    
+    private func setup() {
+        title = "Lenta"
+        
+        let newButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(addButtonPress))
+        navigationItem.rightBarButtonItem = newButtonItem
+        
+        let updateButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(update))
+        navigationItem.leftBarButtonItem = updateButtonItem
+    }
+    
+    @objc
+    func addButtonPress() {
+        presenter.addButtonPress()
+    }
+    
+    @objc
+    func update() {
         presenter.viewDidLoad()
     }
 }
 
-//MARK: - UICollectionViewDataSource
+//MARK: - UITableViewDataSource
 
-extension LentaViewController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension LentaViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter.postCount
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LentaCell.self), for: indexPath) as! LentaCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LentaCell.self), for: indexPath) as! LentaCell
         let post = presenter.postViewModel(for: indexPath.item)
         cell.set(post: post)
         return cell
     }
 }
 
-//MARK: - UICollectionViewDelegateFlowLayout
+//MARK: - UITableViewDelegate
 
-extension LentaViewController: UICollectionViewDelegateFlowLayout {
+extension LentaViewController: UITableViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.bounds.width - 8
-        let ratio: CGFloat = 1.1
-        let height = width * ratio
-        return CGSize(width: width, height: height)
-    }
 }
+
+//MARK: - LentaViewInput
 
 extension LentaViewController: LentaViewInput {
     
     func reloadLenta() {
-        lentaCollectionView.reloadData()
+        lentaTableView.reloadData()
     }
 }

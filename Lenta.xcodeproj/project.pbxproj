@@ -3,10 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA0285EB25B19F910082B17D /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = FA0285EA25B19F910082B17D /* SDWebImage */; };
+		FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90025B0290900D2B806 /* NewPostViewController.swift */; };
+		FA26A90325B0290900D2B806 /* NewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA26A90125B0290900D2B806 /* NewPostViewController.xib */; };
+		FA26A90625B029B000D2B806 /* NewPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90525B029B000D2B806 /* NewPostPresenter.swift */; };
+		FA26A90925B02AD300D2B806 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90825B02AD300D2B806 /* NewPostInteractor.swift */; };
+		FA26A90C25B02C6800D2B806 /* NewPostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */; };
+		FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90E25B0543200D2B806 /* SendPost.swift */; };
 		FA33EDE425AC8A5D00637E3E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */; };
 		FA8DAD4225AC24E600E9D1B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */; };
 		FA8DAD4425AC24E600E9D1B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DAD4325AC24E600E9D1B7 /* SceneDelegate.swift */; };
@@ -25,6 +32,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA26A90025B0290900D2B806 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
+		FA26A90125B0290900D2B806 /* NewPostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPostViewController.xib; sourceTree = "<group>"; };
+		FA26A90525B029B000D2B806 /* NewPostPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostPresenter.swift; sourceTree = "<group>"; };
+		FA26A90825B02AD300D2B806 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
+		FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostRouter.swift; sourceTree = "<group>"; };
+		FA26A90E25B0543200D2B806 /* SendPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPost.swift; sourceTree = "<group>"; };
 		FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		FA8DAD3E25AC24E600E9D1B7 /* Lenta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lenta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,15 +62,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA0285EB25B19F910082B17D /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA26A8FF25B028DA00D2B806 /* NewPost */ = {
+			isa = PBXGroup;
+			children = (
+				FA26A90025B0290900D2B806 /* NewPostViewController.swift */,
+				FA26A90525B029B000D2B806 /* NewPostPresenter.swift */,
+				FA26A90825B02AD300D2B806 /* NewPostInteractor.swift */,
+				FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */,
+				FA26A90125B0290900D2B806 /* NewPostViewController.xib */,
+				FA26A90E25B0543200D2B806 /* SendPost.swift */,
+			);
+			path = NewPost;
+			sourceTree = "<group>";
+		};
 		FA33EDE025AC899A00637E3E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				FA26A8FF25B028DA00D2B806 /* NewPost */,
 				FA8DAD5D25AC263400E9D1B7 /* Lenta */,
 			);
 			path = Screens;
@@ -150,6 +178,9 @@
 			dependencies = (
 			);
 			name = Lenta;
+			packageProductDependencies = (
+				FA0285EA25B19F910082B17D /* SDWebImage */,
+			);
 			productName = Lenta;
 			productReference = FA8DAD3E25AC24E600E9D1B7 /* Lenta.app */;
 			productType = "com.apple.product-type.application";
@@ -177,6 +208,9 @@
 				Base,
 			);
 			mainGroup = FA8DAD3525AC24E600E9D1B7;
+			packageReferences = (
+				FA0285E925B19F910082B17D /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			productRefGroup = FA8DAD3F25AC24E600E9D1B7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -195,6 +229,7 @@
 				FAC2072925AC31F400CD9099 /* LentaViewController.xib in Resources */,
 				FAC2072F25AC3B0700CD9099 /* LentaCell.xib in Resources */,
 				FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */,
+				FA26A90325B0290900D2B806 /* NewPostViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,15 +240,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA26A90C25B02C6800D2B806 /* NewPostRouter.swift in Sources */,
 				FA33EDE425AC8A5D00637E3E /* NetworkManager.swift in Sources */,
 				FAC2072825AC31F400CD9099 /* LentaViewController.swift in Sources */,
 				FAC2073525AC616900CD9099 /* Assembly.swift in Sources */,
 				FA8DAD4225AC24E600E9D1B7 /* AppDelegate.swift in Sources */,
 				FAC2072E25AC3B0700CD9099 /* LentaCell.swift in Sources */,
+				FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */,
 				FA8DAD4425AC24E600E9D1B7 /* SceneDelegate.swift in Sources */,
 				FAC2073225AC5FE300CD9099 /* Post.swift in Sources */,
+				FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */,
 				FAC2073F25AC689F00CD9099 /* PostViewModel.swift in Sources */,
+				FA26A90625B029B000D2B806 /* NewPostPresenter.swift in Sources */,
 				FAC2073825AC61A500CD9099 /* LentaPresenter.swift in Sources */,
+				FA26A90925B02AD300D2B806 /* NewPostInteractor.swift in Sources */,
 				FAC2073B25AC61B200CD9099 /* LentaInteractor.swift in Sources */,
 				FAC2074425AC6C6E00CD9099 /* LentaRouter.swift in Sources */,
 			);
@@ -354,6 +394,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PSSGUD5C34;
 				INFOPLIST_FILE = Lenta/Info.plist;
@@ -362,8 +403,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta;
+				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -374,6 +416,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PSSGUD5C34;
 				INFOPLIST_FILE = Lenta/Info.plist;
@@ -382,8 +425,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta;
+				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -411,6 +455,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FA0285E925B19F910082B17D /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FA0285EA25B19F910082B17D /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA0285E925B19F910082B17D /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FA8DAD3625AC24E600E9D1B7 /* Project object */;
 }

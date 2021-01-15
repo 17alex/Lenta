@@ -5,15 +5,16 @@
 //  Created by Alex on 11.01.2021.
 //
 
-import Foundation
+import UIKit
 
 protocol LentaRouterInput {
-    
+    func addButtonPress()
 }
 
 class LentaRouter {
     
     let assembly: Assembly
+    var view: UIViewController!
     
     init(assembly: Assembly) {
         print("LentaRouter init")
@@ -25,4 +26,8 @@ class LentaRouter {
 
 extension LentaRouter: LentaRouterInput {
     
+    func addButtonPress() {
+        let newPostVC = assembly.getNewPostModule()
+        view.navigationController?.pushViewController(newPostVC, animated: true)
+    }
 }

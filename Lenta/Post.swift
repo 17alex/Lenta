@@ -8,8 +8,9 @@
 import Foundation
 
 struct Post: Codable {
-    let title: String?
-    let name: String?
+    let postId: Int
+    let userId: Int
+    let timeInterval: TimeInterval
     let description: String?
-    let imageUrl: String?
+    let imageName: String?
 }

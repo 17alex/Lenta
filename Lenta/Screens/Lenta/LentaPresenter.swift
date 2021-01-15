@@ -10,6 +10,7 @@ import Foundation
 protocol LentaViewOutput {
     var postCount: Int { get }
     func viewDidLoad()
+    func addButtonPress()
     func postViewModel(for index: Int) -> PostViewModel
 }
 
@@ -33,6 +34,10 @@ class LentaPresenter {
 }
 
 extension LentaPresenter: LentaViewOutput {
+    
+    func addButtonPress() {
+        router.addButtonPress()
+    }
     
     var postCount: Int {
         interactor.postCount
