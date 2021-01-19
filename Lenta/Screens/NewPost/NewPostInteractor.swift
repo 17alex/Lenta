@@ -21,7 +21,9 @@ class NewPostInteractor {
         self.presenter = presenter
     }
     
-    deinit { print("NewPostInteractor deinit") }
+    deinit {
+        print("NewPostInteractor deinit")
+    }
     
 }
 

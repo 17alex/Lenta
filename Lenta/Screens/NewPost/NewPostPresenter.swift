@@ -28,7 +28,9 @@ class NewPostPresenter {
         self.view = view
     }
     
-    deinit { print("NewPostPresenter deinit") }
+    deinit {
+        print("NewPostPresenter deinit")
+    }
 }
 
 extension NewPostPresenter: NewPostViewOutput {

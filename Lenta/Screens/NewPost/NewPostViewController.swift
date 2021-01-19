@@ -20,10 +20,13 @@ class NewPostViewController: UIViewController {
     var presenter: NewPostViewOutput!
     private var image: UIImage?
     
-    deinit { print("NewPostViewController deinit") }
+    deinit {
+        print("NewPostViewController deinit")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("NewPostViewController init")
         setup()
     }
     

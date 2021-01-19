@@ -45,11 +45,11 @@ extension LentaPresenter: LentaViewOutput {
             router.loginUser { loginedUser in
                 self.currentUser = loginedUser
                 self.view.userLoginned(true)
-                print("currentUser = \(self.currentUser)")
+//                print("currentUser = \(self.currentUser)")
             }
         } else {
             currentUser = nil
-            print("currentUser = \(currentUser)")
+//            print("currentUser = \(currentUser)")
             view.userLoginned(false)
         }
     }

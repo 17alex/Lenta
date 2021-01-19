@@ -17,17 +17,23 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signInButton: UIButton!
     
-    var presenter: LoginPresenterInput!
+    var presenter: LoginViewOutput!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("LoginViewController init")
         signInButton.isEnabled = false
         loginTextField.becomeFirstResponder()
     }
     
-    deinit { print("LoginViewController deinit") }
+    deinit {
+        print("LoginViewController deinit")
+    }
 
+    @IBAction func registerButtonPress(_ sender: UIButton) {
+        presenter.registerButtonPress()
+    }
+    
     @IBAction func valueChangeTextField(_ sender: UITextField) {
         if loginTextField.text != "" && passwordTextField.text != "" {
             self.signInButton.isEnabled = true

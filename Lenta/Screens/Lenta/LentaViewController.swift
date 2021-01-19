@@ -37,7 +37,7 @@ final class LentaViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("LentaViewController init")
         setup()
         presenter.viewDidLoad()
     }

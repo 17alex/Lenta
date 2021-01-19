@@ -13,7 +13,7 @@ protocol LoginInteractorInput {
 
 class LoginInteractor {
     
-    let presenter: LoginInteractorOutput
+    unowned let presenter: LoginInteractorOutput
     var networkManager: NetworkManager!
     
     init(presenter: LoginInteractorOutput) {
@@ -21,7 +21,7 @@ class LoginInteractor {
         self.presenter = presenter
     }
     
-    deinit { print("LoginInteractor init") }
+    deinit { print("LoginInteractor deinit") }
     
 }
 

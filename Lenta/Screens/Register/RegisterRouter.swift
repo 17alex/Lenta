@@ -1,48 +1,47 @@
 //
-//  LoginRouter.swift
+//  RegisterRouter.swift
 //  Lenta
 //
-//  Created by Alex on 18.01.2021.
+//  Created by Alex on 19.01.2021.
 //
 
 import UIKit
 
-protocol LoginRouterInput {
+protocol RegisterRouterInput {
     func successDissmis(currentUser: CurrentUser)
-    func showRegisterModule()
+    func showLoginedModule()
 }
 
-class LoginRouter {
+class RegisterRouter {
     
     let assembly: Assembly
-    unowned let view: UIViewController
+    unowned let view: UIViewController!
     let complete: (CurrentUser) -> Void
     
     init(assembly: Assembly, view: UIViewController, complete: @escaping (CurrentUser) -> Void) {
         self.assembly = assembly
         self.view = view
         self.complete = complete
-        print("LoginRouter init")
+        print("RegisterRouter init")
     }
     
     deinit {
-        print("LoginRouter deinit")
+        print("RegisterRouter deinit")
     }
-    
 }
 
-extension LoginRouter: LoginRouterInput {
+extension RegisterRouter: RegisterRouterInput {
     
     func successDissmis(currentUser: CurrentUser) {
         complete(currentUser)
         view.dismiss(animated: true, completion: nil)
     }
     
-    func showRegisterModule() {
-        let registerVC = assembly.getRegisterModule(complete: complete)
+    func showLoginedModule() {
+        let loginVC = assembly.getLoginModule(complete: complete)
         view.dismiss(animated: true) {
             if let lastView = self.assembly.navigationController.viewControllers.last {
-                lastView.present(registerVC, animated: true, completion: nil)
+                lastView.present(loginVC, animated: true, completion: nil)
             }
         }
     }

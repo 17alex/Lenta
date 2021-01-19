@@ -15,26 +15,28 @@ protocol LentaRouterInput {
 class LentaRouter {
     
     let assembly: Assembly
-    var view: UIViewController!
+    unowned let view: UIViewController
     
-    init(assembly: Assembly) {
+    init(view: UIViewController, assembly: Assembly) {
         print("LentaRouter init")
+        self.view = view
         self.assembly = assembly
     }
     
-    deinit { print("LentaRouter deinit") }
+    deinit {
+        print("LentaRouter deinit")
+    }
 }
 
 extension LentaRouter: LentaRouterInput {
     
     func loginUser(complete: @escaping (CurrentUser) -> Void) {
         let loginVC = assembly.getLoginModule(complete: complete)
-//        view.modalPresentationStyle = .fullScreen
         view.present(loginVC, animated: true)
     }
     
     func showEnterNewPostModule(for user: CurrentUser) {
         let newPostVC = assembly.getNewPostModule(for: user)
-        view.navigationController?.pushViewController(newPostVC, animated: true)
+        assembly.navigationController.pushViewController(newPostVC, animated: true)
     }
 }

@@ -53,11 +53,11 @@ extension NetworkManager: NetworkManagerProtocol {
         let body = try? JSONEncoder().encode(parameters)
         
         urlRequest.httpBody = body
-        print("param = \(urlRequest.allHTTPHeaderFields)")
+//        print("param = \(urlRequest.allHTTPHeaderFields)")
         taskResume(with: urlRequest) { (data, error) in
-            guard let myData = data else { return }
-            let dataString = String(data: myData, encoding: .utf8)
-            print("dataString: \(dataString)")
+//            guard let myData = data else { return }
+//            let dataString = String(data: myData, encoding: .utf8)
+//            print("dataString: \(dataString)")
             var users: [User] = []
             if let data = data,
                let us = try? JSONDecoder().decode([User].self, from: data) {
@@ -72,9 +72,9 @@ extension NetworkManager: NetworkManagerProtocol {
         let urlRequest = URLRequest(url: url)
         taskResume(with: urlRequest) { data, error in
             
-            guard let myData = data else { return }
-            let dataString = String(data: myData, encoding: .utf8)
-            print("dataString: \(dataString)")
+//            guard let myData = data else { return }
+//            let dataString = String(data: myData, encoding: .utf8)
+//            print("dataString: \(dataString)")
             
             if let error = error {
                 self.onMain { complete(.failure(error)) }
@@ -124,9 +124,9 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpBody = body
         
         taskResume(with: urlRequest) { (data, error) in
-            guard let data = data else { return }
-            let dataString = String(data: data, encoding: .utf8)
-            print("dataString: \(dataString)")
+//            guard let data = data else { return }
+//            let dataString = String(data: data, encoding: .utf8)
+//            print("dataString: \(dataString)")
             self.onMain { complete(true) }
         }
     }

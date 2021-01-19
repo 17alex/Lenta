@@ -7,11 +7,12 @@
 
 import Foundation
 
-protocol LoginPresenterInput {
+protocol LoginViewOutput {
     func logIn(login: String, password: String)
+    func registerButtonPress()
 }
 
-protocol LoginInteractorOutput {
+protocol LoginInteractorOutput: class {
     func userDidLogin(currentUser: CurrentUser)
     func userNotDidlogin()
 }
@@ -27,11 +28,17 @@ class LoginPresenter {
         self.view = view
     }
     
-    deinit { print("LoginPresenter init") }
+    deinit {
+        print("LoginPresenter deinit")
+    }
     
 }
 
-extension LoginPresenter: LoginPresenterInput {
+extension LoginPresenter: LoginViewOutput {
+    
+    func registerButtonPress() {
+        router.showRegisterModule()
+    }
     
     func logIn(login: String, password: String) {
         interactor.logIn(login: login, password: password)
@@ -47,6 +54,4 @@ extension LoginPresenter: LoginInteractorOutput {
     func userNotDidlogin() {
         view.userNotLoginned()
     }
-    
-    
 }
