@@ -23,14 +23,16 @@ class LentaCell: UITableViewCell {
     }
     
     func set(post: PostViewModel) {
-        if let logoImageName = post.logoImageName,
-           let url = URL(string: "https://monsterok.ru/lenta/logos/\(logoImageName)") {
+        let logoImageName = post.avatarImageName
+        if logoImageName != "",
+           let url = URL(string: "https://monsterok.ru/lenta/avatars/\(logoImageName)") {
             logoImageView.sd_setImage(with: url)
         }
         userNameLabel.text = post.userName
         timeLabel.text = post.time
         descriptionLabel.text = post.description
-        if let urlString = post.imageName,
+        let urlString = post.postImageName
+        if urlString != "",
            let url = URL(string: "https://monsterok.ru/lenta/images/\(urlString)") {
             fotoImageView.sd_setImage(with: url)
         }

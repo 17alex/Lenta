@@ -10,7 +10,9 @@ import Foundation
 protocol LentaViewOutput {
     var postCount: Int { get }
     func viewDidLoad()
-    func addButtonPress()
+    func reloadPosts()
+    func logInOutButtonPress()
+    func newPostButtonPress()
     func postViewModel(for index: Int) -> PostViewModel
 }
 
@@ -24,31 +26,62 @@ class LentaPresenter {
     var interactor: LentaInteractorInput!
     var router: LentaRouterInput!
     
+    var currentUser: CurrentUser?
+    
     init(view: LentaViewInput) {
         print("LentaPresenter init")
         self.view = view
     }
     
-    deinit { print("LentaPresenter deinit") }
-    
+    deinit {
+        print("LentaPresenter deinit")
+    }
 }
 
 extension LentaPresenter: LentaViewOutput {
     
-    func addButtonPress() {
-        router.addButtonPress()
+    func logInOutButtonPress() {
+        if currentUser == nil {
+            router.loginUser { loginedUser in
+                self.currentUser = loginedUser
+                self.view.userLoginned(true)
+                print("currentUser = \(self.currentUser)")
+            }
+        } else {
+            currentUser = nil
+            print("currentUser = \(currentUser)")
+            view.userLoginned(false)
+        }
+    }
+    
+    func newPostButtonPress() {
+        guard let currUser = currentUser else { return }
+        router.showEnterNewPostModule(for: currUser)
     }
     
     var postCount: Int {
         interactor.postCount
     }
     
+    func reloadPosts() {
+        interactor.loadPosts()
+    }
+    
     func viewDidLoad() {
+        currentUser = interactor.loadCurrenUser()
+        
+        if currentUser == nil {
+            view.userLoginned(false)
+        } else {
+            view.userLoginned(true)
+        }
         interactor.loadPosts()
     }
     
     func postViewModel(for index: Int) -> PostViewModel {
-        return PostViewModel(post: interactor.posts[index])
+        let post = interactor.posts[index]
+        let user = interactor.users[post.userId]
+        return PostViewModel(post: post, user: user)
     }
 }
 
@@ -58,3 +91,4 @@ extension LentaPresenter: LentaInteractorOutput {
         view.reloadLenta()
     }
 }
+

@@ -8,12 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		FA0285EB25B19F910082B17D /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = FA0285EA25B19F910082B17D /* SDWebImage */; };
+		FA0285EE25B1D1FE0082B17D /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */; };
 		FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90025B0290900D2B806 /* NewPostViewController.swift */; };
 		FA26A90325B0290900D2B806 /* NewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA26A90125B0290900D2B806 /* NewPostViewController.xib */; };
 		FA26A90625B029B000D2B806 /* NewPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90525B029B000D2B806 /* NewPostPresenter.swift */; };
 		FA26A90925B02AD300D2B806 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90825B02AD300D2B806 /* NewPostInteractor.swift */; };
 		FA26A90C25B02C6800D2B806 /* NewPostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */; };
 		FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90E25B0543200D2B806 /* SendPost.swift */; };
+		FA2B469C25B5706400DC5C1D /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B469B25B5706400DC5C1D /* StoreManager.swift */; };
+		FA2B46A325B5BD3200DC5C1D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46A125B5BD3200DC5C1D /* LoginViewController.swift */; };
+		FA2B46A425B5BD3200DC5C1D /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA2B46A225B5BD3200DC5C1D /* LoginViewController.xib */; };
+		FA2B46A825B5BDBE00DC5C1D /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46A725B5BDBE00DC5C1D /* LoginPresenter.swift */; };
+		FA2B46AC25B5CE2200DC5C1D /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46AB25B5CE2200DC5C1D /* LoginInteractor.swift */; };
+		FA2B46AF25B5D46500DC5C1D /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46AE25B5D46500DC5C1D /* LoginRouter.swift */; };
 		FA33EDE425AC8A5D00637E3E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */; };
 		FA8DAD4225AC24E600E9D1B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */; };
 		FA8DAD4425AC24E600E9D1B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DAD4325AC24E600E9D1B7 /* SceneDelegate.swift */; };
@@ -23,7 +30,7 @@
 		FAC2072925AC31F400CD9099 /* LentaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAC2072725AC31F400CD9099 /* LentaViewController.xib */; };
 		FAC2072E25AC3B0700CD9099 /* LentaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2072C25AC3B0600CD9099 /* LentaCell.swift */; };
 		FAC2072F25AC3B0700CD9099 /* LentaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAC2072D25AC3B0600CD9099 /* LentaCell.xib */; };
-		FAC2073225AC5FE300CD9099 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073125AC5FE300CD9099 /* Post.swift */; };
+		FAC2073225AC5FE300CD9099 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073125AC5FE300CD9099 /* Response.swift */; };
 		FAC2073525AC616900CD9099 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073425AC616900CD9099 /* Assembly.swift */; };
 		FAC2073825AC61A500CD9099 /* LentaPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073725AC61A500CD9099 /* LentaPresenter.swift */; };
 		FAC2073B25AC61B200CD9099 /* LentaInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073A25AC61B200CD9099 /* LentaInteractor.swift */; };
@@ -32,12 +39,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		FA26A90025B0290900D2B806 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		FA26A90125B0290900D2B806 /* NewPostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPostViewController.xib; sourceTree = "<group>"; };
 		FA26A90525B029B000D2B806 /* NewPostPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostPresenter.swift; sourceTree = "<group>"; };
 		FA26A90825B02AD300D2B806 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
 		FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostRouter.swift; sourceTree = "<group>"; };
 		FA26A90E25B0543200D2B806 /* SendPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPost.swift; sourceTree = "<group>"; };
+		FA2B469B25B5706400DC5C1D /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		FA2B46A125B5BD3200DC5C1D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		FA2B46A225B5BD3200DC5C1D /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		FA2B46A725B5BDBE00DC5C1D /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		FA2B46AB25B5CE2200DC5C1D /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		FA2B46AE25B5D46500DC5C1D /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		FA8DAD3E25AC24E600E9D1B7 /* Lenta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lenta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,7 +63,7 @@
 		FAC2072725AC31F400CD9099 /* LentaViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LentaViewController.xib; sourceTree = "<group>"; };
 		FAC2072C25AC3B0600CD9099 /* LentaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaCell.swift; sourceTree = "<group>"; };
 		FAC2072D25AC3B0600CD9099 /* LentaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LentaCell.xib; sourceTree = "<group>"; };
-		FAC2073125AC5FE300CD9099 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		FAC2073125AC5FE300CD9099 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		FAC2073425AC616900CD9099 /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		FAC2073725AC61A500CD9099 /* LentaPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaPresenter.swift; sourceTree = "<group>"; };
 		FAC2073A25AC61B200CD9099 /* LentaInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaInteractor.swift; sourceTree = "<group>"; };
@@ -82,9 +96,30 @@
 			path = NewPost;
 			sourceTree = "<group>";
 		};
+		FA2B469A25B5704B00DC5C1D /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				FA2B469B25B5706400DC5C1D /* StoreManager.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		FA2B46A025B5BD1100DC5C1D /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				FA2B46A125B5BD3200DC5C1D /* LoginViewController.swift */,
+				FA2B46AE25B5D46500DC5C1D /* LoginRouter.swift */,
+				FA2B46AB25B5CE2200DC5C1D /* LoginInteractor.swift */,
+				FA2B46A725B5BDBE00DC5C1D /* LoginPresenter.swift */,
+				FA2B46A225B5BD3200DC5C1D /* LoginViewController.xib */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		FA33EDE025AC899A00637E3E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				FA2B46A025B5BD1100DC5C1D /* Login */,
 				FA26A8FF25B028DA00D2B806 /* NewPost */,
 				FA8DAD5D25AC263400E9D1B7 /* Lenta */,
 			);
@@ -94,6 +129,7 @@
 		FA33EDE125AC8A1000637E3E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				FA2B469A25B5704B00DC5C1D /* Store */,
 				FA33EDE225AC8A2800637E3E /* Network */,
 			);
 			path = Services;
@@ -131,7 +167,8 @@
 				FA8DAD4A25AC24F000E9D1B7 /* Assets.xcassets */,
 				FA8DAD4C25AC24F000E9D1B7 /* LaunchScreen.storyboard */,
 				FA8DAD4F25AC24F000E9D1B7 /* Info.plist */,
-				FAC2073125AC5FE300CD9099 /* Post.swift */,
+				FAC2073125AC5FE300CD9099 /* Response.swift */,
+				FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */,
 				FAC2073425AC616900CD9099 /* Assembly.swift */,
 				FA33EDE025AC899A00637E3E /* Screens */,
 				FA33EDE125AC8A1000637E3E /* Services */,
@@ -227,6 +264,7 @@
 			files = (
 				FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */,
 				FAC2072925AC31F400CD9099 /* LentaViewController.xib in Resources */,
+				FA2B46A425B5BD3200DC5C1D /* LoginViewController.xib in Resources */,
 				FAC2072F25AC3B0700CD9099 /* LentaCell.xib in Resources */,
 				FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */,
 				FA26A90325B0290900D2B806 /* NewPostViewController.xib in Resources */,
@@ -242,18 +280,24 @@
 			files = (
 				FA26A90C25B02C6800D2B806 /* NewPostRouter.swift in Sources */,
 				FA33EDE425AC8A5D00637E3E /* NetworkManager.swift in Sources */,
+				FA2B46AC25B5CE2200DC5C1D /* LoginInteractor.swift in Sources */,
 				FAC2072825AC31F400CD9099 /* LentaViewController.swift in Sources */,
 				FAC2073525AC616900CD9099 /* Assembly.swift in Sources */,
+				FA2B46A325B5BD3200DC5C1D /* LoginViewController.swift in Sources */,
+				FA2B46A825B5BDBE00DC5C1D /* LoginPresenter.swift in Sources */,
 				FA8DAD4225AC24E600E9D1B7 /* AppDelegate.swift in Sources */,
+				FA2B46AF25B5D46500DC5C1D /* LoginRouter.swift in Sources */,
 				FAC2072E25AC3B0700CD9099 /* LentaCell.swift in Sources */,
 				FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */,
+				FA0285EE25B1D1FE0082B17D /* CurrentUser.swift in Sources */,
 				FA8DAD4425AC24E600E9D1B7 /* SceneDelegate.swift in Sources */,
-				FAC2073225AC5FE300CD9099 /* Post.swift in Sources */,
+				FAC2073225AC5FE300CD9099 /* Response.swift in Sources */,
 				FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */,
 				FAC2073F25AC689F00CD9099 /* PostViewModel.swift in Sources */,
 				FA26A90625B029B000D2B806 /* NewPostPresenter.swift in Sources */,
 				FAC2073825AC61A500CD9099 /* LentaPresenter.swift in Sources */,
 				FA26A90925B02AD300D2B806 /* NewPostInteractor.swift in Sources */,
+				FA2B469C25B5706400DC5C1D /* StoreManager.swift in Sources */,
 				FAC2073B25AC61B200CD9099 /* LentaInteractor.swift in Sources */,
 				FAC2074425AC6C6E00CD9099 /* LentaRouter.swift in Sources */,
 			);

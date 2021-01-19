@@ -9,14 +9,23 @@ import UIKit
 
 protocol NetworkManagerProtocol {
     
-    func getPosts(complete: @escaping (Result<[Post], Error>) -> Void)
-    func setPost(post: SendPost)
+    func logIn(login: String, password: String, complete: @escaping ([User]) -> Void)
+    func getPosts(complete: @escaping (Result<Response, Error>) -> Void)
+    func setPost(post: SendPost, complete: @escaping (Bool) -> Void)
 }
 
 class NetworkManager {
     
-    private func taskResume(with url: URL, complete: @escaping (Data?, Error?) -> Void) {
-        URLSession.shared.dataTask(with: url) { (data, _, error) in
+    init() {
+        print("NetworkManager init")
+    }
+    
+    deinit {
+        print("NetworkManager deinit")
+    }
+    
+    private func taskResume(with urlRequest: URLRequest, complete: @escaping (Data?, Error?) -> Void) {
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
                 complete(data, error)
         }.resume()
     }
@@ -28,10 +37,40 @@ class NetworkManager {
 
 extension NetworkManager: NetworkManagerProtocol {
     
-    func getPosts(complete: @escaping (Result<[Post], Error>) -> Void) {
+    struct Sendlogin: Encodable {
+        let login: String
+        let password: String
+    }
+    
+    func logIn(login: String, password: String, complete: @escaping ([User]) -> Void) {
+        let url = URL(string: "https://monsterok.ru/lenta/login.php")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
         
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
+        let parameters = Sendlogin(login: login, password: password)
+        let body = try? JSONEncoder().encode(parameters)
+        
+        urlRequest.httpBody = body
+        print("param = \(urlRequest.allHTTPHeaderFields)")
+        taskResume(with: urlRequest) { (data, error) in
+            guard let myData = data else { return }
+            let dataString = String(data: myData, encoding: .utf8)
+            print("dataString: \(dataString)")
+            var users: [User] = []
+            if let data = data,
+               let us = try? JSONDecoder().decode([User].self, from: data) {
+                users = us
+            }
+            self.onMain { complete(users) }
+        }
+    }
+    
+    func getPosts(complete: @escaping (Result<Response, Error>) -> Void) {
         let url = URL(string: "https://monsterok.ru/lenta/getPosts.php")!
-        taskResume(with: url) { data, error in
+        let urlRequest = URLRequest(url: url)
+        taskResume(with: urlRequest) { data, error in
             
             guard let myData = data else { return }
             let dataString = String(data: myData, encoding: .utf8)
@@ -41,8 +80,8 @@ extension NetworkManager: NetworkManagerProtocol {
                 self.onMain { complete(.failure(error)) }
             } else if let data = data {
                 do {
-                    let posts = try JSONDecoder().decode([Post].self, from: data)
-                    self.onMain { complete(.success(posts)) }
+                    let pesponse = try JSONDecoder().decode(Response.self, from: data)
+                    self.onMain { complete(.success(pesponse)) }
                 } catch let error {
                     self.onMain { complete(.failure(error)) }
                 }
@@ -50,7 +89,7 @@ extension NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    func setPost(post: SendPost) {
+    func setPost(post: SendPost, complete: @escaping (Bool) -> Void) {
         let filePathKey = "file"
         let url = URL(string: "https://monsterok.ru/lenta/im.php")!
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -61,6 +100,7 @@ extension NetworkManager: NetworkManagerProtocol {
         var body = Data()
         
         var parameters: [String: String] = [:]
+        parameters["userId"] = String(post.userId)
         parameters["description"] = post.description
         
         for (key, value) in parameters {
@@ -82,10 +122,12 @@ extension NetworkManager: NetworkManagerProtocol {
         }
         
         urlRequest.httpBody = body
-        URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+        
+        taskResume(with: urlRequest) { (data, error) in
             guard let data = data else { return }
             let dataString = String(data: data, encoding: .utf8)
             print("dataString: \(dataString)")
-        }.resume()
+            self.onMain { complete(true) }
+        }
     }
 }

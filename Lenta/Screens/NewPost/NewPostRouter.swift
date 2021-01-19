@@ -8,7 +8,7 @@
 import UIKit
 
 protocol NewPostRouterInput {
-    
+    func dismiss()
 }
 
 class NewPostRouter {
@@ -26,4 +26,7 @@ class NewPostRouter {
 
 extension NewPostRouter: NewPostRouterInput {
     
+    func dismiss() {
+        view.navigationController?.popViewController(animated: true)
+    }
 }

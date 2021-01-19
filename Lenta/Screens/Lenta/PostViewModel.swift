@@ -8,15 +8,15 @@
 import Foundation
 
 struct PostViewModel {
-    let logoImageName: String?
+    let avatarImageName: String
     let userName: String
     let time: String
-    let description: String?
-    let imageName: String?
+    let description: String
+    let postImageName: String
     
-    init(post: Post) {
-        logoImageName = nil
-        userName = "user"
+    init(post: Post, user: User) {
+        avatarImageName = user.logoName
+        userName = user.name
         
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ru_RU")
@@ -24,6 +24,6 @@ struct PostViewModel {
         time = dateFormatter.string(from: Date(timeIntervalSince1970: post.timeInterval))
         
         description = post.description
-        imageName = post.imageName
+        postImageName = post.imageName
     }
 }

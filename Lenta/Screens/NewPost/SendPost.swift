@@ -8,6 +8,7 @@
 import UIKit
 
 struct SendPost {
+    let userId: Int
     let description: String
     let image: UIImage?
 }

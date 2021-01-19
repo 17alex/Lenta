@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewPostViewController" customModule="Lenta" customModuleProvider="target">
             <connections>
                 <outlet property="descriptionTextView" destination="6Uv-nv-KDt" id="QyT-lN-t2F"/>
+                <outlet property="fotoImageView" destination="x8t-60-UgW" id="DmH-YB-6uU"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,7 +22,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Самый лучший день...." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6Uv-nv-KDt">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6Uv-nv-KDt">
                     <rect key="frame" x="8" y="45" width="304" height="120"/>
                     <color key="backgroundColor" systemColor="systemGray4Color"/>
                     <constraints>
@@ -38,11 +39,8 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIL-tF-MeT">
-                    <rect key="frame" x="8" y="181" width="304" height="35"/>
+                    <rect key="frame" x="88" y="181" width="224" height="64"/>
                     <color key="backgroundColor" name="AccentColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="35" id="EIw-Zm-kgm"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                     <state key="normal" title="Send">
                         <color key="titleColor" systemColor="systemGray6Color"/>
@@ -51,23 +49,39 @@
                         <action selector="saveButtonPress:" destination="-1" eventType="touchUpInside" id="6rX-lb-Spy"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x8t-60-UgW">
+                    <rect key="frame" x="8" y="181" width="64" height="64"/>
+                    <color key="backgroundColor" red="0.67428351679999998" green="0.67428351679999998" blue="0.67428351679999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="x8t-60-UgW" secondAttribute="height" multiplier="1:1" id="gN0-0a-K2l"/>
+                    </constraints>
+                    <state key="normal" image="emptyFoto"/>
+                    <connections>
+                        <action selector="fotoImagePress:" destination="-1" eventType="touchUpInside" id="lSV-pQ-k5v"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6Uv-nv-KDt" secondAttribute="trailing" constant="8" id="3Jh-46-oQs"/>
                 <constraint firstItem="6Uv-nv-KDt" firstAttribute="top" secondItem="umb-pN-zgD" secondAttribute="bottom" constant="8" symbolic="YES" id="5Lj-bH-3FK"/>
+                <constraint firstItem="jIL-tF-MeT" firstAttribute="top" secondItem="x8t-60-UgW" secondAttribute="top" id="Fnl-gB-dss"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="jIL-tF-MeT" secondAttribute="trailing" constant="8" id="Mq4-1E-2yJ"/>
                 <constraint firstItem="6Uv-nv-KDt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="S5S-CH-aZm"/>
                 <constraint firstItem="umb-pN-zgD" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="Tbq-RA-eK6"/>
-                <constraint firstItem="jIL-tF-MeT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="gfd-7M-Cae"/>
-                <constraint firstItem="jIL-tF-MeT" firstAttribute="top" secondItem="6Uv-nv-KDt" secondAttribute="bottom" constant="16" id="m6u-Xu-wnJ"/>
+                <constraint firstItem="x8t-60-UgW" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.2" id="X3c-p2-UUT"/>
+                <constraint firstItem="jIL-tF-MeT" firstAttribute="leading" secondItem="x8t-60-UgW" secondAttribute="trailing" constant="16" id="doI-nb-W9m"/>
+                <constraint firstItem="jIL-tF-MeT" firstAttribute="bottom" secondItem="x8t-60-UgW" secondAttribute="bottom" id="jFr-X2-Ixa"/>
                 <constraint firstItem="umb-pN-zgD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="o5X-lw-KeP"/>
+                <constraint firstItem="x8t-60-UgW" firstAttribute="leading" secondItem="6Uv-nv-KDt" secondAttribute="leading" id="tfD-C0-g17"/>
+                <constraint firstItem="x8t-60-UgW" firstAttribute="top" secondItem="6Uv-nv-KDt" secondAttribute="bottom" constant="16" id="xmY-y0-NTl"/>
             </constraints>
             <point key="canvasLocation" x="75" y="103.52112676056338"/>
         </view>
     </objects>
     <resources>
+        <image name="emptyFoto" width="195" height="196"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

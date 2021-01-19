@@ -9,9 +9,10 @@ import UIKit
 
 protocol LentaViewInput: class {
     func reloadLenta()
+    func userLoginned(_ loginned: Bool)
 }
 
-class LentaViewController: UIViewController {
+final class LentaViewController: UIViewController {
 
     @IBOutlet weak var lentaTableView: UITableView! {
         didSet {
@@ -19,15 +20,33 @@ class LentaViewController: UIViewController {
             lentaTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
             lentaTableView.dataSource = self
             lentaTableView.delegate = self
+            lentaTableView.refreshControl = refreshControl
         }
     }
     
     var presenter: LentaViewOutput!
-   
+    let refreshControl: UIRefreshControl = {
+        let refControl = UIRefreshControl()
+        refControl.addTarget(self, action: #selector(refreshPosts), for: .valueChanged)
+        return refControl
+    }()
+    
+    deinit {
+        print("LentaViewController deinit")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setup()
         presenter.viewDidLoad()
+    }
+    
+    @objc
+    private func refreshPosts() {
+        presenter.reloadPosts()
+        
+        print("refresh")
     }
     
     private func setup() {
@@ -35,19 +54,14 @@ class LentaViewController: UIViewController {
         
         let newButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(addButtonPress))
         navigationItem.rightBarButtonItem = newButtonItem
-        
-        let updateButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(update))
-        navigationItem.leftBarButtonItem = updateButtonItem
     }
     
-    @objc
-    func addButtonPress() {
-        presenter.addButtonPress()
+    @objc func addButtonPress() {
+        presenter.newPostButtonPress()
     }
     
-    @objc
-    func update() {
-        presenter.viewDidLoad()
+    @objc func logInOutButtonPress() {
+        presenter.logInOutButtonPress()
     }
 }
 
@@ -76,7 +90,20 @@ extension LentaViewController: UITableViewDelegate {
 
 extension LentaViewController: LentaViewInput {
     
+    func userLoginned(_ loginned: Bool) {
+        let updateButtonItem: UIBarButtonItem!
+        if loginned {
+            updateButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(logInOutButtonPress))
+        } else {
+            updateButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(logInOutButtonPress))
+        }
+        navigationItem.leftBarButtonItem = updateButtonItem
+        
+        navigationItem.rightBarButtonItem?.isEnabled = loginned
+    }
+    
     func reloadLenta() {
+        refreshControl.endRefreshing()
         lentaTableView.reloadData()
     }
 }

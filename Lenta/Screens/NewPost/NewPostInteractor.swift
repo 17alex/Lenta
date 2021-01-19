@@ -26,7 +26,10 @@ class NewPostInteractor {
 }
 
 extension NewPostInteractor: NewPostInteractorInput {
+    
     func sendPost(post: SendPost) {
-        networkManager.setPost(post: post)
+        networkManager.setPost(post: post) { (success) in
+            self.presenter.postSaved(success)
+        }
     }
 }

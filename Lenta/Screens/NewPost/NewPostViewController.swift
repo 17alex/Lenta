@@ -9,14 +9,18 @@ import UIKit
 
 protocol NewPostViewInput: class {
     
+    func notSavedPost()
 }
 
 class NewPostViewController: UIViewController {
 
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var fotoImageView: UIButton!
     
     var presenter: NewPostViewOutput!
     private var image: UIImage?
+    
+    deinit { print("NewPostViewController deinit") }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,14 +29,10 @@ class NewPostViewController: UIViewController {
     
     private func setup() {
         title = "new Post"
-//        descriptionTextView.text = "Hello, ..."
-        let barButtonitem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(addImage))
-        navigationItem.rightBarButtonItem = barButtonitem
     }
     
-    @objc
-    private func addImage() {
-        let actionSheet = UIAlertController(title: "title", message: "message", preferredStyle: .actionSheet)
+    private func chooseImage() {
+        let actionSheet = UIAlertController(title: "Choose", message: "foto source", preferredStyle: .actionSheet)
         let fotoAction = UIAlertAction(title: "Foto", style: .default) { (_) in
             self.chooseImagePicker(source: .photoLibrary)
         }
@@ -50,6 +50,10 @@ class NewPostViewController: UIViewController {
         present(actionSheet, animated: true)
     }
     
+    @IBAction func fotoImagePress(_ sender: UIButton) {
+        chooseImage()
+    }
+    
     @IBAction func saveButtonPress(_ sender: UIButton) {
         let description = descriptionTextView.text ?? ""
         presenter.pressSendWith(description: description, image: image)
@@ -58,6 +62,12 @@ class NewPostViewController: UIViewController {
 
 extension NewPostViewController: NewPostViewInput {
     
+    func notSavedPost() {
+        let alertContoller = UIAlertController(title: "Error", message: "not saved post", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alertContoller.addAction(okAction)
+        present(alertContoller, animated: true)
+    }
 }
 
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
@@ -76,6 +86,7 @@ extension NewPostViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image: UIImage = info[.editedImage] as? UIImage else { return }
         self.image = image
+        self.fotoImageView.setImage(image, for: .normal)
         dismiss(animated: true, completion: nil)
     }
 }

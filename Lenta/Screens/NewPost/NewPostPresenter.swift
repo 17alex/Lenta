@@ -12,7 +12,7 @@ protocol NewPostViewOutput {
 }
 
 protocol NewPostInteractorOutput: class {
-    
+    func postSaved(_ postSaved: Bool)
 }
 
 class NewPostPresenter {
@@ -20,9 +20,11 @@ class NewPostPresenter {
     unowned let view: NewPostViewInput
     var interactor: NewPostInteractorInput!
     var router: NewPostRouterInput!
+    let currentUser: CurrentUser
     
-    init(view: NewPostViewInput) {
+    init(currentUser: CurrentUser, view: NewPostViewInput) {
         print("NewPostPresenter init")
+        self.currentUser = currentUser
         self.view = view
     }
     
@@ -31,7 +33,7 @@ class NewPostPresenter {
 
 extension NewPostPresenter: NewPostViewOutput {
     func pressSendWith(description: String, image: UIImage?) {
-        let sendPost = SendPost(description: description, image: image)
+        let sendPost = SendPost(userId: currentUser.id, description: description, image: image)
         interactor.sendPost(post: sendPost)
     }
     
@@ -39,4 +41,11 @@ extension NewPostPresenter: NewPostViewOutput {
 
 extension NewPostPresenter: NewPostInteractorOutput {
     
+    func postSaved(_ postSaved: Bool) {
+        if postSaved {
+            router.dismiss()
+        } else {
+            view.notSavedPost()
+        }
+    }
 }

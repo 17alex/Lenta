@@ -8,7 +8,8 @@
 import UIKit
 
 protocol LentaRouterInput {
-    func addButtonPress()
+    func showEnterNewPostModule(for user: CurrentUser)
+    func loginUser(complete: @escaping (CurrentUser) -> Void)
 }
 
 class LentaRouter {
@@ -26,8 +27,14 @@ class LentaRouter {
 
 extension LentaRouter: LentaRouterInput {
     
-    func addButtonPress() {
-        let newPostVC = assembly.getNewPostModule()
+    func loginUser(complete: @escaping (CurrentUser) -> Void) {
+        let loginVC = assembly.getLoginModule(complete: complete)
+//        view.modalPresentationStyle = .fullScreen
+        view.present(loginVC, animated: true)
+    }
+    
+    func showEnterNewPostModule(for user: CurrentUser) {
+        let newPostVC = assembly.getNewPostModule(for: user)
         view.navigationController?.pushViewController(newPostVC, animated: true)
     }
 }
