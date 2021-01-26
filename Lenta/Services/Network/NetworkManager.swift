@@ -10,6 +10,7 @@ import UIKit
 protocol NetworkManagerProtocol {
     
     func logIn(login: String, password: String, complete: @escaping ([User]) -> Void)
+    func register(name: String, login: String, password: String, avatar: UIImage?,  complete: @escaping ([User]) -> Void)
     func getPosts(complete: @escaping (Result<Response, Error>) -> Void)
     func setPost(post: SendPost, complete: @escaping (Bool) -> Void)
 }
@@ -36,8 +37,14 @@ class NetworkManager {
 }
 
 extension NetworkManager: NetworkManagerProtocol {
-    
+    // TODO: - dictionary
     struct Sendlogin: Encodable {
+        let login: String
+        let password: String
+    }
+    
+    struct SendRegister: Encodable {
+        let name: String
         let login: String
         let password: String
     }
@@ -51,13 +58,62 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
         let parameters = Sendlogin(login: login, password: password)
         let body = try? JSONEncoder().encode(parameters)
-        
         urlRequest.httpBody = body
-//        print("param = \(urlRequest.allHTTPHeaderFields)")
+
         taskResume(with: urlRequest) { (data, error) in
 //            guard let myData = data else { return }
 //            let dataString = String(data: myData, encoding: .utf8)
 //            print("dataString: \(dataString)")
+            var users: [User] = []
+            if let data = data,
+               let us = try? JSONDecoder().decode([User].self, from: data) {
+                users = us
+            }
+            self.onMain { complete(users) }
+        }
+    }
+    
+    func register(name: String, login: String, password: String, avatar: UIImage?,  complete: @escaping ([User]) -> Void) {
+        let filePathKey = "file"
+        let url = URL(string: "https://monsterok.ru/lenta/register.php")!
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var body = Data()
+        
+        var parameters: [String: String] = [:]
+        parameters["name"] = name
+        parameters["login"] = login
+        parameters["password"] = password
+        
+        for (key, value) in parameters {
+            body.append(Data("--\(boundary)\r\n".utf8))
+            body.append(Data("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".utf8))
+            body.append(Data("\(value)\r\n".utf8))
+        }
+        
+        if let image = avatar {
+            let filename = String(Int(Date().timeIntervalSince1970)) + ".jpg"
+            let mimetype = "image/jpg"
+            let imageData = image.jpegData(compressionQuality: 0.25)
+            body.append(Data("--\(boundary)\r\n".utf8))
+            body.append(Data("Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n".utf8))
+            body.append(Data("Content-Type: \(mimetype)\r\n\r\n".utf8))
+            body.append(imageData!)
+            body.append(Data("\r\n".utf8))
+            body.append(Data("--\(boundary)--\r\n".utf8))
+        }
+        
+        urlRequest.httpBody = body
+        
+        taskResume(with: urlRequest) { (data, error) in
+            
+//            guard let myData = data else { return }
+//            let dataString = String(data: myData, encoding: .utf8)
+//            print("dataString: \(dataString)")
+            
             var users: [User] = []
             if let data = data,
                let us = try? JSONDecoder().decode([User].self, from: data) {
@@ -91,7 +147,7 @@ extension NetworkManager: NetworkManagerProtocol {
     
     func setPost(post: SendPost, complete: @escaping (Bool) -> Void) {
         let filePathKey = "file"
-        let url = URL(string: "https://monsterok.ru/lenta/im.php")!
+        let url = URL(string: "https://monsterok.ru/lenta/addPost.php")!
         let boundary = "Boundary-\(UUID().uuidString)"
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"

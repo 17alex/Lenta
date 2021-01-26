@@ -8,11 +8,14 @@
 import Foundation
 
 protocol LentaInteractorInput {
+    var currentUser: CurrentUser? { get }
     var posts: [Post] { get }
     var users: [User] { get }
     var postCount: Int { get }
     func loadPosts()
-    func loadCurrenUser() -> CurrentUser?
+    func loadCurrenUser()
+    func logInOutUser()
+    func didLoginned(_ user: CurrentUser)
 }
 
 class LentaInteractor {
@@ -28,6 +31,7 @@ class LentaInteractor {
     
     deinit { print("LentaInteractor deinit") }
     
+    var currentUser: CurrentUser?
     var posts: [Post] = []
     var users: [User] = []
     var postCount: Int {
@@ -37,8 +41,24 @@ class LentaInteractor {
 
 extension LentaInteractor: LentaInteractorInput {
     
-    func loadCurrenUser() -> CurrentUser? {
-        return storeManager.getCurrenUser()
+    func didLoginned(_ user: CurrentUser) {
+        currentUser = user
+        storeManager.saveCurrentUser(currentUser)
+    }
+    
+    func logInOutUser() {
+        if currentUser == nil {
+            presenter.goLoginedUser()
+        } else {
+            currentUser = nil
+            storeManager.saveCurrentUser(currentUser)
+            presenter.logOutUser()
+        }
+    }
+    
+    func loadCurrenUser() {
+        currentUser = storeManager.getCurrenUser()
+        
     }
     
     func loadPosts() {

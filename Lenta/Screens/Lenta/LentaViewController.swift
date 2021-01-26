@@ -91,13 +91,13 @@ extension LentaViewController: UITableViewDelegate {
 extension LentaViewController: LentaViewInput {
     
     func userLoginned(_ loginned: Bool) {
-        let updateButtonItem: UIBarButtonItem!
+        let loginnedButtonItem: UIBarButtonItem!
         if loginned {
-            updateButtonItem = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(logInOutButtonPress))
+            loginnedButtonItem = UIBarButtonItem(image: UIImage(named: "logout"), style: .plain, target: self, action: #selector(logInOutButtonPress))
         } else {
-            updateButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(logInOutButtonPress))
+            loginnedButtonItem = UIBarButtonItem(image: UIImage(named: "login"), style: .plain, target: self, action: #selector(logInOutButtonPress))
         }
-        navigationItem.leftBarButtonItem = updateButtonItem
+        navigationItem.leftBarButtonItem = loginnedButtonItem
         
         navigationItem.rightBarButtonItem?.isEnabled = loginned
     }

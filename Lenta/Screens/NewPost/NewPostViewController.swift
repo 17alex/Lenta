@@ -31,7 +31,7 @@ class NewPostViewController: UIViewController {
     }
     
     private func setup() {
-        title = "new Post"
+        title = "Enter new post..."
     }
     
     private func chooseImage() {

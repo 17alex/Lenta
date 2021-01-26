@@ -13,6 +13,8 @@ struct PostViewModel {
     let time: String
     let description: String
     let postImageName: String
+    let postImageWidth: Int
+    let postImageHeight: Int
     
     init(post: Post, user: User) {
         avatarImageName = user.logoName
@@ -24,6 +26,8 @@ struct PostViewModel {
         time = dateFormatter.string(from: Date(timeIntervalSince1970: post.timeInterval))
         
         description = post.description
-        postImageName = post.imageName
+        postImageName = post.postImage.imageName
+        postImageWidth = post.postImage.imageSize.height
+        postImageHeight = post.postImage.imageSize.width
     }
 }

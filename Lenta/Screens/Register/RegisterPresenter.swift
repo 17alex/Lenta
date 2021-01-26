@@ -5,21 +5,22 @@
 //  Created by Alex on 19.01.2021.
 //
 
-import Foundation
+import UIKit
 
 protocol RegisterViewOutput: class {
-    func registerInButtonPress(name: String, login: String, password: String)
+    func registerButtonPress(name: String, login: String, password: String, avatarImage: UIImage?)
     func signInButtonPress()
 }
 
-protocol RegisterInteractorOutput {
-    
+protocol RegisterInteractorOutput: class {
+    func userDidRegister(currentUser: CurrentUser)
+    func userNotDidRegister()
 }
 
 class RegisterPresenter {
     
     unowned let view: RegisterViewInput
-    var interactor: RegisterInteractorOutput!
+    var interactor: RegisterInteractorInput!
     var router: RegisterRouterInput!
     
     init(view: RegisterViewInput) {
@@ -38,11 +39,9 @@ extension RegisterPresenter: RegisterViewOutput {
         router.showLoginedModule()
     }
     
-    func registerInButtonPress(name: String, login: String, password: String) {
-        
+    func registerButtonPress(name: String, login: String, password: String, avatarImage: UIImage?) {
+        interactor.register(name: name, login: login, password: password, avatarImage: avatarImage)
     }
-    
-    
 }
 
 extension RegisterPresenter: RegisterInteractorOutput {
@@ -51,7 +50,7 @@ extension RegisterPresenter: RegisterInteractorOutput {
         router.successDissmis(currentUser: currentUser)
     }
     
-    func userNotDidlogin() {
+    func userNotDidRegister() {
         view.userNotRegister()
     }
 }

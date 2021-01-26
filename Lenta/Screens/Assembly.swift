@@ -25,8 +25,11 @@ class Assembly {
     func getRegisterModule(complete: @escaping (CurrentUser) -> Void) -> UIViewController {
         let view = RegisterViewController()
         let presenter = RegisterPresenter(view: view)
+        let interactor = RegisterInteractor(presenter: presenter)
         let router = RegisterRouter(assembly: self, view: view, complete: complete)
         presenter.router = router
+        presenter.interactor = interactor
+        interactor.networkManager = networkManager
         view.presenter = presenter
         return view
     }

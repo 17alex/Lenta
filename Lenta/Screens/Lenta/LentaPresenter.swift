@@ -18,6 +18,8 @@ protocol LentaViewOutput {
 
 protocol LentaInteractorOutput: class {
     func postsDidload()
+    func goLoginedUser()
+    func logOutUser()
 }
 
 class LentaPresenter {
@@ -25,8 +27,6 @@ class LentaPresenter {
     unowned let view: LentaViewInput
     var interactor: LentaInteractorInput!
     var router: LentaRouterInput!
-    
-    var currentUser: CurrentUser?
     
     init(view: LentaViewInput) {
         print("LentaPresenter init")
@@ -40,22 +40,24 @@ class LentaPresenter {
 
 extension LentaPresenter: LentaViewOutput {
     
-    func logInOutButtonPress() {
-        if currentUser == nil {
-            router.loginUser { loginedUser in
-                self.currentUser = loginedUser
-                self.view.userLoginned(true)
-//                print("currentUser = \(self.currentUser)")
-            }
-        } else {
-            currentUser = nil
-//            print("currentUser = \(currentUser)")
+    func viewDidLoad() {
+        interactor.loadCurrenUser()
+        
+        if interactor.currentUser == nil {
             view.userLoginned(false)
+        } else {
+            view.userLoginned(true)
         }
+        
+        interactor.loadPosts()
+    }
+    
+    func logInOutButtonPress() {
+        interactor.logInOutUser()
     }
     
     func newPostButtonPress() {
-        guard let currUser = currentUser else { return }
+        guard let currUser = interactor.currentUser else { return }
         router.showEnterNewPostModule(for: currUser)
     }
     
@@ -67,25 +69,26 @@ extension LentaPresenter: LentaViewOutput {
         interactor.loadPosts()
     }
     
-    func viewDidLoad() {
-        currentUser = interactor.loadCurrenUser()
-        
-        if currentUser == nil {
-            view.userLoginned(false)
-        } else {
-            view.userLoginned(true)
-        }
-        interactor.loadPosts()
-    }
-    
     func postViewModel(for index: Int) -> PostViewModel {
         let post = interactor.posts[index]
-        let user = interactor.users[post.userId]
-        return PostViewModel(post: post, user: user)
+        let user = try! interactor.users.first(where: {$0.id == post.userId})
+        return PostViewModel(post: post, user: user!)
     }
 }
 
 extension LentaPresenter: LentaInteractorOutput {
+    
+    func logOutUser() {
+        view.userLoginned(false)
+    }
+    
+    func goLoginedUser() {
+        router.loginUser { loginnedUser in
+            self.interactor.didLoginned(loginnedUser)
+            self.view.userLoginned(true)
+            print("currentUser = \(loginnedUser)")
+        }
+    }
     
     func postsDidload() {
         view.reloadLenta()

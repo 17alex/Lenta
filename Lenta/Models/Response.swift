@@ -17,7 +17,17 @@ struct Post: Decodable {
     let userId: Int
     let timeInterval: TimeInterval
     let description: String
+    let postImage: PostImage
+}
+
+struct PostImage: Decodable {
     let imageName: String
+    let imageSize: ImageSize
+}
+
+struct ImageSize: Decodable {
+    let width: Int
+    let height: Int
 }
 
 struct User: Decodable {

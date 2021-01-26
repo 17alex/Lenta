@@ -16,12 +16,15 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var registerButton: UIButton!
     
     var presenter: LoginViewOutput!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("LoginViewController init")
+        loginTextField.delegate = self
+        passwordTextField.delegate = self
         signInButton.isEnabled = false
         loginTextField.becomeFirstResponder()
     }
@@ -42,8 +45,8 @@ class LoginViewController: UIViewController {
         }
     }
         
-    @IBAction func signInPress(_ sender: UIButton) {
-        print("press Sign In")
+    @IBAction func logInPress() {
+        print("press LogIn")
         presenter.logIn(login: loginTextField.text!, password: passwordTextField.text!)
     }
 }
@@ -55,5 +58,18 @@ extension LoginViewController: LoginViewInput {
         let okAlertAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertController.addAction(okAlertAction)
         present(alertController, animated: true, completion: nil)
+    }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case loginTextField: passwordTextField.becomeFirstResponder()
+        case passwordTextField: passwordTextField.resignFirstResponder()
+        default: break
+        }
+        
+        return true
     }
 }
