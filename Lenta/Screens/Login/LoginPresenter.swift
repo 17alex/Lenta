@@ -13,8 +13,8 @@ protocol LoginViewOutput {
 }
 
 protocol LoginInteractorOutput: class {
-    func userDidLogin(currentUser: CurrentUser)
-    func userNotDidlogin()
+    func userDidLogined()
+    func userLoginFail()
 }
 
 class LoginPresenter {
@@ -47,11 +47,11 @@ extension LoginPresenter: LoginViewOutput {
 
 extension LoginPresenter: LoginInteractorOutput {
     
-    func userDidLogin(currentUser: CurrentUser) {
-        router.successDissmis(currentUser: currentUser)
+    func userDidLogined() {
+        router.dissmis()
     }
     
-    func userNotDidlogin() {
+    func userLoginFail() {
         view.userNotLoginned()
     }
 }

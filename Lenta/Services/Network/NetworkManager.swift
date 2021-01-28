@@ -13,6 +13,7 @@ protocol NetworkManagerProtocol {
     func register(name: String, login: String, password: String, avatar: UIImage?,  complete: @escaping ([User]) -> Void)
     func getPosts(complete: @escaping (Result<Response, Error>) -> Void)
     func setPost(post: SendPost, complete: @escaping (Bool) -> Void)
+    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping ([User]) -> Void)
 }
 
 class NetworkManager {
@@ -47,6 +48,56 @@ extension NetworkManager: NetworkManagerProtocol {
         let name: String
         let login: String
         let password: String
+    }
+    
+    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping ([User]) -> Void) {
+        let filePathKey = "file"
+        let url = URL(string: "https://monsterok.ru/lenta/updatePrifile.php")!
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var body = Data()
+        
+        var parameters: [String: String] = [:]
+        parameters["id"] = String(id)
+        parameters["name"] = name
+//        parameters["login"] = login
+//        parameters["password"] = password
+        
+        for (key, value) in parameters {
+            body.append(Data("--\(boundary)\r\n".utf8))
+            body.append(Data("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".utf8))
+            body.append(Data("\(value)\r\n".utf8))
+        }
+        
+        if let image = avatar {
+            let filename = String(Int(Date().timeIntervalSince1970)) + ".jpg"
+            let mimetype = "image/jpg"
+            let imageData = image.jpegData(compressionQuality: 0.25)
+            body.append(Data("--\(boundary)\r\n".utf8))
+            body.append(Data("Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n".utf8))
+            body.append(Data("Content-Type: \(mimetype)\r\n\r\n".utf8))
+            body.append(imageData!)
+            body.append(Data("\r\n".utf8))
+            body.append(Data("--\(boundary)--\r\n".utf8))
+        }
+        
+        urlRequest.httpBody = body
+        
+        taskResume(with: urlRequest) { (data, error) in
+            
+            guard let myData = data else { return }
+            let dataString = String(data: myData, encoding: .utf8)
+            print("dataString: \(dataString)")
+            
+            var users: [User] = []
+            if let data = data, let decodeUsers = try? JSONDecoder().decode([User].self, from: data) {
+                users = decodeUsers
+            }
+            self.onMain { complete(users) }
+        }
     }
     
     func logIn(login: String, password: String, complete: @escaping ([User]) -> Void) {
@@ -128,9 +179,9 @@ extension NetworkManager: NetworkManagerProtocol {
         let urlRequest = URLRequest(url: url)
         taskResume(with: urlRequest) { data, error in
             
-//            guard let myData = data else { return }
-//            let dataString = String(data: myData, encoding: .utf8)
-//            print("dataString: \(dataString)")
+            guard let myData = data else { return }
+            let dataString = String(data: myData, encoding: .utf8)
+            print("dataString: \(dataString)")
             
             if let error = error {
                 self.onMain { complete(.failure(error)) }

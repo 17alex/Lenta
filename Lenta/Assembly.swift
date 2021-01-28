@@ -22,26 +22,49 @@ class Assembly {
         return navigationController
     }
     
-    func getRegisterModule(complete: @escaping (CurrentUser) -> Void) -> UIViewController {
-        let view = RegisterViewController()
-        let presenter = RegisterPresenter(view: view)
-        let interactor = RegisterInteractor(presenter: presenter)
-        let router = RegisterRouter(assembly: self, view: view, complete: complete)
+    func getProfileModule() -> UIViewController {
+        let view = ProfileViewController()
+        let presenter = ProfilePresenter(view: view)
+        let router = ProfileRouter(view: view, assembly: self)
         presenter.router = router
-        presenter.interactor = interactor
-        interactor.networkManager = networkManager
+        presenter.networkManager = networkManager
+        presenter.storeManager = storeManager
         view.presenter = presenter
         return view
     }
     
-    func getLoginModule(complete: @escaping (CurrentUser) -> Void) -> UIViewController {
-        let view = LoginViewController()
-        let presenter = LoginPresenter(view: view)
-        let interactor = LoginInteractor(presenter: presenter)
-        let router = LoginRouter(assembly: self, view: view, complete: complete)
+    func getMenuModule() -> UIViewController {
+        let view = MenuViewController()
+        let presenter = MenuPresenter(view: view)
+        let router = MenuRouter(view: view, assembly: self)
+        presenter.router = router
+        presenter.storeManager = storeManager
+        view.presenter = presenter
+        return view
+    }
+    
+    func getRegisterModule() -> UIViewController {
+        let view = RegisterViewController()
+        let presenter = RegisterPresenter(view: view)
+        let interactor = RegisterInteractor(presenter: presenter)
+        let router = RegisterRouter(assembly: self, view: view)
         presenter.router = router
         presenter.interactor = interactor
         interactor.networkManager = networkManager
+        interactor.storeManager = storeManager
+        view.presenter = presenter
+        return view
+    }
+    
+    func getLoginModule() -> UIViewController {
+        let view = LoginViewController()
+        let presenter = LoginPresenter(view: view)
+        let interactor = LoginInteractor(presenter: presenter)
+        let router = LoginRouter(assembly: self, view: view)
+        presenter.router = router
+        presenter.interactor = interactor
+        interactor.networkManager = networkManager
+        interactor.storeManager = storeManager
         view.presenter = presenter
         return view
     }
@@ -51,7 +74,6 @@ class Assembly {
         let presenter = LentaPresenter(view: view)
         let interactor = LentaInteractor(presenter: presenter)
         let router = LentaRouter(view: view, assembly: self)
-        
         view.presenter = presenter
         presenter.interactor = interactor
         presenter.router = router
@@ -65,7 +87,6 @@ class Assembly {
         let presenter = NewPostPresenter(currentUser: user, view: view)
         let interactor = NewPostInteractor(presenter: presenter)
         let router = NewPostRouter(view: view, assembly: self)
-        
         view.presenter = presenter
         presenter.interactor = interactor
         presenter.router = router

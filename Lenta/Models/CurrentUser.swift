@@ -10,7 +10,5 @@ import Foundation
 struct CurrentUser: Codable {
     let id: Int
     let name: String
-    let login: String
-    let password: String
-    let logoName: String
+    let avatarName: String
 }

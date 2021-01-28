@@ -42,6 +42,12 @@ final class LentaViewController: UIViewController {
         presenter.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        presenter.viewWillAppear()
+    }
+    
     @objc
     private func refreshPosts() {
         presenter.reloadPosts()
@@ -52,16 +58,19 @@ final class LentaViewController: UIViewController {
     private func setup() {
         title = "Lenta"
         
-        let newButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(addButtonPress))
-        navigationItem.rightBarButtonItem = newButtonItem
+        let newPostButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(newPostButtonPress))
+        navigationItem.rightBarButtonItem = newPostButtonItem
+        
+        let menuBarButtonItem = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(menuButtonPress))
+        navigationItem.leftBarButtonItem = menuBarButtonItem
     }
     
-    @objc func addButtonPress() {
+    @objc func newPostButtonPress() {
         presenter.newPostButtonPress()
     }
     
-    @objc func logInOutButtonPress() {
-        presenter.logInOutButtonPress()
+    @objc func menuButtonPress() {
+        presenter.menuButtonPress()
     }
 }
 
@@ -91,14 +100,6 @@ extension LentaViewController: UITableViewDelegate {
 extension LentaViewController: LentaViewInput {
     
     func userLoginned(_ loginned: Bool) {
-        let loginnedButtonItem: UIBarButtonItem!
-        if loginned {
-            loginnedButtonItem = UIBarButtonItem(image: UIImage(named: "logout"), style: .plain, target: self, action: #selector(logInOutButtonPress))
-        } else {
-            loginnedButtonItem = UIBarButtonItem(image: UIImage(named: "login"), style: .plain, target: self, action: #selector(logInOutButtonPress))
-        }
-        navigationItem.leftBarButtonItem = loginnedButtonItem
-        
         navigationItem.rightBarButtonItem?.isEnabled = loginned
     }
     

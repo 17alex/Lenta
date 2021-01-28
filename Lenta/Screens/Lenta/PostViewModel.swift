@@ -8,6 +8,7 @@
 import Foundation
 
 struct PostViewModel {
+    let id: Int
     let avatarImageName: String
     let userName: String
     let time: String
@@ -17,7 +18,8 @@ struct PostViewModel {
     let postImageHeight: Int
     
     init(post: Post, user: User) {
-        avatarImageName = user.logoName
+        id = post.postId
+        avatarImageName = user.avatarName
         userName = user.name
         
         let dateFormatter = DateFormatter()

@@ -43,15 +43,15 @@ extension LentaInteractor: LentaInteractorInput {
     
     func didLoginned(_ user: CurrentUser) {
         currentUser = user
-        storeManager.saveCurrentUser(currentUser)
+        storeManager.save(currentUser)
     }
     
     func logInOutUser() {
         if currentUser == nil {
-            presenter.goLoginedUser()
+//            presenter.goLoginedUser()
         } else {
             currentUser = nil
-            storeManager.saveCurrentUser(currentUser)
+            storeManager.save(currentUser)
             presenter.logOutUser()
         }
     }

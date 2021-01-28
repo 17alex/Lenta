@@ -33,7 +33,7 @@ struct ImageSize: Decodable {
 struct User: Decodable {
     let id: Int
     let name: String
-    let logoName: String
+    let avatarName: String
 }
 
 struct Resp: Decodable {

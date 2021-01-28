@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LoginRouterInput {
-    func successDissmis(currentUser: CurrentUser)
+    func dissmis()
     func showRegisterModule()
 }
 
@@ -16,12 +16,10 @@ class LoginRouter {
     
     let assembly: Assembly
     unowned let view: UIViewController
-    let complete: (CurrentUser) -> Void
     
-    init(assembly: Assembly, view: UIViewController, complete: @escaping (CurrentUser) -> Void) {
+    init(assembly: Assembly, view: UIViewController) {
         self.assembly = assembly
         self.view = view
-        self.complete = complete
         print("LoginRouter init")
     }
     
@@ -33,16 +31,16 @@ class LoginRouter {
 
 extension LoginRouter: LoginRouterInput {
     
-    func successDissmis(currentUser: CurrentUser) {
-        complete(currentUser)
+    func dissmis() {
         view.dismiss(animated: true, completion: nil)
     }
     
     func showRegisterModule() {
-        let registerVC = assembly.getRegisterModule(complete: complete)
+        let registerVC = assembly.getRegisterModule()
+        registerVC.modalPresentationStyle = .fullScreen
         view.dismiss(animated: true) {
             if let lastView = self.assembly.navigationController.viewControllers.last {
-                lastView.present(registerVC, animated: true, completion: nil)
+                lastView.present(registerVC, animated: true)
             }
         }
     }

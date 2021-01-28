@@ -32,8 +32,11 @@ class LentaCell: UITableViewCell {
         setAvatar(avatarName: post.avatarImageName)
         timeLabel.text = post.time
         descriptionLabel.text = post.description
-        heightFotoImageView.constant = calculateImageHeight(imageWidth: post.postImageWidth, imageHeight: post.postImageHeight)
+        let imHeight: CGFloat = calculateImageHeight(imageWidth: post.postImageWidth, imageHeight: post.postImageHeight)
+        print("post.id=\(post.id); Width=\(post.postImageWidth); Height=\(post.postImageHeight); bounds.width=\(UIScreen.main.bounds.width); imHeight=\(imHeight)")
+        heightFotoImageView.constant = imHeight
         setPostImage(postImageName: post.postImageName)
+//        layoutIfNeeded()
     }
     
     private func setPostImage(postImageName: String) {
@@ -60,7 +63,7 @@ class LentaCell: UITableViewCell {
     
     private func calculateImageHeight(imageWidth: Int, imageHeight: Int) -> CGFloat {
         let imageRatio = CGFloat(imageWidth) / CGFloat(imageHeight)
-        let widthSizeFotoImageView = self.fotoImageView.bounds.width
+        let widthSizeFotoImageView = UIScreen.main.bounds.width
         return widthSizeFotoImageView * CGFloat(imageRatio)
     }
 }

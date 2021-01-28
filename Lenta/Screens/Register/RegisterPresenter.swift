@@ -13,8 +13,8 @@ protocol RegisterViewOutput: class {
 }
 
 protocol RegisterInteractorOutput: class {
-    func userDidRegister(currentUser: CurrentUser)
-    func userNotDidRegister()
+    func userDidRegistered()
+    func userDidRegisteredFail()
 }
 
 class RegisterPresenter {
@@ -46,11 +46,11 @@ extension RegisterPresenter: RegisterViewOutput {
 
 extension RegisterPresenter: RegisterInteractorOutput {
     
-    func userDidRegister(currentUser: CurrentUser) {
-        router.successDissmis(currentUser: currentUser)
+    func userDidRegistered() {
+        router.dissmis()
     }
     
-    func userNotDidRegister() {
+    func userDidRegisteredFail() {
         view.userNotRegister()
     }
 }
