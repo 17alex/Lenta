@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LoginViewInput: class {
-    func userNotLoginned()
+    func userNotLoginned(message: String)
 }
 
 class LoginViewController: UIViewController {
@@ -53,8 +53,8 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController: LoginViewInput {
     
-    func userNotLoginned() {
-        let alertController = UIAlertController(title: "Error", message: "not pair login and password", preferredStyle: .alert)
+    func userNotLoginned(message: String) {
+        let alertController = UIAlertController(title: "Error loginned", message: message, preferredStyle: .alert)
         let okAlertAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertController.addAction(okAlertAction)
         present(alertController, animated: true, completion: nil)

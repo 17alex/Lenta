@@ -74,15 +74,20 @@ extension ProfilePresenter: ProfileViewOutput {
             avatarImage = image
         }
         if let currUser = currentUser {
-            networkManager.updateProfile(id: currUser.id, name: name, avatar: avatarImage) { users in
-                if let user = users.first {
-                    let currentUser = CurrentUser(id: user.id, name: user.name, avatarName: user.avatarName)
-                    self.currentUser = currentUser
-                    self.storeManager.save(currentUser)
-                    self.view.didUpdateProfile(true)
-                    self.isNewAvatar = false
-                } else {
-                    self.view.didUpdateProfile(false)
+            networkManager.updateProfile(id: currUser.id, name: name, avatar: avatarImage) { (result) in
+                switch result {
+                case .failure(let error):
+                    self.view.didUpdateProfile(message: error.localizedDescription)
+                case .success(let users):
+                    if let user = users.first {
+                        let currentUser = CurrentUser(id: user.id, name: user.name, avatarName: user.avatarName)
+                        self.currentUser = currentUser
+                        self.storeManager.save(currentUser)
+                        self.view.didUpdateProfile(message: "update successfull")
+                        self.isNewAvatar = false
+                    } else {
+                        self.view.didUpdateProfile(message: "error update")
+                    }
                 }
             }
         }

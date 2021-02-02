@@ -7,14 +7,23 @@
 
 import UIKit
 
-class LentaCell: UITableViewCell {
+final class LentaCell: UITableViewCell {
 
-    @IBOutlet weak var logoImageView: WebImageView!
+    @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var fotoImageView: WebImageView!
+    @IBOutlet weak var fotoImageView: UIImageView!
+    @IBOutlet weak var fotoActivityIndicator: UIActivityIndicatorView! {
+        didSet {
+            fotoActivityIndicator.hidesWhenStopped = true
+        }
+    }
     @IBOutlet weak var heightFotoImageView: NSLayoutConstraint!
+    @IBOutlet weak var heightDescriptionLabel: NSLayoutConstraint!
+    
+    var logoImageViewUrl: URL!
+    var fotoImageViewUrl: URL!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,7 +37,7 @@ class LentaCell: UITableViewCell {
     }
     
     func set(post: PostViewModel) {
-        userNameLabel.text = post.userName
+        userNameLabel.text = post.userName + " postId = \(post.id)"
         setAvatar(avatarName: post.avatarImageName)
         timeLabel.text = post.time
         descriptionLabel.text = post.description
@@ -41,8 +50,11 @@ class LentaCell: UITableViewCell {
     
     private func setPostImage(postImageName: String) {
         if postImageName != "", let url = URL(string: "https://monsterok.ru/lenta/images/\(postImageName)") {
-            fotoImageView.loadImage(for: url) { (image, imageUrl) in
-                if url.absoluteString == imageUrl.absoluteString {
+            fotoActivityIndicator.startAnimating()
+            fotoImageViewUrl = url
+            loadImage(for: url) { (image, imageUrl) in
+                if self.fotoImageViewUrl.absoluteString == imageUrl.absoluteString {
+                    self.fotoActivityIndicator.stopAnimating()
                     self.fotoImageView.image = image
                 }
             }
@@ -51,8 +63,9 @@ class LentaCell: UITableViewCell {
     
     private func setAvatar(avatarName: String) {
         if avatarName != "", let url = URL(string: "https://monsterok.ru/lenta/avatars/\(avatarName)") {
-            logoImageView.loadImage(for: url) { (image, imageUrl) in
-                if url.absoluteString == imageUrl.absoluteString {
+            logoImageViewUrl = url
+            loadImage(for: url) { (image, imageUrl) in
+                if self.logoImageViewUrl.absoluteString == imageUrl.absoluteString {
                     self.logoImageView.image = image
                 }
             }
@@ -64,6 +77,22 @@ class LentaCell: UITableViewCell {
     private func calculateImageHeight(imageWidth: Int, imageHeight: Int) -> CGFloat {
         let imageRatio = CGFloat(imageWidth) / CGFloat(imageHeight)
         let widthSizeFotoImageView = UIScreen.main.bounds.width
-        return widthSizeFotoImageView * CGFloat(imageRatio)
+        return widthSizeFotoImageView / CGFloat(imageRatio)
+    }
+    
+    //TODO: todo
+    private func loadImage(for url: URL, complete: @escaping (UIImage, URL) -> Void) {
+        let urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, _) in
+            if let data = data, let loadImage = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    complete(loadImage, url)
+                }
+            }
+        }.resume()
+    }
+    
+    @IBAction func moreButtonPress() {
+        
     }
 }

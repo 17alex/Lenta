@@ -8,23 +8,21 @@
 import UIKit
 
 protocol NewPostViewOutput {
+    func viewDidLoad()
     func pressSendWith(description: String, image: UIImage?)
-}
-
-protocol NewPostInteractorOutput: class {
-    func postSaved(_ postSaved: Bool)
 }
 
 class NewPostPresenter {
     
     unowned let view: NewPostViewInput
-    var interactor: NewPostInteractorInput!
+    var networkManager: NetworkManagerProtocol!
+    var storeManager: StoreManagerProtocol!
     var router: NewPostRouterInput!
-    let currentUser: CurrentUser
     
-    init(currentUser: CurrentUser, view: NewPostViewInput) {
+    var currentUser: CurrentUser!
+    
+    init(view: NewPostViewInput) {
         print("NewPostPresenter init")
-        self.currentUser = currentUser
         self.view = view
     }
     
@@ -34,20 +32,20 @@ class NewPostPresenter {
 }
 
 extension NewPostPresenter: NewPostViewOutput {
-    func pressSendWith(description: String, image: UIImage?) {
-        let sendPost = SendPost(userId: currentUser.id, description: description, image: image)
-        interactor.sendPost(post: sendPost)
+    
+    func viewDidLoad() {
+        currentUser = storeManager.getCurrenUser()!
     }
     
-}
-
-extension NewPostPresenter: NewPostInteractorOutput {
-    
-    func postSaved(_ postSaved: Bool) {
-        if postSaved {
-            router.dismiss()
-        } else {
-            view.notSavedPost()
+    func pressSendWith(description: String, image: UIImage?) {
+        let sendPost = SendPost(userId: currentUser.id, description: description, image: image)
+        networkManager.sendPost(post: sendPost) { (result) in
+            switch result {
+            case .failure(let error):
+                self.view.notSavedPost(text: error.localizedDescription)
+            case .success(let response):
+                self.router.dismiss()
+            }
         }
     }
 }

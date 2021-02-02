@@ -10,7 +10,7 @@ import UIKit
 protocol ProfileViewInput: class {
     func userLoginned(_ currentUser: CurrentUser?)
     func didChangeProfile(_ change: Bool)
-    func didUpdateProfile(_ success: Bool)
+    func didUpdateProfile(message: String)
 }
 
 final class ProfileViewController: UIViewController {
@@ -103,13 +103,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
 
 extension ProfileViewController: ProfileViewInput {
     
-    func didUpdateProfile(_ success: Bool) {
-        var message = ""
-        if success {
-            message = "update successfull"
-        } else {
-            message = "error update"
-        }
+    func didUpdateProfile(message: String) {
         let alertController = UIAlertController(title: "Profile", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alertController.addAction(okAction)

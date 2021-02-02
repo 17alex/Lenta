@@ -82,15 +82,14 @@ class Assembly {
         return view
     }
     
-    func getNewPostModule(for user: CurrentUser) -> UIViewController {
+    func getNewPostModule() -> UIViewController {
         let view = NewPostViewController()
-        let presenter = NewPostPresenter(currentUser: user, view: view)
-        let interactor = NewPostInteractor(presenter: presenter)
+        let presenter = NewPostPresenter(view: view)
         let router = NewPostRouter(view: view, assembly: self)
         view.presenter = presenter
-        presenter.interactor = interactor
+        presenter.storeManager = storeManager
+        presenter.networkManager = networkManager
         presenter.router = router
-        interactor.networkManager = networkManager
         return view
     }
 }

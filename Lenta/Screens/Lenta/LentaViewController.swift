@@ -9,7 +9,8 @@ import UIKit
 
 protocol LentaViewInput: class {
     func reloadLenta()
-    func userLoginned(_ loginned: Bool)
+    func userLoginned(_ isLoginned: Bool)
+    func show(message: String)
 }
 
 final class LentaViewController: UIViewController {
@@ -25,10 +26,11 @@ final class LentaViewController: UIViewController {
     }
     
     var presenter: LentaViewOutput!
+    
     let refreshControl: UIRefreshControl = {
-        let refControl = UIRefreshControl()
-        refControl.addTarget(self, action: #selector(refreshPosts), for: .valueChanged)
-        return refControl
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        return refreshControl
     }()
     
     deinit {
@@ -38,6 +40,7 @@ final class LentaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("LentaViewController init")
+        
         setup()
         presenter.viewDidLoad()
     }
@@ -48,9 +51,8 @@ final class LentaViewController: UIViewController {
         presenter.viewWillAppear()
     }
     
-    @objc
-    private func refreshPosts() {
-        presenter.reloadPosts()
+    @objc private func pullToRefresh() {
+        presenter.pullToRefresh()
         
         print("refresh")
     }
@@ -61,15 +63,15 @@ final class LentaViewController: UIViewController {
         let newPostButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(newPostButtonPress))
         navigationItem.rightBarButtonItem = newPostButtonItem
         
-        let menuBarButtonItem = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(menuButtonPress))
+        let menuBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(menuButtonPress))
         navigationItem.leftBarButtonItem = menuBarButtonItem
     }
     
-    @objc func newPostButtonPress() {
+    @objc private func newPostButtonPress() {
         presenter.newPostButtonPress()
     }
     
-    @objc func menuButtonPress() {
+    @objc private func menuButtonPress() {
         presenter.menuButtonPress()
     }
 }
@@ -77,6 +79,7 @@ final class LentaViewController: UIViewController {
 //MARK: - UITableViewDataSource
 
 extension LentaViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter.postCount
     }
@@ -92,15 +95,23 @@ extension LentaViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate
 
 extension LentaViewController: UITableViewDelegate {
-    
+    //TODO: - todo
 }
 
 //MARK: - LentaViewInput
 
 extension LentaViewController: LentaViewInput {
     
-    func userLoginned(_ loginned: Bool) {
-        navigationItem.rightBarButtonItem?.isEnabled = loginned
+    func show(message: String) {
+        refreshControl.endRefreshing()
+        let alertController = UIAlertController(title: "Message:", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func userLoginned(_ isLoginned: Bool) {
+        navigationItem.rightBarButtonItem?.isEnabled = isLoginned
     }
     
     func reloadLenta() {

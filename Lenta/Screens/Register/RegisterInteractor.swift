@@ -29,13 +29,18 @@ class RegisterInteractor {
 extension RegisterInteractor: RegisterInteractorInput {
     
     func register(name: String, login: String, password: String, avatarImage: UIImage?) {
-        networkManager.register(name: name, login: login, password: password, avatar: avatarImage) { (users) in
-            if let user = users.first {
-                let currentUser = CurrentUser(id: user.id, name: user.name, avatarName: user.avatarName)
-                self.storeManager.save(currentUser)
-                self.presenter.userDidRegistered()
-            } else {
-                self.presenter.userDidRegisteredFail()
+        networkManager.register(name: name, login: login, password: password, avatar: avatarImage) { (result) in
+            switch result {
+            case .failure(let error):
+                self.presenter.userDidRegisteredFail(message: error.localizedDescription)
+            case .success(let users):
+                if let user = users.first {
+                    let currentUser = CurrentUser(id: user.id, name: user.name, avatarName: user.avatarName)
+                    self.storeManager.save(currentUser)
+                    self.presenter.userDidRegistered()
+                } else {
+                    self.presenter.userDidRegisteredFail(message: "unkmon error")
+                }
             }
         }
     }

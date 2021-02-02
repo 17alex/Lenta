@@ -8,7 +8,7 @@
 import UIKit
 
 protocol RegisterViewInput: class {
-    func userNotRegister()
+    func userNotRegister(message: String)
 }
 
 class RegisterViewController: UIViewController {
@@ -82,8 +82,8 @@ class RegisterViewController: UIViewController {
 
 extension RegisterViewController: RegisterViewInput {
  
-    func userNotRegister() {
-        let alertController = UIAlertController(title: "Error", message: "not register", preferredStyle: .alert)
+    func userNotRegister(message: String) {
+        let alertController = UIAlertController(title: "Error register", message: message, preferredStyle: .alert)
         let okAlertAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertController.addAction(okAlertAction)
         present(alertController, animated: true, completion: nil)

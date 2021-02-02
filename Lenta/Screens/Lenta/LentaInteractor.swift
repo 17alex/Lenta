@@ -14,8 +14,6 @@ protocol LentaInteractorInput {
     var postCount: Int { get }
     func loadPosts()
     func loadCurrenUser()
-    func logInOutUser()
-    func didLoginned(_ user: CurrentUser)
 }
 
 class LentaInteractor {
@@ -41,35 +39,19 @@ class LentaInteractor {
 
 extension LentaInteractor: LentaInteractorInput {
     
-    func didLoginned(_ user: CurrentUser) {
-        currentUser = user
-        storeManager.save(currentUser)
-    }
-    
-    func logInOutUser() {
-        if currentUser == nil {
-//            presenter.goLoginedUser()
-        } else {
-            currentUser = nil
-            storeManager.save(currentUser)
-            presenter.logOutUser()
-        }
-    }
-    
     func loadCurrenUser() {
         currentUser = storeManager.getCurrenUser()
-        
     }
     
     func loadPosts() {
         networkManager.getPosts { (response) in
             switch response {
             case .failure(let error):
-                print("error: \(error)")
+                self.presenter.postsLoadFail(message: error.localizedDescription)
             case .success(let resp):
                 self.posts = resp.posts
                 self.users = resp.users
-                self.presenter.postsDidload()
+                self.presenter.postsDidLoad()
             }
         }
     }

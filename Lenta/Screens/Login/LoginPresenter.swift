@@ -14,7 +14,7 @@ protocol LoginViewOutput {
 
 protocol LoginInteractorOutput: class {
     func userDidLogined()
-    func userLoginFail()
+    func userLoginFail(message: String)
 }
 
 class LoginPresenter {
@@ -51,7 +51,7 @@ extension LoginPresenter: LoginInteractorOutput {
         router.dissmis()
     }
     
-    func userLoginFail() {
-        view.userNotLoginned()
+    func userLoginFail(message: String) {
+        view.userNotLoginned(message: message)
     }
 }

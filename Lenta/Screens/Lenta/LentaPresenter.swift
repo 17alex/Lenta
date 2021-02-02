@@ -11,15 +11,15 @@ protocol LentaViewOutput {
     var postCount: Int { get }
     func viewDidLoad()
     func viewWillAppear()
-    func reloadPosts()
+    func pullToRefresh()
     func menuButtonPress()
     func newPostButtonPress()
     func postViewModel(for index: Int) -> PostViewModel
 }
 
 protocol LentaInteractorOutput: class {
-    func postsDidload()
-    func logOutUser()
+    func postsDidLoad()
+    func postsLoadFail(message: String)
 }
 
 class LentaPresenter {
@@ -46,12 +46,7 @@ extension LentaPresenter: LentaViewOutput {
     
     func viewWillAppear() {
         interactor.loadCurrenUser()
-        
-        if interactor.currentUser == nil {
-            view.userLoginned(false)
-        } else {
-            view.userLoginned(true)
-        }
+        view.userLoginned(interactor.currentUser != nil)
     }
     
     func menuButtonPress() {
@@ -59,15 +54,14 @@ extension LentaPresenter: LentaViewOutput {
     }
     
     func newPostButtonPress() {
-        guard let currUser = interactor.currentUser else { return }
-        router.showEnterNewPostModule(for: currUser)
+        router.showEnterNewPostModule()
     }
     
     var postCount: Int {
         interactor.postCount
     }
     
-    func reloadPosts() {
+    func pullToRefresh() {
         interactor.loadPosts()
     }
     
@@ -80,19 +74,11 @@ extension LentaPresenter: LentaViewOutput {
 
 extension LentaPresenter: LentaInteractorOutput {
     
-    func logOutUser() {
-        view.userLoginned(false)
+    func postsLoadFail(message: String) {
+        view.show(message: message)
     }
     
-//    func goLoginedUser() {
-//        router.loginUser { loginnedUser in
-//            self.interactor.didLoginned(loginnedUser)
-//            self.view.userLoginned(true)
-//            print("currentUser = \(loginnedUser)")
-//        }
-//    }
-    
-    func postsDidload() {
+    func postsDidLoad() {
         view.reloadLenta()
     }
 }

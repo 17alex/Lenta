@@ -8,11 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		FA0285EE25B1D1FE0082B17D /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */; };
-		FA0772CC25BED0D000EA2FEE /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0772CB25BED0D000EA2FEE /* WebImageView.swift */; };
 		FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90025B0290900D2B806 /* NewPostViewController.swift */; };
 		FA26A90325B0290900D2B806 /* NewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA26A90125B0290900D2B806 /* NewPostViewController.xib */; };
 		FA26A90625B029B000D2B806 /* NewPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90525B029B000D2B806 /* NewPostPresenter.swift */; };
-		FA26A90925B02AD300D2B806 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90825B02AD300D2B806 /* NewPostInteractor.swift */; };
 		FA26A90C25B02C6800D2B806 /* NewPostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */; };
 		FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90E25B0543200D2B806 /* SendPost.swift */; };
 		FA2B469C25B5706400DC5C1D /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B469B25B5706400DC5C1D /* StoreManager.swift */; };
@@ -52,11 +50,9 @@
 
 /* Begin PBXFileReference section */
 		FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
-		FA0772CB25BED0D000EA2FEE /* WebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
 		FA26A90025B0290900D2B806 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		FA26A90125B0290900D2B806 /* NewPostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPostViewController.xib; sourceTree = "<group>"; };
 		FA26A90525B029B000D2B806 /* NewPostPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostPresenter.swift; sourceTree = "<group>"; };
-		FA26A90825B02AD300D2B806 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
 		FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostRouter.swift; sourceTree = "<group>"; };
 		FA26A90E25B0543200D2B806 /* SendPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPost.swift; sourceTree = "<group>"; };
 		FA2B469B25B5706400DC5C1D /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
@@ -112,7 +108,6 @@
 			children = (
 				FA26A90025B0290900D2B806 /* NewPostViewController.swift */,
 				FA26A90525B029B000D2B806 /* NewPostPresenter.swift */,
-				FA26A90825B02AD300D2B806 /* NewPostInteractor.swift */,
 				FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */,
 				FA26A90125B0290900D2B806 /* NewPostViewController.xib */,
 				FA26A90E25B0543200D2B806 /* SendPost.swift */,
@@ -179,14 +174,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		FA39ECD625C02DBC00C52D1E /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				FA0772CB25BED0D000EA2FEE /* WebImageView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		FA7DD3FA25B6F8CA00CB1678 /* Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,7 +208,6 @@
 				FA39ECD525C02D7800C52D1E /* Models */,
 				FAC2073425AC616900CD9099 /* Assembly.swift */,
 				FA33EDE025AC899A00637E3E /* Screens */,
-				FA39ECD625C02DBC00C52D1E /* Views */,
 				FA33EDE125AC8A1000637E3E /* Services */,
 				FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */,
 				FA8DAD4325AC24E600E9D1B7 /* SceneDelegate.swift */,
@@ -373,7 +359,6 @@
 				FA8DAD4425AC24E600E9D1B7 /* SceneDelegate.swift in Sources */,
 				FAC2073225AC5FE300CD9099 /* Response.swift in Sources */,
 				FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */,
-				FA0772CC25BED0D000EA2FEE /* WebImageView.swift in Sources */,
 				FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */,
 				FAC2073F25AC689F00CD9099 /* PostViewModel.swift in Sources */,
 				FA9BFF4325C1825300ACA85F /* ProfileRouter.swift in Sources */,
@@ -381,7 +366,6 @@
 				FAC2073825AC61A500CD9099 /* LentaPresenter.swift in Sources */,
 				FA7DD40525B709A400CB1678 /* RegisterPresenter.swift in Sources */,
 				FA9BFF3625C1783E00ACA85F /* MenuRouter.swift in Sources */,
-				FA26A90925B02AD300D2B806 /* NewPostInteractor.swift in Sources */,
 				FA9BFF4025C17F4500ACA85F /* ProfilePresenter.swift in Sources */,
 				FA9BFF2525C152A400ACA85F /* MenuViewController.swift in Sources */,
 				FA2B469C25B5706400DC5C1D /* StoreManager.swift in Sources */,
@@ -535,7 +519,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta;
+				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -557,7 +541,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta;
+				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

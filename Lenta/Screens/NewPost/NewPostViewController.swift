@@ -8,8 +8,7 @@
 import UIKit
 
 protocol NewPostViewInput: class {
-    
-    func notSavedPost()
+    func notSavedPost(text: String)
 }
 
 class NewPostViewController: UIViewController {
@@ -18,7 +17,6 @@ class NewPostViewController: UIViewController {
     @IBOutlet weak var fotoImageView: UIButton!
     
     var presenter: NewPostViewOutput!
-    private var image: UIImage?
     
     deinit {
         print("NewPostViewController deinit")
@@ -28,6 +26,7 @@ class NewPostViewController: UIViewController {
         super.viewDidLoad()
         print("NewPostViewController init")
         setup()
+        presenter.viewDidLoad()
     }
     
     private func setup() {
@@ -59,14 +58,14 @@ class NewPostViewController: UIViewController {
     
     @IBAction func saveButtonPress(_ sender: UIButton) {
         let description = descriptionTextView.text ?? ""
-        presenter.pressSendWith(description: description, image: image)
+        presenter.pressSendWith(description: description, image: fotoImageView.imageView?.image)
     }
 }
 
 extension NewPostViewController: NewPostViewInput {
     
-    func notSavedPost() {
-        let alertContoller = UIAlertController(title: "Error", message: "not saved post", preferredStyle: .alert)
+    func notSavedPost(text: String) {
+        let alertContoller = UIAlertController(title: "Error send post", message: text, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertContoller.addAction(okAction)
         present(alertContoller, animated: true)
@@ -88,7 +87,6 @@ extension NewPostViewController: UIImagePickerControllerDelegate, UINavigationCo
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image: UIImage = info[.editedImage] as? UIImage else { return }
-        self.image = image
         self.fotoImageView.setImage(image, for: .normal)
         dismiss(animated: true, completion: nil)
     }

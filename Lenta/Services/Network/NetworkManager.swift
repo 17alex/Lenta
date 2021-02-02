@@ -9,11 +9,11 @@ import UIKit
 
 protocol NetworkManagerProtocol {
     
-    func logIn(login: String, password: String, complete: @escaping ([User]) -> Void)
-    func register(name: String, login: String, password: String, avatar: UIImage?,  complete: @escaping ([User]) -> Void)
+    func logIn(login: String, password: String, complete: @escaping (Result<[User], Error>) -> Void)
+    func register(name: String, login: String, password: String, avatar: UIImage?,  complete: @escaping (Result<[User], Error>) -> Void)
     func getPosts(complete: @escaping (Result<Response, Error>) -> Void)
-    func setPost(post: SendPost, complete: @escaping (Bool) -> Void)
-    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping ([User]) -> Void)
+    func sendPost(post: SendPost, complete: @escaping (Result<Response, Error>) -> Void)
+    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping (Result<[User], Error>) -> Void)
 }
 
 class NetworkManager {
@@ -50,7 +50,7 @@ extension NetworkManager: NetworkManagerProtocol {
         let password: String
     }
     
-    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping ([User]) -> Void) {
+    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping (Result<[User], Error>) -> Void) {
         let filePathKey = "file"
         let url = URL(string: "https://monsterok.ru/lenta/updatePrifile.php")!
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -88,19 +88,24 @@ extension NetworkManager: NetworkManagerProtocol {
         
         taskResume(with: urlRequest) { (data, error) in
             
-            guard let myData = data else { return }
-            let dataString = String(data: myData, encoding: .utf8)
-            print("dataString: \(dataString)")
+//            if let myData = data {
+//                let dataString = String(data: myData, encoding: .utf8)
+//                print("dataString: \(dataString)")
+//            }
             
-            var users: [User] = []
-            if let data = data, let decodeUsers = try? JSONDecoder().decode([User].self, from: data) {
-                users = decodeUsers
+            if let error = error {
+                self.onMain { complete(.failure(error)) }
+            } else {
+                var users: [User] = []
+                if let data = data, let decodeUsers = try? JSONDecoder().decode([User].self, from: data) {
+                    users = decodeUsers
+                }
+                self.onMain { complete(.success(users)) }
             }
-            self.onMain { complete(users) }
         }
     }
     
-    func logIn(login: String, password: String, complete: @escaping ([User]) -> Void) {
+    func logIn(login: String, password: String, complete: @escaping (Result<[User], Error>) -> Void) {
         let url = URL(string: "https://monsterok.ru/lenta/login.php")!
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
@@ -112,19 +117,26 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpBody = body
 
         taskResume(with: urlRequest) { (data, error) in
-//            guard let myData = data else { return }
-//            let dataString = String(data: myData, encoding: .utf8)
-//            print("dataString: \(dataString)")
-            var users: [User] = []
-            if let data = data,
-               let us = try? JSONDecoder().decode([User].self, from: data) {
-                users = us
+            
+//            if let myData = data {
+//                let dataString = String(data: myData, encoding: .utf8)
+//                print("dataString: \(dataString)")
+//            }
+            
+            if let error = error {
+                self.onMain { complete(.failure(error)) }
+            } else {
+                var users: [User] = []
+                if let data = data,
+                   let decodeUsers = try? JSONDecoder().decode([User].self, from: data) {
+                    users = decodeUsers
+                }
+                self.onMain { complete(.success(users)) }
             }
-            self.onMain { complete(users) }
         }
     }
     
-    func register(name: String, login: String, password: String, avatar: UIImage?,  complete: @escaping ([User]) -> Void) {
+    func register(name: String, login: String, password: String, avatar: UIImage?, complete: @escaping (Result<[User], Error>) -> Void) {
         let filePathKey = "file"
         let url = URL(string: "https://monsterok.ru/lenta/register.php")!
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -161,16 +173,21 @@ extension NetworkManager: NetworkManagerProtocol {
         
         taskResume(with: urlRequest) { (data, error) in
             
-//            guard let myData = data else { return }
-//            let dataString = String(data: myData, encoding: .utf8)
-//            print("dataString: \(dataString)")
+//            if let myData = data {
+//                let dataString = String(data: myData, encoding: .utf8)
+//                print("dataString: \(dataString)")
+//            }
             
-            var users: [User] = []
-            if let data = data,
-               let us = try? JSONDecoder().decode([User].self, from: data) {
-                users = us
+            if let error = error {
+                self.onMain { complete(.failure(error)) }
+            } else {
+                var users: [User] = []
+                if let data = data,
+                   let decodeUsers = try? JSONDecoder().decode([User].self, from: data) {
+                    users = decodeUsers
+                }
+                self.onMain { complete(.success(users)) }
             }
-            self.onMain { complete(users) }
         }
     }
     
@@ -179,9 +196,11 @@ extension NetworkManager: NetworkManagerProtocol {
         let urlRequest = URLRequest(url: url)
         taskResume(with: urlRequest) { data, error in
             
-            guard let myData = data else { return }
-            let dataString = String(data: myData, encoding: .utf8)
-            print("dataString: \(dataString)")
+//            if let myData = data {
+//                let dataString = String(data: myData, encoding: .utf8)
+//                print("dataString: \(dataString)")
+//            }
+            print("recive getPost")
             
             if let error = error {
                 self.onMain { complete(.failure(error)) }
@@ -196,7 +215,7 @@ extension NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    func setPost(post: SendPost, complete: @escaping (Bool) -> Void) {
+    func sendPost(post: SendPost, complete: @escaping (Result<Response, Error>) -> Void) {
         let filePathKey = "file"
         let url = URL(string: "https://monsterok.ru/lenta/addPost.php")!
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -231,10 +250,24 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpBody = body
         
         taskResume(with: urlRequest) { (data, error) in
-//            guard let data = data else { return }
-//            let dataString = String(data: data, encoding: .utf8)
-//            print("dataString: \(dataString)")
-            self.onMain { complete(true) }
+            
+//            if let myData = data {
+//                let dataString = String(data: myData, encoding: .utf8)
+//                print("dataString: \(dataString)")
+//            }
+            
+            if let error = error {
+                self.onMain { complete(.failure(error)) }
+            } else {
+                if let data = data {
+                    do {
+                        let pesponse = try JSONDecoder().decode(Response.self, from: data)
+                        self.onMain { complete(.success(pesponse)) }
+                    } catch let error {
+                        self.onMain { complete(.failure(error)) }
+                    }
+                }
+            } // NoData
         }
     }
 }
