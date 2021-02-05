@@ -14,6 +14,7 @@ protocol NetworkManagerProtocol {
     func getPosts(complete: @escaping (Result<Response, Error>) -> Void)
     func sendPost(post: SendPost, complete: @escaping (Result<Response, Error>) -> Void)
     func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping (Result<[User], Error>) -> Void)
+    func changeLike(postId: Int, userId: Int, complete: @escaping (Result<Post, Error>) -> Void)
 }
 
 class NetworkManager {
@@ -38,6 +39,45 @@ class NetworkManager {
 }
 
 extension NetworkManager: NetworkManagerProtocol {
+    
+    func changeLike(postId: Int, userId: Int, complete: @escaping (Result<Post, Error>) -> Void) {
+        let url = URL(string: "https://monsterok.ru/lenta/changeLike.php")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
+        urlRequest.httpMethod = "POST"
+        
+        var parameters: [String: String] = [:]
+        parameters["postId"] = String(postId)
+        parameters["userId"] = String(userId)
+        
+        let body = try? JSONEncoder().encode(parameters)
+        urlRequest.httpBody = body
+
+        taskResume(with: urlRequest) { (data, error) in
+            
+            if let myData = data {
+                let dataString = String(data: myData, encoding: .utf8)
+                print("dataString: \(dataString)")
+            }
+            
+            if let error = error {
+                self.onMain { complete(.failure(error)) }
+            } else if let data = data {
+                do {
+                    let decodePost = try JSONDecoder().decode(Post.self, from: data)
+                    print("decode likes decodePost = \(decodePost)")
+                    self.onMain { complete(.success(decodePost)) }
+                } catch {
+                    print("decode likes error = \(error.localizedDescription)")
+                    self.onMain {
+                        self.onMain { complete(.failure(error)) }
+                    }
+                } // else NoData
+            }
+        }
+    }
+    
     // TODO: - dictionary
     struct Sendlogin: Encodable {
         let login: String
@@ -112,7 +152,7 @@ extension NetworkManager: NetworkManagerProtocol {
         
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        let parameters = Sendlogin(login: login, password: password)
+        let parameters = Sendlogin(login: login, password: password) //TODO: - dictionary
         let body = try? JSONEncoder().encode(parameters)
         urlRequest.httpBody = body
 
@@ -200,7 +240,6 @@ extension NetworkManager: NetworkManagerProtocol {
 //                let dataString = String(data: myData, encoding: .utf8)
 //                print("dataString: \(dataString)")
 //            }
-            print("recive getPost")
             
             if let error = error {
                 self.onMain { complete(.failure(error)) }

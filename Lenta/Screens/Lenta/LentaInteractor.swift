@@ -14,6 +14,7 @@ protocol LentaInteractorInput {
     var postCount: Int { get }
     func loadPosts()
     func loadCurrenUser()
+    func changeLike(postIndex: Int)
 }
 
 class LentaInteractor {
@@ -38,6 +39,20 @@ class LentaInteractor {
 }
 
 extension LentaInteractor: LentaInteractorInput {
+    
+    func changeLike(postIndex: Int) {
+        guard let currentUser = currentUser else { return }
+        let postId = posts[postIndex].postId
+        networkManager.changeLike(postId: postId, userId: currentUser.id) { (result) in
+            switch result {
+            case .failure(let error):
+                break //TODO: -
+            case .success(let post):
+                self.posts[postIndex] = post
+                self.presenter.postReload(at: postIndex)
+            }
+        }
+    }
     
     func loadCurrenUser() {
         currentUser = storeManager.getCurrenUser()

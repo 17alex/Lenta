@@ -18,6 +18,9 @@ struct Post: Decodable {
     let timeInterval: TimeInterval
     let description: String
     let postImage: PostImage
+    let likesIds: [Int]
+    let viewsCount: Int
+    let commentsCount: Int
 }
 
 struct PostImage: Decodable {

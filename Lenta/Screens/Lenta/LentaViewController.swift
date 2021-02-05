@@ -9,6 +9,7 @@ import UIKit
 
 protocol LentaViewInput: class {
     func reloadLenta()
+    func reloadPost(index: Int)
     func userLoginned(_ isLoginned: Bool)
     func show(message: String)
 }
@@ -81,26 +82,53 @@ final class LentaViewController: UIViewController {
 extension LentaViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.postCount
+        return presenter.postViewModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LentaCell.self), for: indexPath) as! LentaCell
-        let post = presenter.postViewModel(for: indexPath.item)
+        cell.delegate = self
+        let post = presenter.postViewModels[ indexPath.item]
         cell.set(post: post)
         return cell
+    }
+}
+
+extension LentaViewController: CellDelegate {
+    
+    func didTabLikeButton(cell: UITableViewCell) {
+        if let cellIndexPath = lentaTableView.indexPath(for: cell) {
+            presenter.changeLike(postIndex: cellIndexPath.row)
+        }
+    }
+    
+    func didTabMoreButton(cell: UITableViewCell) {
+        if let cellIndexPath = lentaTableView.indexPath(for: cell) {
+            presenter.changeNumberOfLineDescription(for: cellIndexPath.row)
+            lentaTableView.reloadRows(at: [cellIndexPath], with: .fade)
+        }
     }
 }
 
 //MARK: - UITableViewDelegate
 
 extension LentaViewController: UITableViewDelegate {
+    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 650
+//    }
     //TODO: - todo
 }
 
 //MARK: - LentaViewInput
 
 extension LentaViewController: LentaViewInput {
+    
+    func reloadPost(index: Int) {
+        let indexPath = IndexPath(row: index, section: 0)
+        let cell = lentaTableView.cellForRow(at: indexPath) as! LentaCell
+        cell.smallUpdate(post: presenter.postViewModels[index])
+    }
     
     func show(message: String) {
         refreshControl.endRefreshing()
