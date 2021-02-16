@@ -11,15 +11,29 @@ class Assembly {
     
     let networkManager = NetworkManager()
     let storeManager = StoreManager()
-    var navigationController: UINavigationController!
     
     init() { print("Assembly init") }
     
     deinit { print("Assembly deinit") }
     
-    func start() -> UIViewController {
-        navigationController = UINavigationController(rootViewController: getLentaModule())
-        return navigationController
+    func startController() -> UIViewController {
+        return getTabBarController()
+    }
+    
+    func getTabBarController() -> UIViewController {
+        let tbController = UITabBarController()
+        
+        let lenta = UINavigationController(rootViewController: getLentaModule())
+        lenta.tabBarItem.title = "Lenta"
+        lenta.tabBarItem.image = UIImage(systemName: "scribble")
+        
+        let profile = UINavigationController(rootViewController: getProfileModule())
+        profile.tabBarItem.title = "Profile"
+        profile.tabBarItem.image = UIImage(systemName: "person")
+        
+        tbController.viewControllers = [lenta, profile]
+        
+        return tbController
     }
     
     func getProfileModule() -> UIViewController {
@@ -28,16 +42,6 @@ class Assembly {
         let router = ProfileRouter(view: view, assembly: self)
         presenter.router = router
         presenter.networkManager = networkManager
-        presenter.storeManager = storeManager
-        view.presenter = presenter
-        return view
-    }
-    
-    func getMenuModule() -> UIViewController {
-        let view = MenuViewController()
-        let presenter = MenuPresenter(view: view)
-        let router = MenuRouter(view: view, assembly: self)
-        presenter.router = router
         presenter.storeManager = storeManager
         view.presenter = presenter
         return view
@@ -82,9 +86,9 @@ class Assembly {
         return view
     }
     
-    func getNewPostModule() -> UIViewController {
+    func getNewPostModule(callback: @escaping (Response) -> Void) -> UIViewController {
         let view = NewPostViewController()
-        let presenter = NewPostPresenter(view: view)
+        let presenter = NewPostPresenter(view: view, callback: callback)
         let router = NewPostRouter(view: view, assembly: self)
         view.presenter = presenter
         presenter.storeManager = storeManager

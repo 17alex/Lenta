@@ -10,5 +10,5 @@ import Foundation
 struct CurrentUser: Codable {
     let id: Int
     let name: String
-    let avatarName: String
+    let avatar: String
 }

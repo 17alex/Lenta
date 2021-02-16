@@ -8,8 +8,7 @@
 import UIKit
 
 protocol LentaRouterInput {
-    func showEnterNewPostModule()
-    func showMenuModule()
+    func showNewPostModule(callback: @escaping (Response) -> Void)
 }
 
 class LentaRouter {
@@ -28,15 +27,12 @@ class LentaRouter {
     }
 }
 
+//MARK: - LentaRouterInput
+
 extension LentaRouter: LentaRouterInput {
     
-    func showEnterNewPostModule() {
-        let newPostVC = assembly.getNewPostModule()
-        assembly.navigationController.pushViewController(newPostVC, animated: true)
-    }
-    
-    func showMenuModule() {
-        let menuVC = assembly.getMenuModule()
-        assembly.navigationController.pushViewController(menuVC, animated: true)
+    func showNewPostModule(callback: @escaping (Response) -> Void) {
+        let newPostVC = assembly.getNewPostModule(callback: callback)
+        view.navigationController?.pushViewController(newPostVC, animated: true)
     }
 }

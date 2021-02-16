@@ -17,6 +17,8 @@ class StoreManager {
     private let storeKey = "userStoreKey"
 }
 
+//MARK: - StoreManagerProtocol
+
 extension StoreManager: StoreManagerProtocol {
     
     func getCurrenUser() -> CurrentUser? {

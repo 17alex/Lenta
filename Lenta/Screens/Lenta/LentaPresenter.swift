@@ -8,48 +8,79 @@
 import Foundation
 
 protocol LentaViewOutput {
-    var postViewModels: [PostViewModel] { get }
+    var postsViewModel: [PostViewModel] { get }
     func viewDidLoad()
     func viewWillAppear()
-    func pullToRefresh()
-    func menuButtonPress()
-    func newPostButtonPress()
-    func changeLike(postIndex: Int)
-    func changeNumberOfLineDescription(for postIndex: Int)
+    func didPressToRefresh()
+    func didPressDeletePost(by index: Int)
+    func didPressNewPost()
+    func didPressMenu(by index: Int)
+    func didPressLike(postIndex: Int)
+    func didPressMore(postIndex: Int)
+    func willDisplayCell(by index: Int)
 }
 
 protocol LentaInteractorOutput: class {
-    func postsDidLoad()
-    func postReload(at index: Int)
-    func postsLoadFail(message: String)
+    func didLoadFirst(posts: [Post])
+    func didLoadNext(posts: [Post])
+    func didLoadNew(post: Post)
+    func didUpdatePost(by index: Int)
+    func didRemovePost(by index: Int)
+    func show(message: String)
 }
 
-class LentaPresenter {
+final class LentaPresenter {
     
     unowned let view: LentaViewInput
     var interactor: LentaInteractorInput!
     var router: LentaRouterInput!
     
-    var postViewModels: [PostViewModel] = []
+    var postsViewModel: [PostViewModel] = []
     
     init(view: LentaViewInput) {
-        print("LentaPresenter init")
         self.view = view
+        print("LentaPresenter init")
     }
     
     deinit {
         print("LentaPresenter deinit")
     }
+    
+    private func getPostViewModel(post: Post) -> PostViewModel {
+        let user = try! interactor.users.first(where: {$0.id == post.userId})
+        return PostViewModel(post: post, user: user!, currenUser: interactor.currentUser)
+    }
 }
+
+//MARK: - LentaViewOutput
 
 extension LentaPresenter: LentaViewOutput {
     
-    func changeLike(postIndex: Int) {
-        interactor.changeLike(postIndex: postIndex)
+    func didPressMenu(by index: Int) {
+        var isOwnerPost = false
+        if let currentUser = interactor.currentUser,
+           interactor.posts[index].userId == currentUser.id {
+            isOwnerPost = true
+        }
+        view.showMenu(byPostIndex: index, isOwner: isOwnerPost)
+    }
+
+    func didPressDeletePost(by index: Int) {
+        interactor.deletePost(by: index)
     }
     
-    func changeNumberOfLineDescription(for postIndex: Int) {
-        postViewModels[postIndex].numberOfLineDescription = 0
+    func willDisplayCell(by index: Int) {
+        guard index >= interactor.posts.count - 4 else { return }
+        interactor.loadNextPosts()
+    }
+    
+    func didPressLike(postIndex: Int) {
+        interactor.changeLike(by: postIndex)
+    }
+    
+    func didPressMore(postIndex: Int) {
+        postsViewModel[postIndex].description.isExpand = true
+        view.reloadPost(by: postIndex)
     }
     
     func viewDidLoad() {
@@ -57,43 +88,57 @@ extension LentaPresenter: LentaViewOutput {
     }
     
     func viewWillAppear() {
-        interactor.loadCurrenUser()
+        interactor.getCurrenUser()
+        postsViewModel = interactor.posts.map(getPostViewModel(post:))
+        view.reloadLenta()
         view.userLoginned(interactor.currentUser != nil)
     }
     
-    func menuButtonPress() {
-        router.showMenuModule()
+    func didPressNewPost() {
+        router.showNewPostModule { response in
+            self.interactor.addNewPost(response: response)
+        }
     }
     
-    func newPostButtonPress() {
-        router.showEnterNewPostModule()
-    }
-    
-    func pullToRefresh() {
+    func didPressToRefresh() {
         interactor.loadPosts()
     }
 }
 
+//MARK: - LentaInteractorOutput
+
 extension LentaPresenter: LentaInteractorOutput {
     
-    func postReload(at index: Int) {
-        postViewModels[index].update(with: interactor.posts[index])
-        view.reloadPost(index: index)
+    func didLoadNew(post: Post) {
+        postsViewModel.insert(getPostViewModel(post: post), at: 0)
+        self.view.insertPost(by: 0)
     }
     
-    func postsLoadFail(message: String) {
+    func didRemovePost(by index: Int) {
+        postsViewModel.remove(at: index)
+        view.removePost(by: index)
+    }
+    
+    func didLoadFirst(posts: [Post]) {
+        postsViewModel = posts.map(getPostViewModel(post:))
+        view.reloadLenta()
+    }
+    
+    func didLoadNext(posts: [Post]) {
+        let startIndex = postsViewModel.count
+        postsViewModel.append(contentsOf: posts.map(getPostViewModel(post:)))
+        let endIndex = postsViewModel.count
+        view.insertPosts(fromIndex: startIndex, toIndex: endIndex)
+    }
+    
+    func didUpdatePost(by index: Int) {
+        postsViewModel[index] = getPostViewModel(post: interactor.posts[index])
+        view.reloadPost(by: index)
+    }
+    
+    func show(message: String) {
         view.show(message: message)
     }
     
-    func postsDidLoad() {
-        postViewModels = []
-        for index in 0..<interactor.posts.count {
-            let post = interactor.posts[index]
-            let user = try! interactor.users.first(where: {$0.id == post.userId})
-            postViewModels.append(PostViewModel(post: post, user: user!))
-        }
-        
-        view.reloadLenta()
-    }
 }
 

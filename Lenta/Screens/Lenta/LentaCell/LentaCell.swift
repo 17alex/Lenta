@@ -7,84 +7,79 @@
 
 import UIKit
 
-protocol CellDelegate: class {
-    func didTabMoreButton(cell: UITableViewCell)
-    func didTabLikeButton(cell: UITableViewCell)
+protocol PostCellDelegate: class {
+    func didTapLikeButton(cell: UITableViewCell)
+    func didTapMenuButton(cell: UITableViewCell)
 }
 
 final class LentaCell: UITableViewCell {
 
-    @IBOutlet weak var logoImageView: UIImageView!
+    //MARK: - IBOutlets:
+    
+    @IBOutlet weak var cardView: UIView!
+    @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var fotoImageView: UIImageView!
     @IBOutlet weak var bottomStackView: UIStackView!
-    @IBOutlet weak var moreButton: UIButton!
-    @IBOutlet weak var fotoActivityIndicator: UIActivityIndicatorView! {
-        didSet {
-            fotoActivityIndicator.hidesWhenStopped = true
-        }
-    }
-    @IBOutlet weak var topMoreButton: NSLayoutConstraint!
-    @IBOutlet weak var heightFotoImageView: NSLayoutConstraint!
-//    @IBOutlet weak var heightMoreButton: NSLayoutConstraint!
-    //    @IBOutlet weak var heightDescriptionLabel: NSLayoutConstraint!
+    @IBOutlet weak var fotoActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var likesCountLabel: UILabel!
     @IBOutlet weak var viewsCountLabel: UILabel!
     @IBOutlet weak var commentsCountLabel: UILabel!
     @IBOutlet weak var likesButton: UIButton!
+    @IBOutlet weak var menuButton: UIButton!
+    @IBOutlet weak var heightFoto: NSLayoutConstraint!
+    
+    //MARK: - Variables
+    
+    private var postModel: PostViewModel! {
+        didSet {
+            userNameLabel.text = postModel.user.name + "  postId = \(postModel.id)"
+            setAvatar(avatarName: postModel.user.avatar)
+            timeLabel.text = postModel.time
+            descriptionLabel.text = postModel.description.text
+            paintLikeButton(isHighlight: postModel.likes.isHighlight)
+            likesCountLabel.text = postModel.likes.count
+            viewsCountLabel.text = postModel.views.count
+            commentsCountLabel.text = postModel.comments.count
+            setPostImage(postImageName: postModel.foto.name)
+            heightFoto.constant = postModel.foto.size.height
+        }
+    }
     
     var logoImageViewUrl: URL!
     var fotoImageViewUrl: URL!
     var imHeight: CGFloat = 0
     
-    weak var delegate: CellDelegate?
+    weak var delegate: PostCellDelegate?
+    
+    //MARK: - LiveCycles
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        logoImageView.layer.cornerRadius = 30
+        print("awakeFromNib contentView.frame = \(contentView.frame)")
+        avatarImageView.layer.cornerRadius = 30
     }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        fotoImageView.image = nil
-        topMoreButton.constant = 0
-        moreButton.isHidden = false
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        print("LentaCell - layoutSubviews: self.bouns = \(self.bounds)")
-    }
+           
+    //MARK: - PublicMetods
     
     func smallUpdate(post: PostViewModel) {
-        likesCountLabel.text = post.likesCount
-        likesButton.tintColor = post.likesIsHighlight ? .systemRed : .systemGray2
+        likesCountLabel.text = post.likes.count
+        paintLikeButton(isHighlight: post.likes.isHighlight)
     }
     
-    func set(post: PostViewModel) {
-        userNameLabel.text = post.userName + " postId = \(post.id)"
-        setAvatar(avatarName: post.avatarImageName)
-        timeLabel.text = post.time
-        descriptionLabel.numberOfLines = post.numberOfLineDescription
-        if post.numberOfLineDescription == 0 {
-            topMoreButton.constant = -26
-            moreButton.isHidden = true
-        }
-        descriptionLabel.text = post.description
-        likesButton.tintColor = post.likesIsHighlight ? .systemRed : .systemGray2
-        likesCountLabel.text = post.likesCount
-        viewsCountLabel.text = post.viewsCount
-        commentsCountLabel.text = post.commentsCount
-        imHeight = calculateImageHeight(imageWidth: post.postImageWidth, imageHeight: post.postImageHeight)
-        print("post.id=\(post.id); Width=\(post.postImageWidth); Height=\(post.postImageHeight); bounds.width=\(UIScreen.main.bounds.width); imHeight=\(imHeight)")
-        heightFotoImageView.constant = imHeight
-        setPostImage(postImageName: post.postImageName)
+    func set(postModel: PostViewModel) {
+        self.postModel = postModel
     }
     
+    //MARK: - PrivateMetods
+    
+    private func paintLikeButton(isHighlight: Bool) {
+        likesButton.tintColor = isHighlight ? .systemRed : .systemGray2
+    }
+    
+    // todo
     private func setPostImage(postImageName: String) {
         if postImageName != "", let url = URL(string: "https://monsterok.ru/lenta/images/\(postImageName)") {
             fotoActivityIndicator.startAnimating()
@@ -98,26 +93,21 @@ final class LentaCell: UITableViewCell {
         }
     }
     
+    // todo
     private func setAvatar(avatarName: String) {
         if avatarName != "", let url = URL(string: "https://monsterok.ru/lenta/avatars/\(avatarName)") {
             logoImageViewUrl = url
             loadImage(for: url) { (image, imageUrl) in
                 if self.logoImageViewUrl.absoluteString == imageUrl.absoluteString {
-                    self.logoImageView.image = image
+                    self.avatarImageView.image = image
                 }
             }
         } else {
-            logoImageView.image = UIImage(named: "defaultAvatar")
+            avatarImageView.image = UIImage(named: "defaultAvatar")
         }
     }
     
-    private func calculateImageHeight(imageWidth: Int, imageHeight: Int) -> CGFloat {
-        let imageRatio = CGFloat(imageWidth) / CGFloat(imageHeight)
-        let widthSizeFotoImageView = UIScreen.main.bounds.width
-        return widthSizeFotoImageView / CGFloat(imageRatio)
-    }
-    
-    //TODO: todo
+    // todo
     private func loadImage(for url: URL, complete: @escaping (UIImage, URL) -> Void) {
         let urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
         URLSession.shared.dataTask(with: urlRequest) { (data, _, _) in
@@ -129,12 +119,14 @@ final class LentaCell: UITableViewCell {
         }.resume()
     }
     
+    //MARK: - IBActions
+    
     @IBAction func likesButtonPress() {
-        delegate?.didTabLikeButton(cell: self)
+        delegate?.didTapLikeButton(cell: self)
     }
     
-    @IBAction func moreButtonPress() {
-        delegate?.didTabMoreButton(cell: self)
+    @IBAction func munuButtoPress() {
+        delegate?.didTapMenuButton(cell: self)
     }
 }
 

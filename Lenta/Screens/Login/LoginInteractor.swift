@@ -26,6 +26,8 @@ class LoginInteractor {
     
 }
 
+//MARK: - LoginInteractorInput
+
 extension LoginInteractor: LoginInteractorInput {
     
     func logIn(login: String, password: String) {
@@ -35,7 +37,7 @@ extension LoginInteractor: LoginInteractorInput {
                 self.presenter.userLoginFail(message: error.localizedDescription)
             case .success(let users):
                 if let user = users.first {
-                    let currentUser = CurrentUser(id: user.id, name: user.name, avatarName: user.avatarName)
+                    let currentUser = CurrentUser(id: user.id, name: user.name, avatar: user.avatar)
                     self.storeManager.save(currentUser)
                     self.presenter.userDidLogined()
                 } else {

@@ -13,32 +13,30 @@ struct Response: Decodable {
 }
 
 struct Post: Decodable {
-    let postId: Int
+    let id: Int
     let userId: Int
     let timeInterval: TimeInterval
     let description: String
-    let postImage: PostImage
-    let likesIds: [Int]
+    let foto: PostFoto
+    let likeUserIds: [Int]
     let viewsCount: Int
     let commentsCount: Int
+//    var isCompactDescription = true
 }
 
-struct PostImage: Decodable {
-    let imageName: String
-    let imageSize: ImageSize
+struct PostFoto: Decodable {
+    let name: String
+    let size: FotoSize
 }
 
-struct ImageSize: Decodable {
+struct FotoSize: Decodable {
     let width: Int
     let height: Int
 }
 
-struct User: Decodable {
+struct User: Decodable, Hashable {
     let id: Int
     let name: String
-    let avatarName: String
+    let avatar: String
 }
 
-struct Resp: Decodable {
-    let users: [User]
-}

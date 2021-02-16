@@ -28,6 +28,8 @@ class RegisterRouter {
     }
 }
 
+//MARK: - RegisterRouterInput
+
 extension RegisterRouter: RegisterRouterInput {
     
     func dissmis() {
@@ -37,9 +39,10 @@ extension RegisterRouter: RegisterRouterInput {
     func showLoginedModule() {
         let loginVC = assembly.getLoginModule()
         loginVC.modalPresentationStyle = .fullScreen
+        let presentingViewController = view.presentingViewController
         view.dismiss(animated: true) {
-            if let lastView = self.assembly.navigationController.viewControllers.last {
-                lastView.present(loginVC, animated: true)
+            if let pVC = presentingViewController {
+                pVC.present(loginVC, animated: true)
             }
         }
     }

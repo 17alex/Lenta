@@ -15,11 +15,17 @@ protocol ProfileViewInput: class {
 
 final class ProfileViewController: UIViewController {
 
+    //MARK: - IBOutlets
+    
     @IBOutlet weak var avatarButton: UIButton!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
     
+    //MARK: - Variables
+    
     var presenter: ProfileViewOutput!
+    
+    //MARK: - LiveCycles
     
     deinit {
         print("ProfileViewController deinit")
@@ -38,6 +44,8 @@ final class ProfileViewController: UIViewController {
         presenter.start()
     }
     
+    //MARK: - IBAction
+    
     @IBAction func avatarButtonPress() {
         chooseImage()
     }
@@ -54,10 +62,19 @@ final class ProfileViewController: UIViewController {
         presenter.saveButtonPress(name: nameTextField.text!, image: avatarButton.imageView?.image)
     }
     
+    //MARK: - Metods
+    
     private func setup() {
         saveButton.isEnabled = false
         avatarButton.layer.cornerRadius = avatarButton.bounds.height / 2
         avatarButton.clipsToBounds = true
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKboard))
+        view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    @objc private func heidKboard() {
+        nameTextField.resignFirstResponder()
     }
     
     private func chooseImage() {
@@ -101,6 +118,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 }
 
+//MARK: - ProfileViewInput
+
 extension ProfileViewController: ProfileViewInput {
     
     func didUpdateProfile(message: String) {
@@ -120,7 +139,7 @@ extension ProfileViewController: ProfileViewInput {
             nameTextField.isEnabled = true
             avatarButton.isEnabled = true
             nameTextField.text = currentUser.name
-            if let url = URL(string: "https://monsterok.ru/lenta/avatars/\(currentUser.avatarName)"),
+            if let url = URL(string: "https://monsterok.ru/lenta/avatars/\(currentUser.avatar)"),
             let data = try? Data(contentsOf: url),
             let avImage = UIImage(data: data) {
                 avatarButton.setImage(avImage, for: .normal)
@@ -137,7 +156,4 @@ extension ProfileViewController: ProfileViewInput {
         
         navigationItem.rightBarButtonItem = logInOutBarButtonItem
     }
-    
-    
-    
 }

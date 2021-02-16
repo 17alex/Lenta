@@ -33,6 +33,8 @@ class RegisterPresenter {
     }
 }
 
+//MARK: - RegisterViewOutput
+
 extension RegisterPresenter: RegisterViewOutput {
     
     func signInButtonPress() {
@@ -43,6 +45,8 @@ extension RegisterPresenter: RegisterViewOutput {
         interactor.register(name: name, login: login, password: password, avatarImage: avatarImage)
     }
 }
+
+//MARK: - RegisterInteractorOutput
 
 extension RegisterPresenter: RegisterInteractorOutput {
     

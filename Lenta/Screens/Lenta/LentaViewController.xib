@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LentaViewController" customModule="Lenta" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="Uc1-oW-cIJ" id="Lve-WV-ocP"/>
                 <outlet property="lentaTableView" destination="1nx-0y-Z1K" id="RcW-ha-Igp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -20,18 +21,23 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1nx-0y-Z1K">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1nx-0y-Z1K">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" red="0.13671155930000001" green="0.58363906160000001" blue="0.67367632769999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </tableView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Uc1-oW-cIJ">
+                    <rect key="frame" x="150" y="274" width="20" height="20"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="1nx-0y-Z1K" secondAttribute="trailing" id="0X9-r9-uNT"/>
+                <constraint firstItem="Uc1-oW-cIJ" firstAttribute="centerY" secondItem="1nx-0y-Z1K" secondAttribute="centerY" id="1Gd-AL-sAg"/>
                 <constraint firstItem="1nx-0y-Z1K" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Uhb-FE-lZU"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="1nx-0y-Z1K" secondAttribute="bottom" id="Zul-dn-5VA"/>
                 <constraint firstItem="1nx-0y-Z1K" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="axU-yM-QCd"/>
+                <constraint firstItem="Uc1-oW-cIJ" firstAttribute="centerX" secondItem="1nx-0y-Z1K" secondAttribute="centerX" id="pDc-xK-XDE"/>
             </constraints>
             <point key="canvasLocation" x="140.625" y="130.98591549295776"/>
         </view>

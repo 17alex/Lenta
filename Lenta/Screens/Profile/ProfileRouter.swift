@@ -22,6 +22,8 @@ class ProfileRouter {
     }
 }
 
+//MARK: - ProfileRouterInput
+
 extension ProfileRouter: ProfileRouterInput {
     
     func loginUser() {

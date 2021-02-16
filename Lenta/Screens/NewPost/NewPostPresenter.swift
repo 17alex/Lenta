@@ -8,8 +8,7 @@
 import UIKit
 
 protocol NewPostViewOutput {
-    func viewDidLoad()
-    func pressSendWith(description: String, image: UIImage?)
+    func pressSendButton(description: String, image: UIImage?)
 }
 
 class NewPostPresenter {
@@ -18,12 +17,12 @@ class NewPostPresenter {
     var networkManager: NetworkManagerProtocol!
     var storeManager: StoreManagerProtocol!
     var router: NewPostRouterInput!
+    let callback: (Response) -> Void
     
-    var currentUser: CurrentUser!
-    
-    init(view: NewPostViewInput) {
-        print("NewPostPresenter init")
+    init(view: NewPostViewInput, callback: @escaping (Response) -> Void) {
         self.view = view
+        self.callback = callback
+        print("NewPostPresenter init")
     }
     
     deinit {
@@ -31,19 +30,19 @@ class NewPostPresenter {
     }
 }
 
+//MARK: - NewPostViewOutput
+
 extension NewPostPresenter: NewPostViewOutput {
-    
-    func viewDidLoad() {
-        currentUser = storeManager.getCurrenUser()!
-    }
-    
-    func pressSendWith(description: String, image: UIImage?) {
+        
+    func pressSendButton(description: String, image: UIImage?) {
+        guard let currentUser = storeManager.getCurrenUser() else { return }
         let sendPost = SendPost(userId: currentUser.id, description: description, image: image)
         networkManager.sendPost(post: sendPost) { (result) in
             switch result {
             case .failure(let error):
-                self.view.notSavedPost(text: error.localizedDescription)
+                self.view.newPostSendFailed(text: error.localizedDescription)
             case .success(let response):
+                self.callback(response)
                 self.router.dismiss()
             }
         }

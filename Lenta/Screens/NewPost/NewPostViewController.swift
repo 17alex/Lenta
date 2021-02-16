@@ -8,15 +8,23 @@
 import UIKit
 
 protocol NewPostViewInput: class {
-    func notSavedPost(text: String)
+    func newPostSendFailed(text: String)
 }
 
 class NewPostViewController: UIViewController {
 
+    //MARK: - IBOutlets
+    
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var fotoImageView: UIButton!
+    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    //MARK: - Variables
     
     var presenter: NewPostViewOutput!
+    
+    //MARK: - LiveCycles
     
     deinit {
         print("NewPostViewController deinit")
@@ -26,11 +34,13 @@ class NewPostViewController: UIViewController {
         super.viewDidLoad()
         print("NewPostViewController init")
         setup()
-        presenter.viewDidLoad()
     }
+    
+    //MARK: - Metods
     
     private func setup() {
         title = "Enter new post..."
+        activityIndicator.hidesWhenStopped = true
     }
     
     private func chooseImage() {
@@ -52,27 +62,36 @@ class NewPostViewController: UIViewController {
         present(actionSheet, animated: true)
     }
     
+    //MARK: - IBAction
+    
     @IBAction func fotoImagePress(_ sender: UIButton) {
         chooseImage()
     }
     
-    @IBAction func saveButtonPress(_ sender: UIButton) {
+    @IBAction func sendButtonPress(_ sender: UIButton) {
+        sendButton.isHidden = true
+        activityIndicator.startAnimating()
         let description = descriptionTextView.text ?? ""
-        presenter.pressSendWith(description: description, image: fotoImageView.imageView?.image)
+        presenter.pressSendButton(description: description, image: fotoImageView.imageView?.image)
     }
 }
 
+// MARK: - NewPostViewInput
+
 extension NewPostViewController: NewPostViewInput {
     
-    func notSavedPost(text: String) {
+    func newPostSendFailed(text: String) {
         let alertContoller = UIAlertController(title: "Error send post", message: text, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertContoller.addAction(okAction)
         present(alertContoller, animated: true)
+        sendButton.isHidden = true
+        activityIndicator.stopAnimating()
     }
 }
 
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+
 extension NewPostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func chooseImagePicker(source: UIImagePickerController.SourceType) {

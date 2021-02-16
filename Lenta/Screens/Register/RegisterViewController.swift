@@ -13,6 +13,8 @@ protocol RegisterViewInput: class {
 
 class RegisterViewController: UIViewController {
 
+    //MARK: - IBOutlets
+    
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var loginTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -20,8 +22,12 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var signInButton: UIButton!
     
+    //MARK: - Variables
+    
     var presenter: RegisterViewOutput!
     private var avatarImage: UIImage?
+    
+    //MARK: - LiveCycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +42,8 @@ class RegisterViewController: UIViewController {
     deinit {
         print("RegisterViewController deinit")
     }
+    
+    //MARK: - Metods
     
     private func chooseImage() {
         let actionSheet = UIAlertController(title: "Choose", message: "foto source", preferredStyle: .actionSheet)
@@ -55,6 +63,8 @@ class RegisterViewController: UIViewController {
         
         present(actionSheet, animated: true)
     }
+    
+    //MARK: - IBAction
     
     @IBAction func addAvatarButtonPress(_ sender: UIButton) {
         chooseImage()
@@ -80,6 +90,8 @@ class RegisterViewController: UIViewController {
     }
 }
 
+//MARK: - RegisterViewInput
+
 extension RegisterViewController: RegisterViewInput {
  
     func userNotRegister(message: String) {
@@ -91,6 +103,7 @@ extension RegisterViewController: RegisterViewInput {
 }
 
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+
 extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func chooseImagePicker(source: UIImagePickerController.SourceType) {
@@ -110,6 +123,8 @@ extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationC
         dismiss(animated: true, completion: nil)
     }
 }
+
+//MARK: - UITextFieldDelegate
 
 extension RegisterViewController: UITextFieldDelegate {
     

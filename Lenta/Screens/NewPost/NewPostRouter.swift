@@ -25,10 +25,11 @@ class NewPostRouter {
     deinit { print("NewPostRouter deinit") }
 }
 
+//MARK: - NewPostRouterInput
+
 extension NewPostRouter: NewPostRouterInput {
     
     func dismiss() {
-//        view.navigationController?.popViewController(animated: true).
-        assembly.navigationController.popViewController(animated: true)
+        view.navigationController?.popViewController(animated: true)
     }
 }

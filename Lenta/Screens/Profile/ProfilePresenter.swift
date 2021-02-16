@@ -66,6 +66,8 @@ final class ProfilePresenter {
     }
 }
 
+//MARK: - ProfileViewOutput
+
 extension ProfilePresenter: ProfileViewOutput {
     
     func saveButtonPress(name: String, image: UIImage?) {
@@ -80,7 +82,7 @@ extension ProfilePresenter: ProfileViewOutput {
                     self.view.didUpdateProfile(message: error.localizedDescription)
                 case .success(let users):
                     if let user = users.first {
-                        let currentUser = CurrentUser(id: user.id, name: user.name, avatarName: user.avatarName)
+                        let currentUser = CurrentUser(id: user.id, name: user.name, avatar: user.avatar)
                         self.currentUser = currentUser
                         self.storeManager.save(currentUser)
                         self.view.didUpdateProfile(message: "update successfull")

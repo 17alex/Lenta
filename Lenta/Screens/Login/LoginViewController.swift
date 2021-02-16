@@ -13,12 +13,18 @@ protocol LoginViewInput: class {
 
 class LoginViewController: UIViewController {
 
+    //MARK: - IBOutlets
+    
     @IBOutlet weak var loginTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
     
+    //MARK: - Variables
+    
     var presenter: LoginViewOutput!
+    
+    //MARK: - LiveCycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +39,8 @@ class LoginViewController: UIViewController {
         print("LoginViewController deinit")
     }
 
+    //MARK: - IBAction
+    
     @IBAction func registerButtonPress(_ sender: UIButton) {
         presenter.registerButtonPress()
     }
@@ -51,6 +59,8 @@ class LoginViewController: UIViewController {
     }
 }
 
+//MARK: - LoginViewInput
+
 extension LoginViewController: LoginViewInput {
     
     func userNotLoginned(message: String) {
@@ -60,6 +70,8 @@ extension LoginViewController: LoginViewInput {
         present(alertController, animated: true, completion: nil)
     }
 }
+
+//MARK: - UITextFieldDelegate
 
 extension LoginViewController: UITextFieldDelegate {
     

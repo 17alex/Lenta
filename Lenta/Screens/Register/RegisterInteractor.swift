@@ -26,6 +26,8 @@ class RegisterInteractor {
     
 }
 
+//MARK: - RegisterInteractorInput
+
 extension RegisterInteractor: RegisterInteractorInput {
     
     func register(name: String, login: String, password: String, avatarImage: UIImage?) {
@@ -35,7 +37,7 @@ extension RegisterInteractor: RegisterInteractorInput {
                 self.presenter.userDidRegisteredFail(message: error.localizedDescription)
             case .success(let users):
                 if let user = users.first {
-                    let currentUser = CurrentUser(id: user.id, name: user.name, avatarName: user.avatarName)
+                    let currentUser = CurrentUser(id: user.id, name: user.name, avatar: user.avatar)
                     self.storeManager.save(currentUser)
                     self.presenter.userDidRegistered()
                 } else {

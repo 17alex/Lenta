@@ -48,7 +48,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A0g-eP-yfL">
-                    <rect key="frame" x="16" y="228" width="288" height="36"/>
+                    <rect key="frame" x="138.5" y="228" width="43" height="36"/>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <state key="normal" title="Save"/>
                     <connections>
@@ -61,13 +61,12 @@
             <constraints>
                 <constraint firstItem="Y7Q-oU-FRp" firstAttribute="firstBaseline" secondItem="07P-LK-nKs" secondAttribute="firstBaseline" id="0Vw-SP-GeV"/>
                 <constraint firstItem="A0g-eP-yfL" firstAttribute="top" secondItem="07P-LK-nKs" secondAttribute="bottom" constant="32" id="5ij-jO-xW6"/>
+                <constraint firstItem="A0g-eP-yfL" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="Emu-O7-luf"/>
                 <constraint firstItem="07P-LK-nKs" firstAttribute="top" secondItem="DC7-eJ-gjY" secondAttribute="bottom" constant="32" id="Fle-kr-XRQ"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="07P-LK-nKs" secondAttribute="trailing" constant="16" id="Hhv-oh-pS6"/>
                 <constraint firstItem="Y7Q-oU-FRp" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="43" id="LdB-cj-dFm"/>
                 <constraint firstItem="DC7-eJ-gjY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="MiM-Zq-yns"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="A0g-eP-yfL" secondAttribute="trailing" constant="16" id="TiH-Nu-Xes"/>
                 <constraint firstItem="07P-LK-nKs" firstAttribute="leading" secondItem="Y7Q-oU-FRp" secondAttribute="trailing" constant="8" id="V8e-V3-Czg"/>
-                <constraint firstItem="A0g-eP-yfL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="XdK-yP-7Kn"/>
                 <constraint firstItem="DC7-eJ-gjY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="30" id="hdl-6H-J4f"/>
             </constraints>
             <point key="canvasLocation" x="75" y="108.80281690140845"/>

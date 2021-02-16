@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FA0285EE25B1D1FE0082B17D /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */; };
+		FA1BB72025DA56A7008F56B9 /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1BB71F25DA56A7008F56B9 /* TimeInterval.swift */; };
 		FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90025B0290900D2B806 /* NewPostViewController.swift */; };
 		FA26A90325B0290900D2B806 /* NewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA26A90125B0290900D2B806 /* NewPostViewController.xib */; };
 		FA26A90625B029B000D2B806 /* NewPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90525B029B000D2B806 /* NewPostPresenter.swift */; };
@@ -29,9 +30,6 @@
 		FA8DAD4425AC24E600E9D1B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DAD4325AC24E600E9D1B7 /* SceneDelegate.swift */; };
 		FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA8DAD4A25AC24F000E9D1B7 /* Assets.xcassets */; };
 		FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8DAD4C25AC24F000E9D1B7 /* LaunchScreen.storyboard */; };
-		FA9BFF2525C152A400ACA85F /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF2325C152A400ACA85F /* MenuViewController.swift */; };
-		FA9BFF2925C154CC00ACA85F /* MenuPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF2825C154CC00ACA85F /* MenuPresenter.swift */; };
-		FA9BFF3625C1783E00ACA85F /* MenuRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF3525C1783D00ACA85F /* MenuRouter.swift */; };
 		FA9BFF3B25C17A0D00ACA85F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF3925C17A0D00ACA85F /* ProfileViewController.swift */; };
 		FA9BFF3C25C17A0D00ACA85F /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA9BFF3A25C17A0D00ACA85F /* ProfileViewController.xib */; };
 		FA9BFF4025C17F4500ACA85F /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF3F25C17F4500ACA85F /* ProfilePresenter.swift */; };
@@ -50,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		FA1BB71F25DA56A7008F56B9 /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
 		FA26A90025B0290900D2B806 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		FA26A90125B0290900D2B806 /* NewPostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPostViewController.xib; sourceTree = "<group>"; };
 		FA26A90525B029B000D2B806 /* NewPostPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostPresenter.swift; sourceTree = "<group>"; };
@@ -73,9 +72,6 @@
 		FA8DAD4A25AC24F000E9D1B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA8DAD4D25AC24F000E9D1B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA8DAD4F25AC24F000E9D1B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FA9BFF2325C152A400ACA85F /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		FA9BFF2825C154CC00ACA85F /* MenuPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPresenter.swift; sourceTree = "<group>"; };
-		FA9BFF3525C1783D00ACA85F /* MenuRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRouter.swift; sourceTree = "<group>"; };
 		FA9BFF3925C17A0D00ACA85F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FA9BFF3A25C17A0D00ACA85F /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		FA9BFF3F25C17F4500ACA85F /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
@@ -103,6 +99,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA1BB71E25DA5673008F56B9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FA1BB71F25DA56A7008F56B9 /* TimeInterval.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		FA26A8FF25B028DA00D2B806 /* NewPost */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,7 +114,6 @@
 				FA26A90525B029B000D2B806 /* NewPostPresenter.swift */,
 				FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */,
 				FA26A90125B0290900D2B806 /* NewPostViewController.xib */,
-				FA26A90E25B0543200D2B806 /* SendPost.swift */,
 			);
 			path = NewPost;
 			sourceTree = "<group>";
@@ -139,7 +142,6 @@
 			isa = PBXGroup;
 			children = (
 				FA9BFF3825C179F400ACA85F /* Profile */,
-				FA9BFF2F25C1581000ACA85F /* Menu */,
 				FA7DD3FA25B6F8CA00CB1678 /* Register */,
 				FA2B46A025B5BD1100DC5C1D /* Login */,
 				FA26A8FF25B028DA00D2B806 /* NewPost */,
@@ -170,6 +172,8 @@
 			children = (
 				FAC2073125AC5FE300CD9099 /* Response.swift */,
 				FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */,
+				FA26A90E25B0543200D2B806 /* SendPost.swift */,
+				FAC2073E25AC689F00CD9099 /* PostViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -208,6 +212,7 @@
 				FA39ECD525C02D7800C52D1E /* Models */,
 				FAC2073425AC616900CD9099 /* Assembly.swift */,
 				FA33EDE025AC899A00637E3E /* Screens */,
+				FA1BB71E25DA5673008F56B9 /* Extensions */,
 				FA33EDE125AC8A1000637E3E /* Services */,
 				FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */,
 				FA8DAD4325AC24E600E9D1B7 /* SceneDelegate.swift */,
@@ -221,7 +226,6 @@
 		FA8DAD5D25AC263400E9D1B7 /* Lenta */ = {
 			isa = PBXGroup;
 			children = (
-				FAC2073E25AC689F00CD9099 /* PostViewModel.swift */,
 				FAC2072625AC31F400CD9099 /* LentaViewController.swift */,
 				FAC2073725AC61A500CD9099 /* LentaPresenter.swift */,
 				FAC2073A25AC61B200CD9099 /* LentaInteractor.swift */,
@@ -230,16 +234,6 @@
 				FAC2072B25AC3AC600CD9099 /* LentaCell */,
 			);
 			path = Lenta;
-			sourceTree = "<group>";
-		};
-		FA9BFF2F25C1581000ACA85F /* Menu */ = {
-			isa = PBXGroup;
-			children = (
-				FA9BFF2325C152A400ACA85F /* MenuViewController.swift */,
-				FA9BFF2825C154CC00ACA85F /* MenuPresenter.swift */,
-				FA9BFF3525C1783D00ACA85F /* MenuRouter.swift */,
-			);
-			path = Menu;
 			sourceTree = "<group>";
 		};
 		FA9BFF3825C179F400ACA85F /* Profile */ = {
@@ -355,19 +349,17 @@
 				FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */,
 				FA9BFF3B25C17A0D00ACA85F /* ProfileViewController.swift in Sources */,
 				FA0285EE25B1D1FE0082B17D /* CurrentUser.swift in Sources */,
-				FA9BFF2925C154CC00ACA85F /* MenuPresenter.swift in Sources */,
 				FA8DAD4425AC24E600E9D1B7 /* SceneDelegate.swift in Sources */,
 				FAC2073225AC5FE300CD9099 /* Response.swift in Sources */,
 				FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */,
 				FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */,
+				FA1BB72025DA56A7008F56B9 /* TimeInterval.swift in Sources */,
 				FAC2073F25AC689F00CD9099 /* PostViewModel.swift in Sources */,
 				FA9BFF4325C1825300ACA85F /* ProfileRouter.swift in Sources */,
 				FA26A90625B029B000D2B806 /* NewPostPresenter.swift in Sources */,
 				FAC2073825AC61A500CD9099 /* LentaPresenter.swift in Sources */,
 				FA7DD40525B709A400CB1678 /* RegisterPresenter.swift in Sources */,
-				FA9BFF3625C1783E00ACA85F /* MenuRouter.swift in Sources */,
 				FA9BFF4025C17F4500ACA85F /* ProfilePresenter.swift in Sources */,
-				FA9BFF2525C152A400ACA85F /* MenuViewController.swift in Sources */,
 				FA2B469C25B5706400DC5C1D /* StoreManager.swift in Sources */,
 				FA7DD40825B71F3600CB1678 /* RegisterInteractor.swift in Sources */,
 				FAC2073B25AC61B200CD9099 /* LentaInteractor.swift in Sources */,
@@ -519,7 +511,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta;
+				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -541,7 +533,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta;
+				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta4;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

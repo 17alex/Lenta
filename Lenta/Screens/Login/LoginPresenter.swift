@@ -34,6 +34,8 @@ class LoginPresenter {
     
 }
 
+//MARK: - LoginViewOutput
+
 extension LoginPresenter: LoginViewOutput {
     
     func registerButtonPress() {
@@ -44,6 +46,8 @@ extension LoginPresenter: LoginViewOutput {
         interactor.logIn(login: login, password: password)
     }
 }
+
+//MARK: - LoginInteractorOutput
 
 extension LoginPresenter: LoginInteractorOutput {
     
