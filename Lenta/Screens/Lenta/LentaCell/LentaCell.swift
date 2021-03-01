@@ -10,6 +10,7 @@ import UIKit
 protocol PostCellDelegate: class {
     func didTapLikeButton(cell: UITableViewCell)
     func didTapMenuButton(cell: UITableViewCell)
+    func didTapShareButton(cell: UITableViewCell, with object: [Any])
 }
 
 final class LentaCell: UITableViewCell {
@@ -28,28 +29,28 @@ final class LentaCell: UITableViewCell {
     @IBOutlet weak var viewsCountLabel: UILabel!
     @IBOutlet weak var commentsCountLabel: UILabel!
     @IBOutlet weak var likesButton: UIButton!
-    @IBOutlet weak var menuButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var heightFoto: NSLayoutConstraint!
     
     //MARK: - Variables
     
     private var postModel: PostViewModel! {
         didSet {
-            userNameLabel.text = postModel.user.name + "  postId = \(postModel.id)"
-            setAvatar(avatarName: postModel.user.avatar)
+            userNameLabel.text = postModel.user.name
+            setAvatar(by: postModel.user.avatarUrlString)
             timeLabel.text = postModel.time
             descriptionLabel.text = postModel.description.text
             paintLikeButton(isHighlight: postModel.likes.isHighlight)
             likesCountLabel.text = postModel.likes.count
             viewsCountLabel.text = postModel.views.count
             commentsCountLabel.text = postModel.comments.count
-            setPostImage(postImageName: postModel.foto.name)
+            setPostImage(by: postModel.foto.urlString)
             heightFoto.constant = postModel.foto.size.height
         }
     }
     
-    var logoImageViewUrl: URL!
-    var fotoImageViewUrl: URL!
+    var logoImageViewUrlString = ""
+    var fotoImageViewUrlString = ""
     var imHeight: CGFloat = 0
     
     weak var delegate: PostCellDelegate?
@@ -58,8 +59,15 @@ final class LentaCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("awakeFromNib contentView.frame = \(contentView.frame)")
+        fotoActivityIndicator.hidesWhenStopped = true
         avatarImageView.layer.cornerRadius = 30
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        avatarImageView.image = nil
+        fotoImageView.image = nil
     }
            
     //MARK: - PublicMetods
@@ -76,29 +84,29 @@ final class LentaCell: UITableViewCell {
     //MARK: - PrivateMetods
     
     private func paintLikeButton(isHighlight: Bool) {
-        likesButton.tintColor = isHighlight ? .systemRed : .systemGray2
+        likesButton.tintColor = isHighlight ? .systemRed : .systemGray
     }
     
     // todo
-    private func setPostImage(postImageName: String) {
-        if postImageName != "", let url = URL(string: "https://monsterok.ru/lenta/images/\(postImageName)") {
+    private func setPostImage(by urlString: String) {
+        if urlString != "", let url = URL(string: urlString) {
             fotoActivityIndicator.startAnimating()
-            fotoImageViewUrl = url
+            fotoImageViewUrlString = urlString
             loadImage(for: url) { (image, imageUrl) in
-                if self.fotoImageViewUrl.absoluteString == imageUrl.absoluteString {
-                    self.fotoActivityIndicator.stopAnimating()
+                if self.fotoImageViewUrlString == imageUrl.absoluteString {
                     self.fotoImageView.image = image
+                    self.fotoActivityIndicator.stopAnimating()
                 }
             }
         }
     }
     
     // todo
-    private func setAvatar(avatarName: String) {
-        if avatarName != "", let url = URL(string: "https://monsterok.ru/lenta/avatars/\(avatarName)") {
-            logoImageViewUrl = url
+    private func setAvatar(by urlString: String) {
+        if urlString != "", let url = URL(string:urlString) {
+            logoImageViewUrlString = urlString
             loadImage(for: url) { (image, imageUrl) in
-                if self.logoImageViewUrl.absoluteString == imageUrl.absoluteString {
+                if self.logoImageViewUrlString == imageUrl.absoluteString {
                     self.avatarImageView.image = image
                 }
             }
@@ -125,8 +133,16 @@ final class LentaCell: UITableViewCell {
         delegate?.didTapLikeButton(cell: self)
     }
     
-    @IBAction func munuButtoPress() {
+    @IBAction func munuButtonPress() {
         delegate?.didTapMenuButton(cell: self)
+    }
+    
+    @IBAction func shareButtonPress(_ sender: UIButton) {
+        print("share post")
+        var sendObjects: [Any] = []
+//        if let text = descriptionLabel.text { sendObjects.append(text) }
+        if let image = fotoImageView.image { sendObjects.append(image) }
+        delegate?.didTapShareButton(cell: self, with: sendObjects)
     }
 }
 

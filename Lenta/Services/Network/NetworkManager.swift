@@ -41,9 +41,8 @@ class NetworkManager {
     }
     
     private func typeData(data: Data?) {
-        if let myData = data {
-            let dataString = String(data: myData, encoding: .utf8)
-            print("dataString: \(dataString)")
+        if let myData = data, let dataString = String(data: myData, encoding: .utf8) {
+            print("dataString: " + dataString)
         }
         
         if let myData = data, let dataString = try? JSONSerialization.jsonObject(with: myData, options: JSONSerialization.ReadingOptions()) {
@@ -80,7 +79,7 @@ extension NetworkManager: NetworkManagerProtocol {
                 } catch let error {
                     self.onMain { complete(.failure(error)) }
                 }
-            } // else NoData
+            }
         }
     }
     
@@ -110,7 +109,7 @@ extension NetworkManager: NetworkManagerProtocol {
                     self.onMain { complete(.success(decodePost)) }
                 } catch {
                     self.onMain { complete(.failure(error)) }
-                } // else NoData
+                }
             }
         }
     }
@@ -278,7 +277,7 @@ extension NetworkManager: NetworkManagerProtocol {
                 } catch let error {
                     self.onMain { complete(.failure(error)) }
                 }
-            } // else NoData
+            }
         }
     }
     
@@ -331,7 +330,7 @@ extension NetworkManager: NetworkManagerProtocol {
                         self.onMain { complete(.failure(error)) }
                     }
                 }
-            } // NoData
+            }
         }
     }
 }

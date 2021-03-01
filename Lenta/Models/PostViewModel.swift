@@ -19,7 +19,7 @@ struct PostViewModel {
     var totalHieght: CGFloat
     
     struct FotoViewModel {
-        let name: String
+        let urlString: String
         let size: CGSize
     }
     
@@ -45,7 +45,7 @@ struct PostViewModel {
     struct UserViewModel {
         let id: Int
         let name: String
-        let avatar: String
+        let avatarUrlString: String
     }
     
     init(post: Post, user: User, currenUser: CurrentUser?) {
@@ -53,11 +53,11 @@ struct PostViewModel {
         self.user = UserViewModel(
             id: user.id,
             name: user.name,
-            avatar: user.avatar
+            avatarUrlString: "https://monsterok.ru/lenta/avatars/" + user.avatar
         )
         self.time = post.timeInterval.toDateString()
         self.description = DescriptionViewModel(text: post.description, size: .zero)
-        self.foto = FotoViewModel(name: post.foto.name, size: CGSize(width: UIScreen.main.bounds.width, height: CGFloat(post.foto.size.height) / CGFloat(post.foto.size.width) * UIScreen.main.bounds.width)
+        self.foto = FotoViewModel(urlString: "https://monsterok.ru/lenta/images/" + post.foto.name, size: CGSize(width: UIScreen.main.bounds.width, height: CGFloat(post.foto.size.height) / CGFloat(post.foto.size.width) * UIScreen.main.bounds.width)
         )
         self.likes = LikesViewModel(
             count: String(post.likeUserIds.count),

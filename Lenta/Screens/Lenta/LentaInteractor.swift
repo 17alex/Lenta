@@ -59,7 +59,7 @@ extension LentaInteractor: LentaInteractorInput {
                 self.presenter.show(message: error.localizedDescription)
             case .success(let response):
                 guard let deletePost = response.posts.first else { return }
-                if let deleteIndex = try? self.posts.firstIndex { $0.id == deletePost.id }  {
+                if let deleteIndex = self.posts.firstIndex(where: { $0.id == deletePost.id })  {
                     self.posts.remove(at: deleteIndex)
                     self.presenter.didRemovePost(by: deleteIndex)
                 }

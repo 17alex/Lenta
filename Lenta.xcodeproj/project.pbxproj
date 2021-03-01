@@ -27,7 +27,6 @@
 		FA7DD40525B709A400CB1678 /* RegisterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */; };
 		FA7DD40825B71F3600CB1678 /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */; };
 		FA8DAD4225AC24E600E9D1B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */; };
-		FA8DAD4425AC24E600E9D1B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DAD4325AC24E600E9D1B7 /* SceneDelegate.swift */; };
 		FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA8DAD4A25AC24F000E9D1B7 /* Assets.xcassets */; };
 		FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8DAD4C25AC24F000E9D1B7 /* LaunchScreen.storyboard */; };
 		FA9BFF3B25C17A0D00ACA85F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF3925C17A0D00ACA85F /* ProfileViewController.swift */; };
@@ -68,7 +67,6 @@
 		FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
 		FA8DAD3E25AC24E600E9D1B7 /* Lenta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lenta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FA8DAD4325AC24E600E9D1B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		FA8DAD4A25AC24F000E9D1B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA8DAD4D25AC24F000E9D1B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA8DAD4F25AC24F000E9D1B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -209,13 +207,12 @@
 		FA8DAD4025AC24E600E9D1B7 /* Lenta */ = {
 			isa = PBXGroup;
 			children = (
-				FA39ECD525C02D7800C52D1E /* Models */,
 				FAC2073425AC616900CD9099 /* Assembly.swift */,
+				FA39ECD525C02D7800C52D1E /* Models */,
 				FA33EDE025AC899A00637E3E /* Screens */,
 				FA1BB71E25DA5673008F56B9 /* Extensions */,
 				FA33EDE125AC8A1000637E3E /* Services */,
 				FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */,
-				FA8DAD4325AC24E600E9D1B7 /* SceneDelegate.swift */,
 				FA8DAD4A25AC24F000E9D1B7 /* Assets.xcassets */,
 				FA8DAD4C25AC24F000E9D1B7 /* LaunchScreen.storyboard */,
 				FA8DAD4F25AC24F000E9D1B7 /* Info.plist */,
@@ -349,7 +346,6 @@
 				FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */,
 				FA9BFF3B25C17A0D00ACA85F /* ProfileViewController.swift in Sources */,
 				FA0285EE25B1D1FE0082B17D /* CurrentUser.swift in Sources */,
-				FA8DAD4425AC24E600E9D1B7 /* SceneDelegate.swift in Sources */,
 				FAC2073225AC5FE300CD9099 /* Response.swift in Sources */,
 				FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */,
 				FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */,
@@ -511,7 +507,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta4;
+				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -533,7 +529,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta4;
+				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta6;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

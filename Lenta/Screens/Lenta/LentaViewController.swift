@@ -59,6 +59,7 @@ final class LentaViewController: UIViewController {
         print("LentaViewController init")
         
         setup()
+        activityIndicator.startAnimating()
         presenter.viewDidLoad()
     }
     
@@ -72,7 +73,7 @@ final class LentaViewController: UIViewController {
     
     private func setup() {
         title = "Lenta"
-        activityIndicator.startAnimating()
+        
         let newPostButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(newPostButtonPress))
         navigationItem.rightBarButtonItem = newPostButtonItem
     }
@@ -111,14 +112,23 @@ extension LentaViewController: UITableViewDelegate {
         presenter.willDisplayCell(by: indexPath.row)
     }
     
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return presenter.postsViewModel[indexPath.row].totalHieght
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return presenter.postsViewModel[indexPath.row].totalHieght
+    }
 }
 
 //MARK: - PostCellDelegate
 
 extension LentaViewController: PostCellDelegate {
+    
+    func didTapShareButton(cell: UITableViewCell, with object: [Any]) {
+        let avc = UIActivityViewController(activityItems: object, applicationActivities: nil)
+        if let lentaCell = cell as? LentaCell {
+            avc.popoverPresentationController?.sourceView = lentaCell
+            avc.popoverPresentationController?.permittedArrowDirections = .any
+        }
+        present(avc, animated: true)
+    }
     
     func didTapMenuButton(cell: UITableViewCell) {
         if let cellIndexPath = lentaTableView.indexPath(for: cell) {
@@ -131,16 +141,6 @@ extension LentaViewController: PostCellDelegate {
             presenter.didPressLike(postIndex: cellIndexPath.row)
         }
     }
-    
-//    func didTapMoreButton(cell: UITableViewCell) {
-//        if let cell = cell as? LentaCell, let cellIndexPath = lentaTableView.indexPath(for: cell) {
-//            presenter.didPressMore(postIndex: cellIndexPath.row)
-//            lentaTableView.beginUpdates()
-//            cell.updateMoreText(post: presenter.postsViewModel[cellIndexPath.row])
-//            lentaTableView.reloadRows(at: [cellIndexPath], with: .fade)
-//            lentaTableView.endUpdates()
-//        }
-//    }
 }
 
 //MARK: - LentaViewInput
@@ -150,17 +150,19 @@ extension LentaViewController: LentaViewInput {
     func showMenu(byPostIndex index: Int, isOwner: Bool) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if isOwner {
+            
             let deleteAction = UIAlertAction(title: "Delete Post", style: .destructive) { action in
                 print("delete post")
                 self.presenter.didPressDeletePost(by: index)
             }
             alertController.addAction(deleteAction)
             
-            let changeAction = UIAlertAction(title: "Change Post", style: .default) { action in
+            let changeAction = UIAlertAction(title: "Change Post (in dev)", style: .default) { action in
                 print("change post")
             }
             alertController.addAction(changeAction)
         }
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
