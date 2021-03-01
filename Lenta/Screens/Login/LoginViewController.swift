@@ -17,7 +17,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var loginTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
     
     //MARK: - Variables
@@ -29,14 +29,21 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("LoginViewController init")
-        loginTextField.delegate = self
-        passwordTextField.delegate = self
-        signInButton.isEnabled = false
-        loginTextField.becomeFirstResponder()
+        setup()
     }
     
     deinit {
         print("LoginViewController deinit")
+    }
+    
+    //MARK: - Metods
+    
+    private func setup() {
+        logInButton.layer.cornerRadius = logInButton.bounds.height / 2
+        loginTextField.delegate = self
+        passwordTextField.delegate = self
+        logInButton.isEnabled = false
+        loginTextField.becomeFirstResponder()
     }
 
     //MARK: - IBAction
@@ -47,9 +54,11 @@ class LoginViewController: UIViewController {
     
     @IBAction func valueChangeTextField(_ sender: UITextField) {
         if loginTextField.text != "" && passwordTextField.text != "" {
-            self.signInButton.isEnabled = true
+            self.logInButton.isEnabled = true
+            self.logInButton.backgroundColor = #colorLiteral(red: 0, green: 0.4773686528, blue: 0.8912271857, alpha: 1)
         } else {
-            self.signInButton.isEnabled = false
+            self.logInButton.isEnabled = false
+            self.logInButton.backgroundColor = .systemGray5
         }
     }
         

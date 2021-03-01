@@ -20,7 +20,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var avatarButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var logInButton: UIButton!
     
     //MARK: - Variables
     
@@ -32,11 +32,7 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("RegisterViewController init")
-        nameTextField.delegate = self
-        loginTextField.delegate = self
-        passwordTextField.delegate = self
-        registerButton.isEnabled = false
-        nameTextField.becomeFirstResponder()
+        setup()
     }
     
     deinit {
@@ -44,6 +40,15 @@ class RegisterViewController: UIViewController {
     }
     
     //MARK: - Metods
+    
+    private func setup() {
+        registerButton.layer.cornerRadius = registerButton.bounds.height / 2
+        nameTextField.delegate = self
+        loginTextField.delegate = self
+        passwordTextField.delegate = self
+        registerButton.isEnabled = false
+        nameTextField.becomeFirstResponder()
+    }
     
     private func chooseImage() {
         let actionSheet = UIAlertController(title: "Choose", message: "foto source", preferredStyle: .actionSheet)
@@ -70,7 +75,7 @@ class RegisterViewController: UIViewController {
         chooseImage()
     }
     
-    @IBAction func signInButtonPress(_ sender: UIButton) {
+    @IBAction func logInButtonPress(_ sender: UIButton) {
         presenter.signInButtonPress()
     }
     
@@ -79,8 +84,10 @@ class RegisterViewController: UIViewController {
            loginTextField.text != "",
            passwordTextField.text != "" {
             self.registerButton.isEnabled = true
+            self.registerButton.backgroundColor = #colorLiteral(red: 0, green: 0.4773686528, blue: 0.8912271857, alpha: 1)
         } else {
             self.registerButton.isEnabled = false
+            self.registerButton.backgroundColor = .systemGray5
         }
     }
     
