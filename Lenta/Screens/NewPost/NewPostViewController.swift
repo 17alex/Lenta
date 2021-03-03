@@ -16,9 +16,10 @@ class NewPostViewController: UIViewController {
     //MARK: - IBOutlets
     
     @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var fotoImageView: UIButton!
-    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var fotoImageView: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var sendButton: UIBarButtonItem!
+    @IBOutlet weak var navItem: UINavigationItem!
     
     //MARK: - Variables
     
@@ -36,14 +37,27 @@ class NewPostViewController: UIViewController {
         setup()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        descriptionTextView.becomeFirstResponder()
+    }
+    
     //MARK: - Metods
     
     private func setup() {
-        title = "Enter new post..."
+        navItem.title = "Enter new post..."
         activityIndicator.hidesWhenStopped = true
+        
+        let kbToolbar = UIToolbar()
+        kbToolbar.sizeToFit()
+        let btn = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(chooseImage))
+        kbToolbar.setItems([btn], animated: true)
+        
+        
+        descriptionTextView.inputAccessoryView = kbToolbar
     }
     
-    private func chooseImage() {
+    @objc private func chooseImage() {
         let actionSheet = UIAlertController(title: "Choose", message: "foto source", preferredStyle: .actionSheet)
         let fotoAction = UIAlertAction(title: "Foto", style: .default) { (_) in
             self.chooseImagePicker(source: .photoLibrary)
@@ -64,15 +78,15 @@ class NewPostViewController: UIViewController {
     
     //MARK: - IBAction
     
-    @IBAction func fotoImagePress(_ sender: UIButton) {
-        chooseImage()
-    }
-    
-    @IBAction func sendButtonPress(_ sender: UIButton) {
-        sendButton.isHidden = true
+    @IBAction func sendButtonPress(_ sender: UIBarButtonItem) {
+        sendButton.isEnabled = false
         activityIndicator.startAnimating()
         let description = descriptionTextView.text ?? ""
-        presenter.pressSendButton(description: description, image: fotoImageView.imageView?.image)
+        presenter.pressSendButton(description: description, image: fotoImageView.image)
+    }
+    
+    @IBAction func closeButtonPress(_ sender: UIBarButtonItem) {
+        dismiss(animated: true)
     }
 }
 
@@ -85,7 +99,7 @@ extension NewPostViewController: NewPostViewInput {
         let okAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertContoller.addAction(okAction)
         present(alertContoller, animated: true)
-        sendButton.isHidden = true
+        sendButton.isEnabled = true
         activityIndicator.stopAnimating()
     }
 }
@@ -106,7 +120,7 @@ extension NewPostViewController: UIImagePickerControllerDelegate, UINavigationCo
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image: UIImage = info[.editedImage] as? UIImage else { return }
-        self.fotoImageView.setImage(image, for: .normal)
+        self.fotoImageView.image = image
         dismiss(animated: true, completion: nil)
     }
 }

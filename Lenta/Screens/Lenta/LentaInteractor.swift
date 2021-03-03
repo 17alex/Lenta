@@ -48,6 +48,9 @@ extension LentaInteractor: LentaInteractorInput {
         if let post = response.posts.first {
             posts.insert(post, at: 0)
             users = self.users.union(response.users)
+            let user = response.users.first!
+            let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
+            storeManager.save(currentUser)
             presenter.didLoadNew(post: post)
         }
     }

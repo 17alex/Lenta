@@ -33,6 +33,7 @@ extension LentaRouter: LentaRouterInput {
     
     func showNewPostModule(callback: @escaping (Response) -> Void) {
         let newPostVC = assembly.getNewPostModule(callback: callback)
-        view.navigationController?.pushViewController(newPostVC, animated: true)
+//        view.navigationController?.pushViewController(newPostVC, animated: true)
+        view.present(newPostVC, animated: true)
     }
 }

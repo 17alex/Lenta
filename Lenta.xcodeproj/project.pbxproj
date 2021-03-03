@@ -43,6 +43,7 @@
 		FAC2073B25AC61B200CD9099 /* LentaInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073A25AC61B200CD9099 /* LentaInteractor.swift */; };
 		FAC2073F25AC689F00CD9099 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073E25AC689F00CD9099 /* PostViewModel.swift */; };
 		FAC2074425AC6C6E00CD9099 /* LentaRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2074325AC6C6E00CD9099 /* LentaRouter.swift */; };
+		FAD65F3F25EF9C2400EEC9B6 /* CurrentUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD65F3E25EF9C2400EEC9B6 /* CurrentUserModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		FAC2073A25AC61B200CD9099 /* LentaInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaInteractor.swift; sourceTree = "<group>"; };
 		FAC2073E25AC689F00CD9099 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		FAC2074325AC6C6E00CD9099 /* LentaRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaRouter.swift; sourceTree = "<group>"; };
+		FAD65F3E25EF9C2400EEC9B6 /* CurrentUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 				FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */,
 				FA26A90E25B0543200D2B806 /* SendPost.swift */,
 				FAC2073E25AC689F00CD9099 /* PostViewModel.swift */,
+				FAD65F3E25EF9C2400EEC9B6 /* CurrentUserModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				FA2B46A325B5BD3200DC5C1D /* LoginViewController.swift in Sources */,
 				FA2B46A825B5BDBE00DC5C1D /* LoginPresenter.swift in Sources */,
 				FA8DAD4225AC24E600E9D1B7 /* AppDelegate.swift in Sources */,
+				FAD65F3F25EF9C2400EEC9B6 /* CurrentUserModel.swift in Sources */,
 				FA2B46AF25B5D46500DC5C1D /* LoginRouter.swift in Sources */,
 				FAC2072E25AC3B0700CD9099 /* LentaCell.swift in Sources */,
 				FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */,

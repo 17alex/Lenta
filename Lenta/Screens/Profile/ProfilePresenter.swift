@@ -82,7 +82,7 @@ extension ProfilePresenter: ProfileViewOutput {
                     self.view.didUpdateProfile(message: error.localizedDescription)
                 case .success(let users):
                     if let user = users.first {
-                        let currentUser = CurrentUser(id: user.id, name: user.name, avatar: user.avatar)
+                        let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
                         self.currentUser = currentUser
                         self.storeManager.save(currentUser)
                         self.view.didUpdateProfile(message: "update successfull")
@@ -99,7 +99,7 @@ extension ProfilePresenter: ProfileViewOutput {
         if currentUser != nil {
             currentUser = nil
             storeManager.save(currentUser)
-            view.userLoginned(currentUser)
+            view.userLoginned(CurrentUserModel(currentUser: currentUser))
         } else {
             router.loginUser()
         }
@@ -115,7 +115,7 @@ extension ProfilePresenter: ProfileViewOutput {
     
     func start() {
         currentUser = storeManager.getCurrenUser()
-        view.userLoginned(currentUser)
+        view.userLoginned(CurrentUserModel(currentUser: currentUser))
     }
     
 }

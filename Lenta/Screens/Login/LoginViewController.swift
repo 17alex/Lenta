@@ -19,6 +19,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     //MARK: - Variables
     
@@ -39,6 +40,7 @@ class LoginViewController: UIViewController {
     //MARK: - Metods
     
     private func setup() {
+        activityIndicator.hidesWhenStopped = true
         logInButton.layer.cornerRadius = logInButton.bounds.height / 2
         loginTextField.delegate = self
         passwordTextField.delegate = self
@@ -63,7 +65,8 @@ class LoginViewController: UIViewController {
     }
         
     @IBAction func logInPress() {
-        print("press LogIn")
+        logInButton.isHidden = true
+        activityIndicator.startAnimating()
         presenter.logIn(login: loginTextField.text!, password: passwordTextField.text!)
     }
 }
@@ -73,6 +76,8 @@ class LoginViewController: UIViewController {
 extension LoginViewController: LoginViewInput {
     
     func userNotLoginned(message: String) {
+        activityIndicator.stopAnimating()
+        logInButton.isHidden = false
         let alertController = UIAlertController(title: "Error loginned", message: message, preferredStyle: .alert)
         let okAlertAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertController.addAction(okAlertAction)

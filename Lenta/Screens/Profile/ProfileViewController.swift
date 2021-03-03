@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ProfileViewInput: class {
-    func userLoginned(_ currentUser: CurrentUser?)
+    func userLoginned(_ currentUserModel: CurrentUserModel?)
     func didChangeProfile(_ change: Bool)
     func didUpdateProfile(message: String)
 }
@@ -19,11 +19,14 @@ final class ProfileViewController: UIViewController {
     
     @IBOutlet weak var avatarButton: UIButton!
     @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var postsCountLabel: UILabel!
+    @IBOutlet weak var dateRegisterLabel: UILabel!
+    
     
     //MARK: - Variables
     
     var presenter: ProfileViewOutput!
+    var saveButton: UIBarButtonItem!
     
     //MARK: - LiveCycles
     
@@ -58,19 +61,22 @@ final class ProfileViewController: UIViewController {
         presenter.change(name: nameTextField.text!)
     }
     
-    @IBAction func saveButtonPress() {
-        presenter.saveButtonPress(name: nameTextField.text!, image: avatarButton.imageView?.image)
-    }
-    
     //MARK: - Metods
     
     private func setup() {
+        saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPress))
+        navigationItem.leftBarButtonItem = saveButton
         saveButton.isEnabled = false
         avatarButton.layer.cornerRadius = avatarButton.bounds.height / 2
         avatarButton.clipsToBounds = true
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKboard))
         view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    @objc func saveButtonPress() {
+        nameTextField.resignFirstResponder()
+        presenter.saveButtonPress(name: nameTextField.text!, image: avatarButton.imageView?.image)
     }
     
     @objc private func heidKboard() {
@@ -133,15 +139,18 @@ extension ProfileViewController: ProfileViewInput {
         saveButton.isEnabled = change
     }
     
-    func userLoginned(_ currentUser: CurrentUser?) {
+    func userLoginned(_ currentUserModel: CurrentUserModel?) {
         let logInOutBarButtonItem: UIBarButtonItem
-        if let currentUser = currentUser {
+        if let currentUserModel = currentUserModel {
             nameTextField.isEnabled = true
             avatarButton.isEnabled = true
-            nameTextField.text = currentUser.name
-            if let url = URL(string: "https://monsterok.ru/lenta/avatars/\(currentUser.avatar)"),
-            let data = try? Data(contentsOf: url),
-            let avImage = UIImage(data: data) {
+            nameTextField.text = currentUserModel.name
+            postsCountLabel.text = currentUserModel.postsCount
+            dateRegisterLabel.text = currentUserModel.dateRegister
+            if currentUserModel.avatar != "",
+               let url = URL(string: currentUserModel.avatar),
+               let data = try? Data(contentsOf: url), //TODO: todo
+               let avImage = UIImage(data: data) {
                 avatarButton.setImage(avImage, for: .normal)
             }
             logInOutBarButtonItem = UIBarButtonItem(image: UIImage(named: "logout"), style: .plain, target: self, action: #selector(logInOutButtonPress))
@@ -149,7 +158,9 @@ extension ProfileViewController: ProfileViewInput {
             nameTextField.isEnabled = false
             avatarButton.isEnabled = false
             nameTextField.text = ""
-            let avImage = UIImage(named: "defaultAvatar")
+            postsCountLabel.text = "--"
+            dateRegisterLabel.text = "--.--.----"
+            let avImage = UIImage(named: "avatar")
             avatarButton.setImage(avImage, for: .normal)
             logInOutBarButtonItem = UIBarButtonItem(image: UIImage(named: "login"), style: .plain, target: self, action: #selector(logInOutButtonPress))
         }

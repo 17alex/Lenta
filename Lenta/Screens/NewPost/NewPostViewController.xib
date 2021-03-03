@@ -13,8 +13,9 @@
             <connections>
                 <outlet property="activityIndicator" destination="Nag-ou-lFG" id="3z2-Ub-ZCx"/>
                 <outlet property="descriptionTextView" destination="6Uv-nv-KDt" id="QyT-lN-t2F"/>
-                <outlet property="fotoImageView" destination="x8t-60-UgW" id="DmH-YB-6uU"/>
-                <outlet property="sendButton" destination="jIL-tF-MeT" id="nXa-yb-dLE"/>
+                <outlet property="fotoImageView" destination="nWi-Gk-nPT" id="COP-MD-AxI"/>
+                <outlet property="navItem" destination="Hns-PF-M5P" id="sme-m8-27P"/>
+                <outlet property="sendButton" destination="gdl-iQ-5h9" id="QkI-9M-jpg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -24,60 +25,61 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="..." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6Uv-nv-KDt">
-                    <rect key="frame" x="8" y="20" width="304" height="150"/>
+                    <rect key="frame" x="0.0" y="44" width="320" height="100"/>
                     <color key="backgroundColor" systemColor="systemGray6Color"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="150" id="oxM-e6-yxa"/>
+                        <constraint firstAttribute="height" constant="100" id="va4-Th-QMg"/>
                     </constraints>
                     <color key="textColor" systemColor="labelColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIL-tF-MeT">
-                    <rect key="frame" x="184" y="186" width="128" height="106.5"/>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
-                    <state key="normal" title="Send"/>
-                    <connections>
-                        <action selector="sendButtonPress:" destination="-1" eventType="touchUpInside" id="1E0-IA-EDa"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x8t-60-UgW">
-                    <rect key="frame" x="8" y="186" width="160" height="106.5"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="x8t-60-UgW" secondAttribute="height" multiplier="1.5:1" id="gN0-0a-K2l"/>
-                    </constraints>
-                    <state key="normal" image="camera.viewfinder" catalog="system">
-                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                    </state>
-                    <connections>
-                        <action selector="fotoImagePress:" destination="-1" eventType="touchUpInside" id="lSV-pQ-k5v"/>
-                    </connections>
-                </button>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="odw-on-f7i">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <items>
+                        <navigationItem title="Title" id="Hns-PF-M5P">
+                            <barButtonItem key="leftBarButtonItem" systemItem="stop" id="cTp-SM-1kB">
+                                <connections>
+                                    <action selector="closeButtonPress:" destination="-1" id="Mts-2B-07r"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem key="rightBarButtonItem" systemItem="save" id="gdl-iQ-5h9">
+                                <connections>
+                                    <action selector="sendButtonPress:" destination="-1" id="NVm-Xp-nUa"/>
+                                </connections>
+                            </barButtonItem>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Nag-ou-lFG">
-                    <rect key="frame" x="238" y="229" width="20" height="20"/>
+                    <rect key="frame" x="150" y="274" width="20" height="20"/>
                 </activityIndicatorView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nWi-Gk-nPT">
+                    <rect key="frame" x="0.0" y="144" width="320" height="150"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="150" id="6xb-Nb-P5C"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6Uv-nv-KDt" secondAttribute="trailing" constant="8" id="3Jh-46-oQs"/>
-                <constraint firstItem="6Uv-nv-KDt" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="3cL-bR-K2q"/>
-                <constraint firstItem="jIL-tF-MeT" firstAttribute="top" secondItem="x8t-60-UgW" secondAttribute="top" id="Fnl-gB-dss"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="jIL-tF-MeT" secondAttribute="trailing" constant="8" id="Mq4-1E-2yJ"/>
-                <constraint firstItem="6Uv-nv-KDt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="S5S-CH-aZm"/>
-                <constraint firstItem="x8t-60-UgW" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.5" id="X3c-p2-UUT"/>
-                <constraint firstItem="Nag-ou-lFG" firstAttribute="centerY" secondItem="jIL-tF-MeT" secondAttribute="centerY" id="be9-wB-8Qi"/>
-                <constraint firstItem="jIL-tF-MeT" firstAttribute="leading" secondItem="x8t-60-UgW" secondAttribute="trailing" constant="16" id="doI-nb-W9m"/>
-                <constraint firstItem="jIL-tF-MeT" firstAttribute="bottom" secondItem="x8t-60-UgW" secondAttribute="bottom" id="jFr-X2-Ixa"/>
-                <constraint firstItem="Nag-ou-lFG" firstAttribute="centerX" secondItem="jIL-tF-MeT" secondAttribute="centerX" id="r0c-rQ-WA6"/>
-                <constraint firstItem="x8t-60-UgW" firstAttribute="leading" secondItem="6Uv-nv-KDt" secondAttribute="leading" id="tfD-C0-g17"/>
-                <constraint firstItem="x8t-60-UgW" firstAttribute="top" secondItem="6Uv-nv-KDt" secondAttribute="bottom" constant="16" id="xmY-y0-NTl"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6Uv-nv-KDt" secondAttribute="trailing" id="1GS-h5-QMI"/>
+                <constraint firstItem="nWi-Gk-nPT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="37a-vl-GJb"/>
+                <constraint firstItem="Nag-ou-lFG" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="5as-KW-lUH"/>
+                <constraint firstItem="nWi-Gk-nPT" firstAttribute="top" secondItem="6Uv-nv-KDt" secondAttribute="bottom" id="ARk-py-897"/>
+                <constraint firstItem="Nag-ou-lFG" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="FNt-4w-0vs"/>
+                <constraint firstItem="odw-on-f7i" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="IKd-d8-eG1"/>
+                <constraint firstItem="odw-on-f7i" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="LeD-mF-dR7"/>
+                <constraint firstItem="6Uv-nv-KDt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="SKf-tX-RZm"/>
+                <constraint firstItem="6Uv-nv-KDt" firstAttribute="top" secondItem="odw-on-f7i" secondAttribute="bottom" id="Suh-dH-VTV"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="nWi-Gk-nPT" secondAttribute="trailing" id="nSU-jd-e1h"/>
+                <constraint firstItem="odw-on-f7i" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="nvE-YC-lvI"/>
             </constraints>
             <point key="canvasLocation" x="75" y="103.52112676056338"/>
         </view>
     </objects>
     <resources>
-        <image name="camera.viewfinder" catalog="system" width="128" height="115"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

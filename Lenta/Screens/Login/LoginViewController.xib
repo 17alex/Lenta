@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController" customModule="Lenta" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="Us5-tI-mWp" id="EWW-zS-EyS"/>
                 <outlet property="logInButton" destination="0Wf-xs-lY9" id="cqh-vk-HVy"/>
                 <outlet property="loginTextField" destination="hmn-PF-QOO" id="lAc-Ew-peo"/>
                 <outlet property="passwordTextField" destination="qeM-Ls-Bf2" id="gHF-77-8YY"/>
@@ -79,6 +80,9 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Us5-tI-mWp">
+                    <rect key="frame" x="150" y="274" width="20" height="20"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -91,6 +95,8 @@
                 <constraint firstItem="j3T-77-8j3" firstAttribute="centerY" secondItem="qeM-Ls-Bf2" secondAttribute="centerY" id="Qht-zE-das"/>
                 <constraint firstItem="cWX-Md-x25" firstAttribute="trailing" secondItem="0Wf-xs-lY9" secondAttribute="trailing" id="VNF-tO-ubN"/>
                 <constraint firstItem="jGl-tr-kIS" firstAttribute="centerY" secondItem="hmn-PF-QOO" secondAttribute="centerY" id="Wrm-Sg-3S3"/>
+                <constraint firstItem="Us5-tI-mWp" firstAttribute="centerY" secondItem="0Wf-xs-lY9" secondAttribute="centerY" id="XDR-fA-dSp"/>
+                <constraint firstItem="Us5-tI-mWp" firstAttribute="centerX" secondItem="0Wf-xs-lY9" secondAttribute="centerX" id="cFV-Bj-XfR"/>
                 <constraint firstItem="0Wf-xs-lY9" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="cXi-bZ-lV2"/>
                 <constraint firstItem="jGl-tr-kIS" firstAttribute="trailing" secondItem="j3T-77-8j3" secondAttribute="trailing" id="di6-0v-md4"/>
                 <constraint firstItem="qeM-Ls-Bf2" firstAttribute="leading" secondItem="j3T-77-8j3" secondAttribute="trailing" constant="8" id="eLc-Lf-c9G"/>

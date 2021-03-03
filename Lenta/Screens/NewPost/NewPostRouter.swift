@@ -30,6 +30,7 @@ class NewPostRouter {
 extension NewPostRouter: NewPostRouterInput {
     
     func dismiss() {
-        view.navigationController?.popViewController(animated: true)
+//        view.navigationController?.popViewController(animated: true)
+        view.dismiss(animated: true)
     }
 }

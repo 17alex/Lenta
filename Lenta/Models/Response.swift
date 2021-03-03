@@ -37,6 +37,8 @@ struct FotoSize: Decodable {
 struct User: Decodable, Hashable {
     let id: Int
     let name: String
+    let postsCount: Int
+    let dateRegister: TimeInterval
     let avatar: String
 }
 

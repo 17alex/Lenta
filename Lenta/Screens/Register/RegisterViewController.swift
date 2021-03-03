@@ -20,6 +20,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var avatarButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var logInButton: UIButton!
     
     //MARK: - Variables
@@ -42,6 +43,7 @@ class RegisterViewController: UIViewController {
     //MARK: - Metods
     
     private func setup() {
+        activityIndicator.hidesWhenStopped = true
         registerButton.layer.cornerRadius = registerButton.bounds.height / 2
         nameTextField.delegate = self
         loginTextField.delegate = self
@@ -92,7 +94,8 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func registerButtonpress(_ sender: UIButton) {
-        print("press Register")
+        registerButton.isHidden = true
+        activityIndicator.startAnimating()
         presenter.registerButtonPress(name: nameTextField.text!, login: loginTextField.text!, password: passwordTextField.text!, avatarImage: avatarImage)
     }
 }
@@ -102,6 +105,8 @@ class RegisterViewController: UIViewController {
 extension RegisterViewController: RegisterViewInput {
  
     func userNotRegister(message: String) {
+        activityIndicator.stopAnimating()
+        registerButton.isHidden = false
         let alertController = UIAlertController(title: "Error register", message: message, preferredStyle: .alert)
         let okAlertAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertController.addAction(okAlertAction)

@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RegisterViewController" customModule="Lenta" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="D9s-g6-hQT" id="75A-EW-fav"/>
                 <outlet property="avatarButton" destination="w1Y-aQ-6DZ" id="v0Z-mj-UTX"/>
                 <outlet property="logInButton" destination="RNz-Ip-Vt1" id="nr0-Av-IjV"/>
                 <outlet property="loginTextField" destination="eTU-xE-bqO" id="ZfW-Vr-SQF"/>
@@ -90,7 +91,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w1Y-aQ-6DZ">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w1Y-aQ-6DZ" userLabel="AvatarButton">
                     <rect key="frame" x="23" y="37" width="60" height="60"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="Epd-MW-Rj1"/>
@@ -110,6 +111,9 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="D9s-g6-hQT">
+                    <rect key="frame" x="150" y="274" width="20" height="20"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -121,12 +125,14 @@
                 <constraint firstItem="yeX-NV-dlH" firstAttribute="trailing" secondItem="NjV-aB-wo4" secondAttribute="trailing" id="Bnq-3H-3jl"/>
                 <constraint firstItem="t2B-ho-veR" firstAttribute="trailing" secondItem="yeX-NV-dlH" secondAttribute="trailing" id="Gwf-fr-MIc"/>
                 <constraint firstItem="K6d-Ze-TqP" firstAttribute="centerY" secondItem="yeX-NV-dlH" secondAttribute="centerY" id="JvD-4Z-w8m"/>
+                <constraint firstItem="D9s-g6-hQT" firstAttribute="centerX" secondItem="NjV-aB-wo4" secondAttribute="centerX" id="MnT-dv-ado"/>
                 <constraint firstItem="t2B-ho-veR" firstAttribute="leading" secondItem="w1Y-aQ-6DZ" secondAttribute="trailing" constant="17" id="NEa-IK-r0S"/>
                 <constraint firstItem="NjV-aB-wo4" firstAttribute="top" secondItem="yeX-NV-dlH" secondAttribute="bottom" constant="16" id="NtE-G1-Niz"/>
                 <constraint firstItem="t2B-ho-veR" firstAttribute="top" secondItem="w1Y-aQ-6DZ" secondAttribute="bottom" constant="17" id="Phw-0Y-kVr"/>
                 <constraint firstItem="3gn-ZX-2Kf" firstAttribute="trailing" secondItem="K6d-Ze-TqP" secondAttribute="trailing" id="RGj-tw-lhA"/>
                 <constraint firstItem="NjV-aB-wo4" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="RYQ-mD-yVZ"/>
                 <constraint firstItem="NjV-aB-wo4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="TLE-lZ-iO6"/>
+                <constraint firstItem="D9s-g6-hQT" firstAttribute="centerY" secondItem="NjV-aB-wo4" secondAttribute="centerY" id="Ulb-be-bQL"/>
                 <constraint firstItem="t2B-ho-veR" firstAttribute="top" secondItem="ogy-Wp-oBT" secondAttribute="bottom" constant="24" id="Wa7-CS-86H"/>
                 <constraint firstItem="yeX-NV-dlH" firstAttribute="top" secondItem="eTU-xE-bqO" secondAttribute="bottom" constant="16" id="Wfq-Mi-2vu"/>
                 <constraint firstItem="4Pg-vs-vQo" firstAttribute="trailing" secondItem="K6d-Ze-TqP" secondAttribute="trailing" id="YHT-UH-UQR"/>

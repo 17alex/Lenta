@@ -37,7 +37,7 @@ extension LoginInteractor: LoginInteractorInput {
                 self.presenter.userLoginFail(message: error.localizedDescription)
             case .success(let users):
                 if let user = users.first {
-                    let currentUser = CurrentUser(id: user.id, name: user.name, avatar: user.avatar)
+                    let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
                     self.storeManager.save(currentUser)
                     self.presenter.userDidLogined()
                 } else {
