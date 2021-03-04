@@ -18,12 +18,16 @@ class NewPostViewController: UIViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var fotoImageView: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var sendButton: UIBarButtonItem!
-    @IBOutlet weak var navItem: UINavigationItem!
+    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var newPostTitle: UILabel!
+    @IBOutlet weak var heightTextView: NSLayoutConstraint!
+    @IBOutlet weak var heightImageView: NSLayoutConstraint!
+    @IBOutlet weak var bottomScrollView: NSLayoutConstraint!
     
     //MARK: - Variables
     
     var presenter: NewPostViewOutput!
+    var kbIsShow = false
     
     //MARK: - LiveCycles
     
@@ -39,22 +43,61 @@ class NewPostViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(willShowKboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willHideKboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         descriptionTextView.becomeFirstResponder()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     //MARK: - Metods
     
+    @objc private func willShowKboard(notification: NSNotification) {
+        if kbIsShow == true { return }
+        kbIsShow = true
+        
+        guard let userInfo = notification.userInfo else { return }
+        let kbFrameSize = (userInfo["UIKeyboardFrameEndUserInfoKey"] as! NSValue).cgRectValue
+        let offset = kbFrameSize.height
+        
+        UIView.animate(withDuration: 0.5) {
+            self.bottomScrollView.constant = -offset
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func willHideKboard() {
+        if kbIsShow == false { return }
+        kbIsShow = false
+        
+        UIView.animate(withDuration: 0.5) {
+            self.bottomScrollView.constant = 0
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func didTapPhoto() {
+        descriptionTextView.resignFirstResponder()
+    }
+    
     private func setup() {
-        navItem.title = "Enter new post..."
+        newPostTitle.text = "Enter new post..."
         activityIndicator.hidesWhenStopped = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapPhoto))
+        fotoImageView.addGestureRecognizer(tap)
         
         let kbToolbar = UIToolbar()
         kbToolbar.sizeToFit()
         let btn = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(chooseImage))
         kbToolbar.setItems([btn], animated: true)
-        
-        
         descriptionTextView.inputAccessoryView = kbToolbar
+        descriptionTextView.delegate = self
     }
     
     @objc private func chooseImage() {
@@ -78,15 +121,26 @@ class NewPostViewController: UIViewController {
     
     //MARK: - IBAction
     
-    @IBAction func sendButtonPress(_ sender: UIBarButtonItem) {
+    @IBAction func sendButtonPress(_ sender: UIButton) {
         sendButton.isEnabled = false
         activityIndicator.startAnimating()
         let description = descriptionTextView.text ?? ""
         presenter.pressSendButton(description: description, image: fotoImageView.image)
     }
     
-    @IBAction func closeButtonPress(_ sender: UIBarButtonItem) {
+    @IBAction func closeButtonPress(_ sender: UIButton) {
         dismiss(animated: true)
+    }
+}
+
+//MARK: - UITextViewDelegate
+
+extension NewPostViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let size = CGSize(width: view.frame.width, height: .infinity)
+        let estimatedSize = descriptionTextView.sizeThatFits(size)
+        heightTextView.constant = estimatedSize.height
     }
 }
 
@@ -121,6 +175,8 @@ extension NewPostViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image: UIImage = info[.editedImage] as? UIImage else { return }
         self.fotoImageView.image = image
+        let height = image.size.height / image.size.width * fotoImageView.bounds.width
+        heightImageView.constant = height
         dismiss(animated: true, completion: nil)
     }
 }
