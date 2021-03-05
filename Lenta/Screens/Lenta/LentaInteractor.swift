@@ -66,6 +66,9 @@ extension LentaInteractor: LentaInteractorInput {
                     self.posts.remove(at: deleteIndex)
                     self.presenter.didRemovePost(by: deleteIndex)
                 }
+                let user = response.users.first!
+                let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
+                self.storeManager.save(currentUser)
             }
         }
     }
