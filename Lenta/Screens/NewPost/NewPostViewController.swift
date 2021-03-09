@@ -95,7 +95,8 @@ class NewPostViewController: UIViewController {
         let kbToolbar = UIToolbar()
         kbToolbar.sizeToFit()
         let btn = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(chooseImage))
-        kbToolbar.setItems([btn], animated: true)
+        let spc = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        kbToolbar.setItems([btn, spc], animated: true)
         descriptionTextView.inputAccessoryView = kbToolbar
         descriptionTextView.delegate = self
     }
