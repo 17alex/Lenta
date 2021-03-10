@@ -96,4 +96,16 @@ class Assembly {
         presenter.router = router
         return view
     }
+    
+    func getCommentsModule(by postId: Int) -> UIViewController {
+        let view = CommentsViewController()
+        let presenter = CommentsPresenter(view: view, postId: postId)
+        let interactor = CommentsInteractor(presenter: presenter)
+        let router = CommentsRouter(view: view, assembly: self)
+        view.presenter = presenter
+        presenter.interactor = interactor
+        presenter.router = router
+        interactor.networkManager = networkManager
+        return view
+    }
 }

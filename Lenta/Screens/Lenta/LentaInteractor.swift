@@ -27,6 +27,7 @@ class LentaInteractor {
     
     var currentUser: CurrentUser?
     var posts: [Post] = []
+    var comments: [Comment] = []
     var users: Set<User> = []
     var isLoadingPosts = false
     var isEndingPosts = false
@@ -67,7 +68,7 @@ extension LentaInteractor: LentaInteractorInput {
                     self.presenter.didRemovePost(by: deleteIndex)
                 }
                 let user = response.users.first!
-                let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
+                let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar) // update user for postCount
                 self.storeManager.save(currentUser)
             }
         }

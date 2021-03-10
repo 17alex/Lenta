@@ -16,6 +16,7 @@ protocol NetworkManagerProtocol {
     func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping (Result<[User], Error>) -> Void)
     func changeLike(postId: Int, userId: Int, complete: @escaping (Result<Post, Error>) -> Void)
     func removePost(postId: Int, complete: @escaping (Result<Response, Error>) -> Void)
+    func loadComments(by postId: Int, complete: @escaping (Result<ResponseComment, Error>) -> Void)
 }
 
 class NetworkManager {
@@ -54,6 +55,37 @@ class NetworkManager {
 //MARK: - NetworkManagerProtocol
 
 extension NetworkManager: NetworkManagerProtocol {
+    
+    func loadComments(by postId: Int, complete: @escaping (Result<ResponseComment, Error>) -> Void) {
+        
+        let url = URL(string: "https://monsterok.ru/lenta/getComments.php")!
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        
+        let parameters = ["postId" : String(postId)]
+
+//        parameters["postQuantity"] = String(postQuantity)
+        
+        let body = try? JSONEncoder().encode(parameters)
+        urlRequest.httpBody = body
+        
+        taskResume(with: urlRequest) { data, error in
+            
+//            self.typeData(data: data)
+            
+            if let error = error {
+                self.onMain { complete(.failure(error)) }
+            } else if let data = data {
+                do {
+                    let pesponseComment = try JSONDecoder().decode(ResponseComment.self, from: data)
+                    self.onMain { complete(.success(pesponseComment)) }
+                } catch let error {
+                    print("error = ", error)
+                    self.onMain { complete(.failure(error)) }
+                }
+            }
+        }
+    }
     
     func removePost(postId: Int, complete: @escaping (Result<Response, Error>) -> Void) {
         let url = URL(string: "https://monsterok.ru/lenta/removePost.php")!

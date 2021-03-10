@@ -12,6 +12,19 @@ struct Response: Decodable {
     let users: [User]
 }
 
+struct ResponseComment: Decodable {
+    let comments: [Comment]
+    let users: [User]
+}
+
+struct Comment: Decodable {
+    let id: Int
+    let timeInterval: TimeInterval
+    let postId: Int
+    let userId: Int
+    let text: String
+}
+
 struct Post: Decodable {
     let id: Int
     let userId: Int
@@ -21,7 +34,6 @@ struct Post: Decodable {
     let likeUserIds: [Int]
     let viewsCount: Int
     let commentsCount: Int
-//    var isCompactDescription = true
 }
 
 struct PostFoto: Decodable {

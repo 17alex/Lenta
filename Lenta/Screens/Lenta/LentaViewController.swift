@@ -27,8 +27,8 @@ final class LentaViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var lentaTableView: UITableView! {
         didSet {
-            let nibName = String(describing: LentaCell.self)
-            lentaTableView.register(UINib(nibName: nibName, bundle: nil), forCellReuseIdentifier: nibName)
+            let cellNibName = String(describing: LentaCell.self)
+            lentaTableView.register(UINib(nibName: cellNibName, bundle: nil), forCellReuseIdentifier: cellNibName)
             lentaTableView.dataSource = self
             lentaTableView.delegate = self
             lentaTableView.refreshControl = refreshControl
@@ -116,6 +116,12 @@ extension LentaViewController: UITableViewDelegate {
 //MARK: - PostCellDelegate
 
 extension LentaViewController: PostCellDelegate {
+    
+    func didTapCommentsButton(cell: UITableViewCell) {
+        if let cellIndexPath = lentaTableView.indexPath(for: cell) {
+            presenter.didPressComments(by: cellIndexPath.row)
+        }
+    }
     
     func didTapShareButton(cell: UITableViewCell, with object: [Any]) {
         let avc = UIActivityViewController(activityItems: object, applicationActivities: nil)

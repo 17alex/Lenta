@@ -7,9 +7,15 @@
 
 import UIKit
 
+struct UserViewModel {
+    let id: Int
+    let name: String
+    let avatarUrlString: String
+}
+
 struct PostViewModel {
     let id: Int
-    var time: String
+    let time: String
     let user: UserViewModel
     var description: DescriptionViewModel
     let foto: FotoViewModel
@@ -38,14 +44,8 @@ struct PostViewModel {
         let count: String
     }
     
-    struct CommentsViewModel {
+    struct CommentsViewModel { //TODO: - todo
         let count: String
-    }
-    
-    struct UserViewModel {
-        let id: Int
-        let name: String
-        let avatarUrlString: String
     }
     
     init(post: Post, user: User, currenUser: CurrentUser?) {
@@ -82,3 +82,4 @@ struct PostViewModel {
         likes.isHighlight = post.likeUserIds.contains(post.userId)
     }
 }
+

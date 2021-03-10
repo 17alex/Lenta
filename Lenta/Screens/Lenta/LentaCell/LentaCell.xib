@@ -110,14 +110,18 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="LnJ-V7-0Vs">
-                                        <rect key="frame" x="209" y="10" width="43" height="20.5"/>
+                                        <rect key="frame" x="209" y="9" width="43" height="22"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="QjS-G3-XXi">
-                                                <rect key="frame" x="0.0" y="0.5" width="22.5" height="20"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="htZ-Ri-825">
+                                                <rect key="frame" x="0.0" y="0.0" width="22.5" height="22"/>
                                                 <color key="tintColor" systemColor="systemGrayColor"/>
-                                            </imageView>
+                                                <state key="normal" image="bubble.right" catalog="system"/>
+                                                <connections>
+                                                    <action selector="commentsButtonPress:" destination="ekN-Xb-JVm" eventType="touchUpInside" id="nDu-Qv-aUo"/>
+                                                </connections>
+                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M5K-ik-tjv">
-                                                <rect key="frame" x="27.5" y="0.0" width="15.5" height="20.5"/>
+                                                <rect key="frame" x="27.5" y="0.0" width="15.5" height="22"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" systemColor="systemGrayColor"/>
                                                 <nil key="highlightedColor"/>

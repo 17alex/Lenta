@@ -15,6 +15,7 @@ protocol LentaViewOutput {
     func didPressDeletePost(by index: Int)
     func didPressNewPost()
     func didPressMenu(by index: Int)
+    func didPressComments(by index: Int)
     func didPressLike(postIndex: Int)
     func didPressMore(postIndex: Int)
     func willDisplayCell(by index: Int)
@@ -55,6 +56,11 @@ final class LentaPresenter {
 //MARK: - LentaViewOutput
 
 extension LentaPresenter: LentaViewOutput {
+    
+    func didPressComments(by index: Int) {
+        let postId = interactor.posts[index].id
+        router.showCommentsModule(by: postId)
+    }
     
     func didPressMenu(by index: Int) {
         var isOwnerPost = false
@@ -121,7 +127,7 @@ extension LentaPresenter: LentaInteractorOutput {
     }
     
     func didLoadFirst(posts: [Post]) {
-        postsViewModel = posts.map(getPostViewModel(post:))
+        postsViewModel = posts.map(getPostViewModel(post:)) //TODO: - todo
         view.loadingEnd()
         view.reloadLenta()
     }

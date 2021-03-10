@@ -10,6 +10,7 @@ import UIKit
 protocol PostCellDelegate: class {
     func didTapLikeButton(cell: UITableViewCell)
     func didTapMenuButton(cell: UITableViewCell)
+    func didTapCommentsButton(cell: UITableViewCell)
     func didTapShareButton(cell: UITableViewCell, with object: [Any])
 }
 
@@ -49,8 +50,8 @@ final class LentaCell: UITableViewCell {
         }
     }
     
-    var logoImageViewUrlString = ""
-    var fotoImageViewUrlString = ""
+//    var logoImageViewUrlString = ""
+//    var fotoImageViewUrlString = ""
     var imHeight: CGFloat = 0
     
     weak var delegate: PostCellDelegate?
@@ -121,6 +122,10 @@ final class LentaCell: UITableViewCell {
 //        if let text = descriptionLabel.text { sendObjects.append(text) }
         if let image = fotoImageView.image { sendObjects.append(image) }
         delegate?.didTapShareButton(cell: self, with: sendObjects)
+    }
+    
+    @IBAction func commentsButtonPress(_ sender: UIButton) {
+        delegate?.didTapCommentsButton(cell: self)
     }
 }
 
