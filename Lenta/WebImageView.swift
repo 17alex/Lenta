@@ -10,13 +10,14 @@ import UIKit
 class WebImageView: UIImageView {
     
     var imageUrlString: String = ""
-    //TODO: - activity inside
+    
     func load(by urlString: String, complete: @escaping () -> Void) {
         if urlString != "", let url = URL(string: urlString) {
             imageUrlString = urlString
             loadImage(for: url) { (image, imageUrl) in
                 if self.imageUrlString == imageUrl.absoluteString {
                     self.image = image
+                    complete()
                 }
             }
         }
