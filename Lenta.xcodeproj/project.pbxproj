@@ -21,6 +21,8 @@
 		FA2B46AC25B5CE2200DC5C1D /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46AB25B5CE2200DC5C1D /* LoginInteractor.swift */; };
 		FA2B46AF25B5D46500DC5C1D /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46AE25B5D46500DC5C1D /* LoginRouter.swift */; };
 		FA33EDE425AC8A5D00637E3E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */; };
+		FA39E5A525F7B15E00F274FF /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA39E5A425F7B15E00F274FF /* WebImageView.swift */; };
+		FA39E5A825F7B39C00F274FF /* WebImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA39E5A725F7B39C00F274FF /* WebImageView.xib */; };
 		FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */; };
 		FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */; };
 		FA7DD40225B7006500CB1678 /* RegisterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40125B7006500CB1678 /* RegisterRouter.swift */; };
@@ -61,6 +63,8 @@
 		FA2B46AB25B5CE2200DC5C1D /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		FA2B46AE25B5D46500DC5C1D /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		FA39E5A425F7B15E00F274FF /* WebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
+		FA39E5A725F7B39C00F274FF /* WebImageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebImageView.xib; sourceTree = "<group>"; };
 		FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		FA7DD40125B7006500CB1678 /* RegisterRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRouter.swift; sourceTree = "<group>"; };
@@ -211,6 +215,8 @@
 			isa = PBXGroup;
 			children = (
 				FAC2073425AC616900CD9099 /* Assembly.swift */,
+				FA39E5A425F7B15E00F274FF /* WebImageView.swift */,
+				FA39E5A725F7B39C00F274FF /* WebImageView.xib */,
 				FA39ECD525C02D7800C52D1E /* Models */,
 				FA33EDE025AC899A00637E3E /* Screens */,
 				FA1BB71E25DA5673008F56B9 /* Extensions */,
@@ -320,6 +326,7 @@
 				FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */,
 				FAC2072925AC31F400CD9099 /* LentaViewController.xib in Resources */,
 				FA9BFF3C25C17A0D00ACA85F /* ProfileViewController.xib in Resources */,
+				FA39E5A825F7B39C00F274FF /* WebImageView.xib in Resources */,
 				FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */,
 				FA2B46A425B5BD3200DC5C1D /* LoginViewController.xib in Resources */,
 				FAC2072F25AC3B0700CD9099 /* LentaCell.xib in Resources */,
@@ -337,6 +344,7 @@
 			files = (
 				FA26A90C25B02C6800D2B806 /* NewPostRouter.swift in Sources */,
 				FA33EDE425AC8A5D00637E3E /* NetworkManager.swift in Sources */,
+				FA39E5A525F7B15E00F274FF /* WebImageView.swift in Sources */,
 				FA2B46AC25B5CE2200DC5C1D /* LoginInteractor.swift in Sources */,
 				FAC2072825AC31F400CD9099 /* LentaViewController.swift in Sources */,
 				FAC2073525AC616900CD9099 /* Assembly.swift in Sources */,

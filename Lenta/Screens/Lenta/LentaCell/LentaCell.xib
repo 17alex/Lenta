@@ -21,7 +21,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rrl-BF-EpL">
                         <rect key="frame" x="0.0" y="4" width="400" height="385"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PHD-uI-SLB">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PHD-uI-SLB" customClass="WebImageView" customModule="Lenta" customModuleProvider="target">
                                 <rect key="frame" x="8" y="8" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.9714208245" green="0.99128550289999995" blue="0.68494087459999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -61,7 +61,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dY2-Jb-x3F">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dY2-Jb-x3F" customClass="WebImageView" customModule="Lenta" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="94" width="400" height="243"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="243" id="HS4-GQ-b5K"/>

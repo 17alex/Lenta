@@ -18,11 +18,11 @@ final class LentaCell: UITableViewCell {
     //MARK: - IBOutlets:
     
     @IBOutlet weak var cardView: UIView!
-    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var avatarImageView: WebImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var fotoImageView: UIImageView!
+    @IBOutlet weak var fotoImageView: WebImageView!
     @IBOutlet weak var bottomStackView: UIStackView!
     @IBOutlet weak var fotoActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var likesCountLabel: UILabel!
@@ -44,7 +44,7 @@ final class LentaCell: UITableViewCell {
             likesCountLabel.text = postModel.likes.count
             viewsCountLabel.text = postModel.views.count
             commentsCountLabel.text = postModel.comments.count
-            setPostImage(by: postModel.foto.urlString)
+            setPostPhoto(by: postModel.foto.urlString)
             heightFoto.constant = postModel.foto.size.height
         }
     }
@@ -88,43 +88,21 @@ final class LentaCell: UITableViewCell {
     }
     
     // todo
-    private func setPostImage(by urlString: String) {
-        if urlString != "", let url = URL(string: urlString) {
-            fotoActivityIndicator.startAnimating()
-            fotoImageViewUrlString = urlString
-            loadImage(for: url) { (image, imageUrl) in
-                if self.fotoImageViewUrlString == imageUrl.absoluteString {
-                    self.fotoImageView.image = image
-                    self.fotoActivityIndicator.stopAnimating()
-                }
-            }
+    private func setPostPhoto(by urlString: String) {
+        if urlString == "" { return }
+        fotoActivityIndicator.startAnimating()
+        fotoImageView.load(by: urlString) {
+            self.fotoActivityIndicator.stopAnimating()
         }
     }
     
     // todo
     private func setAvatar(by urlString: String) {
-        if urlString != "", let url = URL(string:urlString) {
-            logoImageViewUrlString = urlString
-            loadImage(for: url) { (image, imageUrl) in
-                if self.logoImageViewUrlString == imageUrl.absoluteString {
-                    self.avatarImageView.image = image
-                }
-            }
+        if urlString != "" {
+            avatarImageView.load(by: urlString) { }
         } else {
             avatarImageView.image = UIImage(named: "defaultAvatar")
         }
-    }
-    
-    // todo
-    private func loadImage(for url: URL, complete: @escaping (UIImage, URL) -> Void) {
-        let urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
-        URLSession.shared.dataTask(with: urlRequest) { (data, _, _) in
-            if let data = data, let loadImage = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    complete(loadImage, url)
-                }
-            }
-        }.resume()
     }
     
     //MARK: - IBActions

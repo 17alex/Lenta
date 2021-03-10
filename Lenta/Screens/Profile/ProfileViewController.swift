@@ -17,7 +17,7 @@ final class ProfileViewController: UIViewController {
 
     //MARK: - IBOutlets
     
-    @IBOutlet weak var avatarButton: UIButton!
+    @IBOutlet weak var avatarImageView: WebImageView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var postsCountLabel: UILabel!
     @IBOutlet weak var dateRegisterLabel: UILabel!
@@ -49,10 +49,6 @@ final class ProfileViewController: UIViewController {
     
     //MARK: - IBAction
     
-    @IBAction func avatarButtonPress() {
-        chooseImage()
-    }
-    
     @objc private func logInOutButtonPress() {
         presenter.logInOutButtonPress()
     }
@@ -67,23 +63,23 @@ final class ProfileViewController: UIViewController {
         saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPress))
         navigationItem.leftBarButtonItem = saveButton
         saveButton.isEnabled = false
-        avatarButton.layer.cornerRadius = avatarButton.bounds.height / 2
-        avatarButton.clipsToBounds = true
-        
+        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
+//        avatarImageView.clipsToBounds = true
+        avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(chooseImage)))
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKboard))
         view.addGestureRecognizer(tapRecognizer)
     }
     
     @objc func saveButtonPress() {
         nameTextField.resignFirstResponder()
-        presenter.saveButtonPress(name: nameTextField.text!, image: avatarButton.imageView?.image)
+        presenter.saveButtonPress(name: nameTextField.text!, image: avatarImageView.image)
     }
     
     @objc private func heidKboard() {
         nameTextField.resignFirstResponder()
     }
     
-    private func chooseImage() {
+    @objc private func chooseImage() {
         let actionSheet = UIAlertController(title: "Choose", message: "foto source", preferredStyle: .actionSheet)
         let fotoAction = UIAlertAction(title: "Foto", style: .default) { (_) in
             self.chooseImagePicker(source: .photoLibrary)
@@ -118,7 +114,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image: UIImage = info[.editedImage] as? UIImage else { return }
-        self.avatarButton.setImage(image, for: .normal)
+        self.avatarImageView.image = image
         presenter.didSelectNewAvatar()
         dismiss(animated: true, completion: nil)
     }
@@ -143,25 +139,25 @@ extension ProfileViewController: ProfileViewInput {
         let logInOutBarButtonItem: UIBarButtonItem
         if let currentUserModel = currentUserModel {
             nameTextField.isEnabled = true
-            avatarButton.isEnabled = true
+            avatarImageView.isUserInteractionEnabled = true
             nameTextField.text = currentUserModel.name
             postsCountLabel.text = currentUserModel.postsCount
             dateRegisterLabel.text = currentUserModel.dateRegister
-            if currentUserModel.avatar != "",
-               let url = URL(string: currentUserModel.avatar),
-               let data = try? Data(contentsOf: url), //TODO: todo
-               let avImage = UIImage(data: data) {
-                avatarButton.setImage(avImage, for: .normal)
+            if currentUserModel.avatar != "" {
+                avatarImageView.load(by: currentUserModel.avatar) { }
+            } else {
+                avatarImageView.image = UIImage(named: "avatar")
+                avatarImageView.tintColor = #colorLiteral(red: 0, green: 0.5138283968, blue: 1, alpha: 1)
             }
             logInOutBarButtonItem = UIBarButtonItem(image: UIImage(named: "logout"), style: .plain, target: self, action: #selector(logInOutButtonPress))
         } else {
             nameTextField.isEnabled = false
-            avatarButton.isEnabled = false
+            avatarImageView.isUserInteractionEnabled = false
+            avatarImageView.image = UIImage(named: "avatar")
+            avatarImageView.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
             nameTextField.text = ""
             postsCountLabel.text = "--"
             dateRegisterLabel.text = "--.--.----"
-            let avImage = UIImage(named: "avatar")
-            avatarButton.setImage(avImage, for: .normal)
             logInOutBarButtonItem = UIBarButtonItem(image: UIImage(named: "login"), style: .plain, target: self, action: #selector(logInOutButtonPress))
         }
         

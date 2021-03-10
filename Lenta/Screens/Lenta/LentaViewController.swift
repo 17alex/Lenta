@@ -16,18 +16,15 @@ protocol LentaViewInput: class {
     func userLoginned(_ isLoginned: Bool)
     func show(message: String)
     func showMenu(byPostIndex index: Int, isOwner: Bool)
+    func loadingStarted()
+    func loadingEnd()
 }
 
 final class LentaViewController: UIViewController {
 
     //MARK: - IBOutlets
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView! {
-        didSet {
-            activityIndicator.hidesWhenStopped = true
-        }
-    }
-    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var lentaTableView: UITableView! {
         didSet {
             let nibName = String(describing: LentaCell.self)
@@ -59,7 +56,6 @@ final class LentaViewController: UIViewController {
         print("LentaViewController init")
         
         setup()
-        activityIndicator.startAnimating()
         presenter.viewDidLoad()
     }
     
@@ -73,7 +69,7 @@ final class LentaViewController: UIViewController {
     
     private func setup() {
         title = "Lenta"
-        
+        activityIndicator.hidesWhenStopped = true
         let newPostButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(newPostButtonPress))
         navigationItem.rightBarButtonItem = newPostButtonItem
     }
@@ -147,6 +143,15 @@ extension LentaViewController: PostCellDelegate {
 
 extension LentaViewController: LentaViewInput {
     
+    func loadingEnd() {
+        activityIndicator.stopAnimating()
+        refreshControl.endRefreshing()
+    }
+    
+    func loadingStarted() {
+        activityIndicator.startAnimating()
+    }
+    
     func showMenu(byPostIndex index: Int, isOwner: Bool) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if isOwner {
@@ -200,8 +205,6 @@ extension LentaViewController: LentaViewInput {
     }
     
     func reloadLenta() {
-        activityIndicator.stopAnimating()
-        refreshControl.endRefreshing()
         lentaTableView.reloadData()
     }
 }

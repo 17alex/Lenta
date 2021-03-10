@@ -84,6 +84,7 @@ extension LentaPresenter: LentaViewOutput {
     }
     
     func viewDidLoad() {
+        view.loadingStarted()
         interactor.loadPosts()
     }
     
@@ -121,6 +122,7 @@ extension LentaPresenter: LentaInteractorOutput {
     
     func didLoadFirst(posts: [Post]) {
         postsViewModel = posts.map(getPostViewModel(post:))
+        view.loadingEnd()
         view.reloadLenta()
     }
     
