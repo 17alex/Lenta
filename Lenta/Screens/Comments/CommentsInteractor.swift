@@ -8,18 +8,23 @@
 import Foundation
 
 protocol CommentsInteractorInput {
+    var posts: [Post] { get }
     var comments: [Comment] { get }
-    var users: [User] { get }
+    var users: Set<User> { get }
     func loadComments(by postId: Int)
+    func sendNewComment(_ comment: String)
 }
 
 class CommentsInteractor {
     
     unowned let presenter: CommentsInteractorOutput
     var networkManager: NetworkManagerProtocol!
+    var storeManager: StoreManagerProtocol!
     
+    var posts: [Post] = []
     var comments: [Comment] = []
-    var users: [User] = []
+    var users: Set<User> = []
+    var currentUser: CurrentUser?
     
     init(presenter: CommentsInteractorOutput) {
         print("CommentsInteractor init")
@@ -34,14 +39,29 @@ class CommentsInteractor {
 
 extension CommentsInteractor: CommentsInteractorInput {
     
+    func sendNewComment(_ comment: String) {
+        currentUser = storeManager.getCurrenUser()
+        networkManager.sendComment(comment, postId: posts.first!.id, userId: currentUser!.id) { (result) in
+            switch result {
+            case .failure(let error):
+                self.presenter.show(message: error.localizedDescription)
+            case .success(let responseComment):
+            self.comments.append(contentsOf: responseComment.comments)
+            self.users = self.users.union(responseComment.users)
+            self.presenter.didSendComment(responseComment.comments)
+            }
+        }
+    }
+    
     func loadComments(by postId: Int) {
         networkManager.loadComments(by: postId) { result in
             switch result {
             case .failure(let error):
                 self.presenter.show(message: error.localizedDescription)
             case .success(let responseComment):
+                self.posts = responseComment.posts
                 self.comments = responseComment.comments
-                self.users = responseComment.users
+                self.users = Set(responseComment.users)
                 self.presenter.didLoadComments()
             }
         }

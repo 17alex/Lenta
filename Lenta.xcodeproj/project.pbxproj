@@ -36,6 +36,8 @@
 		FA7DD40225B7006500CB1678 /* RegisterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40125B7006500CB1678 /* RegisterRouter.swift */; };
 		FA7DD40525B709A400CB1678 /* RegisterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */; };
 		FA7DD40825B71F3600CB1678 /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */; };
+		FA8A308425FA448C00A02751 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8A308225FA448C00A02751 /* PostCell.swift */; };
+		FA8A308525FA448C00A02751 /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA8A308325FA448C00A02751 /* PostCell.xib */; };
 		FA8DAD4225AC24E600E9D1B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */; };
 		FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA8DAD4A25AC24F000E9D1B7 /* Assets.xcassets */; };
 		FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8DAD4C25AC24F000E9D1B7 /* LaunchScreen.storyboard */; };
@@ -86,6 +88,8 @@
 		FA7DD40125B7006500CB1678 /* RegisterRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRouter.swift; sourceTree = "<group>"; };
 		FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPresenter.swift; sourceTree = "<group>"; };
 		FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
+		FA8A308225FA448C00A02751 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
+		FA8A308325FA448C00A02751 /* PostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
 		FA8DAD3E25AC24E600E9D1B7 /* Lenta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lenta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA8DAD4A25AC24F000E9D1B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -191,11 +195,12 @@
 		FA396F5925F8EBB8009B79F5 /* Comments */ = {
 			isa = PBXGroup;
 			children = (
-				FA396F5A25F8EBF9009B79F5 /* CommentsPresenter.swift */,
 				FA396F5D25F8F230009B79F5 /* CommentsViewController.swift */,
+				FA396F5A25F8EBF9009B79F5 /* CommentsPresenter.swift */,
 				FA396F6225F8F435009B79F5 /* CommentsInteractor.swift */,
-				FA396F5E25F8F230009B79F5 /* CommentsViewController.xib */,
 				FA396F6825F8FC8E009B79F5 /* CommentsRouter.swift */,
+				FA396F5E25F8F230009B79F5 /* CommentsViewController.xib */,
+				FA8A308125FA443200A02751 /* PostCell */,
 				FA396F6B25F8FF27009B79F5 /* CommentCell */,
 			);
 			path = Comments;
@@ -233,6 +238,15 @@
 				FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */,
 			);
 			path = Register;
+			sourceTree = "<group>";
+		};
+		FA8A308125FA443200A02751 /* PostCell */ = {
+			isa = PBXGroup;
+			children = (
+				FA8A308225FA448C00A02751 /* PostCell.swift */,
+				FA8A308325FA448C00A02751 /* PostCell.xib */,
+			);
+			path = PostCell;
 			sourceTree = "<group>";
 		};
 		FA8DAD3525AC24E600E9D1B7 = {
@@ -370,6 +384,7 @@
 				FA39E5A825F7B39C00F274FF /* WebImageView.xib in Resources */,
 				FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */,
 				FA2B46A425B5BD3200DC5C1D /* LoginViewController.xib in Resources */,
+				FA8A308525FA448C00A02751 /* PostCell.xib in Resources */,
 				FAC2072F25AC3B0700CD9099 /* LentaCell.xib in Resources */,
 				FA396F6F25F8FF5E009B79F5 /* CommentCell.xib in Resources */,
 				FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */,
@@ -407,6 +422,7 @@
 				FAC2073225AC5FE300CD9099 /* Response.swift in Sources */,
 				FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */,
 				FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */,
+				FA8A308425FA448C00A02751 /* PostCell.swift in Sources */,
 				FA396F6E25F8FF5E009B79F5 /* CommentCell.swift in Sources */,
 				FA1BB72025DA56A7008F56B9 /* TimeInterval.swift in Sources */,
 				FAC2073F25AC689F00CD9099 /* PostViewModel.swift in Sources */,
@@ -567,7 +583,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta6;
+				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -589,7 +605,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta6;
+				PRODUCT_BUNDLE_IDENTIFIER = home.Lenta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

@@ -50,9 +50,7 @@ final class LentaCell: UITableViewCell {
         }
     }
     
-//    var logoImageViewUrlString = ""
-//    var fotoImageViewUrlString = ""
-    var imHeight: CGFloat = 0
+//    var imHeight: CGFloat = 0
     
     weak var delegate: PostCellDelegate?
     
@@ -61,7 +59,7 @@ final class LentaCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         fotoActivityIndicator.hidesWhenStopped = true
-        avatarImageView.layer.cornerRadius = 30
+        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
     }
     
     override func prepareForReuse() {

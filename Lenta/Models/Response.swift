@@ -13,6 +13,7 @@ struct Response: Decodable {
 }
 
 struct ResponseComment: Decodable {
+    let posts: [Post]
     let comments: [Comment]
     let users: [User]
 }

@@ -106,6 +106,7 @@ class Assembly {
         presenter.interactor = interactor
         presenter.router = router
         interactor.networkManager = networkManager
+        interactor.storeManager = storeManager
         return view
     }
 }

@@ -24,7 +24,7 @@ class NewPostViewController: UIViewController {
     @IBOutlet weak var heightImageView: NSLayoutConstraint!
     @IBOutlet weak var bottomScrollView: NSLayoutConstraint!
     
-    //MARK: - Variables
+    //MARK: - Propertis
     
     var presenter: NewPostViewOutput!
     var kbIsShow = false
@@ -38,6 +38,7 @@ class NewPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("NewPostViewController init")
+        
         setup()
     }
     
@@ -140,6 +141,7 @@ extension NewPostViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let size = CGSize(width: view.frame.width, height: .infinity)
+        //TODO: - view.frame.width -> descriptionTextView.frame.width
         let estimatedSize = descriptionTextView.sizeThatFits(size)
         heightTextView.constant = estimatedSize.height
     }
