@@ -19,13 +19,15 @@ class CommentsViewController: UIViewController {
 
     //MARK: - IBOutlets
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var commentsTableView: UITableView!
     @IBOutlet weak var newCommentTextView: UITextView!
     @IBOutlet weak var bubleView: UIView!
     @IBOutlet weak var heightNewCommentTextView: NSLayoutConstraint!
     @IBOutlet weak var bottomBabbleView: NSLayoutConstraint!
-
+    @IBOutlet weak var loadActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var sendActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var sendButton: UIButton!
+    
     //MARK: - Propertis
     
     var presenter: CommentsViewOutput!
@@ -98,7 +100,8 @@ class CommentsViewController: UIViewController {
     }
 
     private func setup() {
-        activityIndicator.hidesWhenStopped = true
+        sendActivityIndicator.hidesWhenStopped = true
+        loadActivityIndicator.hidesWhenStopped = true
         bubleView.layer.cornerRadius = 15
         let postCellNibName = String(describing: PostCell.self)
         commentsTableView.register(UINib(nibName: postCellNibName, bundle: nil), forCellReuseIdentifier: postCellNibName)
@@ -111,11 +114,22 @@ class CommentsViewController: UIViewController {
         bubleView.layer.borderColor = UIColor.lightGray.cgColor
     }
     
+    private func animateActivity(_ isAnimate: Bool) {
+        if isAnimate {
+            sendActivityIndicator.startAnimating()
+            sendButton.isHidden = true
+        } else {
+            sendActivityIndicator.stopAnimating()
+            sendButton.isHidden = false
+        }
+    }
+    
     //Mark: - IBAction
     
     @IBAction func sendButtonPress(_ sender: UIButton) {
         print("sendNewComment")
         guard let newComment = newCommentTextView.text, !newComment.isEmpty else { return }
+        animateActivity(true)
         presenter.didPressNewCommendSendButton(comment: newComment)
         newCommentTextView.text = ""
         heightNewCommentTextView.constant = 33
@@ -134,6 +148,7 @@ extension CommentsViewController: CommentsViewInput {
         commentsTableView.insertRows(at: [IndexPath(row: presenter.commentsViewModel.count - 1, section: 1)], with: .top)
         let countRow = self.presenter.commentsViewModel.count
         commentsTableView.scrollToRow(at: IndexPath(row: countRow - 1, section: 1), at: .middle, animated: true)
+        animateActivity(false)
     }
     
     func show(message: String) {
@@ -141,6 +156,7 @@ extension CommentsViewController: CommentsViewInput {
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+        animateActivity(false)
     }
     
     func reloadComments() {
@@ -148,11 +164,11 @@ extension CommentsViewController: CommentsViewInput {
     }
     
     func loadingEnd() {
-        activityIndicator.stopAnimating()
+        loadActivityIndicator.stopAnimating()
     }
     
     func loadingStarted() {
-        activityIndicator.startAnimating()
+        loadActivityIndicator.startAnimating()
     }
 }
 

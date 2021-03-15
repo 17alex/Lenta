@@ -12,12 +12,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommentsViewController" customModule="Lenta" customModuleProvider="target">
             <connections>
-                <outlet property="activityIndicator" destination="oSZ-fg-crE" id="ICK-FB-o3d"/>
                 <outlet property="bottomBabbleView" destination="jkw-CG-tuu" id="2Y9-h0-SUZ"/>
                 <outlet property="bubleView" destination="VPs-iZ-Jdh" id="eZJ-wH-bxK"/>
                 <outlet property="commentsTableView" destination="hYX-YS-cgx" id="cNR-tF-O0U"/>
                 <outlet property="heightNewCommentTextView" destination="1Jm-nq-l3F" id="vQX-dS-pTG"/>
+                <outlet property="loadActivityIndicator" destination="oSZ-fg-crE" id="9Rg-S0-lPM"/>
                 <outlet property="newCommentTextView" destination="MQd-ZO-AsV" id="gEn-wv-9ZR"/>
+                <outlet property="sendActivityIndicator" destination="ar3-dw-YFG" id="HvU-2b-aK0"/>
+                <outlet property="sendButton" destination="zgy-gt-rob" id="OcH-qQ-1If"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -33,7 +35,7 @@
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="oSZ-fg-crE">
                     <rect key="frame" x="141.5" y="264.5" width="37" height="37"/>
                 </activityIndicatorView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zgy-gt-rob">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zgy-gt-rob" userLabel="SendButton">
                     <rect key="frame" x="280" y="526" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="L9B-yh-HvW"/>
@@ -67,7 +69,7 @@
                         <constraint firstAttribute="trailing" secondItem="MQd-ZO-AsV" secondAttribute="trailing" constant="5" id="aYO-X2-aJB"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YOk-1n-UAg">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YOk-1n-UAg" userLabel="CloseButton">
                     <rect key="frame" x="275" y="5" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="RWO-S5-dfM"/>
@@ -78,12 +80,16 @@
                         <action selector="closeButtonPress:" destination="-1" eventType="touchUpInside" id="fYP-DM-jVZ"/>
                     </connections>
                 </button>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ar3-dw-YFG">
+                    <rect key="frame" x="290" y="536" width="20" height="20"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemGray5Color"/>
             <constraints>
                 <constraint firstItem="oSZ-fg-crE" firstAttribute="centerY" secondItem="hYX-YS-cgx" secondAttribute="centerY" id="Dsj-Kh-QFh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="YOk-1n-UAg" secondAttribute="trailing" constant="5" id="JZh-Ob-aZj"/>
+                <constraint firstItem="ar3-dw-YFG" firstAttribute="centerY" secondItem="zgy-gt-rob" secondAttribute="centerY" id="KyM-Tb-tAh"/>
                 <constraint firstItem="oSZ-fg-crE" firstAttribute="centerX" secondItem="hYX-YS-cgx" secondAttribute="centerX" id="LL8-f9-jOI"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="zgy-gt-rob" secondAttribute="trailing" id="MBO-x1-4ab"/>
                 <constraint firstItem="zgy-gt-rob" firstAttribute="top" secondItem="VPs-iZ-Jdh" secondAttribute="top" id="QlJ-Zu-ttX"/>
@@ -92,6 +98,7 @@
                 <constraint firstItem="YOk-1n-UAg" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="5" id="lTc-R3-RWH"/>
                 <constraint firstItem="hYX-YS-cgx" firstAttribute="top" secondItem="YOk-1n-UAg" secondAttribute="bottom" id="nFu-1m-TgX"/>
                 <constraint firstItem="hYX-YS-cgx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="oMu-gD-0mP"/>
+                <constraint firstItem="ar3-dw-YFG" firstAttribute="centerX" secondItem="zgy-gt-rob" secondAttribute="centerX" id="pQA-5n-ajs"/>
                 <constraint firstItem="VPs-iZ-Jdh" firstAttribute="top" secondItem="hYX-YS-cgx" secondAttribute="bottom" constant="5" id="pbk-RN-bpr"/>
                 <constraint firstItem="zgy-gt-rob" firstAttribute="leading" secondItem="VPs-iZ-Jdh" secondAttribute="trailing" id="t2N-2p-RYf"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="hYX-YS-cgx" secondAttribute="trailing" id="vPT-P7-pxh"/>

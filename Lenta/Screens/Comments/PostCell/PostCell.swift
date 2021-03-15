@@ -36,6 +36,7 @@ class PostCell: UITableViewCell {
         super.awakeFromNib()
         
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
+        fotoActivityIndicator.hidesWhenStopped = true
     }
 
     //MARK: - Metods

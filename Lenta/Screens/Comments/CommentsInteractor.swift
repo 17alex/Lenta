@@ -41,6 +41,10 @@ extension CommentsInteractor: CommentsInteractorInput {
     
     func sendNewComment(_ comment: String) {
         currentUser = storeManager.getCurrenUser()
+        guard currentUser != nil else {
+            presenter.show(message: "User not loginned")
+            return
+        }
         networkManager.sendComment(comment, postId: posts.first!.id, userId: currentUser!.id) { (result) in
             switch result {
             case .failure(let error):
