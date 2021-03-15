@@ -74,7 +74,11 @@ class CommentsViewController: UIViewController {
             self.view.layoutIfNeeded()
         } completion: { (_) in
             let countRow = self.presenter.commentsViewModel.count
-            self.commentsTableView.scrollToRow(at: IndexPath(row: countRow == 0 ? 0 : countRow - 1, section: 1), at: .middle, animated: true)
+            if countRow != 0 {
+                self.commentsTableView.scrollToRow(at: IndexPath(row: countRow - 1, section: 1), at: .middle, animated: true)
+            } else {
+                self.commentsTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+            }
         }
 
     }
@@ -129,7 +133,7 @@ extension CommentsViewController: CommentsViewInput {
     func addRow() {
         commentsTableView.insertRows(at: [IndexPath(row: presenter.commentsViewModel.count - 1, section: 1)], with: .top)
         let countRow = self.presenter.commentsViewModel.count
-        commentsTableView.scrollToRow(at: IndexPath(row: countRow == 0 ? 0 : countRow - 1, section: 1), at: .middle, animated: true)
+        commentsTableView.scrollToRow(at: IndexPath(row: countRow - 1, section: 1), at: .middle, animated: true)
     }
     
     func show(message: String) {
@@ -141,8 +145,6 @@ extension CommentsViewController: CommentsViewInput {
     
     func reloadComments() {
         commentsTableView.reloadData()
-//        let countRow = self.presenter.commentsViewModel.count
-//        commentsTableView.scrollToRow(at: IndexPath(row: countRow == 0 ? 0 : countRow - 1, section: 1), at: .bottom, animated: false)
     }
     
     func loadingEnd() {
