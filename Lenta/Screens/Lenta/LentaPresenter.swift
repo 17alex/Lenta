@@ -63,12 +63,12 @@ extension LentaPresenter: LentaViewOutput {
     }
     
     func didPressMenu(by index: Int) {
-        var isOwnerPost = false
+        var isPostOwner = false
         if let currentUser = interactor.currentUser,
            interactor.posts[index].userId == currentUser.id {
-            isOwnerPost = true
+            isPostOwner = true
         }
-        view.showMenu(byPostIndex: index, isOwner: isOwnerPost)
+        view.showMenu(byPostIndex: index, isPostOwner: isPostOwner)
     }
 
     func didPressDeletePost(by index: Int) {

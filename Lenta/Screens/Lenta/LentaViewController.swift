@@ -15,7 +15,7 @@ protocol LentaViewInput: class {
     func removePost(by index: Int)
     func userLoginned(_ isLoginned: Bool)
     func show(message: String)
-    func showMenu(byPostIndex index: Int, isOwner: Bool)
+    func showMenu(byPostIndex index: Int, isPostOwner: Bool)
     func loadingStarted()
     func loadingEnd()
 }
@@ -32,6 +32,7 @@ final class LentaViewController: UIViewController {
             lentaTableView.dataSource = self
             lentaTableView.delegate = self
             lentaTableView.refreshControl = refreshControl
+//            lentaTableView.rowHeight = 600
         }
     }
     
@@ -158,9 +159,9 @@ extension LentaViewController: LentaViewInput {
         activityIndicator.startAnimating()
     }
     
-    func showMenu(byPostIndex index: Int, isOwner: Bool) {
+    func showMenu(byPostIndex index: Int, isPostOwner: Bool) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        if isOwner {
+        if isPostOwner {
             
             let deleteAction = UIAlertAction(title: "Delete Post", style: .destructive) { action in
                 print("delete post")
@@ -195,7 +196,7 @@ extension LentaViewController: LentaViewInput {
     func reloadPost(by index: Int) {
         let indexPath = IndexPath(row: index, section: 0)
         let cell = lentaTableView.cellForRow(at: indexPath) as! LentaCell
-        cell.smallUpdate(post: presenter.postsViewModel[index])
+        cell.likeUpdate(post: presenter.postsViewModel[index])
     }
     
     func show(message: String) {

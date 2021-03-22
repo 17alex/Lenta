@@ -18,20 +18,23 @@ final class LentaCell: UITableViewCell {
 
     //MARK: - IBOutlets:
     
-    @IBOutlet weak var cardView: UIView!
+//    @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var avatarImageView: WebImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var fotoImageView: WebImageView!
+    @IBOutlet weak var photoImageView: WebImageView!
     @IBOutlet weak var bottomStackView: UIStackView!
-    @IBOutlet weak var fotoActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var photoActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var likesCountLabel: UILabel!
     @IBOutlet weak var viewsCountLabel: UILabel!
     @IBOutlet weak var commentsCountLabel: UILabel!
     @IBOutlet weak var likesButton: UIButton!
-    @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var heightFoto: NSLayoutConstraint!
+    @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var menuButton: UIButton!
+    //    @IBOutlet weak var shareButton: UIButton!
+//    @IBOutlet weak var heightFoto: NSLayoutConstraint!
     
     //MARK: - Variables
     
@@ -46,11 +49,9 @@ final class LentaCell: UITableViewCell {
             viewsCountLabel.text = postModel.views.count
             commentsCountLabel.text = postModel.comments.count
             setPostPhoto(by: postModel.foto.urlString)
-            heightFoto.constant = postModel.foto.size.height
+//            heightFoto.constant = postModel.foto.size.height
         }
     }
-    
-//    var imHeight: CGFloat = 0
     
     weak var delegate: PostCellDelegate?
     
@@ -58,20 +59,42 @@ final class LentaCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        fotoActivityIndicator.hidesWhenStopped = true
-        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
+        photoActivityIndicator.hidesWhenStopped = true
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
         avatarImageView.image = nil
-        fotoImageView.image = nil
+        photoImageView.image = nil
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let cellWidth = contentView.bounds.width
+        topView.frame = CGRect(x: 0, y: 0, width: cellWidth, height: 4)
+        avatarImageView.frame = CGRect(x: 8, y: 16, width: 60, height: 60)
+        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
+        userNameLabel.frame.origin = CGPoint(x: 79, y: 23)
+        timeLabel.frame.origin = CGPoint(x: 87, y: 53)
+        menuButton.frame = CGRect(x: cellWidth - 65, y: 18, width: 60, height: 60)
+        descriptionLabel.frame.origin = CGPoint(x: 11, y: 81)
+        let descriptionSize: CGSize = getDescriptionSize(text: descriptionLabel.text ?? "", width: cellWidth - 18)
+        descriptionLabel.frame.size = descriptionSize
+        let descrMaxY = descriptionLabel.frame.maxY
+        let photoHeight = getPhotoHeight(photoViewModel: postModel.foto, width: cellWidth)
+        photoImageView.frame = CGRect(x: 0, y: descrMaxY + 2, width: cellWidth, height: photoHeight)
+        photoActivityIndicator.center = photoImageView.center
+        let photoMaxY = photoImageView.frame.maxY
+        bottomStackView.frame = CGRect(x: 16, y: photoMaxY, width: cellWidth - 16 - 16, height: 40)
+        let botStackMaxY = bottomStackView.frame.maxY
+        bottomView.frame = CGRect(x: 0, y: botStackMaxY, width: cellWidth, height: 4)
     }
            
     //MARK: - PublicMetods
     
-    func smallUpdate(post: PostViewModel) {
+    func likeUpdate(post: PostViewModel) {
         likesCountLabel.text = post.likes.count
         paintLikeButton(isHighlight: post.likes.isHighlight)
     }
@@ -82,6 +105,15 @@ final class LentaCell: UITableViewCell {
     
     //MARK: - PrivateMetods
     
+    private func getPhotoHeight(photoViewModel: PhotoViewModel, width: CGFloat) -> CGFloat {
+        return CGFloat(photoViewModel.size.height) / CGFloat(photoViewModel.size.width) * width
+    }
+    
+    private func getDescriptionSize(text: String, width: CGFloat) -> CGSize {
+        let maxDescriptionSize = CGSize(width: width, height: .greatestFiniteMagnitude)
+        return descriptionLabel.sizeThatFits(maxDescriptionSize)
+    }
+    
     private func paintLikeButton(isHighlight: Bool) {
         likesButton.tintColor = isHighlight ? .systemRed : .systemGray
     }
@@ -89,9 +121,9 @@ final class LentaCell: UITableViewCell {
     // todo
     private func setPostPhoto(by urlString: String) {
         if urlString == "" { return }
-        fotoActivityIndicator.startAnimating()
-        fotoImageView.load(by: urlString) {
-            self.fotoActivityIndicator.stopAnimating()
+        photoActivityIndicator.startAnimating()
+        photoImageView.load(by: urlString) {
+            self.photoActivityIndicator.stopAnimating()
         }
     }
     
@@ -118,7 +150,7 @@ final class LentaCell: UITableViewCell {
         print("share post")
         var sendObjects: [Any] = []
 //        if let text = descriptionLabel.text { sendObjects.append(text) }
-        if let image = fotoImageView.image { sendObjects.append(image) }
+        if let image = photoImageView.image { sendObjects.append(image) }
         delegate?.didTapShareButton(cell: self, with: sendObjects)
     }
     
@@ -126,20 +158,3 @@ final class LentaCell: UITableViewCell {
         delegate?.didTapCommentsButton(cell: self)
     }
 }
-
-
-//        let maxDescriptionWidth = userNameLabel.frame.maxX - logoImageView.frame.minX
-//        print("maxDescriptionWidth = \(maxDescriptionWidth)")
-//        let maxDescriptionSize = CGSize(width: maxDescriptionWidth, height: .greatestFiniteMagnitude)
-//        let descriptionLabelSize = descriptionLabel.sizeThatFits(maxDescriptionSize)
-//        descriptionLabel.frame.origin = CGPoint(x: logoImageView.frame.minX, y: logoImageView.frame.maxY + 8)
-//        descriptionLabel.frame.size = descriptionLabelSize
-//
-//        moreButton.frame.origin = CGPoint(x: descriptionLabel.frame.minX, y: descriptionLabel.frame.maxY + 10)
-//        moreButton.frame.size = CGSize(width: maxDescriptionWidth, height: 20)
-//
-//        fotoImageView.frame.origin = CGPoint(x: 0, y: moreButton.frame.maxY + 16)
-//        fotoImageView.frame.size = CGSize(width: bounds.width, height: imHeight)
-//
-//        bottomStackView.frame.origin = CGPoint(x: descriptionLabel.frame.minX, y: fotoImageView.frame.maxY + 16)
-//        bottomStackView.frame.size = CGSize(width: maxDescriptionWidth, height: 36)

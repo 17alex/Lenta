@@ -30,7 +30,6 @@
 		FA396F6E25F8FF5E009B79F5 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6C25F8FF5E009B79F5 /* CommentCell.swift */; };
 		FA396F6F25F8FF5E009B79F5 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA396F6D25F8FF5E009B79F5 /* CommentCell.xib */; };
 		FA39E5A525F7B15E00F274FF /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA39E5A425F7B15E00F274FF /* WebImageView.swift */; };
-		FA39E5A825F7B39C00F274FF /* WebImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA39E5A725F7B39C00F274FF /* WebImageView.xib */; };
 		FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */; };
 		FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */; };
 		FA7DD40225B7006500CB1678 /* RegisterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40125B7006500CB1678 /* RegisterRouter.swift */; };
@@ -82,7 +81,6 @@
 		FA396F6C25F8FF5E009B79F5 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		FA396F6D25F8FF5E009B79F5 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		FA39E5A425F7B15E00F274FF /* WebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
-		FA39E5A725F7B39C00F274FF /* WebImageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebImageView.xib; sourceTree = "<group>"; };
 		FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		FA7DD40125B7006500CB1678 /* RegisterRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRouter.swift; sourceTree = "<group>"; };
@@ -270,7 +268,6 @@
 			children = (
 				FAC2073425AC616900CD9099 /* Assembly.swift */,
 				FA39E5A425F7B15E00F274FF /* WebImageView.swift */,
-				FA39E5A725F7B39C00F274FF /* WebImageView.xib */,
 				FA39ECD525C02D7800C52D1E /* Models */,
 				FA33EDE025AC899A00637E3E /* Screens */,
 				FA1BB71E25DA5673008F56B9 /* Extensions */,
@@ -381,7 +378,6 @@
 				FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */,
 				FAC2072925AC31F400CD9099 /* LentaViewController.xib in Resources */,
 				FA9BFF3C25C17A0D00ACA85F /* ProfileViewController.xib in Resources */,
-				FA39E5A825F7B39C00F274FF /* WebImageView.xib in Resources */,
 				FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */,
 				FA2B46A425B5BD3200DC5C1D /* LoginViewController.xib in Resources */,
 				FA8A308525FA448C00A02751 /* PostCell.xib in Resources */,
