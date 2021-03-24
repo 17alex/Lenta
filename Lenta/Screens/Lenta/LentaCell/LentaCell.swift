@@ -17,8 +17,7 @@ protocol PostCellDelegate: class {
 final class LentaCell: UITableViewCell {
 
     //MARK: - IBOutlets:
-    
-//    @IBOutlet weak var cardView: UIView!
+
     @IBOutlet weak var avatarImageView: WebImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
@@ -33,8 +32,6 @@ final class LentaCell: UITableViewCell {
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var menuButton: UIButton!
-    //    @IBOutlet weak var shareButton: UIButton!
-//    @IBOutlet weak var heightFoto: NSLayoutConstraint!
     
     //MARK: - Variables
     
@@ -48,8 +45,7 @@ final class LentaCell: UITableViewCell {
             likesCountLabel.text = postModel.likes.count
             viewsCountLabel.text = postModel.views.count
             commentsCountLabel.text = postModel.comments.count
-            setPostPhoto(by: postModel.foto.urlString)
-//            heightFoto.constant = postModel.foto.size.height
+            setPostPhoto(by: postModel.photo.urlString)
         }
     }
     
@@ -79,12 +75,10 @@ final class LentaCell: UITableViewCell {
         userNameLabel.frame.origin = CGPoint(x: 79, y: 23)
         timeLabel.frame.origin = CGPoint(x: 87, y: 53)
         menuButton.frame = CGRect(x: cellWidth - 65, y: 18, width: 60, height: 60)
-        descriptionLabel.frame.origin = CGPoint(x: 11, y: 81)
-        let descriptionSize: CGSize = getDescriptionSize(text: descriptionLabel.text ?? "", width: cellWidth - 18)
-        descriptionLabel.frame.size = descriptionSize
+        descriptionLabel.frame.origin = CGPoint(x: 8, y: 81)
+        descriptionLabel.frame.size = CGSize(width: cellWidth - 16, height: postModel.description.size.height)
         let descrMaxY = descriptionLabel.frame.maxY
-        let photoHeight = getPhotoHeight(photoViewModel: postModel.foto, width: cellWidth)
-        photoImageView.frame = CGRect(x: 0, y: descrMaxY + 2, width: cellWidth, height: photoHeight)
+        photoImageView.frame = CGRect(x: 0, y: descrMaxY + 2, width: cellWidth, height: postModel.photo.size.height)
         photoActivityIndicator.center = photoImageView.center
         let photoMaxY = photoImageView.frame.maxY
         bottomStackView.frame = CGRect(x: 16, y: photoMaxY, width: cellWidth - 16 - 16, height: 40)
@@ -139,6 +133,7 @@ final class LentaCell: UITableViewCell {
     //MARK: - IBActions
     
     @IBAction func likesButtonPress() {
+        print("likesButtonPress")
         delegate?.didTapLikeButton(cell: self)
     }
     

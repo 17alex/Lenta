@@ -27,8 +27,8 @@ class PostCell: UITableViewCell {
             setAvatar(by: postModel.user.avatarUrlString)
             timeLabel.text = postModel.time
             descriptionLabel.text = postModel.description.text
-            setPostPhoto(by: postModel.foto.urlString)
-            heightPhotoImageView.constant = postModel.foto.size.height
+            setPostPhoto(by: postModel.photo.urlString)
+            heightPhotoImageView.constant = postModel.photo.size.height
         }
     }
 

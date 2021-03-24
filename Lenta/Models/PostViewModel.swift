@@ -23,7 +23,7 @@ struct PostViewModel {
     let time: String
     let user: UserViewModel
     var description: DescriptionViewModel
-    let foto: PhotoViewModel
+    let photo: PhotoViewModel
     var likes: LikesViewModel
     let views: ViewsViewModel
     let comments: CommentsViewModel
@@ -59,7 +59,7 @@ struct PostViewModel {
         self.time = post.timeInterval.toDateString()
         self.description = DescriptionViewModel(text: post.description, size: .zero)
         let postPhotoUrlSting = post.foto.name == "" ? "" : "https://monsterok.ru/lenta/images/" + post.foto.name
-        self.foto = PhotoViewModel(urlString: postPhotoUrlSting, size: CGSize(width: UIScreen.main.bounds.width, height: CGFloat(post.foto.size.height) / CGFloat(post.foto.size.width) * UIScreen.main.bounds.width)
+        self.photo = PhotoViewModel(urlString: postPhotoUrlSting, size: CGSize(width: UIScreen.main.bounds.width, height: CGFloat(post.foto.size.height) / CGFloat(post.foto.size.width) * UIScreen.main.bounds.width)
         )
         self.likes = LikesViewModel(
             count: String(post.likeUserIds.count),
@@ -76,7 +76,7 @@ struct PostViewModel {
                                      context: nil)
         self.description.size = CGSize(width: rect.width, height: rect.height)
         
-        self.totalHieght = 81 + description.size.height + 2 + foto.size.height + 40 + 4
+        self.totalHieght = 81 + description.size.height + 2 + photo.size.height + 40 + 4
     }
     
     mutating func update(with post: Post) {
