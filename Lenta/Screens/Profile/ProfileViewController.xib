@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -25,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="07P-LK-nKs">
-                    <rect key="frame" x="148" y="162" width="156" height="22"/>
+                    <rect key="frame" x="165" y="162" width="139" height="22"/>
                     <color key="textColor" name="AccentColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="next"/>
@@ -34,31 +34,31 @@
                     </connections>
                 </textField>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y7Q-oU-FRp">
-                    <rect key="frame" x="91" y="163" width="49" height="21"/>
+                    <rect key="frame" x="106" y="163" width="49" height="21"/>
                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Posts count:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6pm-u9-WS7">
-                    <rect key="frame" x="48" y="200" width="92" height="21"/>
+                    <rect key="frame" x="63" y="200" width="92" height="21"/>
                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kMp-iU-epW">
-                    <rect key="frame" x="148" y="200" width="16" height="21"/>
+                    <rect key="frame" x="165" y="200" width="16" height="21"/>
                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--.--.----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIA-Lb-IE7">
-                    <rect key="frame" x="148" y="237" width="71" height="21"/>
+                    <rect key="frame" x="165" y="237" width="71" height="21"/>
                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date register:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dpr-H9-e3a">
-                    <rect key="frame" x="40" y="237" width="100" height="21"/>
+                    <rect key="frame" x="55" y="237" width="100" height="21"/>
                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -75,20 +75,20 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="Y7Q-oU-FRp" firstAttribute="firstBaseline" secondItem="07P-LK-nKs" secondAttribute="firstBaseline" id="0Vw-SP-GeV"/>
-                <constraint firstItem="6pm-u9-WS7" firstAttribute="trailing" secondItem="Y7Q-oU-FRp" secondAttribute="trailing" id="2i6-Md-k0W"/>
+                <constraint firstItem="Y7Q-oU-FRp" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="centerX" constant="-5" id="3jn-Wx-kXP"/>
                 <constraint firstItem="6pm-u9-WS7" firstAttribute="top" secondItem="Y7Q-oU-FRp" secondAttribute="bottom" constant="16" id="7Yo-P2-Dpf"/>
                 <constraint firstItem="kMp-iU-epW" firstAttribute="firstBaseline" secondItem="6pm-u9-WS7" secondAttribute="firstBaseline" id="8KK-VI-pV9"/>
                 <constraint firstItem="Dpr-H9-e3a" firstAttribute="top" secondItem="6pm-u9-WS7" secondAttribute="bottom" constant="16" id="GBG-Pj-VMk"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="07P-LK-nKs" secondAttribute="trailing" constant="16" id="Hhv-oh-pS6"/>
-                <constraint firstItem="Y7Q-oU-FRp" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="140" id="LdB-cj-dFm"/>
-                <constraint firstItem="07P-LK-nKs" firstAttribute="leading" secondItem="Y7Q-oU-FRp" secondAttribute="trailing" constant="8" id="V8e-V3-Czg"/>
+                <constraint firstItem="Dpr-H9-e3a" firstAttribute="trailing" secondItem="Y7Q-oU-FRp" secondAttribute="trailing" id="cpo-xe-kk4"/>
                 <constraint firstItem="kMp-iU-epW" firstAttribute="leading" secondItem="07P-LK-nKs" secondAttribute="leading" id="f8m-g2-JeR"/>
                 <constraint firstItem="iMg-ZX-dZ2" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="30" id="hyW-sp-W6Z"/>
-                <constraint firstItem="Dpr-H9-e3a" firstAttribute="trailing" secondItem="Y7Q-oU-FRp" secondAttribute="trailing" id="jJ5-E1-uH6"/>
                 <constraint firstItem="07P-LK-nKs" firstAttribute="top" secondItem="iMg-ZX-dZ2" secondAttribute="bottom" constant="32" id="jwV-Pf-1ZW"/>
+                <constraint firstItem="6pm-u9-WS7" firstAttribute="trailing" secondItem="Y7Q-oU-FRp" secondAttribute="trailing" id="qCf-FL-LWQ"/>
                 <constraint firstItem="iMg-ZX-dZ2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="rmL-1w-61y"/>
                 <constraint firstItem="CIA-Lb-IE7" firstAttribute="leading" secondItem="07P-LK-nKs" secondAttribute="leading" id="srr-H6-1g3"/>
                 <constraint firstItem="CIA-Lb-IE7" firstAttribute="firstBaseline" secondItem="Dpr-H9-e3a" secondAttribute="firstBaseline" id="z5d-XR-PY5"/>
+                <constraint firstItem="07P-LK-nKs" firstAttribute="leading" secondItem="Y7Q-oU-FRp" secondAttribute="trailing" constant="10" id="zUh-PS-Xan"/>
             </constraints>
             <point key="canvasLocation" x="75" y="108.80281690140845"/>
         </view>

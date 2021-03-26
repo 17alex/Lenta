@@ -16,11 +16,7 @@ struct CommentViewModel {
     init(comment: Comment, user: User) {
         self.id = comment.id
         self.time = comment.timeInterval.toDateString()
-        self.user = UserViewModel(
-            id: user.id,
-            name: user.name,
-            avatarUrlString: "https://monsterok.ru/lenta/avatars/" + user.avatar
-        )
+        self.user = UserViewModel(user: user)
         self.text = comment.text
     }
 }

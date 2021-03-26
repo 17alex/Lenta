@@ -19,6 +19,7 @@ protocol LentaViewOutput {
     func didPressLike(postIndex: Int)
     func didPressMore(postIndex: Int)
     func willDisplayCell(by index: Int)
+    func didTapAvatar(by index: Int)
 }
 
 protocol LentaInteractorOutput: class {
@@ -56,6 +57,14 @@ final class LentaPresenter {
 //MARK: - LentaViewOutput
 
 extension LentaPresenter: LentaViewOutput {
+    
+    func didTapAvatar(by index: Int) {
+        print("presenter - didTapAvatar")
+        let userID = postsViewModel[index].user.id
+        let user = interactor.users.first { $0.id == userID }
+        let userViewModel = UserViewModel(user: user!)
+        router.showUserInfoModule(user: userViewModel)
+    }
     
     func didPressComments(by index: Int) {
         let postId = interactor.posts[index].id

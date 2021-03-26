@@ -12,6 +12,7 @@ protocol PostCellDelegate: class {
     func didTapMenuButton(cell: UITableViewCell)
     func didTapCommentsButton(cell: UITableViewCell)
     func didTapShareButton(cell: UITableViewCell, with object: [Any])
+    func didTapAvatar(cell: UITableViewCell)
 }
 
 final class LentaCell: UITableViewCell {
@@ -56,6 +57,7 @@ final class LentaCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         photoActivityIndicator.hidesWhenStopped = true
+        avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapAvatar)))
     }
     
     override func prepareForReuse() {
@@ -98,6 +100,12 @@ final class LentaCell: UITableViewCell {
     }
     
     //MARK: - PrivateMetods
+    
+    @objc
+    private func didTapAvatar() {
+        print("didTapAvatar")
+        delegate?.didTapAvatar(cell: self)
+    }
     
     private func getPhotoHeight(photoViewModel: PhotoViewModel, width: CGFloat) -> CGFloat {
         return CGFloat(photoViewModel.size.height) / CGFloat(photoViewModel.size.width) * width

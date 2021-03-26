@@ -10,6 +10,7 @@ import UIKit
 protocol LentaRouterInput {
     func showNewPostModule(callback: @escaping (Response) -> Void)
     func showCommentsModule(by postId: Int)
+    func showUserInfoModule(user: UserViewModel)
 }
 
 class LentaRouter {
@@ -31,6 +32,11 @@ class LentaRouter {
 //MARK: - LentaRouterInput
 
 extension LentaRouter: LentaRouterInput {
+    
+    func showUserInfoModule(user: UserViewModel) {
+        let userInfoVC = assembly.getUserInfoModule(user: user)
+        view.present(userInfoVC, animated: true)
+    }
     
     func showCommentsModule(by postId: Int) {
         let commensVC = assembly.getCommentsModule(by: postId)

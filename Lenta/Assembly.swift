@@ -36,6 +36,12 @@ class Assembly {
         return tbController
     }
     
+    func getUserInfoModule(user: UserViewModel) -> UIViewController {
+        let view = UserInfoViewController()
+        view.user = user
+        return view
+    }
+    
     func getProfileModule() -> UIViewController {
         let view = ProfileViewController()
         let presenter = ProfilePresenter(view: view)

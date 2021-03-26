@@ -55,6 +55,7 @@
 		FAC2073F25AC689F00CD9099 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073E25AC689F00CD9099 /* PostViewModel.swift */; };
 		FAC2074425AC6C6E00CD9099 /* LentaRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2074325AC6C6E00CD9099 /* LentaRouter.swift */; };
 		FAD65F3F25EF9C2400EEC9B6 /* CurrentUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD65F3E25EF9C2400EEC9B6 /* CurrentUserModel.swift */; };
+		FAF49F45260CA71C00199779 /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF49F44260CA71C00199779 /* UserInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,6 +109,7 @@
 		FAC2073E25AC689F00CD9099 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		FAC2074325AC6C6E00CD9099 /* LentaRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaRouter.swift; sourceTree = "<group>"; };
 		FAD65F3E25EF9C2400EEC9B6 /* CurrentUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserModel.swift; sourceTree = "<group>"; };
+		FAF49F44260CA71C00199779 /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 		FA33EDE025AC899A00637E3E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				FAF49F43260CA62A00199779 /* UserInfo */,
 				FA9BFF3825C179F400ACA85F /* Profile */,
 				FA7DD3FA25B6F8CA00CB1678 /* Register */,
 				FA2B46A025B5BD1100DC5C1D /* Login */,
@@ -313,6 +316,14 @@
 			path = LentaCell;
 			sourceTree = "<group>";
 		};
+		FAF49F43260CA62A00199779 /* UserInfo */ = {
+			isa = PBXGroup;
+			children = (
+				FAF49F44260CA71C00199779 /* UserInfoViewController.swift */,
+			);
+			path = UserInfo;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -432,6 +443,7 @@
 				FA7DD40825B71F3600CB1678 /* RegisterInteractor.swift in Sources */,
 				FAC2073B25AC61B200CD9099 /* LentaInteractor.swift in Sources */,
 				FAC2074425AC6C6E00CD9099 /* LentaRouter.swift in Sources */,
+				FAF49F45260CA71C00199779 /* UserInfoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

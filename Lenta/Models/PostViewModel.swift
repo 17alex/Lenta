@@ -11,6 +11,16 @@ struct UserViewModel {
     let id: Int
     let name: String
     let avatarUrlString: String
+    let postCount: String
+    let dateRegister: String
+    
+    init(user: User) {
+        self.id = user.id
+        self.name = user.name
+        self.avatarUrlString = user.avatar == "" ? "" : "https://monsterok.ru/lenta/avatars/" + user.avatar
+        self.postCount = String(user.postsCount)
+        self.dateRegister = user.dateRegister.toDateString()
+    }
 }
 
 struct PhotoViewModel {
@@ -50,12 +60,7 @@ struct PostViewModel {
     
     init(post: Post, user: User, currenUser: CurrentUser?) {
         self.id = post.id
-        let avatarUrlString = user.avatar == "" ? "" : "https://monsterok.ru/lenta/avatars/" + user.avatar
-        self.user = UserViewModel(
-            id: user.id,
-            name: user.name,
-            avatarUrlString: avatarUrlString
-        )
+        self.user = UserViewModel(user: user)
         self.time = post.timeInterval.toDateString()
         self.description = DescriptionViewModel(text: post.description, size: .zero)
         let postPhotoUrlSting = post.foto.name == "" ? "" : "https://monsterok.ru/lenta/images/" + post.foto.name

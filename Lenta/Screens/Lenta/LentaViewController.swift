@@ -118,6 +118,12 @@ extension LentaViewController: UITableViewDelegate {
 
 extension LentaViewController: PostCellDelegate {
     
+    func didTapAvatar(cell: UITableViewCell) {
+        if let cellIndexPath = lentaTableView.indexPath(for: cell) {
+            presenter.didTapAvatar(by: cellIndexPath.row)
+        }
+    }
+    
     func didTapCommentsButton(cell: UITableViewCell) {
         if let cellIndexPath = lentaTableView.indexPath(for: cell) {
             presenter.didPressComments(by: cellIndexPath.row)
