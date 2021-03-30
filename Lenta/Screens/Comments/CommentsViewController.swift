@@ -51,7 +51,6 @@ class CommentsViewController: UIViewController {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(willShowKboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willHideKboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-//        descriptionTextView.becomeFirstResponder()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -100,8 +99,6 @@ class CommentsViewController: UIViewController {
     }
 
     private func setup() {
-        sendActivityIndicator.hidesWhenStopped = true
-        loadActivityIndicator.hidesWhenStopped = true
         bubleView.layer.cornerRadius = 15
         let postCellNibName = String(describing: PostCell.self)
         commentsTableView.register(UINib(nibName: postCellNibName, bundle: nil), forCellReuseIdentifier: postCellNibName)
@@ -124,7 +121,7 @@ class CommentsViewController: UIViewController {
         }
     }
     
-    //Mark: - IBAction
+    //MARK: - IBAction
     
     @IBAction func sendButtonPress(_ sender: UIButton) {
         print("sendNewComment")
@@ -135,7 +132,7 @@ class CommentsViewController: UIViewController {
         heightNewCommentTextView.constant = 33
     }
     
-    @IBAction func closeButtonPress(_ sender: UIButton) {
+    @IBAction func closeButtonPress(_ sender: Any) {
         presenter.didCloseButtonPress()
     }
 }

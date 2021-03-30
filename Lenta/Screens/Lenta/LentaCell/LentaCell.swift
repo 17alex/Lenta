@@ -56,7 +56,6 @@ final class LentaCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        photoActivityIndicator.hidesWhenStopped = true
         avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapAvatar)))
     }
     
@@ -118,9 +117,10 @@ final class LentaCell: UITableViewCell {
     
     private func paintLikeButton(isHighlight: Bool) {
         likesButton.tintColor = isHighlight ? .systemRed : .systemGray
+        let likeImage = isHighlight ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        likesButton.setImage(likeImage, for: .normal)
     }
     
-    // todo
     private func setPostPhoto(by urlString: String) {
         if urlString == "" { return }
         photoActivityIndicator.startAnimating()
@@ -129,7 +129,6 @@ final class LentaCell: UITableViewCell {
         }
     }
     
-    // todo
     private func setAvatar(by urlString: String) {
         if urlString != "" {
             avatarImageView.load(by: urlString) { }
@@ -152,7 +151,6 @@ final class LentaCell: UITableViewCell {
     @IBAction func shareButtonPress(_ sender: UIButton) {
         print("share post")
         var sendObjects: [Any] = []
-//        if let text = descriptionLabel.text { sendObjects.append(text) }
         if let image = photoImageView.image { sendObjects.append(image) }
         delegate?.didTapShareButton(cell: self, with: sendObjects)
     }

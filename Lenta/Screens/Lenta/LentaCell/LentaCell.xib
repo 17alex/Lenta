@@ -57,7 +57,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="0.27651026839999998" green="0.67088538409999998" blue="0.8915337324" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="LlM-Gy-dR7">
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="LlM-Gy-dR7">
                         <rect key="frame" x="150" y="203" width="20" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </activityIndicatorView>
@@ -77,20 +77,18 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="xyq-ea-xUd">
-                                <rect key="frame" x="0.0" y="0.0" width="42" height="23"/>
+                                <rect key="frame" x="0.0" y="0.0" width="37" height="23"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MVo-42-6aG">
-                                        <rect key="frame" x="0.0" y="0.0" width="25.5" height="23"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="20.5" height="23"/>
                                         <color key="tintColor" systemColor="systemGrayColor"/>
-                                        <state key="normal">
-                                            <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
-                                        </state>
+                                        <state key="normal" image="heart" catalog="system"/>
                                         <connections>
                                             <action selector="likesButtonPress" destination="lhK-w9-sTH" eventType="touchUpInside" id="fpF-bM-1MW"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qm-oN-E3S">
-                                        <rect key="frame" x="26.5" y="0.0" width="15.5" height="23"/>
+                                        <rect key="frame" x="21.5" y="0.0" width="15.5" height="23"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" systemColor="systemGrayColor"/>
                                         <nil key="highlightedColor"/>
@@ -98,7 +96,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="XmK-Lb-In5">
-                                <rect key="frame" x="88" y="0.0" width="42.5" height="23"/>
+                                <rect key="frame" x="86.5" y="0.0" width="42.5" height="23"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eye" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="kUL-ft-3PX">
                                         <rect key="frame" x="0.0" y="1.5" width="26" height="19.5"/>
@@ -114,20 +112,18 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="8Uf-OE-bD1">
-                                <rect key="frame" x="177" y="0.0" width="44" height="23"/>
+                                <rect key="frame" x="178.5" y="0.0" width="39" height="23"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2yH-SW-J57">
-                                        <rect key="frame" x="0.0" y="0.0" width="27.5" height="23"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="22.5" height="23"/>
                                         <color key="tintColor" systemColor="systemGrayColor"/>
-                                        <state key="normal">
-                                            <imageReference key="image" image="bubble.right" catalog="system" symbolScale="large"/>
-                                        </state>
+                                        <state key="normal" image="bubble.right" catalog="system"/>
                                         <connections>
                                             <action selector="commentsButtonPress:" destination="lhK-w9-sTH" eventType="touchUpInside" id="zYQ-pe-xaO"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TAd-ct-DPe">
-                                        <rect key="frame" x="28.5" y="0.0" width="15.5" height="23"/>
+                                        <rect key="frame" x="23.5" y="0.0" width="15.5" height="23"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" systemColor="systemGrayColor"/>
                                         <nil key="highlightedColor"/>
@@ -138,15 +134,12 @@
                                 <rect key="frame" x="266.78571428571433" y="0.0" width="26" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" systemColor="systemGrayColor"/>
-                                <state key="normal">
-                                    <imageReference key="image" image="arrowshape.turn.up.right" catalog="system" symbolScale="large"/>
-                                </state>
+                                <state key="normal" image="arrowshape.turn.up.right" catalog="system"/>
                                 <connections>
                                     <action selector="shareButtonPress:" destination="lhK-w9-sTH" eventType="touchUpInside" id="xyh-rx-wD2"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.7156619394" blue="0.19947809220000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </stackView>
                 </subviews>
             </tableViewCellContentView>

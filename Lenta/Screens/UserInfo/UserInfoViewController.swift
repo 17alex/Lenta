@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UserInfoViewController: UIViewController {
+final class UserInfoViewController: UIViewController {
 
     //MARK: - Propertis
     
@@ -17,14 +17,6 @@ class UserInfoViewController: UIViewController {
         imageView.image = UIImage(named: "defaultAvatar")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
-    }()
-    
-    let closeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: "multiply"), for: .normal)
-        button.addTarget(self, action: #selector(closeButtonPress), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
     }()
     
     let nameLabel: UILabel = {
@@ -81,6 +73,15 @@ class UserInfoViewController: UIViewController {
         return label
     }()
     
+    let navBar: UINavigationBar = {
+        let navBar = UINavigationBar()
+        let navItem = UINavigationItem(title: "User info")
+        navItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPress))
+        navBar.items = [navItem]
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        return navBar
+    }()
+    
     var user: UserViewModel?
     
     //MARK: - LiveCycles
@@ -120,16 +121,20 @@ class UserInfoViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         view.addSubview(avatarImageView)
-        view.addSubview(closeButton)
         view.addSubview(nameLabel)
         view.addSubview(countLabel)
         view.addSubview(registerLabel)
         view.addSubview(userNameLabel)
         view.addSubview(userPostCountLabel)
         view.addSubview(userDateRegisterLabel)
+        view.addSubview(navBar)
+        
+        navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
         avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
+        avatarImageView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 30).isActive = true
         avatarImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         avatarImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
@@ -150,8 +155,5 @@ class UserInfoViewController: UIViewController {
         
         userDateRegisterLabel.firstBaselineAnchor.constraint(equalTo: registerLabel.firstBaselineAnchor).isActive = true
         userDateRegisterLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor).isActive = true
-        
-        closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        closeButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
     }
 }

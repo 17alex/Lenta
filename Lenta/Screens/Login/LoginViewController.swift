@@ -40,7 +40,6 @@ class LoginViewController: UIViewController {
     //MARK: - Metods
     
     private func setup() {
-        activityIndicator.hidesWhenStopped = true
         logInButton.layer.cornerRadius = logInButton.bounds.height / 2
         loginTextField.delegate = self
         passwordTextField.delegate = self

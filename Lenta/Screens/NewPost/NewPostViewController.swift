@@ -18,8 +18,7 @@ class NewPostViewController: UIViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var fotoImageView: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var sendButton: UIButton!
-    @IBOutlet weak var newPostTitle: UILabel!
+    @IBOutlet weak var sendButton: UIBarButtonItem!
     @IBOutlet weak var heightTextView: NSLayoutConstraint!
     @IBOutlet weak var heightImageView: NSLayoutConstraint!
     @IBOutlet weak var bottomScrollView: NSLayoutConstraint!
@@ -87,9 +86,6 @@ class NewPostViewController: UIViewController {
     }
     
     private func setup() {
-        newPostTitle.text = "Enter new post..."
-        activityIndicator.hidesWhenStopped = true
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapPhoto))
         fotoImageView.addGestureRecognizer(tap)
         
@@ -123,14 +119,14 @@ class NewPostViewController: UIViewController {
     
     //MARK: - IBAction
     
-    @IBAction func sendButtonPress(_ sender: UIButton) {
+    @IBAction func sendButtonPress(_ sender: UIBarButtonItem) {
         sendButton.isEnabled = false
         activityIndicator.startAnimating()
         let description = descriptionTextView.text ?? ""
         presenter.pressSendButton(description: description, image: fotoImageView.image)
     }
     
-    @IBAction func closeButtonPress(_ sender: UIButton) {
+    @IBAction func closeButtonPress(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
     }
 }

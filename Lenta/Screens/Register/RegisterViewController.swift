@@ -43,7 +43,6 @@ class RegisterViewController: UIViewController {
     //MARK: - Metods
     
     private func setup() {
-        activityIndicator.hidesWhenStopped = true
         registerButton.layer.cornerRadius = registerButton.bounds.height / 2
         nameTextField.delegate = self
         loginTextField.delegate = self
