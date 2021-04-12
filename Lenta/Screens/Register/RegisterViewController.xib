@@ -60,7 +60,7 @@
                         <color key="titleColor" systemColor="systemBackgroundColor"/>
                     </state>
                     <connections>
-                        <action selector="registerButtonpress:" destination="-1" eventType="touchUpInside" id="4en-Eu-H5F"/>
+                        <action selector="registerButtonPress:" destination="-1" eventType="touchUpInside" id="4en-Eu-H5F"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gn-ZX-2Kf">

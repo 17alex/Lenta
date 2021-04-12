@@ -26,6 +26,7 @@ class NewPostViewController: UIViewController {
     //MARK: - Propertis
     
     var presenter: NewPostViewOutput!
+    lazy var imagePicker = ImagePicker(view: self, delegate: self)
     var kbIsShow = false
     
     //MARK: - LiveCycles
@@ -99,22 +100,7 @@ class NewPostViewController: UIViewController {
     }
     
     @objc private func chooseImage() {
-        let actionSheet = UIAlertController(title: "Choose", message: "foto source", preferredStyle: .actionSheet)
-        let fotoAction = UIAlertAction(title: "Foto", style: .default) { (_) in
-            self.chooseImagePicker(source: .photoLibrary)
-        }
-        
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { (_) in
-            self.chooseImagePicker(source: .camera)
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        actionSheet.addAction(fotoAction)
-        actionSheet.addAction(cameraAction)
-        actionSheet.addAction(cancelAction)
-        
-        present(actionSheet, animated: true)
+        imagePicker.chooseImage()
     }
     
     //MARK: - IBAction
@@ -157,25 +143,13 @@ extension NewPostViewController: NewPostViewInput {
     }
 }
 
-// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+//MARK: - ImagePickerDelegate
 
-extension NewPostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension NewPostViewController: ImagePickerDelegate {
     
-    func chooseImagePicker(source: UIImagePickerController.SourceType) {
-        if UIImagePickerController.isSourceTypeAvailable(source) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = source
-            present(imagePicker, animated: true)
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image: UIImage = info[.editedImage] as? UIImage else { return }
-        self.fotoImageView.image = image
+    func selectImage(_ image: UIImage) {
+        fotoImageView.image = image
         let height = image.size.height / image.size.width * fotoImageView.bounds.width
         heightImageView.constant = height
-        dismiss(animated: true, completion: nil)
     }
 }

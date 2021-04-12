@@ -27,6 +27,7 @@ class RegisterViewController: UIViewController {
     
     var presenter: RegisterViewOutput!
     private var avatarImage: UIImage?
+    lazy var imagePicker = ImagePicker(view: self, delegate: self)
     
     //MARK: - LiveCycles
     
@@ -44,6 +45,8 @@ class RegisterViewController: UIViewController {
     
     private func setup() {
         registerButton.layer.cornerRadius = registerButton.bounds.height / 2
+        avatarButton.layer.cornerRadius = avatarButton.bounds.height / 2
+        avatarButton.clipsToBounds = true
         nameTextField.delegate = self
         loginTextField.delegate = self
         passwordTextField.delegate = self
@@ -51,29 +54,10 @@ class RegisterViewController: UIViewController {
         nameTextField.becomeFirstResponder()
     }
     
-    private func chooseImage() {
-        let actionSheet = UIAlertController(title: "Choose", message: "foto source", preferredStyle: .actionSheet)
-        let fotoAction = UIAlertAction(title: "Foto", style: .default) { (_) in
-            self.chooseImagePicker(source: .photoLibrary)
-        }
-        
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { (_) in
-            self.chooseImagePicker(source: .camera)
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        actionSheet.addAction(fotoAction)
-        actionSheet.addAction(cameraAction)
-        actionSheet.addAction(cancelAction)
-        
-        present(actionSheet, animated: true)
-    }
-    
     //MARK: - IBAction
     
     @IBAction func addAvatarButtonPress(_ sender: UIButton) {
-        chooseImage()
+        imagePicker.chooseImage()
     }
     
     @IBAction func logInButtonPress(_ sender: UIButton) {
@@ -92,7 +76,7 @@ class RegisterViewController: UIViewController {
         }
     }
     
-    @IBAction func registerButtonpress(_ sender: UIButton) {
+    @IBAction func registerButtonPress(_ sender: UIButton) {
         registerButton.isHidden = true
         activityIndicator.startAnimating()
         presenter.registerButtonPress(name: nameTextField.text!, login: loginTextField.text!, password: passwordTextField.text!, avatarImage: avatarImage)
@@ -106,32 +90,11 @@ extension RegisterViewController: RegisterViewInput {
     func userNotRegister(message: String) {
         activityIndicator.stopAnimating()
         registerButton.isHidden = false
+        //TODO: - alert to label
         let alertController = UIAlertController(title: "Error register", message: message, preferredStyle: .alert)
         let okAlertAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alertController.addAction(okAlertAction)
         present(alertController, animated: true, completion: nil)
-    }
-}
-
-// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
-
-extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    func chooseImagePicker(source: UIImagePickerController.SourceType) {
-        if UIImagePickerController.isSourceTypeAvailable(source) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = source
-            present(imagePicker, animated: true)
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image: UIImage = info[.editedImage] as? UIImage else { return }
-        self.avatarImage = image
-        self.avatarButton.setImage(image, for: .normal)
-        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -148,5 +111,15 @@ extension RegisterViewController: UITextFieldDelegate {
         }
         
         return true
+    }
+}
+
+//MARK: - ImagePickerDelegate
+
+extension RegisterViewController: ImagePickerDelegate {
+    
+    func selectImage(_ image: UIImage) {
+        avatarImage = image
+        avatarButton.setImage(image, for: .normal)
     }
 }
