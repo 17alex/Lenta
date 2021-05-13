@@ -27,6 +27,7 @@ final class ProfileViewController: UIViewController {
     
     var presenter: ProfileViewOutput!
     var saveButton: UIBarButtonItem!
+    lazy var imagePicker = ImagePicker(view: self, delegate: self)
     
     //MARK: - LiveCycles
     
@@ -80,43 +81,7 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func chooseImage() {
-        let actionSheet = UIAlertController(title: "Choose", message: "foto source", preferredStyle: .actionSheet)
-        let fotoAction = UIAlertAction(title: "Foto", style: .default) { (_) in
-            self.chooseImagePicker(source: .photoLibrary)
-        }
-        
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { (_) in
-            self.chooseImagePicker(source: .camera)
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        actionSheet.addAction(fotoAction)
-        actionSheet.addAction(cameraAction)
-        actionSheet.addAction(cancelAction)
-        
-        present(actionSheet, animated: true)
-    }
-}
-
-// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
-extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    func chooseImagePicker(source: UIImagePickerController.SourceType) {
-        if UIImagePickerController.isSourceTypeAvailable(source) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = source
-            present(imagePicker, animated: true)
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image: UIImage = info[.editedImage] as? UIImage else { return }
-        self.avatarImageView.image = image
-        presenter.didSelectNewAvatar()
-        dismiss(animated: true, completion: nil)
+        imagePicker.chooseImage()
     }
 }
 
@@ -162,5 +127,15 @@ extension ProfileViewController: ProfileViewInput {
         }
         
         navigationItem.rightBarButtonItem = logInOutBarButtonItem
+    }
+}
+
+//MARK: - ImagePickerDelegate
+
+extension ProfileViewController: ImagePickerDelegate {
+    
+    func selectImage(_ image: UIImage) {
+        self.avatarImageView.image = image
+        presenter.didSelectNewAvatar()
     }
 }

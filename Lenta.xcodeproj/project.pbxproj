@@ -46,7 +46,6 @@
 		FA9BFF4025C17F4500ACA85F /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF3F25C17F4500ACA85F /* ProfilePresenter.swift */; };
 		FA9BFF4325C1825300ACA85F /* ProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF4225C1825300ACA85F /* ProfileRouter.swift */; };
 		FAC2072825AC31F400CD9099 /* LentaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2072625AC31F400CD9099 /* LentaViewController.swift */; };
-		FAC2072925AC31F400CD9099 /* LentaViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAC2072725AC31F400CD9099 /* LentaViewController.xib */; };
 		FAC2072E25AC3B0700CD9099 /* LentaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2072C25AC3B0600CD9099 /* LentaCell.swift */; };
 		FAC2072F25AC3B0700CD9099 /* LentaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAC2072D25AC3B0600CD9099 /* LentaCell.xib */; };
 		FAC2073225AC5FE300CD9099 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073125AC5FE300CD9099 /* Response.swift */; };
@@ -101,7 +100,6 @@
 		FA9BFF3F25C17F4500ACA85F /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
 		FA9BFF4225C1825300ACA85F /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
 		FAC2072625AC31F400CD9099 /* LentaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaViewController.swift; sourceTree = "<group>"; };
-		FAC2072725AC31F400CD9099 /* LentaViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LentaViewController.xib; sourceTree = "<group>"; };
 		FAC2072C25AC3B0600CD9099 /* LentaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaCell.swift; sourceTree = "<group>"; };
 		FAC2072D25AC3B0600CD9099 /* LentaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LentaCell.xib; sourceTree = "<group>"; };
 		FAC2073125AC5FE300CD9099 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
@@ -144,14 +142,6 @@
 			path = NewPost;
 			sourceTree = "<group>";
 		};
-		FA2B469A25B5704B00DC5C1D /* Store */ = {
-			isa = PBXGroup;
-			children = (
-				FA2B469B25B5706400DC5C1D /* StoreManager.swift */,
-			);
-			path = Store;
-			sourceTree = "<group>";
-		};
 		FA2B46A025B5BD1100DC5C1D /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,18 +172,10 @@
 			isa = PBXGroup;
 			children = (
 				FA0A1DFB2624844B0061524D /* ImagePicker.swift */,
-				FA2B469A25B5704B00DC5C1D /* Store */,
-				FA33EDE225AC8A2800637E3E /* Network */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		FA33EDE225AC8A2800637E3E /* Network */ = {
-			isa = PBXGroup;
-			children = (
+				FA2B469B25B5706400DC5C1D /* StoreManager.swift */,
 				FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */,
 			);
-			path = Network;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		FA396F5925F8EBB8009B79F5 /* Comments */ = {
@@ -293,7 +275,6 @@
 				FAC2073725AC61A500CD9099 /* LentaPresenter.swift */,
 				FAC2073A25AC61B200CD9099 /* LentaInteractor.swift */,
 				FAC2074325AC6C6E00CD9099 /* LentaRouter.swift */,
-				FAC2072725AC31F400CD9099 /* LentaViewController.xib */,
 				FAC2072B25AC3AC600CD9099 /* LentaCell */,
 			);
 			path = Lenta;
@@ -390,7 +371,6 @@
 			files = (
 				FA396F6025F8F230009B79F5 /* CommentsViewController.xib in Resources */,
 				FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */,
-				FAC2072925AC31F400CD9099 /* LentaViewController.xib in Resources */,
 				FA9BFF3C25C17A0D00ACA85F /* ProfileViewController.xib in Resources */,
 				FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */,
 				FA2B46A425B5BD3200DC5C1D /* LoginViewController.xib in Resources */,

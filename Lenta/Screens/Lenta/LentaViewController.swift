@@ -21,29 +21,34 @@ protocol LentaViewInput: class {
 }
 
 final class LentaViewController: UIViewController {
-
-    //MARK: - IBOutlets
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var lentaTableView: UITableView! {
-        didSet {
-            let cellNibName = String(describing: LentaCell.self)
-            lentaTableView.register(UINib(nibName: cellNibName, bundle: nil), forCellReuseIdentifier: cellNibName)
-            lentaTableView.dataSource = self
-            lentaTableView.delegate = self
-            lentaTableView.refreshControl = refreshControl
-//            lentaTableView.rowHeight = 600
-        }
-    }
-    
-    //MARK: - Variables
+    //MARK: - Propertis
     
     var presenter: LentaViewOutput!
+    
+    private var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
     
     let refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         return refreshControl
+    }()
+    
+    private lazy var lentaTableView: UITableView = {
+        let tableView = UITableView()
+        let cellNibName = String(describing: LentaCell.self)
+        tableView.register(UINib(nibName: cellNibName, bundle: nil), forCellReuseIdentifier: cellNibName)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.refreshControl = refreshControl
+        tableView.backgroundColor = #colorLiteral(red: 0.1367115593, green: 0.5836390616, blue: 0.6736763277, alpha: 1)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
     }()
     
     //MARK: - LiveCycles
@@ -70,9 +75,22 @@ final class LentaViewController: UIViewController {
     
     private func setup() {
         title = "Lenta"
-        activityIndicator.hidesWhenStopped = true
+        
         let newPostButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(newPostButtonPress))
         navigationItem.rightBarButtonItem = newPostButtonItem
+        
+        view.addSubview(lentaTableView)
+        view.addSubview(activityIndicator)
+        
+        NSLayoutConstraint.activate([
+            lentaTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            lentaTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            lentaTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            lentaTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: lentaTableView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: lentaTableView.centerYAnchor)
+        ])
     }
     
     @objc private func pullToRefresh() {
