@@ -31,6 +31,7 @@
 		FA396F6E25F8FF5E009B79F5 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6C25F8FF5E009B79F5 /* CommentCell.swift */; };
 		FA396F6F25F8FF5E009B79F5 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA396F6D25F8FF5E009B79F5 /* CommentCell.xib */; };
 		FA39E5A525F7B15E00F274FF /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA39E5A425F7B15E00F274FF /* WebImageView.swift */; };
+		FA6385CB264D699B006961D0 /* LentaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6385CA264D699B006961D0 /* LentaCell.swift */; };
 		FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */; };
 		FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */; };
 		FA7DD40225B7006500CB1678 /* RegisterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40125B7006500CB1678 /* RegisterRouter.swift */; };
@@ -46,8 +47,6 @@
 		FA9BFF4025C17F4500ACA85F /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF3F25C17F4500ACA85F /* ProfilePresenter.swift */; };
 		FA9BFF4325C1825300ACA85F /* ProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF4225C1825300ACA85F /* ProfileRouter.swift */; };
 		FAC2072825AC31F400CD9099 /* LentaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2072625AC31F400CD9099 /* LentaViewController.swift */; };
-		FAC2072E25AC3B0700CD9099 /* LentaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2072C25AC3B0600CD9099 /* LentaCell.swift */; };
-		FAC2072F25AC3B0700CD9099 /* LentaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAC2072D25AC3B0600CD9099 /* LentaCell.xib */; };
 		FAC2073225AC5FE300CD9099 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073125AC5FE300CD9099 /* Response.swift */; };
 		FAC2073525AC616900CD9099 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073425AC616900CD9099 /* Assembly.swift */; };
 		FAC2073825AC61A500CD9099 /* LentaPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073725AC61A500CD9099 /* LentaPresenter.swift */; };
@@ -83,6 +82,7 @@
 		FA396F6C25F8FF5E009B79F5 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		FA396F6D25F8FF5E009B79F5 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		FA39E5A425F7B15E00F274FF /* WebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
+		FA6385CA264D699B006961D0 /* LentaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaCell.swift; sourceTree = "<group>"; };
 		FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		FA7DD40125B7006500CB1678 /* RegisterRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRouter.swift; sourceTree = "<group>"; };
@@ -100,8 +100,6 @@
 		FA9BFF3F25C17F4500ACA85F /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
 		FA9BFF4225C1825300ACA85F /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
 		FAC2072625AC31F400CD9099 /* LentaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaViewController.swift; sourceTree = "<group>"; };
-		FAC2072C25AC3B0600CD9099 /* LentaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaCell.swift; sourceTree = "<group>"; };
-		FAC2072D25AC3B0600CD9099 /* LentaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LentaCell.xib; sourceTree = "<group>"; };
 		FAC2073125AC5FE300CD9099 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		FAC2073425AC616900CD9099 /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		FAC2073725AC61A500CD9099 /* LentaPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaPresenter.swift; sourceTree = "<group>"; };
@@ -294,8 +292,7 @@
 		FAC2072B25AC3AC600CD9099 /* LentaCell */ = {
 			isa = PBXGroup;
 			children = (
-				FAC2072C25AC3B0600CD9099 /* LentaCell.swift */,
-				FAC2072D25AC3B0600CD9099 /* LentaCell.xib */,
+				FA6385CA264D699B006961D0 /* LentaCell.swift */,
 			);
 			path = LentaCell;
 			sourceTree = "<group>";
@@ -375,7 +372,6 @@
 				FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */,
 				FA2B46A425B5BD3200DC5C1D /* LoginViewController.xib in Resources */,
 				FA8A308525FA448C00A02751 /* PostCell.xib in Resources */,
-				FAC2072F25AC3B0700CD9099 /* LentaCell.xib in Resources */,
 				FA396F6F25F8FF5E009B79F5 /* CommentCell.xib in Resources */,
 				FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */,
 				FA26A90325B0290900D2B806 /* NewPostViewController.xib in Resources */,
@@ -390,6 +386,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA0A1DFC2624844B0061524D /* ImagePicker.swift in Sources */,
+				FA6385CB264D699B006961D0 /* LentaCell.swift in Sources */,
 				FA26A90C25B02C6800D2B806 /* NewPostRouter.swift in Sources */,
 				FA33EDE425AC8A5D00637E3E /* NetworkManager.swift in Sources */,
 				FA39E5A525F7B15E00F274FF /* WebImageView.swift in Sources */,
@@ -404,7 +401,6 @@
 				FA8DAD4225AC24E600E9D1B7 /* AppDelegate.swift in Sources */,
 				FAD65F3F25EF9C2400EEC9B6 /* CurrentUserModel.swift in Sources */,
 				FA2B46AF25B5D46500DC5C1D /* LoginRouter.swift in Sources */,
-				FAC2072E25AC3B0700CD9099 /* LentaCell.swift in Sources */,
 				FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */,
 				FA9BFF3B25C17A0D00ACA85F /* ProfileViewController.swift in Sources */,
 				FA0285EE25B1D1FE0082B17D /* CurrentUser.swift in Sources */,

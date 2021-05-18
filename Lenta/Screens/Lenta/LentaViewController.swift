@@ -41,12 +41,13 @@ final class LentaViewController: UIViewController {
     
     private lazy var lentaTableView: UITableView = {
         let tableView = UITableView()
-        let cellNibName = String(describing: LentaCell.self)
-        tableView.register(UINib(nibName: cellNibName, bundle: nil), forCellReuseIdentifier: cellNibName)
+        tableView.register(LentaCell.self, forCellReuseIdentifier: String(describing: LentaCell.self))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.refreshControl = refreshControl
         tableView.backgroundColor = #colorLiteral(red: 0.1367115593, green: 0.5836390616, blue: 0.6736763277, alpha: 1)
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
