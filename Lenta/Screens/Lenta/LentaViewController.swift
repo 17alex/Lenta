@@ -151,10 +151,23 @@ extension LentaViewController: PostCellDelegate {
     
     func didTapShareButton(cell: UITableViewCell, with object: [Any]) {
         let avc = UIActivityViewController(activityItems: object, applicationActivities: nil)
-        if let lentaCell = cell as? LentaCell {
-            avc.popoverPresentationController?.sourceView = lentaCell
-            avc.popoverPresentationController?.permittedArrowDirections = .any
-        }
+        avc.popoverPresentationController?.sourceView = cell
+        avc.popoverPresentationController?.permittedArrowDirections = .any
+//            avc.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+        
+        avc.excludedActivityTypes = [
+            UIActivity.ActivityType.postToWeibo,
+//            UIActivity.ActivityType.print,
+            UIActivity.ActivityType.assignToContact,
+            UIActivity.ActivityType.saveToCameraRoll,
+            UIActivity.ActivityType.addToReadingList,
+            UIActivity.ActivityType.postToFlickr,
+            UIActivity.ActivityType.postToVimeo,
+            UIActivity.ActivityType.postToTencentWeibo,
+            UIActivity.ActivityType.postToFacebook
+        ]
+        
+        avc.isModalInPresentation = true
         present(avc, animated: true)
     }
     

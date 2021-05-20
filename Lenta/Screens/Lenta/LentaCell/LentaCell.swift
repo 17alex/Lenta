@@ -159,16 +159,16 @@ final class LentaCell: UITableViewCell {
         let descrMaxY = descriptionLabel.frame.maxY
         photoImageView.frame = CGRect(x: 0, y: descrMaxY + 2, width: cellWidth, height: postModel.photo.size.height)
         photoActivityIndicator.center = photoImageView.center
-        let photoMaxY = photoImageView.frame.maxY
+        let buttonsY = photoImageView.frame.maxY + 2
         let offset: CGFloat = 25
         let space = (cellWidth - 80) / 3
-        likesButton.frame = .init(x: offset, y: photoMaxY, width: 30, height: 35)
-        likesCountLabel.frame = .init(x: likesButton.frame.maxX, y: photoMaxY, width: 30, height: 35)
-        eyeImageView.frame = .init(x: offset + space, y: photoMaxY, width: 30, height: 35)
-        viewsCountLabel.frame = .init(x: eyeImageView.frame.maxX, y: photoMaxY, width: 50, height: 35)
-        commentsButton.frame = .init(x: offset + space * 2, y: photoMaxY, width: 30, height: 35)
-        commentsCountLabel.frame = .init(x: commentsButton.frame.maxX, y: photoMaxY, width: 50, height: 35)
-        shareButton.frame = .init(x: offset + space * 3, y: photoMaxY, width: 30, height: 35)
+        likesButton.frame = .init(x: offset, y: buttonsY, width: 30, height: 35)
+        likesCountLabel.frame = .init(x: likesButton.frame.maxX, y: buttonsY, width: 30, height: 35)
+        eyeImageView.frame = .init(x: offset + space, y: buttonsY, width: 30, height: 35)
+        viewsCountLabel.frame = .init(x: eyeImageView.frame.maxX, y: buttonsY, width: 50, height: 35)
+        commentsButton.frame = .init(x: offset + space * 2, y: buttonsY, width: 30, height: 35)
+        commentsCountLabel.frame = .init(x: commentsButton.frame.maxX, y: buttonsY, width: 50, height: 35)
+        shareButton.frame = .init(x: offset + space * 3, y: buttonsY, width: 30, height: 35)
     }
            
     //MARK: - PublicMetods
@@ -233,6 +233,7 @@ final class LentaCell: UITableViewCell {
     @objc private func shareButtonPress(_ sender: UIButton) {
         print("share post")
         var sendObjects: [Any] = []
+        if let text = descriptionLabel.text, !text.isEmpty { sendObjects.append(text) }
         if let image = photoImageView.image { sendObjects.append(image) }
         delegate?.didTapShareButton(cell: self, with: sendObjects)
     }
@@ -242,39 +243,10 @@ final class LentaCell: UITableViewCell {
     }
     
     private func setup() {
-
         selectionStyle = .none
         backgroundColor = .clear
         contentView.backgroundColor = .white
         
-//        let likeStackView = UIStackView(arrangedSubviews: [likesButton, likesCountLabel])
-//        likeStackView.axis = .horizontal
-//        likeStackView.alignment = .fill
-//        likeStackView.distribution = .fillProportionally
-//
-//        let viewsStackView = UIStackView(arrangedSubviews: [eyeImageView, viewsCountLabel])
-//        viewsStackView.axis = .horizontal
-//        viewsStackView.alignment = .fill
-//        viewsStackView.distribution = .fillProportionally
-//
-//        let commentsStackView = UIStackView(arrangedSubviews: [commentsButton, commentsCountLabel])
-//        commentsStackView.axis = .horizontal
-//        commentsStackView.alignment = .fill
-//        commentsStackView.distribution = .fillProportionally
-        
-           
-//        bottomStackView = UIStackView(arrangedSubviews: [likeStackView, viewsStackView, commentsStackView, shareButton])
-//        bottomStackView.axis = .horizontal
-//        bottomStackView.alignment = .fill
-//        bottomStackView.distribution = .equalSpacing
-           
-        
-//        bottomStackView.addArrangedSubview(likeStackView)
-//        bottomStackView.addArrangedSubview(viewsStackView)
-//        bottomStackView.addArrangedSubview(commentsStackView)
-//        bottomStackView.addArrangedSubview(shareButton)
-        
-//        contentView.addSubview(topView)
         contentView.addSubview(avatarImageView)
         contentView.addSubview(userNameLabel)
         contentView.addSubview(timeLabel)
@@ -288,7 +260,5 @@ final class LentaCell: UITableViewCell {
         contentView.addSubview(commentsButton)
         contentView.addSubview(commentsCountLabel)
         contentView.addSubview(shareButton)
-//        contentView.addSubview(bottomStackView)
-//        contentView.addSubview(bottomView)
     }
 }

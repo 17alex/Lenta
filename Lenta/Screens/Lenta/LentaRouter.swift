@@ -13,7 +13,7 @@ protocol LentaRouterInput {
     func showUserInfoModule(user: UserViewModel)
 }
 
-class LentaRouter {
+final class LentaRouter {
     
     let assembly: Assembly
     unowned let view: UIViewController

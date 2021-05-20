@@ -19,7 +19,7 @@ protocol LentaInteractorInput {
     func getCurrenUser()
 }
 
-class LentaInteractor {
+final class LentaInteractor {
     
     unowned let presenter: LentaInteractorOutput
     var networkManager: NetworkManagerProtocol!
