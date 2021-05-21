@@ -141,7 +141,7 @@ final class LentaCell: UITableViewCell {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         
-        setup()
+        setupUI()
     }
     
     override func layoutSubviews() {
@@ -242,7 +242,7 @@ final class LentaCell: UITableViewCell {
         delegate?.didTapMenuButton(cell: self)
     }
     
-    private func setup() {
+    private func setupUI() {
         selectionStyle = .none
         backgroundColor = .clear
         contentView.backgroundColor = .white
