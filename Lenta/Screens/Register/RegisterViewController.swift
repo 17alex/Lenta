@@ -48,6 +48,8 @@ class RegisterViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textField.addTarget(self, action: #selector(didChangeText), for: .editingChanged)
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .sentences
+        textField.clearButtonMode = .always
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -58,6 +60,8 @@ class RegisterViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textField.addTarget(self, action: #selector(didChangeText), for: .editingChanged)
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
+        textField.clearButtonMode = .always
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -68,6 +72,9 @@ class RegisterViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textField.addTarget(self, action: #selector(didChangeText), for: .editingChanged)
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
+        textField.clearButtonMode = .always
+        textField.isSecureTextEntry = true
         textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -164,6 +171,7 @@ class RegisterViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             registerButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            registerButton.heightAnchor.constraint(equalToConstant: 40),
             registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
