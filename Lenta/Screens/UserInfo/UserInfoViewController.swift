@@ -111,8 +111,7 @@ final class UserInfoViewController: UIViewController {
         }
     }
     
-    @objc
-    private func closeButtonPress() {
+    @objc private func closeButtonPress() {
         dismiss(animated: true)
     }
     
@@ -129,31 +128,34 @@ final class UserInfoViewController: UIViewController {
         view.addSubview(userDateRegisterLabel)
         view.addSubview(navBar)
         
-        navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        
-        avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        avatarImageView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 30).isActive = true
-        avatarImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        avatarImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 20).isActive = true
-        nameLabel.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -15).isActive = true
-        
-        countLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20).isActive = true
-        countLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor).isActive = true
-        
-        registerLabel.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 20).isActive = true
-        registerLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor).isActive = true
-        
-        userNameLabel.firstBaselineAnchor.constraint(equalTo: nameLabel.firstBaselineAnchor).isActive = true
-        userNameLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 10).isActive = true
-        
-        userPostCountLabel.firstBaselineAnchor.constraint(equalTo: countLabel.firstBaselineAnchor).isActive = true
-        userPostCountLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor).isActive = true
-        
-        userDateRegisterLabel.firstBaselineAnchor.constraint(equalTo: registerLabel.firstBaselineAnchor).isActive = true
-        userDateRegisterLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            
+            navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            avatarImageView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 30),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 100),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 100),
+            
+            nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 20),
+            nameLabel.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -15),
+            
+            countLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20),
+            countLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
+            
+            registerLabel.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 20),
+            registerLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
+            
+            userNameLabel.firstBaselineAnchor.constraint(equalTo: nameLabel.firstBaselineAnchor),
+            userNameLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 10),
+            
+            userPostCountLabel.firstBaselineAnchor.constraint(equalTo: countLabel.firstBaselineAnchor),
+            userPostCountLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor),
+            
+            userDateRegisterLabel.firstBaselineAnchor.constraint(equalTo: registerLabel.firstBaselineAnchor),
+            userDateRegisterLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor)
+        ])
     }
 }

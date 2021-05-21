@@ -14,16 +14,73 @@ protocol ProfileViewInput: class {
 }
 
 final class ProfileViewController: UIViewController {
-
-    //MARK: - IBOutlets
+     
+    //MARK: - Propertis
     
-    @IBOutlet weak var avatarImageView: WebImageView!
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var postsCountLabel: UILabel!
-    @IBOutlet weak var dateRegisterLabel: UILabel!
+    private let avatarImageView: WebImageView = {
+        let imageView = WebImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "avatar")
+        imageView.tintColor = #colorLiteral(red: 0.01894661598, green: 0.5350132585, blue: 1, alpha: 1)
+        imageView.isUserInteractionEnabled = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
+    private let nameTextLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Name"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
-    //MARK: - Variables
+    private let nameTextField: UITextField = {
+        let textField = UITextField()
+        textField.text = "----"
+        textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        textField.textColor = #colorLiteral(red: 0.01894661598, green: 0.5350132585, blue: 1, alpha: 1)
+        textField.addTarget(self, action: #selector(nameTextChange), for: .editingChanged)
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private let countLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Posts count:"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let postsCountLabel: UILabel = {
+        let label = UILabel()
+        label.text = "--"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Date register:"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let dateRegisterLabel: UILabel = {
+        let label = UILabel()
+        label.text = "--.--.----"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     var presenter: ProfileViewOutput!
     var saveButton: UIBarButtonItem!
@@ -39,6 +96,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         print("ProfileViewController init")
+        setupUI()
         setup()
     }
     
@@ -54,7 +112,7 @@ final class ProfileViewController: UIViewController {
         presenter.logInOutButtonPress()
     }
     
-    @IBAction func nameTextChange() {
+    @objc private func nameTextChange() {
         presenter.change(name: nameTextField.text!)
     }
     
@@ -64,11 +122,58 @@ final class ProfileViewController: UIViewController {
         saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPress))
         navigationItem.leftBarButtonItem = saveButton
         saveButton.isEnabled = false
-        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
-//        avatarImageView.clipsToBounds = true
         avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(chooseImage)))
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKboard))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKeyboard))
         view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
+        avatarImageView.clipsToBounds = true        
+    }
+    
+    private func setupUI() {
+        
+        view.backgroundColor = .white
+        
+        view.addSubview(avatarImageView)
+        view.addSubview(nameTextLabel)
+        view.addSubview(nameTextField)
+        view.addSubview(countLabel)
+        view.addSubview(postsCountLabel)
+        view.addSubview(dateLabel)
+        view.addSubview(dateRegisterLabel)
+        
+        NSLayoutConstraint.activate([
+        
+            avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 100),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 100),
+            
+            nameTextLabel.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -5),
+            nameTextLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 32),
+            
+            countLabel.trailingAnchor.constraint(equalTo: nameTextLabel.trailingAnchor),
+            countLabel.topAnchor.constraint(equalTo: nameTextLabel.bottomAnchor, constant: 16),
+            
+            dateLabel.trailingAnchor.constraint(equalTo: nameTextLabel.trailingAnchor),
+            dateLabel.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 16),
+        
+            nameTextField.leadingAnchor.constraint(equalTo: nameTextLabel.trailingAnchor, constant: 10),
+            nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16),
+            nameTextField.firstBaselineAnchor.constraint(equalTo: nameTextLabel.firstBaselineAnchor),
+            
+            postsCountLabel.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            postsCountLabel.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
+            postsCountLabel.firstBaselineAnchor.constraint(equalTo: countLabel.firstBaselineAnchor),
+            
+            dateRegisterLabel.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            dateRegisterLabel.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
+            dateRegisterLabel.firstBaselineAnchor.constraint(equalTo: dateLabel.firstBaselineAnchor)
+        ])
     }
     
     @objc func saveButtonPress() {
@@ -76,7 +181,7 @@ final class ProfileViewController: UIViewController {
         presenter.saveButtonPress(name: nameTextField.text!, image: avatarImageView.image)
     }
     
-    @objc private func heidKboard() {
+    @objc private func heidKeyboard() {
         nameTextField.resignFirstResponder()
     }
     
