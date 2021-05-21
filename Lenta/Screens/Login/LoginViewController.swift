@@ -149,7 +149,6 @@ final class LoginViewController: UIViewController {
             loginTextField.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor),
             loginTextField.bottomAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -16),
             
-            textLoginlabel.leadingAnchor.constraint(equalTo: textPasswordlabel.leadingAnchor),
             textLoginlabel.trailingAnchor.constraint(equalTo: textPasswordlabel.trailingAnchor),
             textLoginlabel.firstBaselineAnchor.constraint(equalTo: loginTextField.firstBaselineAnchor),
             
