@@ -32,7 +32,6 @@
 		FA39E5A525F7B15E00F274FF /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA39E5A425F7B15E00F274FF /* WebImageView.swift */; };
 		FA6385CB264D699B006961D0 /* LentaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6385CA264D699B006961D0 /* LentaCell.swift */; };
 		FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */; };
-		FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */; };
 		FA7DD40225B7006500CB1678 /* RegisterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40125B7006500CB1678 /* RegisterRouter.swift */; };
 		FA7DD40525B709A400CB1678 /* RegisterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */; };
 		FA7DD40825B71F3600CB1678 /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */; };
@@ -81,7 +80,6 @@
 		FA39E5A425F7B15E00F274FF /* WebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
 		FA6385CA264D699B006961D0 /* LentaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaCell.swift; sourceTree = "<group>"; };
 		FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		FA7DD40125B7006500CB1678 /* RegisterRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRouter.swift; sourceTree = "<group>"; };
 		FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPresenter.swift; sourceTree = "<group>"; };
 		FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
@@ -214,7 +212,6 @@
 				FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */,
 				FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */,
 				FA7DD40125B7006500CB1678 /* RegisterRouter.swift */,
-				FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -362,7 +359,6 @@
 			files = (
 				FA396F6025F8F230009B79F5 /* CommentsViewController.xib in Resources */,
 				FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */,
-				FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */,
 				FA8A308525FA448C00A02751 /* PostCell.xib in Resources */,
 				FA396F6F25F8FF5E009B79F5 /* CommentCell.xib in Resources */,
 				FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */,

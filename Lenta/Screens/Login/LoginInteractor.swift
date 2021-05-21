@@ -11,7 +11,7 @@ protocol LoginInteractorInput {
     func logIn(login: String, password: String)
 }
 
-class LoginInteractor {
+final class LoginInteractor {
     
     unowned let presenter: LoginInteractorOutput
     var networkManager: NetworkManager!

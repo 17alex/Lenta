@@ -17,7 +17,7 @@ protocol RegisterInteractorOutput: class {
     func userDidRegisteredFail(message: String)
 }
 
-class RegisterPresenter {
+final class RegisterPresenter {
     
     unowned let view: RegisterViewInput
     var interactor: RegisterInteractorInput!

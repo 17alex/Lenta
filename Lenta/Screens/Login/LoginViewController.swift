@@ -100,7 +100,9 @@ final class LoginViewController: UIViewController {
         print("LoginViewController init")
         
         view.backgroundColor = .white
+        
         setupUI()
+        
         loginButton.isEnabled = false
         loginTextField.becomeFirstResponder()
     }
@@ -113,7 +115,6 @@ final class LoginViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         loginButton.layer.cornerRadius = loginButton.bounds.height / 2
-        
     }
     
     //MARK: - Metods

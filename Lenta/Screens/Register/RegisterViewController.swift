@@ -11,7 +11,7 @@ protocol RegisterViewInput: class {
     func userNotRegister(message: String)
 }
 
-class RegisterViewController: UIViewController {
+final class RegisterViewController: UIViewController {
     
     //MARK: - Propertis
     
@@ -132,9 +132,11 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("RegisterViewController init")
-        setupUI()
         
         view.backgroundColor = .white
+        
+        setupUI()
+        
         registerButton.isEnabled = false
         nameTextField.becomeFirstResponder()
     }
