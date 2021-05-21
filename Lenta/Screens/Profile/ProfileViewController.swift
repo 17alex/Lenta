@@ -27,7 +27,7 @@ final class ProfileViewController: UIViewController {
         return imageView
     }()
     
-    private let nameTextLabel: UILabel = {
+    private let textNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name"
         label.textColor = .black
@@ -46,7 +46,7 @@ final class ProfileViewController: UIViewController {
         return textField
     }()
     
-    private let countLabel: UILabel = {
+    private let textCountLabel: UILabel = {
         let label = UILabel()
         label.text = "Posts count:"
         label.textColor = .black
@@ -64,7 +64,7 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     
-    private let dateLabel: UILabel = {
+    private let textDateLabel: UILabel = {
         let label = UILabel()
         label.text = "Date register:"
         label.textColor = .black
@@ -139,11 +139,11 @@ final class ProfileViewController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(avatarImageView)
-        view.addSubview(nameTextLabel)
+        view.addSubview(textNameLabel)
         view.addSubview(nameTextField)
-        view.addSubview(countLabel)
+        view.addSubview(textCountLabel)
         view.addSubview(postsCountLabel)
-        view.addSubview(dateLabel)
+        view.addSubview(textDateLabel)
         view.addSubview(dateRegisterLabel)
         
         NSLayoutConstraint.activate([
@@ -153,26 +153,26 @@ final class ProfileViewController: UIViewController {
             avatarImageView.widthAnchor.constraint(equalToConstant: 100),
             avatarImageView.heightAnchor.constraint(equalToConstant: 100),
             
-            nameTextLabel.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -5),
-            nameTextLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 32),
+            textNameLabel.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -5),
+            textNameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 32),
             
-            countLabel.trailingAnchor.constraint(equalTo: nameTextLabel.trailingAnchor),
-            countLabel.topAnchor.constraint(equalTo: nameTextLabel.bottomAnchor, constant: 16),
+            textCountLabel.trailingAnchor.constraint(equalTo: textNameLabel.trailingAnchor),
+            textCountLabel.topAnchor.constraint(equalTo: textNameLabel.bottomAnchor, constant: 16),
             
-            dateLabel.trailingAnchor.constraint(equalTo: nameTextLabel.trailingAnchor),
-            dateLabel.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 16),
+            textDateLabel.trailingAnchor.constraint(equalTo: textNameLabel.trailingAnchor),
+            textDateLabel.topAnchor.constraint(equalTo: textCountLabel.bottomAnchor, constant: 16),
         
-            nameTextField.leadingAnchor.constraint(equalTo: nameTextLabel.trailingAnchor, constant: 10),
+            nameTextField.leadingAnchor.constraint(equalTo: textNameLabel.trailingAnchor, constant: 10),
             nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16),
-            nameTextField.firstBaselineAnchor.constraint(equalTo: nameTextLabel.firstBaselineAnchor),
+            nameTextField.firstBaselineAnchor.constraint(equalTo: textNameLabel.firstBaselineAnchor),
             
             postsCountLabel.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
             postsCountLabel.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
-            postsCountLabel.firstBaselineAnchor.constraint(equalTo: countLabel.firstBaselineAnchor),
+            postsCountLabel.firstBaselineAnchor.constraint(equalTo: textCountLabel.firstBaselineAnchor),
             
             dateRegisterLabel.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
             dateRegisterLabel.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
-            dateRegisterLabel.firstBaselineAnchor.constraint(equalTo: dateLabel.firstBaselineAnchor)
+            dateRegisterLabel.firstBaselineAnchor.constraint(equalTo: textDateLabel.firstBaselineAnchor)
         ])
     }
     
