@@ -17,7 +17,6 @@
 		FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90E25B0543200D2B806 /* SendPost.swift */; };
 		FA2B469C25B5706400DC5C1D /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B469B25B5706400DC5C1D /* StoreManager.swift */; };
 		FA2B46A325B5BD3200DC5C1D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46A125B5BD3200DC5C1D /* LoginViewController.swift */; };
-		FA2B46A425B5BD3200DC5C1D /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA2B46A225B5BD3200DC5C1D /* LoginViewController.xib */; };
 		FA2B46A825B5BDBE00DC5C1D /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46A725B5BDBE00DC5C1D /* LoginPresenter.swift */; };
 		FA2B46AC25B5CE2200DC5C1D /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46AB25B5CE2200DC5C1D /* LoginInteractor.swift */; };
 		FA2B46AF25B5D46500DC5C1D /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46AE25B5D46500DC5C1D /* LoginRouter.swift */; };
@@ -33,6 +32,7 @@
 		FA39E5A525F7B15E00F274FF /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA39E5A425F7B15E00F274FF /* WebImageView.swift */; };
 		FA6385CB264D699B006961D0 /* LentaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6385CA264D699B006961D0 /* LentaCell.swift */; };
 		FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */; };
+		FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */; };
 		FA7DD40225B7006500CB1678 /* RegisterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40125B7006500CB1678 /* RegisterRouter.swift */; };
 		FA7DD40525B709A400CB1678 /* RegisterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */; };
 		FA7DD40825B71F3600CB1678 /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */; };
@@ -66,7 +66,6 @@
 		FA26A90E25B0543200D2B806 /* SendPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPost.swift; sourceTree = "<group>"; };
 		FA2B469B25B5706400DC5C1D /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		FA2B46A125B5BD3200DC5C1D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		FA2B46A225B5BD3200DC5C1D /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		FA2B46A725B5BDBE00DC5C1D /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		FA2B46AB25B5CE2200DC5C1D /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		FA2B46AE25B5D46500DC5C1D /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
@@ -82,6 +81,7 @@
 		FA39E5A425F7B15E00F274FF /* WebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
 		FA6385CA264D699B006961D0 /* LentaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaCell.swift; sourceTree = "<group>"; };
 		FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		FA7DD40125B7006500CB1678 /* RegisterRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRouter.swift; sourceTree = "<group>"; };
 		FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPresenter.swift; sourceTree = "<group>"; };
 		FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
@@ -143,7 +143,6 @@
 				FA2B46AE25B5D46500DC5C1D /* LoginRouter.swift */,
 				FA2B46AB25B5CE2200DC5C1D /* LoginInteractor.swift */,
 				FA2B46A725B5BDBE00DC5C1D /* LoginPresenter.swift */,
-				FA2B46A225B5BD3200DC5C1D /* LoginViewController.xib */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -215,6 +214,7 @@
 				FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */,
 				FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */,
 				FA7DD40125B7006500CB1678 /* RegisterRouter.swift */,
+				FA7DD3FC25B6F8F600CB1678 /* RegisterViewController.xib */,
 			);
 			path = Register;
 			sourceTree = "<group>";
@@ -362,7 +362,7 @@
 			files = (
 				FA396F6025F8F230009B79F5 /* CommentsViewController.xib in Resources */,
 				FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */,
-				FA2B46A425B5BD3200DC5C1D /* LoginViewController.xib in Resources */,
+				FA7DD3FE25B6F8F600CB1678 /* RegisterViewController.xib in Resources */,
 				FA8A308525FA448C00A02751 /* PostCell.xib in Resources */,
 				FA396F6F25F8FF5E009B79F5 /* CommentCell.xib in Resources */,
 				FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */,
