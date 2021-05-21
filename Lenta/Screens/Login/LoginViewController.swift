@@ -35,24 +35,26 @@ final class LoginViewController: UIViewController {
         return button
     }()
     
-    private let loginTextField: UITextField = {
+    private lazy var loginTextField: UITextField = {
         let textField = UITextField()
         textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
         textField.clearButtonMode = .always
+        textField.delegate = self
         textField.addTarget(self, action: #selector(valueChangeTextField), for: .editingChanged)
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
-    private let passwordTextField: UITextField = {
+    private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
         textField.clearButtonMode = .always
         textField.isSecureTextEntry = true
+        textField.delegate = self
         textField.addTarget(self, action: #selector(valueChangeTextField), for: .editingChanged)
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -99,8 +101,6 @@ final class LoginViewController: UIViewController {
         
         view.backgroundColor = .white
         setupUI()
-        loginTextField.delegate = self
-        passwordTextField.delegate = self
         loginButton.isEnabled = false
         loginTextField.becomeFirstResponder()
     }
