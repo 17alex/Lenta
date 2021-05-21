@@ -11,19 +11,117 @@ protocol RegisterViewInput: class {
     func userNotRegister(message: String)
 }
 
-class RegisterViewController: UIViewController {
-
-    //MARK: - IBOutlets
+final class RegisterViewController: UIViewController {
     
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var loginTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var avatarButton: UIButton!
-    @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var logInButton: UIButton!
+    //MARK: - Propertis
     
-    //MARK: - Variables
+    private lazy var avatarButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "avatar"), for: .normal)
+        button.addTarget(self, action: #selector(addAvatarButtonPress), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var logInButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Login", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        button.addTarget(self, action: #selector(logInButtonPress), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var registerButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Register", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .systemGray5
+        button.addTarget(self, action: #selector(registerButtonPress), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var nameTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        textField.addTarget(self, action: #selector(didChangeText), for: .editingChanged)
+        textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .sentences
+        textField.clearButtonMode = .always
+        textField.delegate = self
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private lazy var loginTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        textField.addTarget(self, action: #selector(didChangeText), for: .editingChanged)
+        textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
+        textField.clearButtonMode = .always
+        textField.delegate = self
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private lazy var passwordTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        textField.addTarget(self, action: #selector(didChangeText), for: .editingChanged)
+        textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
+        textField.clearButtonMode = .always
+        textField.isSecureTextEntry = true
+        textField.delegate = self
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
+    private let textRegisterLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Register"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 28, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let textNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Name:"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let textLoginLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Login:"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let textPasswordLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Password:"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = .medium
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
     
     var presenter: RegisterViewOutput!
     private var avatarImage: UIImage?
@@ -34,37 +132,99 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("RegisterViewController init")
-        setup()
+        
+        view.backgroundColor = .white
+        
+        setupUI()
+        
+        registerButton.isEnabled = false
+        nameTextField.becomeFirstResponder()
     }
     
     deinit {
         print("RegisterViewController deinit")
     }
     
-    //MARK: - Metods
-    
-    private func setup() {
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
         registerButton.layer.cornerRadius = registerButton.bounds.height / 2
         avatarButton.layer.cornerRadius = avatarButton.bounds.height / 2
         avatarButton.clipsToBounds = true
-        nameTextField.delegate = self
-        loginTextField.delegate = self
-        passwordTextField.delegate = self
-        registerButton.isEnabled = false
-        nameTextField.becomeFirstResponder()
+    }
+    
+    //MARK: - Metods
+        
+    private func setupUI() {
+        view.addSubview(avatarButton)
+        view.addSubview(logInButton)
+        view.addSubview(registerButton)
+        view.addSubview(nameTextField)
+        view.addSubview(loginTextField)
+        view.addSubview(passwordTextField)
+        view.addSubview(textRegisterLabel)
+        view.addSubview(textNameLabel)
+        view.addSubview(textLoginLabel)
+        view.addSubview(textPasswordLabel)
+        view.addSubview(activityIndicator)
+        
+        textPasswordLabel.setContentHuggingPriority(.init(500), for: .horizontal)
+        
+        NSLayoutConstraint.activate([
+            
+            registerButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            registerButton.heightAnchor.constraint(equalToConstant: 40),
+            registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            textPasswordLabel.leadingAnchor.constraint(equalTo: registerButton.leadingAnchor),
+            textPasswordLabel.firstBaselineAnchor.constraint(equalTo: passwordTextField.firstBaselineAnchor),
+            textPasswordLabel.trailingAnchor.constraint(equalTo: passwordTextField.leadingAnchor, constant: -8),
+            
+            passwordTextField.trailingAnchor.constraint(equalTo: registerButton.trailingAnchor),
+            passwordTextField.bottomAnchor.constraint(equalTo: registerButton.topAnchor, constant: -16),
+            
+            loginTextField.bottomAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -16),
+            loginTextField.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor),
+            loginTextField.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor),
+            
+            nameTextField.bottomAnchor.constraint(equalTo: loginTextField.topAnchor, constant: -16),
+            nameTextField.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor),
+            nameTextField.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor),
+            
+            textLoginLabel.trailingAnchor.constraint(equalTo: textPasswordLabel.trailingAnchor),
+            textLoginLabel.firstBaselineAnchor.constraint(equalTo: loginTextField.firstBaselineAnchor),
+            
+            textNameLabel.trailingAnchor.constraint(equalTo: textPasswordLabel.trailingAnchor),
+            textNameLabel.firstBaselineAnchor.constraint(equalTo: nameTextField.firstBaselineAnchor),
+            
+            textRegisterLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            textRegisterLabel.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -32),
+            
+            avatarButton.heightAnchor.constraint(equalToConstant: 60),
+            avatarButton.widthAnchor.constraint(equalToConstant: 60),
+            avatarButton.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -16),
+            avatarButton.trailingAnchor.constraint(equalTo: nameTextField.leadingAnchor, constant: -16),
+            
+            logInButton.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -32),
+            logInButton.trailingAnchor.constraint(equalTo: registerButton.trailingAnchor),
+            
+            activityIndicator.centerXAnchor.constraint(equalTo: registerButton.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: registerButton.centerYAnchor)
+        ])
     }
     
     //MARK: - IBAction
     
-    @IBAction func addAvatarButtonPress(_ sender: UIButton) {
+    @objc private func addAvatarButtonPress() {
         imagePicker.chooseImage()
     }
     
-    @IBAction func logInButtonPress(_ sender: UIButton) {
+    @objc private func logInButtonPress() {
         presenter.signInButtonPress()
     }
     
-    @IBAction func didChangeText(_ sender: UITextField) {
+    @objc private func didChangeText() {
         if nameTextField.text != "",
            loginTextField.text != "",
            passwordTextField.text != "" {
@@ -76,7 +236,7 @@ class RegisterViewController: UIViewController {
         }
     }
     
-    @IBAction func registerButtonPress(_ sender: UIButton) {
+    @objc private func registerButtonPress() {
         registerButton.isHidden = true
         activityIndicator.startAnimating()
         presenter.registerButtonPress(name: nameTextField.text!, login: loginTextField.text!, password: passwordTextField.text!, avatarImage: avatarImage)

@@ -12,7 +12,7 @@ protocol LoginRouterInput {
     func showRegisterModule()
 }
 
-class LoginRouter {
+final class LoginRouter {
     
     let assembly: Assembly
     unowned let view: UIViewController

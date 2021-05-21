@@ -17,7 +17,7 @@ protocol LoginInteractorOutput: class {
     func userLoginFail(message: String)
 }
 
-class LoginPresenter {
+final class LoginPresenter {
     
     unowned let view: LoginViewInput
     var interactor: LoginInteractorInput!

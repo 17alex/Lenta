@@ -11,7 +11,7 @@ protocol RegisterInteractorInput {
     func register(name: String, login: String, password: String, avatarImage: UIImage?)
 }
 
-class RegisterInteractor {
+final class RegisterInteractor {
     
     unowned let presenter: RegisterInteractorOutput
     var networkManager: NetworkManagerProtocol!

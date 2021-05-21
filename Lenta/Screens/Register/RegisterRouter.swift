@@ -12,7 +12,7 @@ protocol RegisterRouterInput {
     func showLoginedModule()
 }
 
-class RegisterRouter {
+final class RegisterRouter {
     
     let assembly: Assembly
     unowned let view: UIViewController!
