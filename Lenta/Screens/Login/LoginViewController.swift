@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol LoginViewInput: class {
+protocol LoginViewInput: AnyObject {
     func userNotLoginned(message: String)
 }
 
@@ -60,7 +60,7 @@ final class LoginViewController: UIViewController {
         return textField
     }()
     
-    private let textLoginTitlelabel: UILabel = {
+    private let textLoginTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Login"
         label.font = UIFont.systemFont(ofSize: 28, weight: .regular)
@@ -68,7 +68,7 @@ final class LoginViewController: UIViewController {
         return label
     }()
     
-    private let textLoginlabel: UILabel = {
+    private let textLoginLabel: UILabel = {
         let label = UILabel()
         label.text = "Login:"
         label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
@@ -76,7 +76,7 @@ final class LoginViewController: UIViewController {
         return label
     }()
     
-    private let textPasswordlabel: UILabel = {
+    private let textPasswordLabel: UILabel = {
         let label = UILabel()
         label.text = "Password:"
         label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
@@ -99,12 +99,7 @@ final class LoginViewController: UIViewController {
         super.viewDidLoad()
         print("LoginViewController init")
         
-        view.backgroundColor = .white
-        
         setupUI()
-        
-        loginButton.isEnabled = false
-        loginTextField.becomeFirstResponder()
     }
     
     deinit {
@@ -120,16 +115,20 @@ final class LoginViewController: UIViewController {
     //MARK: - Metods
     
     private func setupUI() {
+        view.backgroundColor = .systemBackground
+        loginButton.isEnabled = false
+        loginTextField.becomeFirstResponder()
+        
         view.addSubview(loginButton)
         view.addSubview(registerButton)
         view.addSubview(loginTextField)
         view.addSubview(passwordTextField)
-        view.addSubview(textLoginTitlelabel)
-        view.addSubview(textLoginlabel)
-        view.addSubview(textPasswordlabel)
+        view.addSubview(textLoginTitleLabel)
+        view.addSubview(textLoginLabel)
+        view.addSubview(textPasswordLabel)
         view.addSubview(activityIndicator)
         
-        textPasswordlabel.setContentHuggingPriority(.init(500), for: .horizontal)
+        textPasswordLabel.setContentHuggingPriority(.init(500), for: .horizontal)
         
         NSLayoutConstraint.activate([
             
@@ -138,9 +137,9 @@ final class LoginViewController: UIViewController {
             loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            textPasswordlabel.leadingAnchor.constraint(equalTo: loginButton.leadingAnchor),
-            textPasswordlabel.firstBaselineAnchor.constraint(equalTo: passwordTextField.firstBaselineAnchor),
-            textPasswordlabel.trailingAnchor.constraint(equalTo: passwordTextField.leadingAnchor, constant: -8),
+            textPasswordLabel.leadingAnchor.constraint(equalTo: loginButton.leadingAnchor),
+            textPasswordLabel.firstBaselineAnchor.constraint(equalTo: passwordTextField.firstBaselineAnchor),
+            textPasswordLabel.trailingAnchor.constraint(equalTo: passwordTextField.leadingAnchor, constant: -8),
             
             passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             passwordTextField.bottomAnchor.constraint(equalTo: loginButton.topAnchor, constant: -16),
@@ -149,11 +148,11 @@ final class LoginViewController: UIViewController {
             loginTextField.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor),
             loginTextField.bottomAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -16),
             
-            textLoginlabel.trailingAnchor.constraint(equalTo: textPasswordlabel.trailingAnchor),
-            textLoginlabel.firstBaselineAnchor.constraint(equalTo: loginTextField.firstBaselineAnchor),
+            textLoginLabel.trailingAnchor.constraint(equalTo: textPasswordLabel.trailingAnchor),
+            textLoginLabel.firstBaselineAnchor.constraint(equalTo: loginTextField.firstBaselineAnchor),
             
-            textLoginTitlelabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            textLoginTitlelabel.bottomAnchor.constraint(equalTo: loginTextField.topAnchor, constant: -34),
+            textLoginTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            textLoginTitleLabel.bottomAnchor.constraint(equalTo: loginTextField.topAnchor, constant: -34),
             
             registerButton.trailingAnchor.constraint(equalTo: loginButton.trailingAnchor),
             registerButton.bottomAnchor.constraint(equalTo: loginTextField.topAnchor, constant: -36),

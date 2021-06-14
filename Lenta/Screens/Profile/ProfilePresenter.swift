@@ -19,7 +19,7 @@ final class ProfilePresenter {
     
     //MARK: - Propertis
     
-    unowned let view: ProfileViewInput
+    unowned private let view: ProfileViewInput
     var storeManager: StoreManagerProtocol!
     var networkManager: NetworkManagerProtocol!
     var router: ProfileRouterInput!

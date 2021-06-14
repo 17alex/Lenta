@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol RegisterViewOutput: class {
+protocol RegisterViewOutput: AnyObject {
     func registerButtonPress(name: String, login: String, password: String, avatarImage: UIImage?)
     func signInButtonPress()
 }
@@ -19,9 +19,11 @@ protocol RegisterInteractorOutput: class {
 
 final class RegisterPresenter {
     
-    unowned let view: RegisterViewInput
+    unowned private let view: RegisterViewInput
     var interactor: RegisterInteractorInput!
     var router: RegisterRouterInput!
+    
+    //MARK: - Init
     
     init(view: RegisterViewInput) {
         print("RegisterPresenter init")

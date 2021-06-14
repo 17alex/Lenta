@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ProfileViewInput: class {
+protocol ProfileViewInput: AnyObject {
     func userLoginned(_ currentUserModel: CurrentUserModel?)
     func didChangeProfile(_ change: Bool)
     func showMessage(_ message: String)

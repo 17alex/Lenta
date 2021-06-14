@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol RegisterViewInput: class {
+protocol RegisterViewInput: AnyObject {
     func userNotRegister(message: String)
 }
 
@@ -133,12 +133,7 @@ final class RegisterViewController: UIViewController {
         super.viewDidLoad()
         print("RegisterViewController init")
         
-        view.backgroundColor = .white
-        
         setupUI()
-        
-        registerButton.isEnabled = false
-        nameTextField.becomeFirstResponder()
     }
     
     deinit {
@@ -156,6 +151,10 @@ final class RegisterViewController: UIViewController {
     //MARK: - Metods
         
     private func setupUI() {
+        view.backgroundColor = .systemBackground
+        registerButton.isEnabled = false
+        nameTextField.becomeFirstResponder()
+        
         view.addSubview(avatarButton)
         view.addSubview(logInButton)
         view.addSubview(registerButton)
