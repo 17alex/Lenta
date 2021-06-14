@@ -17,6 +17,8 @@ protocol ProfileViewOutput {
 
 final class ProfilePresenter {
     
+    //MARK: - Propertis
+    
     unowned let view: ProfileViewInput
     var storeManager: StoreManagerProtocol!
     var networkManager: NetworkManagerProtocol!
@@ -44,6 +46,8 @@ final class ProfilePresenter {
         }
     }
     
+    //MARK: - Init
+    
     init(view: ProfileViewInput) {
         self.view = view
         print("ProfilePresenter init")
@@ -53,13 +57,12 @@ final class ProfilePresenter {
         print("ProfilePresenter deinit")
     }
     
+    //MARK: - Metods
+    
     private func changeProfile() {
-        if let user = currentUser {
-            if !name.isEmpty && (name != user.name || isNewAvatar) {
-                view.didChangeProfile(true)
-            } else {
-                view.didChangeProfile(false)
-            }
+        guard let user = currentUser  else { view.didChangeProfile(false); return }
+        if !name.isEmpty && (name != user.name || isNewAvatar) {
+            view.didChangeProfile(true)
         } else {
             view.didChangeProfile(false)
         }
@@ -75,7 +78,7 @@ extension ProfilePresenter: ProfileViewOutput {
         if isNewAvatar {
             avatarImage = image
         }
-        if let currUser = currentUser {
+        if let currUser = currentUser { //TODO: - guard
             networkManager.updateProfile(id: currUser.id, name: name, avatar: avatarImage) { (result) in
                 switch result {
                 case .failure(let error):
@@ -117,5 +120,4 @@ extension ProfilePresenter: ProfileViewOutput {
         currentUser = storeManager.getCurrenUser()
         view.userLoginned(CurrentUserModel(currentUser: currentUser))
     }
-    
 }
