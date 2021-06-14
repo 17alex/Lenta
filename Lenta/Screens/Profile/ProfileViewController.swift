@@ -82,9 +82,12 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     
-    var presenter: ProfileViewOutput!
-    var saveButton: UIBarButtonItem!
     lazy var imagePicker = ImagePicker(view: self, delegate: self)
+    lazy var saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPress))
+    lazy var imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(chooseImage))
+    lazy var tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKeyboard))
+    
+    var presenter: ProfileViewOutput!
     
     //MARK: - LiveCycles
     
@@ -97,7 +100,6 @@ final class ProfileViewController: UIViewController {
         
         print("ProfileViewController init")
         setupUI()
-        setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,7 +108,14 @@ final class ProfileViewController: UIViewController {
         presenter.start()
     }
     
-    //MARK: - IBAction
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
+        avatarImageView.clipsToBounds = true
+    }
+    
+    //MARK: - Metods
     
     @objc private func logInOutButtonPress() {
         presenter.logInOutButtonPress()
@@ -116,27 +125,13 @@ final class ProfileViewController: UIViewController {
         presenter.change(name: nameTextField.text!)
     }
     
-    //MARK: - Metods
-    
-    private func setup() {
-        saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPress))
-        navigationItem.leftBarButtonItem = saveButton
-        saveButton.isEnabled = false
-        avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(chooseImage)))
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKeyboard))
-        view.addGestureRecognizer(tapRecognizer)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
-        avatarImageView.clipsToBounds = true        
-    }
-    
     private func setupUI() {
         
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
+        saveButton.isEnabled = false
+        navigationItem.leftBarButtonItem = saveButton
+        avatarImageView.addGestureRecognizer(imageTapGesture)
+        view.addGestureRecognizer(tapRecognizer)
         
         view.addSubview(avatarImageView)
         view.addSubview(textNameLabel)
@@ -205,8 +200,8 @@ extension ProfileViewController: ProfileViewInput {
         saveButton.isEnabled = change
     }
     
-    func userLoginned(_ currentUserModel: CurrentUserModel?) {
-        let logInOutBarButtonItem: UIBarButtonItem
+    func userLoginned(_ currentUserModel: CurrentUserModel?) { //TODO: - вынести кнопку and userModel didSet{}
+        var logInOutBarButtonItem: UIBarButtonItem!
         if let currentUserModel = currentUserModel {
             nameTextField.isEnabled = true
             avatarImageView.isUserInteractionEnabled = true
