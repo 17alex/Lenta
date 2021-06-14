@@ -89,6 +89,16 @@ final class ProfileViewController: UIViewController {
     
     var presenter: ProfileViewOutput!
     
+    var currentUserModel: CurrentUserModel? {
+        didSet {
+            if let currentUserModel = currentUserModel {
+                showUserInfo(userModel: currentUserModel)
+            } else {
+                clearUserInfo()
+            }
+        }
+    }
+    
     //MARK: - LiveCycles
     
     deinit {
@@ -125,8 +135,33 @@ final class ProfileViewController: UIViewController {
         presenter.change(name: nameTextField.text!)
     }
     
+    private func showUserInfo(userModel: CurrentUserModel) {
+        nameTextField.isEnabled = true
+        avatarImageView.isUserInteractionEnabled = true
+        nameTextField.text = userModel.name
+        postsCountLabel.text = userModel.postsCount
+        dateRegisterLabel.text = userModel.dateRegister
+        if userModel.avatar.isEmpty {
+            avatarImageView.image = UIImage(named: "avatar")
+            avatarImageView.tintColor = #colorLiteral(red: 0, green: 0.5138283968, blue: 1, alpha: 1)
+        } else {
+            avatarImageView.load(by: userModel.avatar) { }
+        }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "logout"), style: .plain, target: self, action: #selector(logInOutButtonPress))
+    }
+    
+    private func clearUserInfo() {
+        nameTextField.isEnabled = false
+        avatarImageView.isUserInteractionEnabled = false
+        avatarImageView.image = UIImage(named: "avatar")
+        avatarImageView.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        nameTextField.text = ""
+        postsCountLabel.text = "--"
+        dateRegisterLabel.text = "--.--.----"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "login"), style: .plain, target: self, action: #selector(logInOutButtonPress))
+    }
+    
     private func setupUI() {
-        
         view.backgroundColor = .systemBackground
         saveButton.isEnabled = false
         navigationItem.leftBarButtonItem = saveButton
@@ -200,33 +235,8 @@ extension ProfileViewController: ProfileViewInput {
         saveButton.isEnabled = change
     }
     
-    func userLoginned(_ currentUserModel: CurrentUserModel?) { //TODO: - вынести кнопку and userModel didSet{}
-        var logInOutBarButtonItem: UIBarButtonItem!
-        if let currentUserModel = currentUserModel {
-            nameTextField.isEnabled = true
-            avatarImageView.isUserInteractionEnabled = true
-            nameTextField.text = currentUserModel.name
-            postsCountLabel.text = currentUserModel.postsCount
-            dateRegisterLabel.text = currentUserModel.dateRegister
-            if currentUserModel.avatar != "" {
-                avatarImageView.load(by: currentUserModel.avatar) { }
-            } else {
-                avatarImageView.image = UIImage(named: "avatar")
-                avatarImageView.tintColor = #colorLiteral(red: 0, green: 0.5138283968, blue: 1, alpha: 1)
-            }
-            logInOutBarButtonItem = UIBarButtonItem(image: UIImage(named: "logout"), style: .plain, target: self, action: #selector(logInOutButtonPress))
-        } else {
-            nameTextField.isEnabled = false
-            avatarImageView.isUserInteractionEnabled = false
-            avatarImageView.image = UIImage(named: "avatar")
-            avatarImageView.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-            nameTextField.text = ""
-            postsCountLabel.text = "--"
-            dateRegisterLabel.text = "--.--.----"
-            logInOutBarButtonItem = UIBarButtonItem(image: UIImage(named: "login"), style: .plain, target: self, action: #selector(logInOutButtonPress))
-        }
-        
-        navigationItem.rightBarButtonItem = logInOutBarButtonItem
+    func userLoginned(_ currentUserModel: CurrentUserModel?) {
+        self.currentUserModel = currentUserModel
     }
 }
 
