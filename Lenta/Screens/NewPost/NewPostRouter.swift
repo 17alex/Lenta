@@ -11,10 +11,12 @@ protocol NewPostRouterInput {
     func dismiss()
 }
 
-class NewPostRouter {
+final class NewPostRouter {
     
     let assembly: Assembly
     unowned let  view: UIViewController
+    
+    //MARk: - Init
     
     init(view: UIViewController, assembly: Assembly) {
         print("NewPostRouter init")
@@ -30,7 +32,6 @@ class NewPostRouter {
 extension NewPostRouter: NewPostRouterInput {
     
     func dismiss() {
-//        view.navigationController?.popViewController(animated: true)
         view.dismiss(animated: true)
     }
 }
