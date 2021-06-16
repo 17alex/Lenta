@@ -27,17 +27,21 @@ enum CellType {
     case comments
 }
 
-class CommentsPresenter {
+final class CommentsPresenter {
     
-    unowned let view: CommentsViewInput
+    //MARK: - Propertis
+    
+    unowned private let view: CommentsViewInput
     var interactor: CommentsInteractorInput!
     var router: CommentsRouterInput!
     
-    let postId: Int
+    private let postId: Int
     var postsViewModel: [PostViewModel] = []
     var commentsViewModel: [CommentViewModel] = []
     
     let cellTypes: [CellType] = [.post, .comments]
+    
+    //MARK: - Init
     
     init(view: CommentsViewInput, postId: Int) {
         self.view = view
@@ -49,6 +53,8 @@ class CommentsPresenter {
         print("CommentsPresenter deinit")
     }
     
+    //MARK: - Metods
+    
     private func getPostViewModel(post: Post) -> PostViewModel {
         let user = interactor.users.first(where: {$0.id == post.userId})
         return PostViewModel(post: post, user: user!, currenUser: nil)
@@ -59,6 +65,8 @@ class CommentsPresenter {
         return CommentViewModel(comment: comment, user: user!)
     }
 }
+
+//MARK: - CommentsViewOutput
 
 extension CommentsPresenter: CommentsViewOutput {
     
@@ -75,6 +83,8 @@ extension CommentsPresenter: CommentsViewOutput {
         interactor.loadComments(by: postId)
     }
 }
+
+//MARK: - CommentsInteractorOutput
 
 extension CommentsPresenter: CommentsInteractorOutput {
     

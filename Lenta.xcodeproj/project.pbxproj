@@ -22,7 +22,6 @@
 		FA33EDE425AC8A5D00637E3E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */; };
 		FA396F5B25F8EBF9009B79F5 /* CommentsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F5A25F8EBF9009B79F5 /* CommentsPresenter.swift */; };
 		FA396F5F25F8F230009B79F5 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F5D25F8F230009B79F5 /* CommentsViewController.swift */; };
-		FA396F6025F8F230009B79F5 /* CommentsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA396F5E25F8F230009B79F5 /* CommentsViewController.xib */; };
 		FA396F6325F8F435009B79F5 /* CommentsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6225F8F435009B79F5 /* CommentsInteractor.swift */; };
 		FA396F6625F8FACC009B79F5 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6525F8FACC009B79F5 /* CommentViewModel.swift */; };
 		FA396F6925F8FC8E009B79F5 /* CommentsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6825F8FC8E009B79F5 /* CommentsRouter.swift */; };
@@ -69,7 +68,6 @@
 		FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		FA396F5A25F8EBF9009B79F5 /* CommentsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsPresenter.swift; sourceTree = "<group>"; };
 		FA396F5D25F8F230009B79F5 /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
-		FA396F5E25F8F230009B79F5 /* CommentsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentsViewController.xib; sourceTree = "<group>"; };
 		FA396F6225F8F435009B79F5 /* CommentsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsInteractor.swift; sourceTree = "<group>"; };
 		FA396F6525F8FACC009B79F5 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		FA396F6825F8FC8E009B79F5 /* CommentsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsRouter.swift; sourceTree = "<group>"; };
@@ -173,7 +171,6 @@
 				FA396F5A25F8EBF9009B79F5 /* CommentsPresenter.swift */,
 				FA396F6225F8F435009B79F5 /* CommentsInteractor.swift */,
 				FA396F6825F8FC8E009B79F5 /* CommentsRouter.swift */,
-				FA396F5E25F8F230009B79F5 /* CommentsViewController.xib */,
 				FA8A308125FA443200A02751 /* PostCell */,
 				FA396F6B25F8FF27009B79F5 /* CommentCell */,
 			);
@@ -354,7 +351,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA396F6025F8F230009B79F5 /* CommentsViewController.xib in Resources */,
 				FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */,
 				FA8A308525FA448C00A02751 /* PostCell.xib in Resources */,
 				FA396F6F25F8FF5E009B79F5 /* CommentCell.xib in Resources */,

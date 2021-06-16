@@ -11,10 +11,12 @@ protocol CommentsRouterInput {
     func dismiss()
 }
 
-class CommentsRouter {
+final class CommentsRouter {
     
-    let assembly: Assembly
-    unowned let view: UIViewController
+    private let assembly: Assembly
+    unowned private let view: UIViewController
+    
+    //MARK: Init
     
     init(view: UIViewController, assembly: Assembly) {
         print("CommentsRouter init")
