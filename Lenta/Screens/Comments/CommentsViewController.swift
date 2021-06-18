@@ -37,8 +37,9 @@ final class CommentsViewController: UIViewController {
     
     private lazy var commentsTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
-        let postCellNibName = String(describing: PostCell.self)
-        table.register(UINib(nibName: postCellNibName, bundle: nil), forCellReuseIdentifier: postCellNibName)
+//        let postCellNibName = String(describing: PostCell.self)
+        table.register(PostCell.self, forCellReuseIdentifier: PostCell.reuseID)
+//        table.register(UINib(nibName: postCellNibName, bundle: nil), forCellReuseIdentifier: postCellNibName)
         let commentCellNibName = String(describing: CommentCell.self)
         table.register(UINib(nibName: commentCellNibName, bundle: nil), forCellReuseIdentifier: commentCellNibName)
         table.dataSource = self
@@ -152,7 +153,7 @@ final class CommentsViewController: UIViewController {
         } completion: { _ in
             let countRow = self.presenter.commentsViewModel.count
             if countRow != 0 {
-                self.commentsTableView.scrollToRow(at: IndexPath(row: countRow - 1, section: 1), at: .middle, animated: true)
+                self.commentsTableView.scrollToRow(at: IndexPath(row: countRow - 1, section: 1), at: .bottom, animated: true)
             } else {
                 self.commentsTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
             }
@@ -302,7 +303,7 @@ extension CommentsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch presenter.cellTypes[indexPath.section] {
         case .post:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostCell.self), for: indexPath) as! PostCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.reuseID, for: indexPath) as! PostCell
             let postViewModel = presenter.postsViewModel[indexPath.row]
             cell.set(postModel: postViewModel)
             return cell
