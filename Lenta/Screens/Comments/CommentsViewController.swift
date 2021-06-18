@@ -37,11 +37,8 @@ final class CommentsViewController: UIViewController {
     
     private lazy var commentsTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
-//        let postCellNibName = String(describing: PostCell.self)
         table.register(PostCell.self, forCellReuseIdentifier: PostCell.reuseID)
-//        table.register(UINib(nibName: postCellNibName, bundle: nil), forCellReuseIdentifier: postCellNibName)
-        let commentCellNibName = String(describing: CommentCell.self)
-        table.register(UINib(nibName: commentCellNibName, bundle: nil), forCellReuseIdentifier: commentCellNibName)
+        table.register(CommentCell.self, forCellReuseIdentifier: CommentCell.reuseID)
         table.dataSource = self
         table.delegate = self
         table.tableFooterView = UIView()
@@ -59,14 +56,13 @@ final class CommentsViewController: UIViewController {
         return textView
     }()
     
-    private lazy var bubleView: UIView = { //TODO: - rename to cardView
+    private lazy var cardView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
     
     private lazy var loadActivityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -182,11 +178,11 @@ final class CommentsViewController: UIViewController {
         
         view.addSubview(navBar)
         view.addSubview(commentsTableView)
-        view.addSubview(bubleView)
+        view.addSubview(cardView)
         view.addSubview(sendButton)
         view.addSubview(sendActivityIndicator)
         view.addSubview(loadActivityIndicator)
-        bubleView.addSubview(newCommentTextView)
+        cardView.addSubview(newCommentTextView)
         
         NSLayoutConstraint.activate([
             navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -197,19 +193,19 @@ final class CommentsViewController: UIViewController {
             commentsTableView.topAnchor.constraint(equalTo: navBar.bottomAnchor),
             commentsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            sendButton.leadingAnchor.constraint(equalTo: bubleView.trailingAnchor),
-            sendButton.topAnchor.constraint(equalTo: bubleView.topAnchor),
+            sendButton.leadingAnchor.constraint(equalTo: cardView.trailingAnchor),
+            sendButton.topAnchor.constraint(equalTo: cardView.topAnchor),
             sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             sendButton.heightAnchor.constraint(equalToConstant: 40),
             sendButton.widthAnchor.constraint(equalToConstant: 40),
             
-            bubleView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
-            bubleView.topAnchor.constraint(equalTo: commentsTableView.bottomAnchor, constant: 5),
+            cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            cardView.topAnchor.constraint(equalTo: commentsTableView.bottomAnchor, constant: 5),
             
-            newCommentTextView.leadingAnchor.constraint(equalTo: bubleView.leadingAnchor, constant: 5),
-            newCommentTextView.topAnchor.constraint(equalTo: bubleView.topAnchor, constant: 2),
-            newCommentTextView.trailingAnchor.constraint(equalTo: bubleView.trailingAnchor, constant: -5),
-            newCommentTextView.bottomAnchor.constraint(equalTo: bubleView.bottomAnchor, constant: -2),
+            newCommentTextView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 5),
+            newCommentTextView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 2),
+            newCommentTextView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -5),
+            newCommentTextView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -2),
             
             sendActivityIndicator.centerXAnchor.constraint(equalTo: sendButton.centerXAnchor),
             sendActivityIndicator.centerYAnchor.constraint(equalTo: sendButton.centerYAnchor),
@@ -221,10 +217,10 @@ final class CommentsViewController: UIViewController {
         newCommentTextViewHeight = newCommentTextView.heightAnchor.constraint(equalToConstant: newCommentTextViewHeightDefaultConstant)
         newCommentTextViewHeight.isActive = true
         
-        babbleViewBottom = bubleView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: babbleViewBottomDefaultConstant)
+        babbleViewBottom = cardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: babbleViewBottomDefaultConstant)
         babbleViewBottom.isActive = true
         
-        bubleView.layer.cornerRadius = 15
+        cardView.layer.cornerRadius = 15
     }
     
     private func animateActivity(_ isAnimate: Bool) {
@@ -308,7 +304,7 @@ extension CommentsViewController: UITableViewDataSource {
             cell.set(postModel: postViewModel)
             return cell
         case .comments:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CommentCell.self), for: indexPath) as! CommentCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.reuseID, for: indexPath) as! CommentCell
             let commentViewModel = presenter.commentsViewModel[indexPath.row]
             cell.set(commentModel: commentViewModel)
             return cell

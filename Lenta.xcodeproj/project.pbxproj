@@ -26,7 +26,6 @@
 		FA396F6625F8FACC009B79F5 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6525F8FACC009B79F5 /* CommentViewModel.swift */; };
 		FA396F6925F8FC8E009B79F5 /* CommentsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6825F8FC8E009B79F5 /* CommentsRouter.swift */; };
 		FA396F6E25F8FF5E009B79F5 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6C25F8FF5E009B79F5 /* CommentCell.swift */; };
-		FA396F6F25F8FF5E009B79F5 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA396F6D25F8FF5E009B79F5 /* CommentCell.xib */; };
 		FA39E5A525F7B15E00F274FF /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA39E5A425F7B15E00F274FF /* WebImageView.swift */; };
 		FA6385CB264D699B006961D0 /* LentaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6385CA264D699B006961D0 /* LentaCell.swift */; };
 		FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */; };
@@ -71,7 +70,6 @@
 		FA396F6525F8FACC009B79F5 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		FA396F6825F8FC8E009B79F5 /* CommentsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsRouter.swift; sourceTree = "<group>"; };
 		FA396F6C25F8FF5E009B79F5 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
-		FA396F6D25F8FF5E009B79F5 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		FA39E5A425F7B15E00F274FF /* WebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
 		FA6385CA264D699B006961D0 /* LentaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaCell.swift; sourceTree = "<group>"; };
 		FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -179,7 +177,6 @@
 			isa = PBXGroup;
 			children = (
 				FA396F6C25F8FF5E009B79F5 /* CommentCell.swift */,
-				FA396F6D25F8FF5E009B79F5 /* CommentCell.xib */,
 			);
 			path = CommentCell;
 			sourceTree = "<group>";
@@ -349,7 +346,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */,
-				FA396F6F25F8FF5E009B79F5 /* CommentCell.xib in Resources */,
 				FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

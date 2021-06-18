@@ -44,6 +44,7 @@ final class PostCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.text = "descriptionLabel"
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -94,7 +95,7 @@ final class PostCell: UITableViewCell {
         self.postModel = postModel
     }
     
-    // TODO:-
+    // FIXME:-
     private func setPostPhoto(by urlString: String) {
         if urlString == "" { return }
         fotoActivityIndicator.startAnimating()
@@ -103,7 +104,7 @@ final class PostCell: UITableViewCell {
         }
     }
     
-    // TODO:-
+    // FIXME:-
     private func setAvatar(by urlString: String) {
         if urlString != "" {
             avatarImageView.load(by: urlString) { }
