@@ -15,7 +15,7 @@ protocol CommentsViewInput: class {
     func show(message: String)
 }
 
-class CommentsViewController: UIViewController {
+final class CommentsViewController: UIViewController {
 
     //MARK: - Propertis
     
@@ -66,8 +66,6 @@ class CommentsViewController: UIViewController {
         return view
     }()
     
-    private var heightNewCommentTextView: NSLayoutConstraint!
-    private var bottomBabbleView: NSLayoutConstraint!
     
     private lazy var loadActivityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -91,8 +89,15 @@ class CommentsViewController: UIViewController {
         return button
     }()
     
-    var presenter: CommentsViewOutput!
+    private var newCommentTextViewHeight: NSLayoutConstraint!
+    private let newCommentTextViewHeightDefaultConstant: CGFloat = 33
+    
+    private var babbleViewBottom: NSLayoutConstraint!
+    private let babbleViewBottomDefaultConstant: CGFloat = -5
+    
     private var isShowKboard = false
+    
+    var presenter: CommentsViewOutput!
     
     //MARK: - LiveCycles
     
@@ -110,32 +115,41 @@ class CommentsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //TODO: - out in metod
-        NotificationCenter.default.addObserver(self, selector: #selector(willShowKboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(willHideKboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        subscribeKboardNotofication()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //TODO: - out in metod
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        unSubscribeKboardNotofication()
     }
 
     //MARK: - Metods
+    
+    private func subscribeKboardNotofication() {
+        NotificationCenter.default.addObserver(self, selector: #selector(willShowKboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willHideKboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func unSubscribeKboardNotofication() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     
     @objc private func willShowKboard(notification: NSNotification) {
         if isShowKboard { return }
         isShowKboard = true
         
         guard let userInfo = notification.userInfo else { return }
+        let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as! Double
         let kbFrameSize = (userInfo["UIKeyboardFrameEndUserInfoKey"] as! NSValue).cgRectValue
         let offset = kbFrameSize.height
         
-        UIView.animate(withDuration: 0.5) {
-            self.bottomBabbleView.constant = -offset - 5
+        UIView.animate(withDuration: animDuration) {
+            self.babbleViewBottom.constant = self.babbleViewBottomDefaultConstant - offset
             self.view.layoutIfNeeded()
-        } completion: { (_) in
+        } completion: { _ in
             let countRow = self.presenter.commentsViewModel.count
             if countRow != 0 {
                 self.commentsTableView.scrollToRow(at: IndexPath(row: countRow - 1, section: 1), at: .middle, animated: true)
@@ -145,12 +159,15 @@ class CommentsViewController: UIViewController {
         }
     }
     
-    @objc private func willHideKboard() {
+    @objc private func willHideKboard(notification: NSNotification) {
         if isShowKboard == false { return }
         isShowKboard = false
         
-        UIView.animate(withDuration: 0.5) {
-            self.bottomBabbleView.constant = -5
+        guard let userInfo = notification.userInfo else { return }
+        let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as! Double
+        
+        UIView.animate(withDuration: animDuration) {
+            self.babbleViewBottom.constant = self.babbleViewBottomDefaultConstant
             self.view.layoutIfNeeded()
         }
     }
@@ -200,11 +217,11 @@ class CommentsViewController: UIViewController {
             loadActivityIndicator.centerYAnchor.constraint(equalTo: commentsTableView.centerYAnchor),
         ])
         
-        heightNewCommentTextView = newCommentTextView.heightAnchor.constraint(equalToConstant: 33)
-        heightNewCommentTextView.isActive = true
+        newCommentTextViewHeight = newCommentTextView.heightAnchor.constraint(equalToConstant: newCommentTextViewHeightDefaultConstant)
+        newCommentTextViewHeight.isActive = true
         
-        bottomBabbleView = bubleView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5)
-        bottomBabbleView.isActive = true
+        babbleViewBottom = bubleView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: babbleViewBottomDefaultConstant)
+        babbleViewBottom.isActive = true
         
         bubleView.layer.cornerRadius = 15
     }
@@ -225,7 +242,7 @@ class CommentsViewController: UIViewController {
         animateActivity(true)
         presenter.didPressNewCommendSendButton(comment: newComment)
         newCommentTextView.text = ""
-        heightNewCommentTextView.constant = 33 //TODO: - nameConstant
+        newCommentTextViewHeight.constant = newCommentTextViewHeightDefaultConstant
     }
     
     @objc private func closeButtonPress() {
@@ -311,6 +328,6 @@ extension CommentsViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let size = CGSize(width: newCommentTextView.frame.width, height: .infinity)
         let estimatedSize = newCommentTextView.sizeThatFits(size) //TODO: - max to navBar
-        heightNewCommentTextView.constant = estimatedSize.height
+        newCommentTextViewHeight.constant = estimatedSize.height
     }
 }
