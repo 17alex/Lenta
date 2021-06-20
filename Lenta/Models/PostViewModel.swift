@@ -33,7 +33,7 @@ struct PostViewModel {
     let time: String
     let user: UserViewModel
     var description: DescriptionViewModel
-    let photo: PhotoViewModel
+    var photo: PhotoViewModel?
     var likes: LikesViewModel
     let views: ViewsViewModel
     let comments: CommentsViewModel
@@ -63,17 +63,27 @@ struct PostViewModel {
         self.user = UserViewModel(user: user)
         self.time = post.timeInterval.toDateString()
         self.description = DescriptionViewModel(text: post.description, size: .zero)
-        let postPhotoUrlSting = post.foto.name == "" ? "" : "https://monsterok.ru/lenta/images/" + post.foto.name
-        self.photo = PhotoViewModel(urlString: postPhotoUrlSting, size: CGSize(width: UIScreen.main.bounds.width, height: CGFloat(post.foto.size.height) / CGFloat(post.foto.size.width) * UIScreen.main.bounds.width)
-        )
+        
+        var photoHeight: CGFloat = 0
+        if let postPhoto = post.photo, !postPhoto.name.isEmpty {
+            let postPhotoUrlSting = "https://monsterok.ru/lenta/images/" + postPhoto.name
+            photoHeight = CGFloat(postPhoto.size.height) / CGFloat(postPhoto.size.width) * UIScreen.main.bounds.width //FIXME: - del UIScreen
+            self.photo = PhotoViewModel(
+                urlString: postPhotoUrlSting,
+                size: CGSize(
+                    width: UIScreen.main.bounds.width,
+                    height: photoHeight)
+            )
+        }
+        
         self.likes = LikesViewModel(
             count: String(post.likeUserIds.count),
             isHighlight: post.likeUserIds.contains(currenUser?.id ?? -1)
         )
+        
         self.views = ViewsViewModel(count: String(post.viewsCount))
         self.comments = CommentsViewModel(count: String(post.commentsCount))
-        totalHieght = 0
-        
+        //FIXME: - height descrip = 0
         let textSize = CGSize(width: UIScreen.main.bounds.width - 16, height: .greatestFiniteMagnitude)
         let rect = post.description.boundingRect(with: textSize,
                                      options: .usesLineFragmentOrigin,
@@ -81,7 +91,7 @@ struct PostViewModel {
                                      context: nil)
         self.description.size = CGSize(width: rect.width, height: rect.height)
         
-        self.totalHieght = 81 + description.size.height + 2 + photo.size.height + 40 + 4
+        self.totalHieght = 81 + description.size.height + 2 + photoHeight + 40 + 4
     }
     
     mutating func update(with post: Post) {

@@ -72,8 +72,8 @@ final class PostCell: UITableViewCell {
             setAvatar(by: postModel.user.avatarUrlString)
             timeLabel.text = postModel.time
             descriptionLabel.text = postModel.description.text
-            setPostPhoto(by: postModel.photo.urlString)
-            photoImageViewHeight.constant = postModel.photo.size.height
+            setPostPhoto(by: postModel.photo?.urlString)
+            photoImageViewHeight.constant = postModel.photo?.size.height ?? 0
         }
     }
 
@@ -96,8 +96,8 @@ final class PostCell: UITableViewCell {
     }
     
     // FIXME:-
-    private func setPostPhoto(by urlString: String) {
-        if urlString == "" { return }
+    private func setPostPhoto(by urlString: String?) {
+        guard let urlString = urlString else { return }
         fotoActivityIndicator.startAnimating()
         photoImageView.load(by: urlString) {
             self.fotoActivityIndicator.stopAnimating()

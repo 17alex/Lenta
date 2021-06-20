@@ -210,7 +210,6 @@ final class NewPostViewController: UIViewController {
 extension NewPostViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
-        print("textViewDidChange")
         let size = CGSize(width: textView.frame.width, height: .infinity)
         let estimatedSize = descriptionTextView.sizeThatFits(size)
         heightTextView.constant = estimatedSize.height

@@ -63,7 +63,7 @@ extension CommentsInteractor: CommentsInteractorInput {
     }
     
     func loadComments(by postId: Int) {
-        networkManager.loadComments(by: postId) { result in
+        networkManager.loadComments(for: postId) { result in
             switch result {
             case .failure(let error):
                 self.presenter.show(message: error.localizedDescription)

@@ -59,6 +59,7 @@ final class CommentsViewController: UIViewController {
     private lazy var cardView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 1
+        view.layer.cornerRadius = 15
         view.layer.borderColor = UIColor.lightGray.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -219,8 +220,6 @@ final class CommentsViewController: UIViewController {
         
         babbleViewBottom = cardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: babbleViewBottomDefaultConstant)
         babbleViewBottom.isActive = true
-        
-        cardView.layer.cornerRadius = 15
     }
     
     private func animateActivity(_ isAnimate: Bool) {

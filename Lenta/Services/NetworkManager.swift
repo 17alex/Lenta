@@ -7,20 +7,43 @@
 
 import UIKit
 
-protocol NetworkManagerProtocol {
-    
-    func logIn(login: String, password: String, complete: @escaping (Result<[User], Error>) -> Void)
-    func register(name: String, login: String, password: String, avatar: UIImage?,  complete: @escaping (Result<[User], Error>) -> Void)
-    func getPosts(fromPostId: Int?, complete: @escaping (Result<Response, Error>) -> Void)
-    func sendPost(post: SendPost, complete: @escaping (Result<Response, Error>) -> Void)
-    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping (Result<[User], Error>) -> Void)
-    func changeLike(postId: Int, userId: Int, complete: @escaping (Result<Post, Error>) -> Void)
-    func removePost(postId: Int, complete: @escaping (Result<Response, Error>) -> Void)
-    func loadComments(by postId: Int, complete: @escaping (Result<ResponseComment, Error>) -> Void)
-    func sendComment(_ comment: String, postId: Int, userId: Int, complete: @escaping (Result<ResponseComment, Error>) -> Void)
+enum Constants {
+    enum URLs {
+        static let getComments = "https://monsterok.ru/lenta/getComments.php"
+        static let getPosts = "https://monsterok.ru/lenta/getPosts.php"
+        static let sendComment = "https://monsterok.ru/lenta/addComment.php"
+        static let removePost = "https://monsterok.ru/lenta/removePost.php"
+        static let changeLike = "https://monsterok.ru/lenta/changeLike.php"
+        static let login = "https://monsterok.ru/lenta/login.php"
+        static let sendPost = "https://monsterok.ru/lenta/addPost.php"
+        static let register = "https://monsterok.ru/lenta/register.php"
+        static let updatePrifile = "https://monsterok.ru/lenta/updatePrifile.php"
+    }
 }
 
-class NetworkManager {
+enum NetworkServiceError: Error {
+    case badUrl
+    case network(str: String)
+    case decodable
+    case unknown
+}
+
+protocol NetworkManagerProtocol {
+    
+    func logIn(login: String, password: String, complete: @escaping (Result<[User], NetworkServiceError>) -> Void)
+    func register(name: String, login: String, password: String, avatar: UIImage?,  complete: @escaping (Result<[User], NetworkServiceError>) -> Void)
+    func getPosts(fromPostId: Int?, complete: @escaping (Result<Response, NetworkServiceError>) -> Void)
+    func sendPost(post: SendPost, complete: @escaping (Result<Response, NetworkServiceError>) -> Void)
+    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void)
+    func changeLike(postId: Int, userId: Int, complete: @escaping (Result<Post, NetworkServiceError>) -> Void)
+    func removePost(postId: Int, complete: @escaping (Result<Response, NetworkServiceError>) -> Void)
+    func loadComments(for postId: Int, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void)
+    func sendComment(_ comment: String, postId: Int, userId: Int, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void)
+}
+
+final class NetworkManager {
+    
+    //MARK: - Init
     
     init() {
         print("NetworkManager init")
@@ -42,14 +65,14 @@ class NetworkManager {
         DispatchQueue.main.async { blok() }
     }
     
-    private func typeData(data: Data?) {
+    private func typeDebug(data: Data?) {
         if let myData = data, let dataString = String(data: myData, encoding: .utf8) {
             print("dataString: " + dataString)
         }
         
-        if let myData = data, let dataString = try? JSONSerialization.jsonObject(with: myData, options: JSONSerialization.ReadingOptions()) {
-            print("JSONSerialization: \(dataString)")
-        }
+//        if let myData = data, let dataString = try? JSONSerialization.jsonObject(with: myData, options: JSONSerialization.ReadingOptions()) {
+//            print("JSONSerialization: \(dataString)")
+//        }
     }
 }
 
@@ -57,129 +80,160 @@ class NetworkManager {
 
 extension NetworkManager: NetworkManagerProtocol {
     
-    func sendComment(_ comment: String, postId: Int, userId: Int, complete: @escaping (Result<ResponseComment, Error>) -> Void) {
-        let url = URL(string: "https://monsterok.ru/lenta/addComment.php")!
+    func sendComment(_ comment: String, postId: Int, userId: Int, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
+        
+        let urlString = Constants.URLs.sendComment
+        
+        guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
+        urlRequest.httpMethod = "POST" //FIXME: - update and delete comment
+        let postSting = "comment=\(comment)&postId=\(postId)&userId=\(userId)"
+        urlRequest.httpBody = postSting.data(using: .utf8)
         
-        var parameters: [String: String] = [:]
-        parameters["postId"] = String(postId)
-        parameters["userId"] = String(userId)
-        parameters["text"] = comment
-        
-        let body = try? JSONEncoder().encode(parameters)
-        urlRequest.httpBody = body
-
         taskResume(with: urlRequest) { (data, error) in
             
-//            self.typeData(data: data)
+//            self.typeDebug(data: data)
             
             if let error = error {
-                self.onMain { complete(.failure(error)) }
+                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
             } else if let data = data {
                 do {
                     let decodePost = try JSONDecoder().decode(ResponseComment.self, from: data)
                     self.onMain { complete(.success(decodePost)) }
                 } catch {
-                    self.onMain { complete(.failure(error)) }
+                    self.onMain { complete(.failure(.decodable)) }
                 }
             }
         }
     }
     
-    func loadComments(by postId: Int, complete: @escaping (Result<ResponseComment, Error>) -> Void) {
+    func loadComments(for postId: Int, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
         
-        let url = URL(string: "https://monsterok.ru/lenta/getComments.php")!
+        let urlString = Constants.URLs.getComments
+        
+        var components = URLComponents(string: urlString)
+        components?.queryItems = [
+            URLQueryItem(name: "postId", value: String(postId)),
+            //URLQueryItem(name: "fromCommentId", value: String(postId)), //FIXME: - pagination, server otdaet po 20
+        ]
+        
+        guard let url = components?.url else { complete(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        
-        let parameters = ["postId" : String(postId)]
-
-//        parameters["postQuantity"] = String(postQuantity)
-        
-        let body = try? JSONEncoder().encode(parameters)
-        urlRequest.httpBody = body
+        urlRequest.httpMethod = "GET"
         
         taskResume(with: urlRequest) { data, error in
             
-//            self.typeData(data: data)
+//            self.typeBebug(data: data)
             
             if let error = error {
-                self.onMain { complete(.failure(error)) }
+                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
             } else if let data = data {
                 do {
                     let pesponseComment = try JSONDecoder().decode(ResponseComment.self, from: data)
                     self.onMain { complete(.success(pesponseComment)) }
                 } catch let error {
                     print("error = ", error)
-                    self.onMain { complete(.failure(error)) }
+                    self.onMain { complete(.failure(.decodable)) }
                 }
             }
         }
     }
     
-    func removePost(postId: Int, complete: @escaping (Result<Response, Error>) -> Void) {
-        let url = URL(string: "https://monsterok.ru/lenta/removePost.php")!
+    func getPosts(fromPostId: Int? = nil, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
+        
+        let urlString = Constants.URLs.getPosts
+
+        var components = URLComponents(string: urlString)
+        if let fromPostId = fromPostId {
+            components?.queryItems = [
+                URLQueryItem(name: "fromPostId", value: String(fromPostId)),
+            ]
+        }
+        
+        guard let url = components?.url else { complete(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
-//        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        urlRequest.httpMethod = "POST"
+        urlRequest.httpMethod = "GET"
         
-        let parameters = ["postId": postId]
-        let body = try? JSONEncoder().encode(parameters)
-        urlRequest.httpBody = body
-        
-        taskResume(with: urlRequest) { (data, error) in
+        taskResume(with: urlRequest) { data, error in
             
-//            self.typeData(data: data)
+//            self.typeDebug(data: data)
             
             if let error = error {
-                self.onMain { complete(.failure(error)) }
+                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
             } else if let data = data {
                 do {
                     let pesponse = try JSONDecoder().decode(Response.self, from: data)
                     self.onMain { complete(.success(pesponse)) }
                 } catch let error {
-                    self.onMain { complete(.failure(error)) }
+                    print("error =", error.localizedDescription)
+                    self.onMain { complete(.failure(.decodable)) }
                 }
             }
         }
     }
     
-    func changeLike(postId: Int, userId: Int, complete: @escaping (Result<Post, Error>) -> Void) {
-        let url = URL(string: "https://monsterok.ru/lenta/changeLike.php")!
+    func removePost(postId: Int, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
+        
+        let urlString = Constants.URLs.removePost
+        
+        guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
-//        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        urlRequest.httpMethod = "POST"
+        urlRequest.httpMethod = "DELETE"
+        let postSting = "postId=\(postId)"
+        urlRequest.httpBody = postSting.data(using: .utf8)
         
-        var parameters: [String: String] = [:]
-        parameters["postId"] = String(postId)
-        parameters["userId"] = String(userId)
+        taskResume(with: urlRequest) { (data, error) in
+            
+//            self.typeDebug(data: data)
+            
+            if let error = error {
+                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            } else if let data = data {
+                do {
+                    let pesponse = try JSONDecoder().decode(Response.self, from: data)
+                    self.onMain { complete(.success(pesponse)) }
+                } catch let error {
+                    print("error = ", error.localizedDescription) //FIXME: - delete
+                    self.onMain { complete(.failure(.decodable)) }
+                }
+            }
+        }
+    }
+    
+    func changeLike(postId: Int, userId: Int, complete: @escaping (Result<Post, NetworkServiceError>) -> Void) {
         
-        let body = try? JSONEncoder().encode(parameters)
-        urlRequest.httpBody = body
+        let urlString = Constants.URLs.changeLike
+        
+        guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "PUT"
+        let dataSting = "postId=\(postId)&userId=\(userId)"
+        urlRequest.httpBody = dataSting.data(using: .utf8)
 
         taskResume(with: urlRequest) { (data, error) in
             
-//            self.typeData(data: data)
+//            self.typeDebug(data: data)
             
             if let error = error {
-                self.onMain { complete(.failure(error)) }
+                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
             } else if let data = data {
                 do {
                     let decodePost = try JSONDecoder().decode(Post.self, from: data)
                     self.onMain { complete(.success(decodePost)) }
                 } catch {
-                    self.onMain { complete(.failure(error)) }
+                    self.onMain { complete(.failure(.decodable)) }
                 }
             }
         }
     }
     
-    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping (Result<[User], Error>) -> Void) {
+    //FIXME: - user.php
+    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
+        
+        let urlString = Constants.URLs.updatePrifile
+        
+        guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         let filePathKey = "file"
-        let url = URL(string: "https://monsterok.ru/lenta/updatePrifile.php")!
         let boundary = "Boundary-\(UUID().uuidString)"
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
@@ -215,55 +269,55 @@ extension NetworkManager: NetworkManagerProtocol {
         
         taskResume(with: urlRequest) { (data, error) in
             
-//            self.typeData(data: data)
+//            self.typeDebug(data: data)
             
             if let error = error {
-                self.onMain { complete(.failure(error)) }
-            } else {
-                var users: [User] = []
-                if let data = data, let decodeUsers = try? JSONDecoder().decode([User].self, from: data) {
-                    users = decodeUsers
+                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            } else if let data = data {
+                do {
+                    let decodeUsers = try JSONDecoder().decode([User].self, from: data)
+                    self.onMain { complete(.success(decodeUsers)) }
+                } catch {
+                    self.onMain { complete(.failure(.decodable)) }
                 }
-                self.onMain { complete(.success(users)) }
             }
         }
     }
     
-    func logIn(login: String, password: String, complete: @escaping (Result<[User], Error>) -> Void) {
-        let url = URL(string: "https://monsterok.ru/lenta/login.php")!
+    func logIn(login: String, password: String, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
+        
+        let urlString = Constants.URLs.login
+        
+        guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
+        let dataSting = "login=\(login)&password=\(password)"
+        urlRequest.httpBody = dataSting.data(using: .utf8)
         
-//        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        var parameters: [String: String] = [:]
-        parameters["login"] = String(login)
-        parameters["password"] = String(password)
-        
-        let body = try? JSONEncoder().encode(parameters)
-        urlRequest.httpBody = body
-
         taskResume(with: urlRequest) { (data, error) in
             
-//            self.typeData(data: data)
+            self.typeDebug(data: data)
             
             if let error = error {
-                self.onMain { complete(.failure(error)) }
-            } else {
-                var users: [User] = []
-                if let data = data,
-                   let decodeUsers = try? JSONDecoder().decode([User].self, from: data) {
-                    users = decodeUsers
+                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            } else if let data = data {
+                do {
+                    let decodeUsers = try JSONDecoder().decode([User].self, from: data)
+                    self.onMain { complete(.success(decodeUsers)) }
+                } catch {
+                    self.onMain { complete(.failure(.decodable)) }
                 }
-                self.onMain { complete(.success(users)) }
             }
         }
     }
     
-    func register(name: String, login: String, password: String, avatar: UIImage?, complete: @escaping (Result<[User], Error>) -> Void) {
+    //FIXME: - user.php
+    func register(name: String, login: String, password: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
+        
+        let urlString = Constants.URLs.register
+        
+        guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         let filePathKey = "file"
-        let url = URL(string: "https://monsterok.ru/lenta/register.php")!
         let boundary = "Boundary-\(UUID().uuidString)"
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
@@ -298,55 +352,28 @@ extension NetworkManager: NetworkManagerProtocol {
         
         taskResume(with: urlRequest) { (data, error) in
             
-//            self.typeData(data: data)
+//            self.typeDebug(data: data)
             
             if let error = error {
-                self.onMain { complete(.failure(error)) }
-            } else {
-                var users: [User] = []
-                if let data = data,
-                   let decodeUsers = try? JSONDecoder().decode([User].self, from: data) {
-                    users = decodeUsers
-                }
-                self.onMain { complete(.success(users)) }
-            }
-        }
-    }
-    
-    func getPosts(fromPostId: Int? = nil, complete: @escaping (Result<Response, Error>) -> Void) {
-        let url = URL(string: "https://monsterok.ru/lenta/getPosts.php")!
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        
-        var parameters: [String: String] = [:]
-        if let fromPostId = fromPostId {
-            parameters["fromPostId"] = String(fromPostId)
-        }
-//        parameters["postQuantity"] = String(postQuantity)
-        
-        let body = try? JSONEncoder().encode(parameters)
-        urlRequest.httpBody = body
-        
-        taskResume(with: urlRequest) { data, error in
-            
-//            self.typeData(data: data)
-            
-            if let error = error {
-                self.onMain { complete(.failure(error)) }
+                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
             } else if let data = data {
                 do {
-                    let pesponse = try JSONDecoder().decode(Response.self, from: data)
-                    self.onMain { complete(.success(pesponse)) }
-                } catch let error {
-                    self.onMain { complete(.failure(error)) }
+                    let decodeUsers = try JSONDecoder().decode([User].self, from: data)
+                    self.onMain { complete(.success(decodeUsers)) }
+                } catch {
+                    self.onMain { complete(.failure(.decodable)) }
                 }
             }
         }
     }
     
-    func sendPost(post: SendPost, complete: @escaping (Result<Response, Error>) -> Void) {
+    func sendPost(post: SendPost, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
+        
+        
+        let urlString = Constants.URLs.sendPost
+        
+        guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         let filePathKey = "file"
-        let url = URL(string: "https://monsterok.ru/lenta/addPost.php")!
         let boundary = "Boundary-\(UUID().uuidString)"
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
@@ -380,18 +407,16 @@ extension NetworkManager: NetworkManagerProtocol {
         
         taskResume(with: urlRequest) { (data, error) in
             
-//            self.typeData(data: data)
+//            self.typeDebug(data: data)
             
             if let error = error {
-                self.onMain { complete(.failure(error)) }
-            } else {
-                if let data = data {
-                    do {
-                        let pesponse = try JSONDecoder().decode(Response.self, from: data)
-                        self.onMain { complete(.success(pesponse)) }
-                    } catch let error {
-                        self.onMain { complete(.failure(error)) }
-                    }
+                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            } else if let data = data {
+                do {
+                    let pesponse = try JSONDecoder().decode(Response.self, from: data)
+                    self.onMain { complete(.success(pesponse)) }
+                } catch {
+                    self.onMain { complete(.failure(.decodable)) }
                 }
             }
         }

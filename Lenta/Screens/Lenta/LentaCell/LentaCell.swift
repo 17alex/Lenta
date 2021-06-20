@@ -130,7 +130,7 @@ final class LentaCell: UITableViewCell {
             likesCountLabel.text = postModel.likes.count
             viewsCountLabel.text = postModel.views.count
             commentsCountLabel.text = postModel.comments.count
-            setPostPhoto(by: postModel.photo.urlString)
+            setPostPhoto(by: postModel.photo?.urlString)
         }
     }
     
@@ -157,7 +157,7 @@ final class LentaCell: UITableViewCell {
         timeLabel.frame = CGRect(x: 87, y: 53, width: menuButton.frame.minX - 87, height: 15)
         descriptionLabel.frame = .init(x: 8, y: 81, width: cellWidth - 16, height: postModel.description.size.height)
         let descrMaxY = descriptionLabel.frame.maxY
-        photoImageView.frame = CGRect(x: 0, y: descrMaxY + 2, width: cellWidth, height: postModel.photo.size.height)
+        photoImageView.frame = CGRect(x: 0, y: descrMaxY + 2, width: cellWidth, height: postModel.photo?.size.height ?? 0)
         photoActivityIndicator.center = photoImageView.center
         let buttonsY = photoImageView.frame.maxY + 2
         let offset: CGFloat = 25
@@ -199,8 +199,8 @@ final class LentaCell: UITableViewCell {
         likesButton.setImage(likeImage, for: .normal)
     }
     
-    private func setPostPhoto(by urlString: String) {
-        if urlString == "" { return }
+    private func setPostPhoto(by urlString: String?) {
+        guard let urlString = urlString else  { return }
         photoActivityIndicator.startAnimating()
         photoImageView.load(by: urlString) {
             self.photoActivityIndicator.stopAnimating()
