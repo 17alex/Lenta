@@ -11,7 +11,6 @@
 		FA0A1DFC2624844B0061524D /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0A1DFB2624844B0061524D /* ImagePicker.swift */; };
 		FA1BB72025DA56A7008F56B9 /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1BB71F25DA56A7008F56B9 /* TimeInterval.swift */; };
 		FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90025B0290900D2B806 /* NewPostViewController.swift */; };
-		FA26A90325B0290900D2B806 /* NewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA26A90125B0290900D2B806 /* NewPostViewController.xib */; };
 		FA26A90625B029B000D2B806 /* NewPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90525B029B000D2B806 /* NewPostPresenter.swift */; };
 		FA26A90C25B02C6800D2B806 /* NewPostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */; };
 		FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90E25B0543200D2B806 /* SendPost.swift */; };
@@ -23,12 +22,10 @@
 		FA33EDE425AC8A5D00637E3E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */; };
 		FA396F5B25F8EBF9009B79F5 /* CommentsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F5A25F8EBF9009B79F5 /* CommentsPresenter.swift */; };
 		FA396F5F25F8F230009B79F5 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F5D25F8F230009B79F5 /* CommentsViewController.swift */; };
-		FA396F6025F8F230009B79F5 /* CommentsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA396F5E25F8F230009B79F5 /* CommentsViewController.xib */; };
 		FA396F6325F8F435009B79F5 /* CommentsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6225F8F435009B79F5 /* CommentsInteractor.swift */; };
 		FA396F6625F8FACC009B79F5 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6525F8FACC009B79F5 /* CommentViewModel.swift */; };
 		FA396F6925F8FC8E009B79F5 /* CommentsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6825F8FC8E009B79F5 /* CommentsRouter.swift */; };
 		FA396F6E25F8FF5E009B79F5 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6C25F8FF5E009B79F5 /* CommentCell.swift */; };
-		FA396F6F25F8FF5E009B79F5 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA396F6D25F8FF5E009B79F5 /* CommentCell.xib */; };
 		FA39E5A525F7B15E00F274FF /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA39E5A425F7B15E00F274FF /* WebImageView.swift */; };
 		FA6385CB264D699B006961D0 /* LentaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6385CA264D699B006961D0 /* LentaCell.swift */; };
 		FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */; };
@@ -36,7 +33,6 @@
 		FA7DD40525B709A400CB1678 /* RegisterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */; };
 		FA7DD40825B71F3600CB1678 /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */; };
 		FA8A308425FA448C00A02751 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8A308225FA448C00A02751 /* PostCell.swift */; };
-		FA8A308525FA448C00A02751 /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA8A308325FA448C00A02751 /* PostCell.xib */; };
 		FA8DAD4225AC24E600E9D1B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */; };
 		FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA8DAD4A25AC24F000E9D1B7 /* Assets.xcassets */; };
 		FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA8DAD4C25AC24F000E9D1B7 /* LaunchScreen.storyboard */; };
@@ -59,7 +55,6 @@
 		FA0A1DFB2624844B0061524D /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		FA1BB71F25DA56A7008F56B9 /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
 		FA26A90025B0290900D2B806 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
-		FA26A90125B0290900D2B806 /* NewPostViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewPostViewController.xib; sourceTree = "<group>"; };
 		FA26A90525B029B000D2B806 /* NewPostPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostPresenter.swift; sourceTree = "<group>"; };
 		FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostRouter.swift; sourceTree = "<group>"; };
 		FA26A90E25B0543200D2B806 /* SendPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPost.swift; sourceTree = "<group>"; };
@@ -71,12 +66,10 @@
 		FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		FA396F5A25F8EBF9009B79F5 /* CommentsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsPresenter.swift; sourceTree = "<group>"; };
 		FA396F5D25F8F230009B79F5 /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
-		FA396F5E25F8F230009B79F5 /* CommentsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentsViewController.xib; sourceTree = "<group>"; };
 		FA396F6225F8F435009B79F5 /* CommentsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsInteractor.swift; sourceTree = "<group>"; };
 		FA396F6525F8FACC009B79F5 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		FA396F6825F8FC8E009B79F5 /* CommentsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsRouter.swift; sourceTree = "<group>"; };
 		FA396F6C25F8FF5E009B79F5 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
-		FA396F6D25F8FF5E009B79F5 /* CommentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		FA39E5A425F7B15E00F274FF /* WebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
 		FA6385CA264D699B006961D0 /* LentaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaCell.swift; sourceTree = "<group>"; };
 		FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -84,7 +77,6 @@
 		FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPresenter.swift; sourceTree = "<group>"; };
 		FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInteractor.swift; sourceTree = "<group>"; };
 		FA8A308225FA448C00A02751 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
-		FA8A308325FA448C00A02751 /* PostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
 		FA8DAD3E25AC24E600E9D1B7 /* Lenta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lenta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA8DAD4A25AC24F000E9D1B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -129,7 +121,6 @@
 				FA26A90025B0290900D2B806 /* NewPostViewController.swift */,
 				FA26A90525B029B000D2B806 /* NewPostPresenter.swift */,
 				FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */,
-				FA26A90125B0290900D2B806 /* NewPostViewController.xib */,
 			);
 			path = NewPost;
 			sourceTree = "<group>";
@@ -176,7 +167,6 @@
 				FA396F5A25F8EBF9009B79F5 /* CommentsPresenter.swift */,
 				FA396F6225F8F435009B79F5 /* CommentsInteractor.swift */,
 				FA396F6825F8FC8E009B79F5 /* CommentsRouter.swift */,
-				FA396F5E25F8F230009B79F5 /* CommentsViewController.xib */,
 				FA8A308125FA443200A02751 /* PostCell */,
 				FA396F6B25F8FF27009B79F5 /* CommentCell */,
 			);
@@ -187,7 +177,6 @@
 			isa = PBXGroup;
 			children = (
 				FA396F6C25F8FF5E009B79F5 /* CommentCell.swift */,
-				FA396F6D25F8FF5E009B79F5 /* CommentCell.xib */,
 			);
 			path = CommentCell;
 			sourceTree = "<group>";
@@ -220,7 +209,6 @@
 			isa = PBXGroup;
 			children = (
 				FA8A308225FA448C00A02751 /* PostCell.swift */,
-				FA8A308325FA448C00A02751 /* PostCell.xib */,
 			);
 			path = PostCell;
 			sourceTree = "<group>";
@@ -357,12 +345,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA396F6025F8F230009B79F5 /* CommentsViewController.xib in Resources */,
 				FA8DAD4E25AC24F000E9D1B7 /* LaunchScreen.storyboard in Resources */,
-				FA8A308525FA448C00A02751 /* PostCell.xib in Resources */,
-				FA396F6F25F8FF5E009B79F5 /* CommentCell.xib in Resources */,
 				FA8DAD4B25AC24F000E9D1B7 /* Assets.xcassets in Resources */,
-				FA26A90325B0290900D2B806 /* NewPostViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

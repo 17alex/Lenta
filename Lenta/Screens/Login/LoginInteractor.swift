@@ -13,9 +13,11 @@ protocol LoginInteractorInput {
 
 final class LoginInteractor {
     
-    unowned let presenter: LoginInteractorOutput
+    unowned private let presenter: LoginInteractorOutput
     var networkManager: NetworkManager!
     var storeManager: StoreManager!
+    
+    //MARk: - Init
     
     init(presenter: LoginInteractorOutput) {
         print("LoginInteractor init")

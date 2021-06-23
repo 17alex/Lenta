@@ -12,16 +12,18 @@ protocol LoginViewOutput {
     func registerButtonPress()
 }
 
-protocol LoginInteractorOutput: class {
+protocol LoginInteractorOutput: AnyObject {
     func userDidLogined()
     func userLoginFail(message: String)
 }
 
 final class LoginPresenter {
     
-    unowned let view: LoginViewInput
+    unowned private let view: LoginViewInput
     var interactor: LoginInteractorInput!
     var router: LoginRouterInput!
+    
+    //MARk: - Init
     
     init(view: LoginViewInput) {
         print("LoginPresenter init")

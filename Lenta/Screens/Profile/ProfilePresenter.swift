@@ -19,7 +19,7 @@ final class ProfilePresenter {
     
     //MARK: - Propertis
     
-    unowned let view: ProfileViewInput
+    unowned private let view: ProfileViewInput
     var storeManager: StoreManagerProtocol!
     var networkManager: NetworkManagerProtocol!
     var router: ProfileRouterInput!
@@ -27,20 +27,20 @@ final class ProfilePresenter {
     var currentUser: CurrentUser? {
         didSet {
             if let user = currentUser {
-                name = user.name
+                newName = user.name
             } else {
-                name = ""
+                newName = ""
             }
         }
     }
     
-    var isNewAvatar = false {
+    var isSetNewAvatar = false {
         didSet {
             changeProfile()
         }
     }
     
-    var name = "" {
+    var newName = "" {
         didSet {
             changeProfile()
         }
@@ -60,8 +60,8 @@ final class ProfilePresenter {
     //MARK: - Metods
     
     private func changeProfile() {
-        guard let user = currentUser  else { view.didChangeProfile(false); return }
-        if !name.isEmpty && (name != user.name || isNewAvatar) {
+        guard let currUser = currentUser  else { view.didChangeProfile(false); return }
+        if !newName.isEmpty && (newName != currUser.name || isSetNewAvatar) {
             view.didChangeProfile(true)
         } else {
             view.didChangeProfile(false)
@@ -75,45 +75,45 @@ extension ProfilePresenter: ProfileViewOutput {
     
     func saveButtonPress(name: String, image: UIImage?) {
         var avatarImage: UIImage?
-        if isNewAvatar {
+        if isSetNewAvatar {
             avatarImage = image
         }
-        if let currUser = currentUser { //TODO: - guard
-            networkManager.updateProfile(id: currUser.id, name: name, avatar: avatarImage) { (result) in
-                switch result {
-                case .failure(let error):
-                    self.view.didUpdateProfile(message: error.localizedDescription)
-                case .success(let users):
-                    if let user = users.first {
-                        let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
-                        self.currentUser = currentUser
-                        self.storeManager.save(currentUser)
-                        self.view.didUpdateProfile(message: "update successfull")
-                        self.isNewAvatar = false
-                    } else {
-                        self.view.didUpdateProfile(message: "error update")
-                    }
+        
+        guard let currUser = currentUser else { return }
+        networkManager.updateProfile(id: currUser.id, name: name, avatar: avatarImage) { (result) in
+            switch result {
+            case .failure(let error):
+                self.view.showMessage(error.localizedDescription)
+            case .success(let users):
+                if let user = users.first {
+                    let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
+                    self.currentUser = currentUser
+                    self.storeManager.save(currentUser)
+                    self.view.showMessage("update successfull")
+                    self.isSetNewAvatar = false
+                } else {
+                    self.view.showMessage("error update")
                 }
             }
         }
     }
     
     func logInOutButtonPress() {
-        if currentUser != nil {
+        if currentUser == nil {
+            router.loginUser()
+        } else {
             currentUser = nil
             storeManager.save(currentUser)
             view.userLoginned(CurrentUserModel(currentUser: currentUser))
-        } else {
-            router.loginUser()
         }
     }
     
     func didSelectNewAvatar() {
-        isNewAvatar = true
+        isSetNewAvatar = true
     }
     
     func change(name: String) {
-        self.name = name
+        self.newName = name
     }
     
     func start() {

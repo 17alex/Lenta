@@ -31,18 +31,18 @@ struct Post: Decodable {
     let userId: Int
     let timeInterval: TimeInterval
     let description: String
-    let foto: PostFoto
+    let photo: PostPhoto?
     let likeUserIds: [Int]
     let viewsCount: Int
     let commentsCount: Int
 }
 
-struct PostFoto: Decodable {
+struct PostPhoto: Decodable {
     let name: String
-    let size: FotoSize
+    let size: PhotoSize
 }
 
-struct FotoSize: Decodable {
+struct PhotoSize: Decodable {
     let width: Int
     let height: Int
 }

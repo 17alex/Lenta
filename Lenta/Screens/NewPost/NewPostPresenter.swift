@@ -11,13 +11,15 @@ protocol NewPostViewOutput {
     func pressSendButton(description: String, image: UIImage?)
 }
 
-class NewPostPresenter {
+final class NewPostPresenter {
     
-    unowned let view: NewPostViewInput
+    unowned private let view: NewPostViewInput
     var networkManager: NetworkManagerProtocol!
     var storeManager: StoreManagerProtocol!
     var router: NewPostRouterInput!
     let callback: (Response) -> Void
+    
+    //MARK: - Init
     
     init(view: NewPostViewInput, callback: @escaping (Response) -> Void) {
         self.view = view

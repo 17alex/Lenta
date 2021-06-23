@@ -11,23 +11,79 @@ protocol NewPostViewInput: class {
     func newPostSendFailed(text: String)
 }
 
-class NewPostViewController: UIViewController {
+final class NewPostViewController: UIViewController {
 
-    //MARK: - IBOutlets
-    
-    @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var fotoImageView: UIImageView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var sendButton: UIBarButtonItem!
-    @IBOutlet weak var heightTextView: NSLayoutConstraint!
-    @IBOutlet weak var heightImageView: NSLayoutConstraint!
-    @IBOutlet weak var bottomScrollView: NSLayoutConstraint!
-    
     //MARK: - Propertis
     
+    private lazy var navItem: UINavigationItem = {
+        let navItem = UINavigationItem(title: "Enter new post...")
+        navItem.leftBarButtonItem = closeButton
+        navItem.rightBarButtonItem = sendButton
+        return navItem
+    }()
+    
+    private lazy var navigationBar: UINavigationBar = {
+        let navBar = UINavigationBar()
+        navBar.items = [navItem]
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        return navBar
+    }()
+    
+    private lazy var descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.systemFont(ofSize: 17, weight: .light)
+        textView.isScrollEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.inputAccessoryView = toolbar
+        textView.delegate = self
+        return textView
+    }()
+    
+    private lazy var toolbar: UIToolbar = {
+        let kbToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 300, height: 50))
+        kbToolbar.barStyle = UIBarStyle.default
+        kbToolbar.isTranslucent = true
+        let button = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(chooseImage))
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        kbToolbar.setItems([button, space], animated: false)
+        kbToolbar.isUserInteractionEnabled = true
+        kbToolbar.sizeToFit()
+        return kbToolbar
+    }()
+    
+    private lazy var photoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(photoTap)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView(style: .medium)
+        activity.translatesAutoresizingMaskIntoConstraints = false
+        return activity
+    }()
+    
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    private lazy var sendButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.circle"), style: .plain, target: self, action: #selector(sendButtonPress))
+    private lazy var closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPress))
+    private lazy var photoTap = UITapGestureRecognizer(target: self, action: #selector(didTapPhoto))
+    
+    private var heightTextView: NSLayoutConstraint!
+    private var heightImageView: NSLayoutConstraint!
+    private var bottomScrollView: NSLayoutConstraint!
+    
     var presenter: NewPostViewOutput!
-    lazy var imagePicker = ImagePicker(view: self, delegate: self)
-    var kbIsShow = false
+    
+    private lazy var imagePicker = ImagePicker(view: self, delegate: self)
+    private var isShowKboard = false
     
     //MARK: - LiveCycles
     
@@ -39,13 +95,15 @@ class NewPostViewController: UIViewController {
         super.viewDidLoad()
         print("NewPostViewController init")
         
-        setup()
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(willShowKboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willHideKboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         descriptionTextView.becomeFirstResponder()
     }
     
@@ -59,8 +117,8 @@ class NewPostViewController: UIViewController {
     //MARK: - Metods
     
     @objc private func willShowKboard(notification: NSNotification) {
-        if kbIsShow == true { return }
-        kbIsShow = true
+        if isShowKboard { return }
+        isShowKboard = true
         
         guard let userInfo = notification.userInfo else { return }
         let kbFrameSize = (userInfo["UIKeyboardFrameEndUserInfoKey"] as! NSValue).cgRectValue
@@ -73,8 +131,8 @@ class NewPostViewController: UIViewController {
     }
     
     @objc private func willHideKboard() {
-        if kbIsShow == false { return }
-        kbIsShow = false
+        if !isShowKboard { return }
+        isShowKboard = false
         
         UIView.animate(withDuration: 0.5) {
             self.bottomScrollView.constant = 0
@@ -86,33 +144,63 @@ class NewPostViewController: UIViewController {
         descriptionTextView.resignFirstResponder()
     }
     
-    private func setup() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapPhoto))
-        fotoImageView.addGestureRecognizer(tap)
+    private func updateContSize() {
+        scrollView.contentSize = CGSize(width: view.bounds.width,
+                                        height: heightTextView.constant + heightImageView.constant)
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = .systemBackground
         
-        let kbToolbar = UIToolbar()
-        kbToolbar.sizeToFit()
-        let btn = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(chooseImage))
-        let spc = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        kbToolbar.setItems([btn, spc], animated: true)
-        descriptionTextView.inputAccessoryView = kbToolbar
-        descriptionTextView.delegate = self
+        view.addSubview(navigationBar)
+        view.addSubview(scrollView)
+        scrollView.addSubview(descriptionTextView)
+        scrollView.addSubview(photoImageView)
+        view.addSubview(activityIndicator)
+        
+        NSLayoutConstraint.activate([
+            navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            descriptionTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            descriptionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:  -8),
+            
+            photoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            photoImageView.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor),
+            photoImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            activityIndicator.centerYAnchor.constraint(equalTo: navigationBar.centerYAnchor),
+            activityIndicator.trailingAnchor.constraint(equalTo: navigationBar.trailingAnchor, constant: -58)
+        ])
+        
+        bottomScrollView = scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        bottomScrollView.isActive = true
+        bottomScrollView.constant = 0
+        
+        heightTextView = descriptionTextView.heightAnchor.constraint(equalToConstant: 36)
+        heightTextView.isActive = true
+        
+        heightImageView = photoImageView.heightAnchor.constraint(equalToConstant: 0)
+        heightImageView.isActive = true
     }
     
     @objc private func chooseImage() {
         imagePicker.chooseImage()
     }
     
-    //MARK: - IBAction
-    
-    @IBAction func sendButtonPress(_ sender: UIBarButtonItem) {
+    @objc private func sendButtonPress() {
         sendButton.isEnabled = false
         activityIndicator.startAnimating()
         let description = descriptionTextView.text ?? ""
-        presenter.pressSendButton(description: description, image: fotoImageView.image)
+        presenter.pressSendButton(description: description, image: photoImageView.image)
     }
     
-    @IBAction func closeButtonPress(_ sender: UIBarButtonItem) {
+    @objc private func closeButtonPress() {
         dismiss(animated: true)
     }
 }
@@ -122,10 +210,10 @@ class NewPostViewController: UIViewController {
 extension NewPostViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
-        let size = CGSize(width: view.frame.width, height: .infinity)
-        //TODO: - view.frame.width -> descriptionTextView.frame.width
+        let size = CGSize(width: textView.frame.width, height: .infinity)
         let estimatedSize = descriptionTextView.sizeThatFits(size)
         heightTextView.constant = estimatedSize.height
+        updateContSize()
     }
 }
 
@@ -148,8 +236,9 @@ extension NewPostViewController: NewPostViewInput {
 extension NewPostViewController: ImagePickerDelegate {
     
     func selectImage(_ image: UIImage) {
-        fotoImageView.image = image
-        let height = image.size.height / image.size.width * fotoImageView.bounds.width
+        photoImageView.image = image
+        let height = image.size.height / image.size.width * photoImageView.bounds.width
         heightImageView.constant = height
+        updateContSize()
     }
 }

@@ -14,8 +14,10 @@ protocol LoginRouterInput {
 
 final class LoginRouter {
     
-    let assembly: Assembly
-    unowned let view: UIViewController
+    private let assembly: Assembly
+    unowned private let view: UIViewController
+    
+    //MARK: - Init
     
     init(assembly: Assembly, view: UIViewController) {
         self.assembly = assembly

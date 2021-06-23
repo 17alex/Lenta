@@ -13,7 +13,7 @@ protocol RegisterInteractorInput {
 
 final class RegisterInteractor {
     
-    unowned let presenter: RegisterInteractorOutput
+    unowned private let presenter: RegisterInteractorOutput
     var networkManager: NetworkManagerProtocol!
     var storeManager: StoreManagerProtocol!
     

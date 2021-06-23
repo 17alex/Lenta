@@ -15,23 +15,87 @@ protocol CommentsViewInput: class {
     func show(message: String)
 }
 
-class CommentsViewController: UIViewController {
+final class CommentsViewController: UIViewController {
 
-    //MARK: - IBOutlets
-    
-    @IBOutlet weak var commentsTableView: UITableView!
-    @IBOutlet weak var newCommentTextView: UITextView!
-    @IBOutlet weak var bubleView: UIView!
-    @IBOutlet weak var heightNewCommentTextView: NSLayoutConstraint!
-    @IBOutlet weak var bottomBabbleView: NSLayoutConstraint!
-    @IBOutlet weak var loadActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var sendActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var sendButton: UIButton!
-    
     //MARK: - Propertis
     
+    private lazy var navItem: UINavigationItem = {
+        let navItem = UINavigationItem(title: "Comments")
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPress))
+        navItem.rightBarButtonItem = closeButton
+        return navItem
+    }()
+    
+    private lazy var navBar: UINavigationBar = {
+        let navBar = UINavigationBar()
+        navBar.items = [navItem]
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        return navBar
+    }()
+    
+    private lazy var tableTap = UITapGestureRecognizer(target: self, action: #selector(hideKboard))
+    
+    private lazy var commentsTableView: UITableView = {
+        let table = UITableView(frame: .zero, style: .plain)
+        table.register(PostCell.self, forCellReuseIdentifier: PostCell.reuseID)
+        table.register(CommentCell.self, forCellReuseIdentifier: CommentCell.reuseID)
+        table.dataSource = self
+        table.delegate = self
+        table.tableFooterView = UIView()
+        table.addGestureRecognizer(tableTap)
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
+    }()
+    
+    private lazy var newCommentTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        textView.autocapitalizationType = .sentences
+        textView.delegate = self
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+    
+    private lazy var cardView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.cornerRadius = 15
+        view.layer.borderColor = UIColor.lightGray.cgColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var loadActivityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+    
+    private lazy var sendActivityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+    
+    private lazy var sendButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "arrow.up.circle"), for: .normal)
+        button.addTarget(self, action: #selector(sendButtonPress), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private var newCommentTextViewHeight: NSLayoutConstraint!
+    private let newCommentTextViewHeightDefaultConstant: CGFloat = 33
+    
+    private var babbleViewBottom: NSLayoutConstraint!
+    private let babbleViewBottomDefaultConstant: CGFloat = -5
+    
+    private var isShowKboard = false
+    
     var presenter: CommentsViewOutput!
-    var kbIsShow = false
     
     //MARK: - LiveCycles
     
@@ -43,53 +107,65 @@ class CommentsViewController: UIViewController {
         super.viewDidLoad()
         print("CommentsViewController init")
         
-        setup()
+        setupUI()
         presenter.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(willShowKboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(willHideKboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        subscribeKboardNotofication()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        unSubscribeKboardNotofication()
     }
 
     //MARK: - Metods
     
+    private func subscribeKboardNotofication() {
+        NotificationCenter.default.addObserver(self, selector: #selector(willShowKboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willHideKboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func unSubscribeKboardNotofication() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     @objc private func willShowKboard(notification: NSNotification) {
-        if kbIsShow == true { return }
-        kbIsShow = true
+        if isShowKboard { return }
+        isShowKboard = true
         
         guard let userInfo = notification.userInfo else { return }
+        let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as! Double
         let kbFrameSize = (userInfo["UIKeyboardFrameEndUserInfoKey"] as! NSValue).cgRectValue
         let offset = kbFrameSize.height
         
-        UIView.animate(withDuration: 0.5) {
-            self.bottomBabbleView.constant = -offset - 5
+        UIView.animate(withDuration: animDuration) {
+            self.babbleViewBottom.constant = self.babbleViewBottomDefaultConstant - offset
             self.view.layoutIfNeeded()
-        } completion: { (_) in
+        } completion: { _ in
             let countRow = self.presenter.commentsViewModel.count
             if countRow != 0 {
-                self.commentsTableView.scrollToRow(at: IndexPath(row: countRow - 1, section: 1), at: .middle, animated: true)
+                self.commentsTableView.scrollToRow(at: IndexPath(row: countRow - 1, section: 1), at: .bottom, animated: true)
             } else {
                 self.commentsTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
             }
         }
-
     }
     
-    @objc private func willHideKboard() {
-        if kbIsShow == false { return }
-        kbIsShow = false
+    @objc private func willHideKboard(notification: NSNotification) {
+        if isShowKboard == false { return }
+        isShowKboard = false
         
-        UIView.animate(withDuration: 0.5) {
-            self.bottomBabbleView.constant = -5
+        guard let userInfo = notification.userInfo else { return }
+        let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as! Double
+        
+        UIView.animate(withDuration: animDuration) {
+            self.babbleViewBottom.constant = self.babbleViewBottomDefaultConstant
             self.view.layoutIfNeeded()
         }
     }
@@ -98,17 +174,52 @@ class CommentsViewController: UIViewController {
         newCommentTextView.resignFirstResponder()
     }
 
-    private func setup() {
-        bubleView.layer.cornerRadius = 15
-        let postCellNibName = String(describing: PostCell.self)
-        commentsTableView.register(UINib(nibName: postCellNibName, bundle: nil), forCellReuseIdentifier: postCellNibName)
-        let commentCellNibName = String(describing: CommentCell.self)
-        commentsTableView.register(UINib(nibName: commentCellNibName, bundle: nil), forCellReuseIdentifier: commentCellNibName)
-        commentsTableView.dataSource = self
-        newCommentTextView.delegate = self
-        commentsTableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKboard)))
-        bubleView.layer.borderWidth = 1
-        bubleView.layer.borderColor = UIColor.lightGray.cgColor
+    private func setupUI() {
+        view.backgroundColor = .systemBackground
+        
+        view.addSubview(navBar)
+        view.addSubview(commentsTableView)
+        view.addSubview(cardView)
+        view.addSubview(sendButton)
+        view.addSubview(sendActivityIndicator)
+        view.addSubview(loadActivityIndicator)
+        cardView.addSubview(newCommentTextView)
+        
+        NSLayoutConstraint.activate([
+            navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            commentsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            commentsTableView.topAnchor.constraint(equalTo: navBar.bottomAnchor),
+            commentsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            sendButton.leadingAnchor.constraint(equalTo: cardView.trailingAnchor),
+            sendButton.topAnchor.constraint(equalTo: cardView.topAnchor),
+            sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            sendButton.heightAnchor.constraint(equalToConstant: 40),
+            sendButton.widthAnchor.constraint(equalToConstant: 40),
+            
+            cardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            cardView.topAnchor.constraint(equalTo: commentsTableView.bottomAnchor, constant: 5),
+            
+            newCommentTextView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 5),
+            newCommentTextView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 2),
+            newCommentTextView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -5),
+            newCommentTextView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -2),
+            
+            sendActivityIndicator.centerXAnchor.constraint(equalTo: sendButton.centerXAnchor),
+            sendActivityIndicator.centerYAnchor.constraint(equalTo: sendButton.centerYAnchor),
+            
+            loadActivityIndicator.centerXAnchor.constraint(equalTo: commentsTableView.centerXAnchor),
+            loadActivityIndicator.centerYAnchor.constraint(equalTo: commentsTableView.centerYAnchor),
+        ])
+        
+        newCommentTextViewHeight = newCommentTextView.heightAnchor.constraint(equalToConstant: newCommentTextViewHeightDefaultConstant)
+        newCommentTextViewHeight.isActive = true
+        
+        babbleViewBottom = cardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: babbleViewBottomDefaultConstant)
+        babbleViewBottom.isActive = true
     }
     
     private func animateActivity(_ isAnimate: Bool) {
@@ -121,18 +232,16 @@ class CommentsViewController: UIViewController {
         }
     }
     
-    //MARK: - IBAction
-    
-    @IBAction func sendButtonPress(_ sender: UIButton) {
+    @objc private func sendButtonPress() {
         print("sendNewComment")
         guard let newComment = newCommentTextView.text, !newComment.isEmpty else { return }
         animateActivity(true)
         presenter.didPressNewCommendSendButton(comment: newComment)
         newCommentTextView.text = ""
-        heightNewCommentTextView.constant = 33
+        newCommentTextViewHeight.constant = newCommentTextViewHeightDefaultConstant
     }
     
-    @IBAction func closeButtonPress(_ sender: Any) {
+    @objc private func closeButtonPress() {
         presenter.didCloseButtonPress()
     }
 }
@@ -189,12 +298,12 @@ extension CommentsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch presenter.cellTypes[indexPath.section] {
         case .post:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostCell.self), for: indexPath) as! PostCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.reuseID, for: indexPath) as! PostCell
             let postViewModel = presenter.postsViewModel[indexPath.row]
             cell.set(postModel: postViewModel)
             return cell
         case .comments:
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CommentCell.self), for: indexPath) as! CommentCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.reuseID, for: indexPath) as! CommentCell
             let commentViewModel = presenter.commentsViewModel[indexPath.row]
             cell.set(commentModel: commentViewModel)
             return cell
@@ -214,7 +323,7 @@ extension CommentsViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let size = CGSize(width: newCommentTextView.frame.width, height: .infinity)
-        let estimatedSize = newCommentTextView.sizeThatFits(size)
-        heightNewCommentTextView.constant = estimatedSize.height
+        let estimatedSize = newCommentTextView.sizeThatFits(size) //TODO: - max to navBar
+        newCommentTextViewHeight.constant = estimatedSize.height
     }
 }

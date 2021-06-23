@@ -7,10 +7,10 @@
 
 import UIKit
 
-protocol ProfileViewInput: class {
+protocol ProfileViewInput: AnyObject {
     func userLoginned(_ currentUserModel: CurrentUserModel?)
     func didChangeProfile(_ change: Bool)
-    func didUpdateProfile(message: String)
+    func showMessage(_ message: String)
 }
 
 final class ProfileViewController: UIViewController {
@@ -59,7 +59,7 @@ final class ProfileViewController: UIViewController {
         let label = UILabel()
         label.text = "--"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
+        label.font = UIFont.systemFont(ofSize: 17, weight: .light)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -77,7 +77,7 @@ final class ProfileViewController: UIViewController {
         let label = UILabel()
         label.text = "--.--.----"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
+        label.font = UIFont.systemFont(ofSize: 17, weight: .light)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -224,7 +224,7 @@ final class ProfileViewController: UIViewController {
 
 extension ProfileViewController: ProfileViewInput {
     
-    func didUpdateProfile(message: String) {
+    func showMessage(_ message: String) {
         let alertController = UIAlertController(title: "Profile", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alertController.addAction(okAction)
