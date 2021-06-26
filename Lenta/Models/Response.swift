@@ -39,15 +39,15 @@ struct Post: Decodable {
 
 struct PostPhoto: Decodable {
     let name: String
-    let size: PhotoSize
+    let size: Size
 }
 
-struct PhotoSize: Decodable {
+struct Size: Decodable { //FIXME: - Size
     let width: Int
     let height: Int
 }
 
-struct User: Decodable, Hashable {
+struct User: Codable, Hashable {
     let id: Int
     let name: String
     let postsCount: Int

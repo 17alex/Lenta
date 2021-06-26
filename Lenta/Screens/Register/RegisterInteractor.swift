@@ -36,8 +36,7 @@ extension RegisterInteractor: RegisterInteractorInput {
             case .failure(let error):
                 self.presenter.userDidRegisteredFail(message: error.localizedDescription)
             case .success(let users):
-                if let user = users.first {
-                    let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
+                if let currentUser = users.first {
                     self.storeManager.save(currentUser)
                     self.presenter.userDidRegistered()
                 } else {

@@ -17,7 +17,7 @@ protocol LentaViewOutput {
     func didPressMenu(by index: Int)
     func didPressComments(by index: Int)
     func didPressLike(postIndex: Int)
-    func didPressMore(postIndex: Int)
+//    func didPressMore(postIndex: Int )
     func willDisplayCell(by index: Int)
     func didTapAvatar(by index: Int)
 }
@@ -33,7 +33,7 @@ protocol LentaInteractorOutput: class {
 
 final class LentaPresenter {
     
-    unowned let view: LentaViewInput
+    unowned private let view: LentaViewInput
     var interactor: LentaInteractorInput!
     var router: LentaRouterInput!
     
@@ -93,10 +93,10 @@ extension LentaPresenter: LentaViewOutput {
         interactor.changeLike(by: postIndex)
     }
     
-    func didPressMore(postIndex: Int) {
-        postsViewModel[postIndex].description.isExpand = true
-        view.reloadPost(by: postIndex)
-    }
+//    func didPressMore(postIndex: Int) {
+//        postsViewModel[postIndex].description.isExpand = true
+//        view.reloadPost(by: postIndex)
+//    }
     
     func viewDidLoad() {
         view.loadingStarted()

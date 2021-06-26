@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA0285EE25B1D1FE0082B17D /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */; };
+		8D54C73F268378610088D4BE /* ProfilePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C73E268378610088D4BE /* ProfilePresenterTests.swift */; };
+		8D54C7C026847C970088D4BE /* LoginInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7BF26847C970088D4BE /* LoginInteractorTest.swift */; };
 		FA0A1DFC2624844B0061524D /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0A1DFB2624844B0061524D /* ImagePicker.swift */; };
 		FA1BB72025DA56A7008F56B9 /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1BB71F25DA56A7008F56B9 /* TimeInterval.swift */; };
 		FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90025B0290900D2B806 /* NewPostViewController.swift */; };
@@ -46,12 +47,24 @@
 		FAC2073B25AC61B200CD9099 /* LentaInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073A25AC61B200CD9099 /* LentaInteractor.swift */; };
 		FAC2073F25AC689F00CD9099 /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073E25AC689F00CD9099 /* PostViewModel.swift */; };
 		FAC2074425AC6C6E00CD9099 /* LentaRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2074325AC6C6E00CD9099 /* LentaRouter.swift */; };
-		FAD65F3F25EF9C2400EEC9B6 /* CurrentUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD65F3E25EF9C2400EEC9B6 /* CurrentUserModel.swift */; };
 		FAF49F45260CA71C00199779 /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF49F44260CA71C00199779 /* UserInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8D54C741268378610088D4BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA8DAD3625AC24E600E9D1B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA8DAD3D25AC24E600E9D1B7;
+			remoteInfo = Lenta;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		8D54C73C268378610088D4BE /* LentaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LentaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D54C73E268378610088D4BE /* ProfilePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenterTests.swift; sourceTree = "<group>"; };
+		8D54C740268378610088D4BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D54C7BF26847C970088D4BE /* LoginInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractorTest.swift; sourceTree = "<group>"; };
 		FA0A1DFB2624844B0061524D /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		FA1BB71F25DA56A7008F56B9 /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
 		FA26A90025B0290900D2B806 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
@@ -92,11 +105,17 @@
 		FAC2073A25AC61B200CD9099 /* LentaInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaInteractor.swift; sourceTree = "<group>"; };
 		FAC2073E25AC689F00CD9099 /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		FAC2074325AC6C6E00CD9099 /* LentaRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaRouter.swift; sourceTree = "<group>"; };
-		FAD65F3E25EF9C2400EEC9B6 /* CurrentUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserModel.swift; sourceTree = "<group>"; };
 		FAF49F44260CA71C00199779 /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8D54C739268378610088D4BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA8DAD3B25AC24E600E9D1B7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -107,6 +126,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D54C73D268378610088D4BE /* LentaTests */ = {
+			isa = PBXGroup;
+			children = (
+				8D54C7BE26847C690088D4BE /* Login */,
+				8D54C78B26837D540088D4BE /* Profile */,
+				8D54C740268378610088D4BE /* Info.plist */,
+			);
+			path = LentaTests;
+			sourceTree = "<group>";
+		};
+		8D54C78B26837D540088D4BE /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				8D54C73E268378610088D4BE /* ProfilePresenterTests.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		8D54C7BE26847C690088D4BE /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				8D54C7BF26847C970088D4BE /* LoginInteractorTest.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		FA1BB71E25DA5673008F56B9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,11 +230,9 @@
 			isa = PBXGroup;
 			children = (
 				FAC2073125AC5FE300CD9099 /* Response.swift */,
-				FA0285ED25B1D1FE0082B17D /* CurrentUser.swift */,
 				FA26A90E25B0543200D2B806 /* SendPost.swift */,
 				FAC2073E25AC689F00CD9099 /* PostViewModel.swift */,
 				FA396F6525F8FACC009B79F5 /* CommentViewModel.swift */,
-				FAD65F3E25EF9C2400EEC9B6 /* CurrentUserModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -217,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				FA8DAD4025AC24E600E9D1B7 /* Lenta */,
+				8D54C73D268378610088D4BE /* LentaTests */,
 				FA8DAD3F25AC24E600E9D1B7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -225,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				FA8DAD3E25AC24E600E9D1B7 /* Lenta.app */,
+				8D54C73C268378610088D4BE /* LentaTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -287,6 +332,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8D54C73B268378610088D4BE /* LentaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8D54C745268378610088D4BE /* Build configuration list for PBXNativeTarget "LentaTests" */;
+			buildPhases = (
+				8D54C738268378610088D4BE /* Sources */,
+				8D54C739268378610088D4BE /* Frameworks */,
+				8D54C73A268378610088D4BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8D54C742268378610088D4BE /* PBXTargetDependency */,
+			);
+			name = LentaTests;
+			productName = LentaTests;
+			productReference = 8D54C73C268378610088D4BE /* LentaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		FA8DAD3D25AC24E600E9D1B7 /* Lenta */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA8DAD5225AC24F000E9D1B7 /* Build configuration list for PBXNativeTarget "Lenta" */;
@@ -312,9 +375,13 @@
 		FA8DAD3625AC24E600E9D1B7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1220;
+				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
+					8D54C73B268378610088D4BE = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = FA8DAD3D25AC24E600E9D1B7;
+					};
 					FA8DAD3D25AC24E600E9D1B7 = {
 						CreatedOnToolsVersion = 12.2;
 					};
@@ -336,11 +403,19 @@
 			projectRoot = "";
 			targets = (
 				FA8DAD3D25AC24E600E9D1B7 /* Lenta */,
+				8D54C73B268378610088D4BE /* LentaTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8D54C73A268378610088D4BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA8DAD3C25AC24E600E9D1B7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -353,6 +428,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8D54C738268378610088D4BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D54C7C026847C970088D4BE /* LoginInteractorTest.swift in Sources */,
+				8D54C73F268378610088D4BE /* ProfilePresenterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FA8DAD3A25AC24E600E9D1B7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -371,11 +455,9 @@
 				FA396F5B25F8EBF9009B79F5 /* CommentsPresenter.swift in Sources */,
 				FA396F6325F8F435009B79F5 /* CommentsInteractor.swift in Sources */,
 				FA8DAD4225AC24E600E9D1B7 /* AppDelegate.swift in Sources */,
-				FAD65F3F25EF9C2400EEC9B6 /* CurrentUserModel.swift in Sources */,
 				FA2B46AF25B5D46500DC5C1D /* LoginRouter.swift in Sources */,
 				FA26A90225B0290900D2B806 /* NewPostViewController.swift in Sources */,
 				FA9BFF3B25C17A0D00ACA85F /* ProfileViewController.swift in Sources */,
-				FA0285EE25B1D1FE0082B17D /* CurrentUser.swift in Sources */,
 				FA396F6625F8FACC009B79F5 /* CommentViewModel.swift in Sources */,
 				FA396F6925F8FC8E009B79F5 /* CommentsRouter.swift in Sources */,
 				FAC2073225AC5FE300CD9099 /* Response.swift in Sources */,
@@ -401,6 +483,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		8D54C742268378610088D4BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA8DAD3D25AC24E600E9D1B7 /* Lenta */;
+			targetProxy = 8D54C741268378610088D4BE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		FA8DAD4C25AC24F000E9D1B7 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -413,6 +503,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8D54C743268378610088D4BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = LentaTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = home.LentaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lenta.app/Lenta";
+			};
+			name = Debug;
+		};
+		8D54C744268378610088D4BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = LentaTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = home.LentaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lenta.app/Lenta";
+			};
+			name = Release;
+		};
 		FA8DAD5025AC24F000E9D1B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -576,6 +706,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8D54C745268378610088D4BE /* Build configuration list for PBXNativeTarget "LentaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D54C743268378610088D4BE /* Debug */,
+				8D54C744268378610088D4BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FA8DAD3925AC24E600E9D1B7 /* Build configuration list for PBXProject "Lenta" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

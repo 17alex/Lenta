@@ -24,7 +24,7 @@ final class ProfilePresenter {
     var networkManager: NetworkManagerProtocol!
     var router: ProfileRouterInput!
     
-    var currentUser: CurrentUser? {
+    var currentUser: User? {
         didSet {
             if let user = currentUser {
                 newName = user.name
@@ -80,15 +80,14 @@ extension ProfilePresenter: ProfileViewOutput {
         }
         
         guard let currUser = currentUser else { return }
-        networkManager.updateProfile(id: currUser.id, name: name, avatar: avatarImage) { (result) in
+        networkManager.updateProfile(id: currUser.id, name: name, avatar: avatarImage) { (result) in //FIXME: - weak self
             switch result {
             case .failure(let error):
                 self.view.showMessage(error.localizedDescription)
             case .success(let users):
                 if let user = users.first {
-                    let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
-                    self.currentUser = currentUser
-                    self.storeManager.save(currentUser)
+                    self.currentUser = user
+                    self.storeManager.save(self.currentUser)
                     self.view.showMessage("update successfull")
                     self.isSetNewAvatar = false
                 } else {
@@ -104,7 +103,7 @@ extension ProfilePresenter: ProfileViewOutput {
         } else {
             currentUser = nil
             storeManager.save(currentUser)
-            view.userLoginned(CurrentUserModel(currentUser: currentUser))
+            view.userLoginned(UserViewModel(user: currentUser))
         }
     }
     
@@ -118,6 +117,6 @@ extension ProfilePresenter: ProfileViewOutput {
     
     func start() {
         currentUser = storeManager.getCurrenUser()
-        view.userLoginned(CurrentUserModel(currentUser: currentUser))
+        view.userLoginned(UserViewModel(user: currentUser))
     }
 }

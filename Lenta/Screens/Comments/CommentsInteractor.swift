@@ -26,7 +26,7 @@ final class CommentsInteractor {
     var posts: [Post] = []
     var comments: [Comment] = []
     var users: Set<User> = []
-    private var currentUser: CurrentUser?
+    private var currentUser: User?
     
     //MARK: - Init
     

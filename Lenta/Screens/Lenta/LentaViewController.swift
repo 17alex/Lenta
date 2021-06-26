@@ -226,7 +226,7 @@ extension LentaViewController: LentaViewInput {
         lentaTableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .none)
     }
     
-    func insertPosts(fromIndex: Int, toIndex: Int) {
+    func insertPosts(fromIndex: Int, toIndex: Int) { //FIXME: - insertPosrts(by IndexPaths: [IndexPath])
         let indexPaths: [IndexPath] = (fromIndex..<toIndex).map { IndexPath(row: $0, section: 0) }
         lentaTableView.insertRows(at: indexPaths, with: .fade)
     }

@@ -8,8 +8,8 @@
 import Foundation
 
 protocol StoreManagerProtocol {
-    func getCurrenUser() -> CurrentUser?
-    func save(_ user: CurrentUser?)
+    func getCurrenUser() -> User?
+    func save(_ user: User?)
 }
 
 class StoreManager {
@@ -21,9 +21,9 @@ class StoreManager {
 
 extension StoreManager: StoreManagerProtocol {
     
-    func getCurrenUser() -> CurrentUser? {
+    func getCurrenUser() -> User? {
         if let userData = UserDefaults.standard.data(forKey: storeKey),
-           let currentUser = try? JSONDecoder().decode(CurrentUser.self, from: userData) {
+           let currentUser = try? JSONDecoder().decode(User.self, from: userData) {
             print("user in store = \(currentUser)")
             return currentUser
         } else {
@@ -32,7 +32,7 @@ extension StoreManager: StoreManagerProtocol {
         }
     }
     
-    func save(_ user: CurrentUser?) {
+    func save(_ user: User?) {
         var data: Data?
         if let user = user, let userData = try? JSONEncoder().encode(user) {
             data = userData

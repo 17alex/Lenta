@@ -14,8 +14,8 @@ protocol LoginInteractorInput {
 final class LoginInteractor {
     
     unowned private let presenter: LoginInteractorOutput
-    var networkManager: NetworkManager!
-    var storeManager: StoreManager!
+    var networkManager: NetworkManagerProtocol!
+    var storeManager: StoreManagerProtocol!
     
     //MARk: - Init
     
@@ -38,8 +38,7 @@ extension LoginInteractor: LoginInteractorInput {
             case .failure(let error):
                 self.presenter.userLoginFail(message: error.localizedDescription)
             case .success(let users):
-                if let user = users.first {
-                    let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
+                if let currentUser = users.first {
                     self.storeManager.save(currentUser)
                     self.presenter.userDidLogined()
                 } else {

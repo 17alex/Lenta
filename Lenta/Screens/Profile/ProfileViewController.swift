@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ProfileViewInput: AnyObject {
-    func userLoginned(_ currentUserModel: CurrentUserModel?)
+    func userLoginned(_ currentUserModel: UserViewModel?)
     func didChangeProfile(_ change: Bool)
     func showMessage(_ message: String)
 }
@@ -82,14 +82,14 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     
-    lazy var imagePicker = ImagePicker(view: self, delegate: self)
-    lazy var saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPress))
-    lazy var imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(chooseImage))
-    lazy var tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKeyboard))
+    lazy private var imagePicker = ImagePicker(view: self, delegate: self)
+    lazy private var saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPress))
+    lazy private var imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(chooseImage))
+    lazy private var tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKeyboard))
     
     var presenter: ProfileViewOutput!
     
-    var currentUserModel: CurrentUserModel? {
+    var currentUserModel: UserViewModel? {
         didSet {
             if let currentUserModel = currentUserModel {
                 showUserInfo(userModel: currentUserModel)
@@ -122,7 +122,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
-        avatarImageView.clipsToBounds = true
+        avatarImageView.clipsToBounds = true //FiXME: - move to up
     }
     
     //MARK: - Metods
@@ -135,17 +135,17 @@ final class ProfileViewController: UIViewController {
         presenter.change(name: nameTextField.text!)
     }
     
-    private func showUserInfo(userModel: CurrentUserModel) {
+    private func showUserInfo(userModel: UserViewModel) {
         nameTextField.isEnabled = true
         avatarImageView.isUserInteractionEnabled = true
         nameTextField.text = userModel.name
         postsCountLabel.text = userModel.postsCount
         dateRegisterLabel.text = userModel.dateRegister
-        if userModel.avatar.isEmpty {
+        if userModel.avatarUrlString.isEmpty {
             avatarImageView.image = UIImage(named: "avatar")
             avatarImageView.tintColor = #colorLiteral(red: 0, green: 0.5138283968, blue: 1, alpha: 1)
         } else {
-            avatarImageView.load(by: userModel.avatar) { }
+            avatarImageView.load(by: userModel.avatarUrlString) { }
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "logout"), style: .plain, target: self, action: #selector(logInOutButtonPress))
     }
@@ -206,7 +206,7 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
-    @objc func saveButtonPress() {
+    @objc private func saveButtonPress() {
         nameTextField.resignFirstResponder()
         presenter.saveButtonPress(name: nameTextField.text!, image: avatarImageView.image)
     }
@@ -235,7 +235,7 @@ extension ProfileViewController: ProfileViewInput {
         saveButton.isEnabled = change
     }
     
-    func userLoginned(_ currentUserModel: CurrentUserModel?) {
+    func userLoginned(_ currentUserModel: UserViewModel?) {
         self.currentUserModel = currentUserModel
     }
 }

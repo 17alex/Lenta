@@ -104,7 +104,7 @@ final class UserInfoViewController: UIViewController {
     
     private func set(user: UserViewModel?) {
         userNameLabel.text = user?.name
-        userPostCountLabel.text = user?.postCount
+        userPostCountLabel.text = user?.postsCount
         userDateRegisterLabel.text = user?.dateRegister
         if let avatarUrl = user?.avatarUrlString {
             avatarImageView.load(by: avatarUrl) { }

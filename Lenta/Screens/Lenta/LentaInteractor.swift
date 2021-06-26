@@ -8,7 +8,7 @@
 import Foundation
 
 protocol LentaInteractorInput {
-    var currentUser: CurrentUser? { get }
+    var currentUser: User? { get }
     var posts: [Post] { get }
     var users: Set<User> { get }
     func loadPosts()
@@ -25,7 +25,7 @@ final class LentaInteractor {
     var networkManager: NetworkManagerProtocol!
     var storeManager: StoreManagerProtocol!
     
-    var currentUser: CurrentUser?
+    var currentUser: User?
     var posts: [Post] = []
     var comments: [Comment] = []
     var users: Set<User> = []
@@ -49,8 +49,7 @@ extension LentaInteractor: LentaInteractorInput {
         if let post = response.posts.first {
             posts.insert(post, at: 0)
             users = self.users.union(response.users)
-            let user = response.users.first!
-            let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
+            let currentUser = response.users.first!
             storeManager.save(currentUser)
             presenter.didLoadNew(post: post)
         }
@@ -67,8 +66,8 @@ extension LentaInteractor: LentaInteractorInput {
                     self.posts.remove(at: deleteIndex)
                     self.presenter.didRemovePost(by: deleteIndex)
                 }
-                let user = response.users.first!
-                let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar) // update user for postCount
+                let currentUser = response.users.first!
+                //FIXME: - update user for postCount
                 self.storeManager.save(currentUser)
             }
         }

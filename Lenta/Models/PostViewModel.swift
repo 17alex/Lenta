@@ -8,18 +8,29 @@
 import UIKit
 
 struct UserViewModel {
-    let id: Int
+    let id: Int //FIXME: - надо ли ?
     let name: String
     let avatarUrlString: String
-    let postCount: String
+    let postsCount: String
     let dateRegister: String
     
     init(user: User) {
         self.id = user.id
         self.name = user.name
         self.avatarUrlString = user.avatar == "" ? "" : "https://monsterok.ru/lenta/avatars/" + user.avatar
-        self.postCount = String(user.postsCount)
+        self.postsCount = String(user.postsCount)
         self.dateRegister = user.dateRegister.toDateString()
+        //FIXME: - Constants
+    }
+    
+    init?(user: User?) {
+        guard let unwrapUser = user else { return nil }
+        self.id = unwrapUser.id
+        self.name = unwrapUser.name
+        self.avatarUrlString = unwrapUser.avatar.isEmpty ? "" : "https://monsterok.ru/lenta/avatars/" + unwrapUser.avatar
+        self.postsCount = String(unwrapUser.postsCount)
+        self.dateRegister = unwrapUser.dateRegister.toDateString()
+        //FIXME: - Constants
     }
 }
 
@@ -58,7 +69,7 @@ struct PostViewModel {
         let count: String
     }
     
-    init(post: Post, user: User, currenUser: CurrentUser?) {
+    init(post: Post, user: User, currenUser: User?) {
         self.id = post.id
         self.user = UserViewModel(user: user)
         self.time = post.timeInterval.toDateString()
