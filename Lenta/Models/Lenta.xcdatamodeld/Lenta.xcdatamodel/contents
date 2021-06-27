@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="MOLike" representedClassName="MOLike" syncable="YES">
+        <attribute name="userId" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="post" maxCount="1" deletionRule="Nullify" destinationEntity="MOPost" inverseName="likes" inverseEntity="MOPost"/>
+    </entity>
+    <entity name="MOPhoto" representedClassName="MOPhoto" syncable="YES">
+        <attribute name="height" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="width" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="post" maxCount="1" deletionRule="Nullify" destinationEntity="MOPost" inverseName="photo" inverseEntity="MOPost"/>
+    </entity>
+    <entity name="MOPost" representedClassName="MOPost" syncable="YES">
+        <attribute name="commentsCount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="descr" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timeInterval" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="userId" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="viewsCount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="likes" toMany="YES" deletionRule="Cascade" destinationEntity="MOLike" inverseName="post" inverseEntity="MOLike"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="MOPhoto" inverseName="post" inverseEntity="MOPhoto"/>
+    </entity>
+    <entity name="MOUser" representedClassName="MOUser" syncable="YES">
+        <attribute name="avatar" attributeType="String"/>
+        <attribute name="dateRegister" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="postsCount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <elements>
+        <element name="MOLike" positionX="148.3828125" positionY="42.18359375" width="128" height="73"/>
+        <element name="MOPhoto" positionX="-242.90625" positionY="27.1640625" width="128" height="103"/>
+        <element name="MOPost" positionX="-54" positionY="-9" width="128" height="163"/>
+        <element name="MOUser" positionX="-50.82421875" positionY="216.48828125" width="128" height="118"/>
+    </elements>
+</model>

@@ -103,7 +103,7 @@ class Assembly {
         return view
     }
     
-    func getCommentsModule(by postId: Int) -> UIViewController {
+    func getCommentsModule(by postId: Int16) -> UIViewController {
         let view = CommentsViewController()
         let presenter = CommentsPresenter(view: view, postId: postId)
         let interactor = CommentsInteractor(presenter: presenter)

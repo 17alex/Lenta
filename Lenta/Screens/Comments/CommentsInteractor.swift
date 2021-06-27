@@ -11,7 +11,7 @@ protocol CommentsInteractorInput {
     var posts: [Post] { get }
     var comments: [Comment] { get }
     var users: Set<User> { get }
-    func loadComments(by postId: Int)
+    func loadComments(by postId: Int16)
     func sendNewComment(_ comment: String)
 }
 
@@ -62,11 +62,11 @@ extension CommentsInteractor: CommentsInteractorInput {
         }
     }
     
-    func loadComments(by postId: Int) {
+    func loadComments(by postId: Int16) {
         networkManager.loadComments(for: postId) { result in
             switch result {
-            case .failure(let error):
-                self.presenter.show(message: error.localizedDescription)
+            case .failure(let serviceError):
+                self.presenter.show(message: serviceError.rawValue)
             case .success(let responseComment):
                 self.posts = responseComment.posts
                 self.comments = responseComment.comments

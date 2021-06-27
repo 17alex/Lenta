@@ -35,7 +35,7 @@ final class CommentsPresenter {
     var interactor: CommentsInteractorInput!
     var router: CommentsRouterInput!
     
-    private let postId: Int
+    private let postId: Int16
     var postsViewModel: [PostViewModel] = []
     var commentsViewModel: [CommentViewModel] = []
     
@@ -43,7 +43,7 @@ final class CommentsPresenter {
     
     //MARK: - Init
     
-    init(view: CommentsViewInput, postId: Int) {
+    init(view: CommentsViewInput, postId: Int16) {
         self.view = view
         self.postId = postId
         print("CommentsPresenter init")

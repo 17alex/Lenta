@@ -8,7 +8,7 @@
 import UIKit
 
 struct UserViewModel {
-    let id: Int //FIXME: - надо ли ?
+    let id: Int16 //FIXME: - надо ли ?
     let name: String
     let avatarUrlString: String
     let postsCount: String
@@ -17,20 +17,18 @@ struct UserViewModel {
     init(user: User) {
         self.id = user.id
         self.name = user.name
-        self.avatarUrlString = user.avatar == "" ? "" : "https://monsterok.ru/lenta/avatars/" + user.avatar
+        self.avatarUrlString = user.avatar == "" ? "" : Constants.URLs.avatarsPath + user.avatar
         self.postsCount = String(user.postsCount)
         self.dateRegister = user.dateRegister.toDateString()
-        //FIXME: - Constants
     }
     
     init?(user: User?) {
         guard let unwrapUser = user else { return nil }
         self.id = unwrapUser.id
         self.name = unwrapUser.name
-        self.avatarUrlString = unwrapUser.avatar.isEmpty ? "" : "https://monsterok.ru/lenta/avatars/" + unwrapUser.avatar
+        self.avatarUrlString = unwrapUser.avatar.isEmpty ? "" : Constants.URLs.avatarsPath + unwrapUser.avatar
         self.postsCount = String(unwrapUser.postsCount)
         self.dateRegister = unwrapUser.dateRegister.toDateString()
-        //FIXME: - Constants
     }
 }
 
@@ -40,7 +38,7 @@ struct PhotoViewModel {
 }
 
 struct PostViewModel {
-    let id: Int
+    let id: Int16
     let time: String
     let user: UserViewModel
     var description: DescriptionViewModel

@@ -35,11 +35,11 @@ extension LoginInteractor: LoginInteractorInput {
     func logIn(login: String, password: String) {
         networkManager.logIn(login: login, password: password) { (result) in
             switch result {
-            case .failure(let error):
-                self.presenter.userLoginFail(message: error.localizedDescription)
+            case .failure(let serviceError):
+                self.presenter.userLoginFail(message: serviceError.rawValue)
             case .success(let users):
                 if let currentUser = users.first {
-                    self.storeManager.save(currentUser)
+                    self.storeManager.save(user: currentUser)
                     self.presenter.userDidLogined()
                 } else {
                     self.presenter.userLoginFail(message: "unkmon error")

@@ -87,7 +87,7 @@ extension ProfilePresenter: ProfileViewOutput {
             case .success(let users):
                 if let user = users.first {
                     self.currentUser = user
-                    self.storeManager.save(self.currentUser)
+                    self.storeManager.save(user: self.currentUser)
                     self.view.showMessage("update successfull")
                     self.isSetNewAvatar = false
                 } else {
@@ -102,7 +102,7 @@ extension ProfilePresenter: ProfileViewOutput {
             router.loginUser()
         } else {
             currentUser = nil
-            storeManager.save(currentUser)
+            storeManager.save(user: currentUser)
             view.userLoginned(UserViewModel(user: currentUser))
         }
     }

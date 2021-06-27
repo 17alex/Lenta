@@ -154,6 +154,7 @@ extension LentaPresenter: LentaInteractorOutput {
     }
     
     func show(message: String) {
+        view.loadingEnd()
         view.show(message: message)
     }
     

@@ -41,8 +41,8 @@ extension NewPostPresenter: NewPostViewOutput {
         let sendPost = SendPost(userId: currentUser.id, description: description, image: image)
         networkManager.sendPost(post: sendPost) { (result) in
             switch result {
-            case .failure(let error):
-                self.view.newPostSendFailed(text: error.localizedDescription)
+            case .failure(let serviceError):
+                self.view.newPostSendFailed(text: serviceError.rawValue)
             case .success(let response):
                 self.callback(response)
                 self.router.dismiss()
