@@ -99,6 +99,7 @@ extension LentaPresenter: LentaViewOutput {
 //    }
     
     func viewDidLoad() {
+        interactor.loadFromStore()
         view.loadingStarted()
         interactor.loadPosts()
     }

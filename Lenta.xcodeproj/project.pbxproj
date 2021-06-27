@@ -172,6 +172,31 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		8DF356D92688C01C007E02D8 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				FA2B469B25B5706400DC5C1D /* StoreManager.swift */,
+				8DF356DA2688C033007E02D8 /* Models */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		8DF356DA2688C033007E02D8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8D54C7D7268754E80088D4BE /* Lenta.xcdatamodeld */,
+				8DF356C126888CBC007E02D8 /* MOLike+CoreDataClass.swift */,
+				8DF356C226888CBC007E02D8 /* MOLike+CoreDataProperties.swift */,
+				8DF356C326888CBC007E02D8 /* MOPost+CoreDataClass.swift */,
+				8DF356C426888CBD007E02D8 /* MOPost+CoreDataProperties.swift */,
+				8DF356C526888CBD007E02D8 /* MOUser+CoreDataClass.swift */,
+				8DF356C626888CBD007E02D8 /* MOUser+CoreDataProperties.swift */,
+				8DF356C726888CBD007E02D8 /* MOPhoto+CoreDataClass.swift */,
+				8DF356C826888CBD007E02D8 /* MOPhoto+CoreDataProperties.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		FA1BB71E25DA5673008F56B9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,8 +243,8 @@
 		FA33EDE125AC8A1000637E3E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				8DF356D92688C01C007E02D8 /* Store */,
 				FA0A1DFB2624844B0061524D /* ImagePicker.swift */,
-				FA2B469B25B5706400DC5C1D /* StoreManager.swift */,
 				FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */,
 			);
 			path = Services;
@@ -254,7 +279,6 @@
 				FA26A90E25B0543200D2B806 /* SendPost.swift */,
 				FAC2073E25AC689F00CD9099 /* PostViewModel.swift */,
 				FA396F6525F8FACC009B79F5 /* CommentViewModel.swift */,
-				8D54C7D7268754E80088D4BE /* Lenta.xcdatamodeld */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -281,14 +305,6 @@
 		FA8DAD3525AC24E600E9D1B7 = {
 			isa = PBXGroup;
 			children = (
-				8DF356C126888CBC007E02D8 /* MOLike+CoreDataClass.swift */,
-				8DF356C226888CBC007E02D8 /* MOLike+CoreDataProperties.swift */,
-				8DF356C326888CBC007E02D8 /* MOPost+CoreDataClass.swift */,
-				8DF356C426888CBD007E02D8 /* MOPost+CoreDataProperties.swift */,
-				8DF356C526888CBD007E02D8 /* MOUser+CoreDataClass.swift */,
-				8DF356C626888CBD007E02D8 /* MOUser+CoreDataProperties.swift */,
-				8DF356C726888CBD007E02D8 /* MOPhoto+CoreDataClass.swift */,
-				8DF356C826888CBD007E02D8 /* MOPhoto+CoreDataProperties.swift */,
 				FA8DAD4025AC24E600E9D1B7 /* Lenta */,
 				8D54C73D268378610088D4BE /* LentaTests */,
 				FA8DAD3F25AC24E600E9D1B7 /* Products */,

@@ -11,6 +11,7 @@ protocol LentaInteractorInput {
     var currentUser: User? { get }
     var posts: [Post] { get }
     var users: Set<User> { get }
+    func loadFromStore()
     func loadPosts()
     func loadNextPosts()
     func addNewPost(response: Response)
@@ -97,13 +98,14 @@ extension LentaInteractor: LentaInteractorInput {
         }
     }
     
-    func loadPosts() {
-        
+    func loadFromStore() {
         storeManager.load { posts, users in
             self.users = Set(users)
             self.posts = posts
         }
-
+    }
+    
+    func loadPosts() {
         guard !isLoadingPosts else { return }
         isLoadingPosts = true
         isEndingPosts = false

@@ -114,8 +114,9 @@ class StoreManager {
                 let moLike = MOLike(context: context)
                 moLike.userId = userId
                 return moLike
+//                moPost.addToLikes(<#T##value: MOLike##MOLike#>)
             }
-            
+//            moPost.addToLikes(<#T##values: NSSet##NSSet#>)
             moPost.likes = NSSet(array: moLikes)
             moPost.viewsCount = post.viewsCount
             moPost.commentsCount = post.commentsCount
