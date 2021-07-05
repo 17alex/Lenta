@@ -24,9 +24,9 @@ class StoreManager {
     // MARK: - Core Data stack
     
     private lazy var context = persistentContainer.viewContext
+    private lazy var bgContext = persistentContainer.newBackgroundContext()
 
     lazy var persistentContainer: NSPersistentContainer = {
-
         let container = NSPersistentContainer(name: "Lenta")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -40,9 +40,10 @@ class StoreManager {
 
     private func saveContext () {
         print("saveContext")
-        if context.hasChanges {
+        if bgContext.hasChanges {
             do {
-                try context.save()
+                try bgContext.save()
+                print("saved!!!")
             } catch {
                 let nserror = error as NSError
                 fatalError("saveContext Unresolved error \(nserror), \(nserror.userInfo)")
@@ -54,8 +55,8 @@ class StoreManager {
         print("deleteAllPosts")
         let fetchRequest: NSFetchRequest = MOPost.fetchRequest()
         do {
-            let moPosts = try context.fetch(fetchRequest)
-            moPosts.forEach { context.delete($0) }
+            let moPosts = try bgContext.fetch(fetchRequest)
+            moPosts.forEach { bgContext.delete($0) }
             saveContext()
         } catch {
             let nserror = error as NSError
@@ -67,8 +68,8 @@ class StoreManager {
         print("deleteAllUsers")
         let fetchRequest: NSFetchRequest = MOUser.fetchRequest()
         do {
-            let moUsers = try context.fetch(fetchRequest)
-            moUsers.forEach { context.delete($0) }
+            let moUsers = try bgContext.fetch(fetchRequest)
+            moUsers.forEach { bgContext.delete($0) }
             saveContext()
         } catch {
             let nserror = error as NSError
@@ -79,7 +80,7 @@ class StoreManager {
     private func add(users: [User]) {
         print("add users")
         users.forEach { user in
-            let moUser = MOUser(context: context)
+            let moUser = MOUser(context: bgContext)
             moUser.id = user.id
             moUser.name = user.name
             moUser.postsCount = user.postsCount
@@ -94,14 +95,14 @@ class StoreManager {
         print("add posts")
         posts.forEach { post in
             
-            let moPost = MOPost(context: context)
+            let moPost = MOPost(context: bgContext)
             moPost.id = post.id
             moPost.userId = post.userId
             moPost.timeInterval = Int32(post.timeInterval)
             moPost.descr = post.description
             
             if let photo = post.photo {
-                let moPhoto = MOPhoto(context: context)
+                let moPhoto = MOPhoto(context: bgContext)
                 moPhoto.name = photo.name
                 moPhoto.height = photo.size.height
                 moPhoto.width = photo.size.width
@@ -109,7 +110,7 @@ class StoreManager {
             }
             
             let moLikes: [MOLike] = post.likeUserIds.map { userId in
-                let moLike = MOLike(context: context)
+                let moLike = MOLike(context: bgContext)
                 moLike.userId = userId
                 return moLike
 //                moPost.addToLikes(<#T##value: MOLike##MOLike#>)
