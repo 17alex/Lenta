@@ -14,8 +14,8 @@ protocol RegisterInteractorInput {
 final class RegisterInteractor {
     
     unowned private let presenter: RegisterInteractorOutput
-    var networkManager: NetworkManagerProtocol!
-    var storeManager: StoreManagerProtocol!
+    var networkManager: NetworkManagerProtocol?
+    var storeManager: StoreManagerProtocol?
     
     init(presenter: RegisterInteractorOutput) {
         print("RegisterInteractor init")
@@ -31,16 +31,17 @@ final class RegisterInteractor {
 extension RegisterInteractor: RegisterInteractorInput {
     
     func register(name: String, login: String, password: String, avatarImage: UIImage?) {
-        networkManager.register(name: name, login: login, password: password, avatar: avatarImage) { (result) in
+        networkManager?.register(name: name, login: login, password: password, avatar: avatarImage) { [weak self] (result) in
+            guard let strongSelf = self else { return }
             switch result {
             case .failure(let serviceError):
-                self.presenter.userDidRegisteredFail(message: serviceError.rawValue)
+                strongSelf.presenter.userDidRegisteredFail(message: serviceError.rawValue)
             case .success(let users):
                 if let currentUser = users.first {
-                    self.storeManager.save(user: currentUser)
-                    self.presenter.userDidRegistered()
+                    strongSelf.storeManager?.save(user: currentUser)
+                    strongSelf.presenter.userDidRegistered()
                 } else {
-                    self.presenter.userDidRegisteredFail(message: "unkmon error")
+                    strongSelf.presenter.userDidRegisteredFail(message: "unkmon error")
                 }
             }
         }

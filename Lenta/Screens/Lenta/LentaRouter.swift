@@ -19,9 +19,9 @@ final class LentaRouter {
     unowned let view: UIViewController
     
     init(view: UIViewController, assembly: Assembly) {
-        print("LentaRouter init")
         self.view = view
         self.assembly = assembly
+        print("LentaRouter init")
     }
     
     deinit {

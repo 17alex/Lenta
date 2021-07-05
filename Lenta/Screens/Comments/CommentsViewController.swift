@@ -40,7 +40,7 @@ final class CommentsViewController: UIViewController {
         table.register(PostCell.self, forCellReuseIdentifier: PostCell.reuseID)
         table.register(CommentCell.self, forCellReuseIdentifier: CommentCell.reuseID)
         table.dataSource = self
-        table.delegate = self
+//        table.delegate = self
         table.tableFooterView = UIView()
         table.addGestureRecognizer(tableTap)
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -95,7 +95,7 @@ final class CommentsViewController: UIViewController {
     
     private var isShowKboard = false
     
-    var presenter: CommentsViewOutput!
+    var presenter: CommentsViewOutput?
     
     //MARK: - LiveCycles
     
@@ -108,7 +108,7 @@ final class CommentsViewController: UIViewController {
         print("CommentsViewController init")
         
         setupUI()
-        presenter.viewDidLoad()
+        presenter?.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -148,7 +148,7 @@ final class CommentsViewController: UIViewController {
             self.babbleViewBottom.constant = self.babbleViewBottomDefaultConstant - offset
             self.view.layoutIfNeeded()
         } completion: { _ in
-            let countRow = self.presenter.commentsViewModel.count
+            let countRow = self.presenter?.commentsViewModel.count ?? 0
             if countRow != 0 {
                 self.commentsTableView.scrollToRow(at: IndexPath(row: countRow - 1, section: 1), at: .bottom, animated: true)
             } else {
@@ -172,6 +172,29 @@ final class CommentsViewController: UIViewController {
     
     @objc private func hideKboard() {
         newCommentTextView.resignFirstResponder()
+    }
+    
+    private func animateActivity(_ isAnimate: Bool) {
+        if isAnimate {
+            sendActivityIndicator.startAnimating()
+            sendButton.isHidden = true
+        } else {
+            sendActivityIndicator.stopAnimating()
+            sendButton.isHidden = false
+        }
+    }
+    
+    @objc private func sendButtonPress() {
+        print("sendNewComment")
+        guard let newComment = newCommentTextView.text, !newComment.isEmpty else { return }
+        animateActivity(true)
+        presenter?.didPressNewCommendSendButton(comment: newComment)
+        newCommentTextView.text = ""
+        newCommentTextViewHeight.constant = newCommentTextViewHeightDefaultConstant
+    }
+    
+    @objc private func closeButtonPress() {
+        presenter?.didCloseButtonPress()
     }
 
     private func setupUI() {
@@ -221,29 +244,6 @@ final class CommentsViewController: UIViewController {
         babbleViewBottom = cardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: babbleViewBottomDefaultConstant)
         babbleViewBottom.isActive = true
     }
-    
-    private func animateActivity(_ isAnimate: Bool) {
-        if isAnimate {
-            sendActivityIndicator.startAnimating()
-            sendButton.isHidden = true
-        } else {
-            sendActivityIndicator.stopAnimating()
-            sendButton.isHidden = false
-        }
-    }
-    
-    @objc private func sendButtonPress() {
-        print("sendNewComment")
-        guard let newComment = newCommentTextView.text, !newComment.isEmpty else { return }
-        animateActivity(true)
-        presenter.didPressNewCommendSendButton(comment: newComment)
-        newCommentTextView.text = ""
-        newCommentTextViewHeight.constant = newCommentTextViewHeightDefaultConstant
-    }
-    
-    @objc private func closeButtonPress() {
-        presenter.didCloseButtonPress()
-    }
 }
 
 //MARK: - CommentsViewInput
@@ -251,8 +251,9 @@ final class CommentsViewController: UIViewController {
 extension CommentsViewController: CommentsViewInput {
     
     func addRow() {
+        guard let presenter = presenter else { return }
         commentsTableView.insertRows(at: [IndexPath(row: presenter.commentsViewModel.count - 1, section: 1)], with: .top)
-        let countRow = self.presenter.commentsViewModel.count
+        let countRow = presenter.commentsViewModel.count
         commentsTableView.scrollToRow(at: IndexPath(row: countRow - 1, section: 1), at: .middle, animated: true)
         animateActivity(false)
     }
@@ -283,10 +284,11 @@ extension CommentsViewController: CommentsViewInput {
 extension CommentsViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return presenter.cellTypes.count
+        return presenter?.cellTypes.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let presenter = presenter else { return 0 }
         switch presenter.cellTypes[section] {
         case .post:
             return presenter.postsViewModel.count
@@ -296,25 +298,20 @@ extension CommentsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let presenter = presenter else { return UITableViewCell() }
         switch presenter.cellTypes[indexPath.section] {
         case .post:
-            let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.reuseID, for: indexPath) as! PostCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: PostCell.reuseID, for: indexPath) as? PostCell else { return UITableViewCell() }
             let postViewModel = presenter.postsViewModel[indexPath.row]
             cell.set(postModel: postViewModel)
             return cell
         case .comments:
-            let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.reuseID, for: indexPath) as! CommentCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.reuseID, for: indexPath) as? CommentCell else { return UITableViewCell() }
             let commentViewModel = presenter.commentsViewModel[indexPath.row]
             cell.set(commentModel: commentViewModel)
             return cell
         }
     }
-}
-
-//MARK: - UITableViewDelegate
-
-extension CommentsViewController: UITableViewDelegate {
-    
 }
 
 //MARK: - UITextViewDelegate

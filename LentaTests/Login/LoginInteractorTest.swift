@@ -8,112 +8,76 @@
 import XCTest
 @testable import Lenta
 
-final class LoginPresenterMock: LoginInteractorOutput {
-    
-    var userDidLoginedCount = 0
-    var userLoginFailCount = 0
-    var message = ""
-    
-    func userDidLogined() {
-        userDidLoginedCount += 1
-    }
-    
-    func userLoginFail(message: String) {
-        userLoginFailCount += 1
-        self.message = message
-    }
-}
-
-final class NetworkManagerMock: NetworkManagerProtocol {
-    
-    var logInCount = 0
-    var login = ""
-    var password = ""
-    
-    func logIn(login: String, password: String, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
-        self.login = login
-        self.password = password
-        logInCount += 1
-    }
-    
-    func register(name: String, login: String, password: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
-        
-    }
-    
-    func getPosts(fromPostId: Int?, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
-        
-    }
-    
-    func sendPost(post: SendPost, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
-        
-    }
-    
-    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
-        
-    }
-    
-    func changeLike(postId: Int, userId: Int, complete: @escaping (Result<Post, NetworkServiceError>) -> Void) {
-        
-    }
-    
-    func removePost(postId: Int, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
-        
-    }
-    
-    func loadComments(for postId: Int, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
-        
-    }
-    
-    func sendComment(_ comment: String, postId: Int, userId: Int, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
-        
-    }
-    
-    
-}
-
 class LoginInteractorTest: XCTestCase {
 
-    var interactor: LoginInteractor!
-    var presenter: LoginPresenterMock!
-    var network: NetworkManagerMock!
+    var sut: LoginInteractor!
+    var presenter: LoginPresenterSpy!
+    var networkManager: NetworkManagerMock!
+    var storeManager: StoreManagerSpy!
     
     override func setUpWithError() throws {
-        
-        network = NetworkManagerMock()
-        presenter = LoginPresenterMock()
-        interactor = LoginInteractor(presenter: presenter)
-        interactor.networkManager = network
+        networkManager = NetworkManagerMock()
+        storeManager = StoreManagerSpy()
+        presenter = LoginPresenterSpy()
+        sut = LoginInteractor(presenter: presenter)
+        sut.networkManager = networkManager
+        sut.storeManager = storeManager
     }
 
     override func tearDownWithError() throws {
-        
+        networkManager = nil
+        storeManager = nil
         presenter  = nil
-        interactor = nil
+        sut = nil
     }
 
-    func test() {
+    func testSuccessLoginned() {
         
         //Arrange
-        let login = "bar"
-        let password = "baz"
-        let expectCountNetworkCall = 1
-//        let validatorExpectation = expectation(description: "Expectation in" + #function)
+        let rightLogin = "Boo"
+        let rightPassword = "Baz"
+
+        let expectNetworkCallCount = 1
+        let expectedStoreCallCount = 1
+        let expectedUserDidLoginnedCallCount = 1
+        let expectedUserLoginFailCallCount = 0
+        let expectedUserLoginFailMessage = ""
         
         //Act
-        interactor.logIn(login: login, password: password)
+        sut.logIn(login: rightLogin, password: rightPassword)
         
         //Assert
-        XCTAssertEqual(network.logInCount, expectCountNetworkCall)
-        XCTAssertEqual(login, network.login)
-        XCTAssertEqual(password, network.password)
-        
-        waitForExpectations(timeout: 0.5) { (error) in
-            if error != nil { XCTFail() }
-            
-                
-        }
+        XCTAssertEqual(networkManager.logInCallCount, expectNetworkCallCount)
+        XCTAssertEqual(rightLogin, networkManager.recivedUserLogin)
+        XCTAssertEqual(rightPassword, networkManager.recivedUserPassword)
+        XCTAssertEqual(expectedStoreCallCount, storeManager.saveUserCallCount)
+        XCTAssertEqual(expectedUserDidLoginnedCallCount, presenter.userDidLoginedCount)
+        XCTAssertEqual(expectedUserLoginFailCallCount, presenter.userLoginFailCount)
+        XCTAssertEqual(expectedUserLoginFailMessage, presenter.message)
     }
+    
+    func testFailureLoginned() {
 
+        //Arrange
+        let badLogin = "Baa"
+        let badPassword = "Bzz"
 
+        let expectNetworkCallCount = 1
+        let expectedStoreCallCount = 0
+        let expectedUserDidLoginnedCallCount = 0
+        let expectedUserLoginFailCallCount = 1
+        let expectedUserLoginFailMessage = NetworkServiceError.network.rawValue
+        
+        //Act
+        sut.logIn(login: badLogin, password: badPassword)
+        
+        //Assert
+        XCTAssertEqual(networkManager.logInCallCount, expectNetworkCallCount)
+        XCTAssertEqual(badLogin, networkManager.recivedUserLogin)
+        XCTAssertEqual(badPassword, networkManager.recivedUserPassword)
+        XCTAssertEqual(expectedStoreCallCount, storeManager.saveUserCallCount)
+        XCTAssertEqual(expectedUserDidLoginnedCallCount, presenter.userDidLoginedCount)
+        XCTAssertEqual(expectedUserLoginFailCallCount, presenter.userLoginFailCount)
+        XCTAssertEqual(expectedUserLoginFailMessage, presenter.message)
+    }
 }
-

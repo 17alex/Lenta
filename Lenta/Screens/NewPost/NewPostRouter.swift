@@ -16,7 +16,7 @@ final class NewPostRouter {
     let assembly: Assembly
     unowned let  view: UIViewController
     
-    //MARk: - Init
+    //MARK: - Init
     
     init(view: UIViewController, assembly: Assembly) {
         print("NewPostRouter init")

@@ -76,11 +76,11 @@ final class NewPostViewController: UIViewController {
     private lazy var closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPress))
     private lazy var photoTap = UITapGestureRecognizer(target: self, action: #selector(didTapPhoto))
     
-    private var heightTextView: NSLayoutConstraint!
-    private var heightImageView: NSLayoutConstraint!
-    private var bottomScrollView: NSLayoutConstraint!
+    private var heightTextView: NSLayoutConstraint?
+    private var heightImageView: NSLayoutConstraint?
+    private var bottomScrollView: NSLayoutConstraint?
     
-    var presenter: NewPostViewOutput!
+    var presenter: NewPostViewOutput?
     
     private lazy var imagePicker = ImagePicker(view: self, delegate: self)
     private var isShowKboard = false
@@ -101,41 +101,52 @@ final class NewPostViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(willShowKboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(willHideKboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
+        subscribeKboardNotofication()
         descriptionTextView.becomeFirstResponder()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        unSubscribeKboardNotofication()
     }
     
     //MARK: - Metods
+    
+    private func subscribeKboardNotofication() {
+        NotificationCenter.default.addObserver(self, selector: #selector(willShowKboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willHideKboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func unSubscribeKboardNotofication() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     
     @objc private func willShowKboard(notification: NSNotification) {
         if isShowKboard { return }
         isShowKboard = true
         
         guard let userInfo = notification.userInfo else { return }
+        let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as! Double
         let kbFrameSize = (userInfo["UIKeyboardFrameEndUserInfoKey"] as! NSValue).cgRectValue
         let offset = kbFrameSize.height
         
-        UIView.animate(withDuration: 0.5) {
-            self.bottomScrollView.constant = -offset
+        UIView.animate(withDuration: animDuration) {
+            self.bottomScrollView?.constant = -offset
             self.view.layoutIfNeeded()
         }
     }
     
-    @objc private func willHideKboard() {
+    @objc private func willHideKboard(notification: NSNotification) {
         if !isShowKboard { return }
         isShowKboard = false
         
-        UIView.animate(withDuration: 0.5) {
-            self.bottomScrollView.constant = 0
+        guard let userInfo = notification.userInfo else { return }
+        let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as! Double
+        
+        UIView.animate(withDuration: animDuration) {
+            self.bottomScrollView?.constant = 0
             self.view.layoutIfNeeded()
         }
     }
@@ -144,9 +155,24 @@ final class NewPostViewController: UIViewController {
         descriptionTextView.resignFirstResponder()
     }
     
+    @objc private func chooseImage() {
+        imagePicker.chooseImage()
+    }
+    
+    @objc private func sendButtonPress() {
+        sendButton.isEnabled = false
+        activityIndicator.startAnimating()
+        let description = descriptionTextView.text ?? ""
+        presenter?.pressSendButton(description: description, image: photoImageView.image)
+    }
+    
+    @objc private func closeButtonPress() {
+        dismiss(animated: true)
+    }
+    
     private func updateContSize() {
         scrollView.contentSize = CGSize(width: view.bounds.width,
-                                        height: heightTextView.constant + heightImageView.constant)
+                                        height: (heightTextView?.constant ?? 0) + (heightImageView?.constant ?? 0))
     }
     
     private func setupUI() {
@@ -179,29 +205,14 @@ final class NewPostViewController: UIViewController {
         ])
         
         bottomScrollView = scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        bottomScrollView.isActive = true
-        bottomScrollView.constant = 0
+        bottomScrollView?.isActive = true
+        bottomScrollView?.constant = 0
         
         heightTextView = descriptionTextView.heightAnchor.constraint(equalToConstant: 36)
-        heightTextView.isActive = true
+        heightTextView?.isActive = true
         
         heightImageView = photoImageView.heightAnchor.constraint(equalToConstant: 0)
-        heightImageView.isActive = true
-    }
-    
-    @objc private func chooseImage() {
-        imagePicker.chooseImage()
-    }
-    
-    @objc private func sendButtonPress() {
-        sendButton.isEnabled = false
-        activityIndicator.startAnimating()
-        let description = descriptionTextView.text ?? ""
-        presenter.pressSendButton(description: description, image: photoImageView.image)
-    }
-    
-    @objc private func closeButtonPress() {
-        dismiss(animated: true)
+        heightImageView?.isActive = true
     }
 }
 
@@ -212,7 +223,7 @@ extension NewPostViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let size = CGSize(width: textView.frame.width, height: .infinity)
         let estimatedSize = descriptionTextView.sizeThatFits(size)
-        heightTextView.constant = estimatedSize.height
+        heightTextView?.constant = estimatedSize.height
         updateContSize()
     }
 }
@@ -238,7 +249,7 @@ extension NewPostViewController: ImagePickerDelegate {
     func selectImage(_ image: UIImage) {
         photoImageView.image = image
         let height = image.size.height / image.size.width * photoImageView.bounds.width
-        heightImageView.constant = height
+        heightImageView?.constant = height
         updateContSize()
     }
 }

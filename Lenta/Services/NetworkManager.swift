@@ -72,7 +72,7 @@ extension NetworkManager: NetworkManagerProtocol {
         
         guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST" //FIXME: - update and delete comment
+        urlRequest.httpMethod = "POST"
         let postSting = "comment=\(comment)&postId=\(postId)&userId=\(userId)"
         urlRequest.httpBody = postSting.data(using: .utf8)
         
@@ -99,8 +99,7 @@ extension NetworkManager: NetworkManagerProtocol {
         
         var components = URLComponents(string: urlString)
         components?.queryItems = [
-            URLQueryItem(name: "postId", value: String(postId)),
-            //URLQueryItem(name: "fromCommentId", value: String(postId)), //FIXME: - pagination, server otdaet po 20
+            URLQueryItem(name: "postId", value: String(postId))
         ]
         
         guard let url = components?.url else { complete(.failure(.badUrl)); return }
@@ -109,7 +108,7 @@ extension NetworkManager: NetworkManagerProtocol {
         
         taskResume(with: urlRequest) { data, error in
             
-//            self.typeBebug(data: data)
+//            self.typeDebug(data: data)
             
             if let _ = error {
                 self.onMain { complete(.failure(.network)) }
@@ -144,7 +143,7 @@ extension NetworkManager: NetworkManagerProtocol {
             
 //            self.typeDebug(data: data)
             
-            if let _ = error { // вынести в метод
+            if let _ = error { //FIXME: - вынести в метод
                 self.onMain { complete(.failure(.network)) }
             } else if let data = data {
                 do {
@@ -178,8 +177,7 @@ extension NetworkManager: NetworkManagerProtocol {
                 do {
                     let pesponse = try JSONDecoder().decode(Response.self, from: data)
                     self.onMain { complete(.success(pesponse)) }
-                } catch let error {
-                    print("error = ", error.localizedDescription) //FIXME: - delete
+                } catch {
                     self.onMain { complete(.failure(.decodable)) }
                 }
             }
@@ -297,7 +295,6 @@ extension NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    //FIXME: - user.php
     func register(name: String, login: String, password: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
         
         let urlString = Constants.URLs.register

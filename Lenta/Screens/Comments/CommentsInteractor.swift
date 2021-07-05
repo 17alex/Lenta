@@ -19,9 +19,9 @@ final class CommentsInteractor {
     
     //MARK: - Propertis
     
-    unowned private let presenter: CommentsInteractorOutput
-    var networkManager: NetworkManagerProtocol!
-    var storeManager: StoreManagerProtocol!
+    weak var presenter: CommentsInteractorOutput?
+    var networkManager: NetworkManagerProtocol?
+    var storeManager: StoreManagerProtocol?
     
     var posts: [Post] = []
     var comments: [Comment] = []
@@ -30,13 +30,13 @@ final class CommentsInteractor {
     
     //MARK: - Init
     
-    init(presenter: CommentsInteractorOutput) {
+    init() {
         print("CommentsInteractor init")
-        self.presenter = presenter
     }
     
-    deinit { print("CommentsInteractor deinit") }
-        
+    deinit {
+        print("CommentsInteractor deinit")
+    }
 }
 
 //MARK: - CommentsInteractorInput
@@ -44,34 +44,36 @@ final class CommentsInteractor {
 extension CommentsInteractor: CommentsInteractorInput {
     
     func sendNewComment(_ comment: String) {
-        currentUser = storeManager.getCurrenUser() //TODO: - guard
-        guard currentUser != nil else {
-            presenter.show(message: "User not loginned")
+//        currentUser = storeManager?.getCurrenUser() //TODO: - guard
+        guard let currentUser = storeManager?.getCurrenUser() else {
+            presenter?.show(message: "User not loginned")
             return
         }
         
-        networkManager.sendComment(comment, postId: posts.first!.id, userId: currentUser!.id) { (result) in //TODO: - force
+        networkManager?.sendComment(comment, postId: posts[0].id, userId: currentUser.id) { [weak self] (result) in
+            guard let strongSelf = self else { return }
             switch result {
-            case .failure(let error):
-                self.presenter.show(message: error.localizedDescription)
+            case .failure(let serviceError):
+                strongSelf.presenter?.show(message: serviceError.rawValue)
             case .success(let responseComment):
-            self.comments.append(contentsOf: responseComment.comments)
-            self.users = self.users.union(responseComment.users)
-            self.presenter.didSendComment(responseComment.comments)
+                strongSelf.comments.append(contentsOf: responseComment.comments)
+                strongSelf.users = strongSelf.users.union(responseComment.users)
+                strongSelf.presenter?.didSendComment(responseComment.comments)
             }
         }
     }
     
     func loadComments(by postId: Int16) {
-        networkManager.loadComments(for: postId) { result in
+        networkManager?.loadComments(for: postId) { [weak self] result in
+            guard let strongSelf = self else { return }
             switch result {
             case .failure(let serviceError):
-                self.presenter.show(message: serviceError.rawValue)
+                strongSelf.presenter?.show(message: serviceError.rawValue)
             case .success(let responseComment):
-                self.posts = responseComment.posts
-                self.comments = responseComment.comments
-                self.users = Set(responseComment.users)
-                self.presenter.didLoadComments()
+                strongSelf.posts = responseComment.posts
+                strongSelf.comments = responseComment.comments
+                strongSelf.users = Set(responseComment.users)
+                strongSelf.presenter?.didLoadComments()
             }
         }
     }

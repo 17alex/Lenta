@@ -8,28 +8,31 @@
 import UIKit
 
 struct UserViewModel {
-    let id: Int16 //FIXME: - надо ли ?
+//    let id: Int16
     let name: String
     let avatarUrlString: String
     let postsCount: String
     let dateRegister: String
     
-    init(user: User) {
-        self.id = user.id
-        self.name = user.name
-        self.avatarUrlString = user.avatar == "" ? "" : Constants.URLs.avatarsPath + user.avatar
-        self.postsCount = String(user.postsCount)
-        self.dateRegister = user.dateRegister.toDateString()
+    init(user: User?) {
+        if let user = user {
+            //        self.id = user.id
+            name = user.name
+            avatarUrlString = user.avatar.isEmpty ? "" : Constants.URLs.avatarsPath + user.avatar
+            postsCount = String(user.postsCount)
+            dateRegister = user.dateRegister.toDateString()
+        } else {
+            name = "NoName"
+            avatarUrlString = ""
+            postsCount = "--"
+            dateRegister = "--/--/----"
+        }
     }
     
-    init?(user: User?) {
-        guard let unwrapUser = user else { return nil }
-        self.id = unwrapUser.id
-        self.name = unwrapUser.name
-        self.avatarUrlString = unwrapUser.avatar.isEmpty ? "" : Constants.URLs.avatarsPath + unwrapUser.avatar
-        self.postsCount = String(unwrapUser.postsCount)
-        self.dateRegister = unwrapUser.dateRegister.toDateString()
-    }
+//    init?(user: User?) {
+//        guard let unwrapUser = user else { return nil }
+//        self.init(user: unwrapUser)
+//    }
 }
 
 struct PhotoViewModel {
@@ -51,7 +54,7 @@ struct PostViewModel {
     struct DescriptionViewModel {
         let text: String
         var size: CGSize
-        var isExpand: Bool = false
+//        var isExpand: Bool = false
     }
 
     struct LikesViewModel {
@@ -63,11 +66,12 @@ struct PostViewModel {
         let count: String
     }
     
-    struct CommentsViewModel { //TODO: - todo
+    struct CommentsViewModel {
         let count: String
     }
     
-    init(post: Post, user: User, currenUser: User?) {
+    init(post: Post, user: User?, currenUser: User? = nil) {
+        
         self.id = post.id
         self.user = UserViewModel(user: user)
         self.time = post.timeInterval.toDateString()
@@ -93,7 +97,7 @@ struct PostViewModel {
         self.views = ViewsViewModel(count: String(post.viewsCount))
         self.comments = CommentsViewModel(count: String(post.commentsCount))
         //FIXME: - height descrip = 0
-        let textSize = CGSize(width: UIScreen.main.bounds.width - 16, height: .greatestFiniteMagnitude)
+        let textSize = CGSize(width: UIScreen.main.bounds.width - 16, height: .greatestFiniteMagnitude) //FIXME: - UIScreen delete
         let rect = post.description.boundingRect(with: textSize,
                                      options: .usesLineFragmentOrigin,
                                      attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15)],

@@ -20,8 +20,8 @@ protocol RegisterInteractorOutput: class {
 final class RegisterPresenter {
     
     unowned private let view: RegisterViewInput
-    var interactor: RegisterInteractorInput!
-    var router: RegisterRouterInput!
+    var interactor: RegisterInteractorInput?
+    var router: RegisterRouterInput?
     
     //MARK: - Init
     
@@ -40,11 +40,11 @@ final class RegisterPresenter {
 extension RegisterPresenter: RegisterViewOutput {
     
     func signInButtonPress() {
-        router.showLoginedModule()
+        router?.showLoginedModule()
     }
     
     func registerButtonPress(name: String, login: String, password: String, avatarImage: UIImage?) {
-        interactor.register(name: name, login: login, password: password, avatarImage: avatarImage)
+        interactor?.register(name: name, login: login, password: password, avatarImage: avatarImage)
     }
 }
 
@@ -53,7 +53,7 @@ extension RegisterPresenter: RegisterViewOutput {
 extension RegisterPresenter: RegisterInteractorOutput {
     
     func userDidRegistered() {
-        router.dissmis()
+        router?.dissmis()
     }
     
     func userDidRegisteredFail(message: String) {

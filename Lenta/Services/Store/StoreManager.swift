@@ -15,7 +15,6 @@ protocol StoreManagerProtocol {
     func save(posts: [Post])
     func save(users: [User])
     func append(posts: [Post])
-//    func append(users: [User])
 }
 
 class StoreManager {
@@ -41,7 +40,6 @@ class StoreManager {
 
     private func saveContext () {
         print("saveContext")
-//        let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
                 try context.save()
@@ -226,8 +224,4 @@ extension StoreManager: StoreManagerProtocol {
         deleteAllUsers()
         add(users: users)
     }
-    
-//    func append(users: [User]) {
-//        add(users: users)
-//    }
 }

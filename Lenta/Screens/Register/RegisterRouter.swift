@@ -15,7 +15,7 @@ protocol RegisterRouterInput {
 final class RegisterRouter {
     
     private let assembly: Assembly
-    unowned private let view: UIViewController!
+    unowned private let view: UIViewController
     
     //MARK: - Init
     

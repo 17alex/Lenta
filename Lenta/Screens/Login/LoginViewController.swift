@@ -114,6 +114,35 @@ final class LoginViewController: UIViewController {
     
     //MARK: - Metods
     
+    @objc private func registerButtonPress() {
+        presenter.registerButtonPress()
+    }
+    
+    @objc private func valueChangeTextField() {
+        if loginTextField.hasText, passwordTextField.hasText {
+            enableLoginButton()
+        } else {
+            disableLoginButton()
+        }
+    }
+        
+    @objc private func loginButtonPress() {
+        guard let login = loginTextField.text, let password = passwordTextField.text else { return }
+        loginButton.isHidden = true
+        activityIndicator.startAnimating()
+        presenter.logIn(login: login, password: password)
+    }
+    
+    private func enableLoginButton() {
+        self.loginButton.isEnabled = true
+        self.loginButton.backgroundColor = Constants.Colors.Buttons.enable
+    }
+    
+    private func disableLoginButton() {
+        self.loginButton.isEnabled = false
+        self.loginButton.backgroundColor = Constants.Colors.Buttons.disable
+    }
+    
     private func setupUI() {
         view.backgroundColor = .systemBackground
         loginButton.isEnabled = false
@@ -160,28 +189,6 @@ final class LoginViewController: UIViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: loginButton.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: loginButton.centerYAnchor)
         ])
-    }
-
-    //MARK: - IBAction
-    
-    @objc private func registerButtonPress() {
-        presenter.registerButtonPress()
-    }
-    
-    @objc private func valueChangeTextField() {
-        if loginTextField.text != "" && passwordTextField.text != "" {
-            self.loginButton.isEnabled = true
-            self.loginButton.backgroundColor = #colorLiteral(red: 0, green: 0.4773686528, blue: 0.8912271857, alpha: 1)
-        } else {
-            self.loginButton.isEnabled = false
-            self.loginButton.backgroundColor = .systemGray5
-        }
-    }
-        
-    @objc private func loginButtonPress() {
-        loginButton.isHidden = true
-        activityIndicator.startAnimating()
-        presenter.logIn(login: loginTextField.text!, password: passwordTextField.text!)
     }
 }
 
