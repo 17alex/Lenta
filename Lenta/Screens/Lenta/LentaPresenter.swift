@@ -17,7 +17,6 @@ protocol LentaViewOutput {
     func didPressMenu(by index: Int)
     func didPressComments(by index: Int)
     func didPressLike(postIndex: Int)
-    func didPressMore(postIndex: Int)
     func willDisplayCell(by index: Int)
     func didTapAvatar(by index: Int)
 }
@@ -33,14 +32,16 @@ protocol LentaInteractorOutput: class {
 
 final class LentaPresenter {
     
-    unowned let view: LentaViewInput
-    var interactor: LentaInteractorInput!
-    var router: LentaRouterInput!
+    unowned private let view: LentaViewInput
+    private let interactor: LentaInteractorInput
+    private let router: LentaRouterInput
     
     var postsViewModel: [PostViewModel] = []
     
-    init(view: LentaViewInput) {
+    init(view: LentaViewInput, interactor: LentaInteractorInput, router: LentaRouterInput) {
         self.view = view
+        self.router = router
+        self.interactor = interactor
         print("LentaPresenter init")
     }
     
@@ -50,7 +51,7 @@ final class LentaPresenter {
     
     private func getPostViewModel(post: Post) -> PostViewModel {
         let user = interactor.users.first(where: {$0.id == post.userId})
-        return PostViewModel(post: post, user: user!, currenUser: interactor.currentUser)
+        return PostViewModel(post: post, user: user, currenUser: interactor.currentUser)
     }
 }
 
@@ -59,10 +60,7 @@ final class LentaPresenter {
 extension LentaPresenter: LentaViewOutput {
     
     func didTapAvatar(by index: Int) {
-        print("presenter - didTapAvatar")
-        let userID = postsViewModel[index].user.id
-        let user = interactor.users.first { $0.id == userID }
-        let userViewModel = UserViewModel(user: user!)
+        let userViewModel = postsViewModel[index].user
         router.showUserInfoModule(user: userViewModel)
     }
     
@@ -85,7 +83,8 @@ extension LentaPresenter: LentaViewOutput {
     }
     
     func willDisplayCell(by index: Int) {
-        guard index >= interactor.posts.count - 4 else { return }
+        let remainingPostsCountForPreload = 4
+        guard index >= interactor.posts.count - remainingPostsCountForPreload else { return }
         interactor.loadNextPosts()
     }
     
@@ -93,19 +92,15 @@ extension LentaPresenter: LentaViewOutput {
         interactor.changeLike(by: postIndex)
     }
     
-    func didPressMore(postIndex: Int) {
-        postsViewModel[postIndex].description.isExpand = true
-        view.reloadPost(by: postIndex)
-    }
-    
     func viewDidLoad() {
+        interactor.loadFromStore()
         view.loadingStarted()
         interactor.loadPosts()
     }
     
     func viewWillAppear() {
         interactor.getCurrenUser()
-        postsViewModel = interactor.posts.map(getPostViewModel(post:))
+        postsViewModel = interactor.posts.compactMap(getPostViewModel(post:))
         view.reloadLenta()
         view.userLoginned(interactor.currentUser != nil)
     }
@@ -154,8 +149,8 @@ extension LentaPresenter: LentaInteractorOutput {
     }
     
     func show(message: String) {
+        view.loadingEnd()
         view.show(message: message)
     }
-    
 }
 

@@ -24,7 +24,7 @@ final class LentaViewController: UIViewController {
     
     //MARK: - Propertis
     
-    var presenter: LentaViewOutput!
+    var presenter: LentaViewOutput?
     
     private var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -62,19 +62,27 @@ final class LentaViewController: UIViewController {
         super.viewDidLoad()
         print("LentaViewController init")
         
-        setup()
-        presenter.viewDidLoad()
+        setupUI()
+        presenter?.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        presenter.viewWillAppear()
+        presenter?.viewWillAppear()
     }
     
     //MARK: - Metods
     
-    private func setup() {
+    @objc private func pullToRefresh() {
+        presenter?.didPressToRefresh()
+    }
+    
+    @objc private func newPostButtonPress() {
+        presenter?.didPressNewPost()
+    }
+    
+    private func setupUI() {
         title = "Lenta"
         
         let newPostButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(newPostButtonPress))
@@ -93,14 +101,6 @@ final class LentaViewController: UIViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: lentaTableView.centerYAnchor)
         ])
     }
-    
-    @objc private func pullToRefresh() {
-        presenter.didPressToRefresh()
-    }
-    
-    @objc private func newPostButtonPress() {
-        presenter.didPressNewPost()
-    }
 }
 
 //MARK: - UITableViewDataSource
@@ -108,11 +108,12 @@ final class LentaViewController: UIViewController {
 extension LentaViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.postsViewModel.count
+        return presenter?.postsViewModel.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LentaCell.self), for: indexPath) as! LentaCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LentaCell.self), for: indexPath) as? LentaCell,
+              let presenter = presenter else { return UITableViewCell() }
         cell.delegate = self
         let postModel = presenter.postsViewModel[indexPath.row]
         cell.set(postModel: postModel)
@@ -125,11 +126,11 @@ extension LentaViewController: UITableViewDataSource {
 extension LentaViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        presenter.willDisplayCell(by: indexPath.row)
+        presenter?.willDisplayCell(by: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return presenter.postsViewModel[indexPath.row].totalHieght
+        return presenter?.postsViewModel[indexPath.row].totalHieght ?? 0
     }
 }
 
@@ -139,13 +140,13 @@ extension LentaViewController: PostCellDelegate {
     
     func didTapAvatar(cell: UITableViewCell) {
         if let cellIndexPath = lentaTableView.indexPath(for: cell) {
-            presenter.didTapAvatar(by: cellIndexPath.row)
+            presenter?.didTapAvatar(by: cellIndexPath.row)
         }
     }
     
     func didTapCommentsButton(cell: UITableViewCell) {
         if let cellIndexPath = lentaTableView.indexPath(for: cell) {
-            presenter.didPressComments(by: cellIndexPath.row)
+            presenter?.didPressComments(by: cellIndexPath.row)
         }
     }
     
@@ -173,13 +174,13 @@ extension LentaViewController: PostCellDelegate {
     
     func didTapMenuButton(cell: UITableViewCell) {
         if let cellIndexPath = lentaTableView.indexPath(for: cell) {
-            presenter.didPressMenu(by: cellIndexPath.row)
+            presenter?.didPressMenu(by: cellIndexPath.row)
         }
     }
     
     func didTapLikeButton(cell: UITableViewCell) {
         if let cellIndexPath = lentaTableView.indexPath(for: cell) {
-            presenter.didPressLike(postIndex: cellIndexPath.row)
+            presenter?.didPressLike(postIndex: cellIndexPath.row)
         }
     }
 }
@@ -203,7 +204,7 @@ extension LentaViewController: LentaViewInput {
             
             let deleteAction = UIAlertAction(title: "Delete Post", style: .destructive) { action in
                 print("delete post")
-                self.presenter.didPressDeletePost(by: index)
+                self.presenter?.didPressDeletePost(by: index)
             }
             alertController.addAction(deleteAction)
             
@@ -233,7 +234,8 @@ extension LentaViewController: LentaViewInput {
     
     func reloadPost(by index: Int) {
         let indexPath = IndexPath(row: index, section: 0)
-        let cell = lentaTableView.cellForRow(at: indexPath) as! LentaCell
+        guard let cell = lentaTableView.cellForRow(at: indexPath) as? LentaCell,
+              let presenter = presenter else { return }
         cell.likeUpdate(post: presenter.postsViewModel[index])
     }
     

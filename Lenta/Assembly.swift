@@ -81,12 +81,11 @@ class Assembly {
     
     func getLentaModule() -> UIViewController {
         let view = LentaViewController()
-        let presenter = LentaPresenter(view: view)
-        let interactor = LentaInteractor(presenter: presenter)
         let router = LentaRouter(view: view, assembly: self)
+        let interactor = LentaInteractor()
+        let presenter = LentaPresenter(view: view, interactor: interactor, router: router)
         view.presenter = presenter
-        presenter.interactor = interactor
-        presenter.router = router
+        interactor.presenter = presenter
         interactor.networkManager = networkManager
         interactor.storeManager = storeManager
         return view
@@ -103,14 +102,14 @@ class Assembly {
         return view
     }
     
-    func getCommentsModule(by postId: Int) -> UIViewController {
+    func getCommentsModule(by postId: Int16) -> UIViewController {
         let view = CommentsViewController()
-        let presenter = CommentsPresenter(view: view, postId: postId)
-        let interactor = CommentsInteractor(presenter: presenter)
         let router = CommentsRouter(view: view, assembly: self)
+        let interactor = CommentsInteractor()
+        let presenter = CommentsPresenter(view: view, interactor: interactor, postId: postId)
         view.presenter = presenter
-        presenter.interactor = interactor
         presenter.router = router
+        interactor.presenter = presenter
         interactor.networkManager = networkManager
         interactor.storeManager = storeManager
         return view

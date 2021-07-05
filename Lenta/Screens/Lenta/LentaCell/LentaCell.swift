@@ -148,7 +148,7 @@ final class LentaCell: UITableViewCell {
         super.layoutSubviews()
         
         contentView.frame = .init(x: 0, y: 4, width: contentView.bounds.width, height: postModel.totalHieght - 8)
-        
+        //FIXFE: - Constants
         let cellWidth = contentView.bounds.width
         avatarImageView.frame = CGRect(x: 8, y: 16, width: 60, height: 60)
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2

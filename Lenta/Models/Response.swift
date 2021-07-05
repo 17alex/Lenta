@@ -27,30 +27,30 @@ struct Comment: Decodable {
 }
 
 struct Post: Decodable {
-    let id: Int
-    let userId: Int
+    let id: Int16
+    let userId: Int16
     let timeInterval: TimeInterval
     let description: String
     let photo: PostPhoto?
-    let likeUserIds: [Int]
-    let viewsCount: Int
-    let commentsCount: Int
+    let likeUserIds: [Int16]
+    let viewsCount: Int16
+    let commentsCount: Int16
 }
 
 struct PostPhoto: Decodable {
     let name: String
-    let size: PhotoSize
+    let size: Size
 }
 
-struct PhotoSize: Decodable {
-    let width: Int
-    let height: Int
+struct Size: Decodable {
+    let width: Int16
+    let height: Int16
 }
 
-struct User: Decodable, Hashable {
-    let id: Int
+struct User: Codable, Hashable {
+    let id: Int16
     let name: String
-    let postsCount: Int
+    let postsCount: Int16
     let dateRegister: TimeInterval
     let avatar: String
 }

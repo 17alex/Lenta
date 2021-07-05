@@ -123,7 +123,7 @@ final class RegisterViewController: UIViewController {
         return activityIndicator
     }()
     
-    var presenter: RegisterViewOutput!
+    var presenter: RegisterViewOutput?
     private var avatarImage: UIImage?
     lazy var imagePicker = ImagePicker(view: self, delegate: self)
     
@@ -143,12 +143,47 @@ final class RegisterViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        registerButton.layer.cornerRadius = registerButton.bounds.height / 2
+        registerButton.layer.cornerRadius = registerButton.bounds.height / 2 //FIXME: - perenesti
         avatarButton.layer.cornerRadius = avatarButton.bounds.height / 2
         avatarButton.clipsToBounds = true
     }
     
     //MARK: - Metods
+    
+    @objc private func addAvatarButtonPress() {
+        imagePicker.chooseImage()
+    }
+    
+    @objc private func logInButtonPress() {
+        presenter?.signInButtonPress()
+    }
+    
+    @objc private func didChangeText() {
+        if nameTextField.hasText, loginTextField.hasText, passwordTextField.hasText {
+            enableRegisterButton()
+        } else {
+            disableRegisterButton()
+        }
+    }
+    
+    @objc private func registerButtonPress() {
+        guard let name = nameTextField.text,
+              let login = loginTextField.text,
+              let password = passwordTextField.text else { return }
+        registerButton.isHidden = true
+        activityIndicator.startAnimating()
+        presenter?.registerButtonPress(name: name, login: login, password: password, avatarImage: avatarImage)
+    }
+    
+    private func enableRegisterButton() {
+        self.registerButton.isEnabled = true
+        self.registerButton.backgroundColor = Constants.Colors.Buttons.enable
+    }
+    
+    private func disableRegisterButton() {
+        self.registerButton.isEnabled = false
+        self.registerButton.backgroundColor = Constants.Colors.Buttons.disable
+    }
         
     private func setupUI() {
         view.backgroundColor = .systemBackground
@@ -211,34 +246,6 @@ final class RegisterViewController: UIViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: registerButton.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: registerButton.centerYAnchor)
         ])
-    }
-    
-    //MARK: - IBAction
-    
-    @objc private func addAvatarButtonPress() {
-        imagePicker.chooseImage()
-    }
-    
-    @objc private func logInButtonPress() {
-        presenter.signInButtonPress()
-    }
-    
-    @objc private func didChangeText() {
-        if nameTextField.text != "",
-           loginTextField.text != "",
-           passwordTextField.text != "" {
-            self.registerButton.isEnabled = true
-            self.registerButton.backgroundColor = #colorLiteral(red: 0, green: 0.4773686528, blue: 0.8912271857, alpha: 1)
-        } else {
-            self.registerButton.isEnabled = false
-            self.registerButton.backgroundColor = .systemGray5
-        }
-    }
-    
-    @objc private func registerButtonPress() {
-        registerButton.isHidden = true
-        activityIndicator.startAnimating()
-        presenter.registerButtonPress(name: nameTextField.text!, login: loginTextField.text!, password: passwordTextField.text!, avatarImage: avatarImage)
     }
 }
 

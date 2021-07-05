@@ -32,10 +32,10 @@ final class CommentsPresenter {
     //MARK: - Propertis
     
     unowned private let view: CommentsViewInput
-    var interactor: CommentsInteractorInput!
-    var router: CommentsRouterInput!
+    private let interactor: CommentsInteractorInput
+    var router: CommentsRouterInput?
     
-    private let postId: Int
+    private let postId: Int16
     var postsViewModel: [PostViewModel] = []
     var commentsViewModel: [CommentViewModel] = []
     
@@ -43,9 +43,10 @@ final class CommentsPresenter {
     
     //MARK: - Init
     
-    init(view: CommentsViewInput, postId: Int) {
+    init(view: CommentsViewInput, interactor: CommentsInteractorInput, postId: Int16) {
         self.view = view
         self.postId = postId
+        self.interactor = interactor
         print("CommentsPresenter init")
     }
     
@@ -55,12 +56,12 @@ final class CommentsPresenter {
     
     //MARK: - Metods
     
-    private func getPostViewModel(post: Post) -> PostViewModel {
+    private func getPostViewModel(post: Post) -> PostViewModel? {
         let user = interactor.users.first(where: {$0.id == post.userId})
-        return PostViewModel(post: post, user: user!, currenUser: nil)
+        return PostViewModel(post: post, user: user)
     }
     
-    private func getCommentViewModel(comment: Comment) -> CommentViewModel {
+    private func getCommentViewModel(comment: Comment) -> CommentViewModel? {
         let user = interactor.users.first(where: {$0.id == comment.userId})
         return CommentViewModel(comment: comment, user: user!)
     }
@@ -71,7 +72,7 @@ final class CommentsPresenter {
 extension CommentsPresenter: CommentsViewOutput {
     
     func didCloseButtonPress() {
-        router.dismiss()
+        router?.dismiss()
     }
     
     func didPressNewCommendSendButton(comment: String) {
@@ -89,7 +90,7 @@ extension CommentsPresenter: CommentsViewOutput {
 extension CommentsPresenter: CommentsInteractorOutput {
     
     func didSendComment(_ comments: [Comment]) {
-        commentsViewModel.append(contentsOf: comments.map(getCommentViewModel(comment:)))
+        commentsViewModel.append(contentsOf: comments.compactMap(getCommentViewModel(comment:)))
         view.addRow()
     }
     
@@ -98,8 +99,8 @@ extension CommentsPresenter: CommentsInteractorOutput {
     }
     
     func didLoadComments() {
-        postsViewModel = interactor.posts.map(getPostViewModel(post:))
-        commentsViewModel = interactor.comments.map(getCommentViewModel(comment:))
+        postsViewModel = interactor.posts.compactMap(getPostViewModel(post:))
+        commentsViewModel = interactor.comments.compactMap(getCommentViewModel(comment:))
         view.loadingEnd()
         view.reloadComments()
     }

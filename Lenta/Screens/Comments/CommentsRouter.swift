@@ -19,9 +19,9 @@ final class CommentsRouter {
     //MARK: Init
     
     init(view: UIViewController, assembly: Assembly) {
-        print("CommentsRouter init")
         self.view = view
         self.assembly = assembly
+        print("CommentsRouter init")
     }
     
     deinit {

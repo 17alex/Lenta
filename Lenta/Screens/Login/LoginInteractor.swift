@@ -14,10 +14,10 @@ protocol LoginInteractorInput {
 final class LoginInteractor {
     
     unowned private let presenter: LoginInteractorOutput
-    var networkManager: NetworkManager!
-    var storeManager: StoreManager!
+    var networkManager: NetworkManagerProtocol?
+    var storeManager: StoreManagerProtocol?
     
-    //MARk: - Init
+    //MARK: - Init
     
     init(presenter: LoginInteractorOutput) {
         print("LoginInteractor init")
@@ -33,17 +33,17 @@ final class LoginInteractor {
 extension LoginInteractor: LoginInteractorInput {
     
     func logIn(login: String, password: String) {
-        networkManager.logIn(login: login, password: password) { (result) in
+        networkManager?.logIn(login: login, password: password) { [weak self] (result) in
+            guard let strongSelf = self else { return }
             switch result {
-            case .failure(let error):
-                self.presenter.userLoginFail(message: error.localizedDescription)
+            case .failure(let serviceError):
+                strongSelf.presenter.userLoginFail(message: serviceError.rawValue)
             case .success(let users):
-                if let user = users.first {
-                    let currentUser = CurrentUser(id: user.id, name: user.name, postsCount: user.postsCount, dateRegister: user.dateRegister, avatar: user.avatar)
-                    self.storeManager.save(currentUser)
-                    self.presenter.userDidLogined()
+                if let currentUser = users.first {
+                    strongSelf.storeManager?.save(user: currentUser)
+                    strongSelf.presenter.userDidLogined()
                 } else {
-                    self.presenter.userLoginFail(message: "unkmon error")
+                    strongSelf.presenter.userLoginFail(message: "unkmon error")
                 }
             }
         }

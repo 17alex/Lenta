@@ -14,9 +14,9 @@ protocol NewPostViewOutput {
 final class NewPostPresenter {
     
     unowned private let view: NewPostViewInput
-    var networkManager: NetworkManagerProtocol!
-    var storeManager: StoreManagerProtocol!
-    var router: NewPostRouterInput!
+    var networkManager: NetworkManagerProtocol?
+    var storeManager: StoreManagerProtocol?
+    var router: NewPostRouterInput?
     let callback: (Response) -> Void
     
     //MARK: - Init
@@ -37,16 +37,19 @@ final class NewPostPresenter {
 extension NewPostPresenter: NewPostViewOutput {
         
     func pressSendButton(description: String, image: UIImage?) {
-        guard let currentUser = storeManager.getCurrenUser() else { return }
+        guard let currentUser = storeManager?.getCurrenUser() else { return }
         let sendPost = SendPost(userId: currentUser.id, description: description, image: image)
-        networkManager.sendPost(post: sendPost) { (result) in
+        networkManager?.sendPost(post: sendPost) { (result) in
             switch result {
-            case .failure(let error):
-                self.view.newPostSendFailed(text: error.localizedDescription)
+            case .failure(let serviceError):
+                self.view.newPostSendFailed(text: serviceError.rawValue)
             case .success(let response):
                 self.callback(response)
-                self.router.dismiss()
+                self.router?.dismiss()
             }
         }
     }
 }
+
+
+//FIXME: - ADD Interactor

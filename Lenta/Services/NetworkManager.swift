@@ -7,38 +7,24 @@
 
 import UIKit
 
-enum Constants {
-    enum URLs {
-        static let getComments = "https://monsterok.ru/lenta/getComments.php"
-        static let getPosts = "https://monsterok.ru/lenta/getPosts.php"
-        static let sendComment = "https://monsterok.ru/lenta/addComment.php"
-        static let removePost = "https://monsterok.ru/lenta/removePost.php"
-        static let changeLike = "https://monsterok.ru/lenta/changeLike.php"
-        static let login = "https://monsterok.ru/lenta/login.php"
-        static let sendPost = "https://monsterok.ru/lenta/addPost.php"
-        static let register = "https://monsterok.ru/lenta/register.php"
-        static let updatePrifile = "https://monsterok.ru/lenta/updatePrifile.php"
-    }
-}
-
-enum NetworkServiceError: Error {
-    case badUrl
-    case network(str: String)
-    case decodable
-    case unknown
+enum NetworkServiceError: String, Error {
+    case badUrl = "URL error"
+    case network = "Network error"
+    case decodable = "Decode error"
+    case unknown = "Unknown error"
 }
 
 protocol NetworkManagerProtocol {
     
     func logIn(login: String, password: String, complete: @escaping (Result<[User], NetworkServiceError>) -> Void)
     func register(name: String, login: String, password: String, avatar: UIImage?,  complete: @escaping (Result<[User], NetworkServiceError>) -> Void)
-    func getPosts(fromPostId: Int?, complete: @escaping (Result<Response, NetworkServiceError>) -> Void)
+    func getPosts(fromPostId: Int16?, complete: @escaping (Result<Response, NetworkServiceError>) -> Void)
     func sendPost(post: SendPost, complete: @escaping (Result<Response, NetworkServiceError>) -> Void)
-    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void)
-    func changeLike(postId: Int, userId: Int, complete: @escaping (Result<Post, NetworkServiceError>) -> Void)
-    func removePost(postId: Int, complete: @escaping (Result<Response, NetworkServiceError>) -> Void)
-    func loadComments(for postId: Int, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void)
-    func sendComment(_ comment: String, postId: Int, userId: Int, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void)
+    func updateProfile(id: Int16, name: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void)
+    func changeLike(postId: Int16, userId: Int16, complete: @escaping (Result<Post, NetworkServiceError>) -> Void)
+    func removePost(postId: Int16, complete: @escaping (Result<Response, NetworkServiceError>) -> Void)
+    func loadComments(for postId: Int16, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void)
+    func sendComment(_ comment: String, postId: Int16, userId: Int16, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void)
 }
 
 final class NetworkManager {
@@ -80,13 +66,13 @@ final class NetworkManager {
 
 extension NetworkManager: NetworkManagerProtocol {
     
-    func sendComment(_ comment: String, postId: Int, userId: Int, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
+    func sendComment(_ comment: String, postId: Int16, userId: Int16, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
         
         let urlString = Constants.URLs.sendComment
         
         guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST" //FIXME: - update and delete comment
+        urlRequest.httpMethod = "POST"
         let postSting = "comment=\(comment)&postId=\(postId)&userId=\(userId)"
         urlRequest.httpBody = postSting.data(using: .utf8)
         
@@ -94,8 +80,8 @@ extension NetworkManager: NetworkManagerProtocol {
             
 //            self.typeDebug(data: data)
             
-            if let error = error {
-                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            if let _ = error {
+                self.onMain { complete(.failure(.network)) }
             } else if let data = data {
                 do {
                     let decodePost = try JSONDecoder().decode(ResponseComment.self, from: data)
@@ -107,14 +93,13 @@ extension NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    func loadComments(for postId: Int, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
+    func loadComments(for postId: Int16, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
         
         let urlString = Constants.URLs.getComments
         
         var components = URLComponents(string: urlString)
         components?.queryItems = [
-            URLQueryItem(name: "postId", value: String(postId)),
-            //URLQueryItem(name: "fromCommentId", value: String(postId)), //FIXME: - pagination, server otdaet po 20
+            URLQueryItem(name: "postId", value: String(postId))
         ]
         
         guard let url = components?.url else { complete(.failure(.badUrl)); return }
@@ -123,10 +108,10 @@ extension NetworkManager: NetworkManagerProtocol {
         
         taskResume(with: urlRequest) { data, error in
             
-//            self.typeBebug(data: data)
+//            self.typeDebug(data: data)
             
-            if let error = error {
-                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            if let _ = error {
+                self.onMain { complete(.failure(.network)) }
             } else if let data = data {
                 do {
                     let pesponseComment = try JSONDecoder().decode(ResponseComment.self, from: data)
@@ -139,7 +124,7 @@ extension NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    func getPosts(fromPostId: Int? = nil, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
+    func getPosts(fromPostId: Int16? = nil, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
         
         let urlString = Constants.URLs.getPosts
 
@@ -158,8 +143,8 @@ extension NetworkManager: NetworkManagerProtocol {
             
 //            self.typeDebug(data: data)
             
-            if let error = error {
-                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            if let _ = error { //FIXME: - вынести в метод
+                self.onMain { complete(.failure(.network)) }
             } else if let data = data {
                 do {
                     let pesponse = try JSONDecoder().decode(Response.self, from: data)
@@ -172,7 +157,7 @@ extension NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    func removePost(postId: Int, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
+    func removePost(postId: Int16, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
         
         let urlString = Constants.URLs.removePost
         
@@ -186,21 +171,20 @@ extension NetworkManager: NetworkManagerProtocol {
             
 //            self.typeDebug(data: data)
             
-            if let error = error {
-                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            if let _ = error {
+                self.onMain { complete(.failure(.network)) }
             } else if let data = data {
                 do {
                     let pesponse = try JSONDecoder().decode(Response.self, from: data)
                     self.onMain { complete(.success(pesponse)) }
-                } catch let error {
-                    print("error = ", error.localizedDescription) //FIXME: - delete
+                } catch {
                     self.onMain { complete(.failure(.decodable)) }
                 }
             }
         }
     }
     
-    func changeLike(postId: Int, userId: Int, complete: @escaping (Result<Post, NetworkServiceError>) -> Void) {
+    func changeLike(postId: Int16, userId: Int16, complete: @escaping (Result<Post, NetworkServiceError>) -> Void) {
         
         let urlString = Constants.URLs.changeLike
         
@@ -214,8 +198,8 @@ extension NetworkManager: NetworkManagerProtocol {
             
 //            self.typeDebug(data: data)
             
-            if let error = error {
-                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            if let _ = error {
+                self.onMain { complete(.failure(.network)) }
             } else if let data = data {
                 do {
                     let decodePost = try JSONDecoder().decode(Post.self, from: data)
@@ -228,7 +212,7 @@ extension NetworkManager: NetworkManagerProtocol {
     }
     
     //FIXME: - user.php
-    func updateProfile(id: Int, name: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
+    func updateProfile(id: Int16, name: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
         
         let urlString = Constants.URLs.updatePrifile
         
@@ -271,8 +255,8 @@ extension NetworkManager: NetworkManagerProtocol {
             
 //            self.typeDebug(data: data)
             
-            if let error = error {
-                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            if let _ = error {
+                self.onMain { complete(.failure(.network)) }
             } else if let data = data {
                 do {
                     let decodeUsers = try JSONDecoder().decode([User].self, from: data)
@@ -298,8 +282,8 @@ extension NetworkManager: NetworkManagerProtocol {
             
             self.typeDebug(data: data)
             
-            if let error = error {
-                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            if let _ = error {
+                self.onMain { complete(.failure(.network)) }
             } else if let data = data {
                 do {
                     let decodeUsers = try JSONDecoder().decode([User].self, from: data)
@@ -311,7 +295,6 @@ extension NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    //FIXME: - user.php
     func register(name: String, login: String, password: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
         
         let urlString = Constants.URLs.register
@@ -354,8 +337,8 @@ extension NetworkManager: NetworkManagerProtocol {
             
 //            self.typeDebug(data: data)
             
-            if let error = error {
-                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            if let _ = error {
+                self.onMain { complete(.failure(.network)) }
             } else if let data = data {
                 do {
                     let decodeUsers = try JSONDecoder().decode([User].self, from: data)
@@ -409,8 +392,8 @@ extension NetworkManager: NetworkManagerProtocol {
             
 //            self.typeDebug(data: data)
             
-            if let error = error {
-                self.onMain { complete(.failure(.network(str: error.localizedDescription))) }
+            if let _ = error {
+                self.onMain { complete(.failure(.network)) }
             } else if let data = data {
                 do {
                     let pesponse = try JSONDecoder().decode(Response.self, from: data)

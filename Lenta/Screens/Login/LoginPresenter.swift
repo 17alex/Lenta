@@ -20,8 +20,8 @@ protocol LoginInteractorOutput: AnyObject {
 final class LoginPresenter {
     
     unowned private let view: LoginViewInput
-    var interactor: LoginInteractorInput!
-    var router: LoginRouterInput!
+    var interactor: LoginInteractorInput?
+    var router: LoginRouterInput?
     
     //MARk: - Init
     
@@ -41,11 +41,11 @@ final class LoginPresenter {
 extension LoginPresenter: LoginViewOutput {
     
     func registerButtonPress() {
-        router.showRegisterModule()
+        router?.showRegisterModule()
     }
     
     func logIn(login: String, password: String) {
-        interactor.logIn(login: login, password: password)
+        interactor?.logIn(login: login, password: password)
     }
 }
 
@@ -54,7 +54,7 @@ extension LoginPresenter: LoginViewOutput {
 extension LoginPresenter: LoginInteractorOutput {
     
     func userDidLogined() {
-        router.dissmis()
+        router?.dissmis()
     }
     
     func userLoginFail(message: String) {
