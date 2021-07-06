@@ -108,7 +108,7 @@ class StoreManager {
                 moPhoto.width = photo.size.width
                 moPost.photo = moPhoto
             }
-            
+/*
             let moLikes: [MOLike] = post.likeUserIds.map { userId in
                 let moLike = MOLike(context: bgContext)
                 moLike.userId = userId
@@ -117,6 +117,14 @@ class StoreManager {
             }
 //            moPost.addToLikes(<#T##values: NSSet##NSSet#>)
             moPost.likes = NSSet(array: moLikes)
+*/
+            
+            post.likeUserIds.forEach { userId in
+                let moLike = MOLike(context: bgContext)
+                moLike.userId = userId
+                moPost.addToLikes(moLike)
+            }
+            
             moPost.viewsCount = post.viewsCount
             moPost.commentsCount = post.commentsCount
         }

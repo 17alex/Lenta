@@ -93,11 +93,13 @@ class Assembly {
     
     func getNewPostModule(callback: @escaping (Response) -> Void) -> UIViewController {
         let view = NewPostViewController()
-        let presenter = NewPostPresenter(view: view, callback: callback)
         let router = NewPostRouter(view: view, assembly: self)
+        let interactor = NewPostInteractor()
+        let presenter = NewPostPresenter(view: view, interactor: interactor, callback: callback)
         view.presenter = presenter
-        presenter.storeManager = storeManager
-        presenter.networkManager = networkManager
+        interactor.presenter = presenter
+        interactor.storeManager = storeManager
+        interactor.networkManager = networkManager
         presenter.router = router
         return view
     }

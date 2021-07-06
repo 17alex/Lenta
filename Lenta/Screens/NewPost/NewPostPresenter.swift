@@ -11,19 +11,26 @@ protocol NewPostViewOutput {
     func pressSendButton(description: String, image: UIImage?)
 }
 
+protocol NewPostInteractorOutput: AnyObject {
+    func newPostSendFailed(serviceError: NetworkServiceError)
+    func newPostSendSuccess(response: Response)
+}
+
 final class NewPostPresenter {
     
+    //MARK: - Propertis
+    
     unowned private let view: NewPostViewInput
-    var networkManager: NetworkManagerProtocol?
-    var storeManager: StoreManagerProtocol?
+    private let interactor: NewPostInteractorInput
     var router: NewPostRouterInput?
     let callback: (Response) -> Void
     
     //MARK: - Init
     
-    init(view: NewPostViewInput, callback: @escaping (Response) -> Void) {
+    init(view: NewPostViewInput, interactor: NewPostInteractorInput, callback: @escaping (Response) -> Void) {
         self.view = view
         self.callback = callback
+        self.interactor = interactor
         print("NewPostPresenter init")
     }
     
@@ -37,19 +44,21 @@ final class NewPostPresenter {
 extension NewPostPresenter: NewPostViewOutput {
         
     func pressSendButton(description: String, image: UIImage?) {
-        guard let currentUser = storeManager?.getCurrenUser() else { return }
-        let sendPost = SendPost(userId: currentUser.id, description: description, image: image)
-        networkManager?.sendPost(post: sendPost) { (result) in
-            switch result {
-            case .failure(let serviceError):
-                self.view.newPostSendFailed(text: serviceError.rawValue)
-            case .success(let response):
-                self.callback(response)
-                self.router?.dismiss()
-            }
-        }
+        interactor.sendPost(description: description, image: image)
     }
 }
 
 
-//FIXME: - ADD Interactor
+//MARK: - NewPostInteractorOutput
+
+extension NewPostPresenter: NewPostInteractorOutput {
+    
+    func newPostSendFailed(serviceError: NetworkServiceError) {
+        view.newPostSendFailed(text: serviceError.rawValue)
+    }
+    
+    func newPostSendSuccess(response: Response) {
+        callback(response)
+        router?.dismiss()
+    }
+}

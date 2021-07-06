@@ -17,6 +17,7 @@
 		8D54C7C026847C970088D4BE /* LoginInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7BF26847C970088D4BE /* LoginInteractorTest.swift */; };
 		8D54C7D3268750420088D4BE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7D2268750420088D4BE /* Constants.swift */; };
 		8D54C7D9268754E80088D4BE /* Lenta.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7D7268754E80088D4BE /* Lenta.xcdatamodeld */; };
+		8DF298CE2694485D00D20746 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298CD2694485D00D20746 /* NewPostInteractor.swift */; };
 		8DF356C926888CBD007E02D8 /* MOLike+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C126888CBC007E02D8 /* MOLike+CoreDataClass.swift */; };
 		8DF356CA26888CBD007E02D8 /* MOLike+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C226888CBC007E02D8 /* MOLike+CoreDataProperties.swift */; };
 		8DF356CB26888CBD007E02D8 /* MOPost+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C326888CBC007E02D8 /* MOPost+CoreDataClass.swift */; };
@@ -89,6 +90,7 @@
 		8D54C7BF26847C970088D4BE /* LoginInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractorTest.swift; sourceTree = "<group>"; };
 		8D54C7D2268750420088D4BE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8D54C7D8268754E80088D4BE /* Lenta.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Lenta.xcdatamodel; sourceTree = "<group>"; };
+		8DF298CD2694485D00D20746 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
 		8DF356C126888CBC007E02D8 /* MOLike+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MOLike+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8DF356C226888CBC007E02D8 /* MOLike+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MOLike+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8DF356C326888CBC007E02D8 /* MOPost+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MOPost+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 			children = (
 				FA26A90025B0290900D2B806 /* NewPostViewController.swift */,
 				FA26A90525B029B000D2B806 /* NewPostPresenter.swift */,
+				8DF298CD2694485D00D20746 /* NewPostInteractor.swift */,
 				FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */,
 			);
 			path = NewPost;
@@ -532,6 +535,7 @@
 				FA7DD40225B7006500CB1678 /* RegisterRouter.swift in Sources */,
 				FA2B46A325B5BD3200DC5C1D /* LoginViewController.swift in Sources */,
 				8DF356CD26888CBD007E02D8 /* MOUser+CoreDataClass.swift in Sources */,
+				8DF298CE2694485D00D20746 /* NewPostInteractor.swift in Sources */,
 				FA2B46A825B5BDBE00DC5C1D /* LoginPresenter.swift in Sources */,
 				FA396F5B25F8EBF9009B79F5 /* CommentsPresenter.swift in Sources */,
 				FA396F6325F8F435009B79F5 /* CommentsInteractor.swift in Sources */,
