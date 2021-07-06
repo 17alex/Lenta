@@ -66,10 +66,11 @@ final class PostCell: UITableViewCell {
     private var photoImageViewHeight: NSLayoutConstraint!
     private let photoImageViewDefaultHeight: CGFloat = 0
     
-    private var postModel: PostViewModel! {
+    private var postModel: PostViewModel? {
         didSet {
-            userNameLabel.text = postModel.user.name
-            setAvatar(by: postModel.user.avatarUrlString)
+            guard let postModel = postModel else { return }
+            userNameLabel.text = postModel.user?.name ?? "NoName"
+            setAvatar(by: postModel.user?.avatarUrlString ?? "")
             timeLabel.text = postModel.time
             descriptionLabel.text = postModel.description.text
             setPostPhoto(by: postModel.photo?.urlString)

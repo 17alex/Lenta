@@ -22,9 +22,7 @@ enum Constants {
     }
     
     enum Colors {
-        enum Buttons {
-            static let enable = #colorLiteral(red: 0, green: 0.4773686528, blue: 0.8912271857, alpha: 1)
-            static let disable = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        }
+        static let active = #colorLiteral(red: 0, green: 0.4773686528, blue: 0.8912271857, alpha: 1)
+        static let deActive = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
 }

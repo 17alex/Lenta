@@ -49,12 +49,13 @@ final class CommentCell: UITableViewCell {
         return label
     }()
     
-    private var commentModel: CommentViewModel! {
+    private var commentModel: CommentViewModel? {
         didSet {
-            userNameLabel.text = commentModel.user.name
+            guard let commentModel = commentModel else { return }
+            userNameLabel.text = commentModel.user?.name ?? "NoName"
             dateLabel.text = commentModel.time
             commentLabel.text = commentModel.text
-            setAvatar(by: commentModel.user.avatarUrlString)
+            setAvatar(by: commentModel.user?.avatarUrlString ?? "")
         }
     }
     

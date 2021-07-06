@@ -38,17 +38,21 @@ class Assembly {
     
     func getUserInfoModule(user: UserViewModel) -> UIViewController {
         let view = UserInfoViewController()
-        view.user = user
+        let router = UserInfoRouter(view: view, assembly: self)
+        let presenter = UserInfoPresenter(view: view, router: router, user: user)
+        view.presenter = presenter
         return view
     }
     
     func getProfileModule() -> UIViewController {
         let view = ProfileViewController()
-        let presenter = ProfilePresenter(view: view)
         let router = ProfileRouter(view: view, assembly: self)
+        let interactor = ProfileInteractor()
+        let presenter = ProfilePresenter(view: view, interactor: interactor)
         presenter.router = router
-        presenter.networkManager = networkManager
-        presenter.storeManager = storeManager
+        interactor.presenter = presenter
+        interactor.networkManager = networkManager
+        interactor.storeManager = storeManager
         view.presenter = presenter
         return view
     }

@@ -135,12 +135,12 @@ final class LoginViewController: UIViewController {
     
     private func enableLoginButton() {
         self.loginButton.isEnabled = true
-        self.loginButton.backgroundColor = Constants.Colors.Buttons.enable
+        self.loginButton.backgroundColor = Constants.Colors.active
     }
     
     private func disableLoginButton() {
         self.loginButton.isEnabled = false
-        self.loginButton.backgroundColor = Constants.Colors.Buttons.disable
+        self.loginButton.backgroundColor = Constants.Colors.deActive
     }
     
     private func setupUI() {

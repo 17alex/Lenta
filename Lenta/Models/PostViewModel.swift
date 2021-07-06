@@ -14,6 +14,16 @@ struct UserViewModel {
     let postsCount: String
     let dateRegister: String
     
+    init?(user: User?) {
+        guard let user = user else { return nil }
+        //        self.id = user.id
+        name = user.name
+        avatarUrlString = user.avatar.isEmpty ? "" : Constants.URLs.avatarsPath + user.avatar
+        postsCount = String(user.postsCount)
+        dateRegister = user.dateRegister.toDateString()
+    }
+    
+ /*
     init(user: User?) {
         if let user = user {
             //        self.id = user.id
@@ -28,6 +38,7 @@ struct UserViewModel {
             dateRegister = "--/--/----"
         }
     }
+    */
     
 //    init?(user: User?) {
 //        guard let unwrapUser = user else { return nil }
@@ -43,7 +54,7 @@ struct PhotoViewModel {
 struct PostViewModel {
     let id: Int16
     let time: String
-    let user: UserViewModel
+    let user: UserViewModel?
     var description: DescriptionViewModel
     var photo: PhotoViewModel?
     var likes: LikesViewModel

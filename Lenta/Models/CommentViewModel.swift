@@ -10,7 +10,7 @@ import Foundation
 struct CommentViewModel {
     let id: Int
     let time: String
-    let user: UserViewModel
+    let user: UserViewModel?
     let text: String
     
     init(comment: Comment, user: User) {

@@ -177,12 +177,12 @@ final class RegisterViewController: UIViewController {
     
     private func enableRegisterButton() {
         self.registerButton.isEnabled = true
-        self.registerButton.backgroundColor = Constants.Colors.Buttons.enable
+        self.registerButton.backgroundColor = Constants.Colors.active
     }
     
     private func disableRegisterButton() {
         self.registerButton.isEnabled = false
-        self.registerButton.backgroundColor = Constants.Colors.Buttons.disable
+        self.registerButton.backgroundColor = Constants.Colors.deActive
     }
         
     private func setupUI() {

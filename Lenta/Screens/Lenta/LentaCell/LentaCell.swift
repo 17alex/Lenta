@@ -123,8 +123,8 @@ final class LentaCell: UITableViewCell {
     private var postModel: PostViewModel? {
         didSet {
             guard let postModel = postModel else { return }
-            userNameLabel.text = postModel.user.name
-            setAvatar(by: postModel.user.avatarUrlString)
+            userNameLabel.text = postModel.user?.name ?? "NoName"
+            setAvatar(by: postModel.user?.avatarUrlString ?? "")
             timeLabel.text = postModel.time
             descriptionLabel.text = postModel.description.text
             paintLikeButton(isHighlight: postModel.likes.isHighlight)
