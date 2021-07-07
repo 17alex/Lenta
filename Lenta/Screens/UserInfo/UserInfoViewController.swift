@@ -164,7 +164,7 @@ extension UserInfoViewController: UserInfoViewInput {
         userPostCountLabel.text = user?.postsCount
         userDateRegisterLabel.text = user?.dateRegister
         if let avatarUrl = user?.avatarUrlString {
-            avatarImageView.load(by: avatarUrl) { }
+            avatarImageView.load(by: avatarUrl)
         }
     }
 }

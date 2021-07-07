@@ -91,7 +91,7 @@ final class LoginViewController: UIViewController {
         return activityIndicator
     }()
     
-    var presenter: LoginViewOutput!
+    var presenter: LoginViewOutput?
     
     //MARK: - LiveCycles
     
@@ -115,7 +115,7 @@ final class LoginViewController: UIViewController {
     //MARK: - Metods
     
     @objc private func registerButtonPress() {
-        presenter.registerButtonPress()
+        presenter?.registerButtonPress()
     }
     
     @objc private func valueChangeTextField() {
@@ -130,7 +130,7 @@ final class LoginViewController: UIViewController {
         guard let login = loginTextField.text, let password = passwordTextField.text else { return }
         loginButton.isHidden = true
         activityIndicator.startAnimating()
-        presenter.logIn(login: login, password: password)
+        presenter?.logIn(login: login, password: password)
     }
     
     private func enableLoginButton() {

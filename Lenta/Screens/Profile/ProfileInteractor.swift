@@ -50,11 +50,13 @@ final class ProfileInteractor {
     private func changeProfile() {
         guard let currUser = currentUser  else { presenter?.changeProfile(false); return }
         
-        if !newName.isEmpty && (newName != currUser.name || isSetNewAvatar) {
-            presenter?.changeProfile(true)
-        } else {
-            presenter?.changeProfile(false)
-        }
+//        if !newName.isEmpty && (newName != currUser.name || isSetNewAvatar) {
+//            presenter?.changeProfile(true)
+//        } else {
+//            presenter?.changeProfile(false)
+//        }
+        
+        presenter?.changeProfile(!newName.isEmpty && (newName != currUser.name || isSetNewAvatar))
     }
 }
 

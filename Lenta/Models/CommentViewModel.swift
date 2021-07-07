@@ -13,7 +13,7 @@ struct CommentViewModel {
     let user: UserViewModel?
     let text: String
     
-    init(comment: Comment, user: User) {
+    init(comment: Comment, user: User?) {
         self.id = comment.id
         self.time = comment.timeInterval.toDateString()
         self.user = UserViewModel(user: user)

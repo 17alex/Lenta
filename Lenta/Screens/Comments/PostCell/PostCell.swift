@@ -63,7 +63,7 @@ final class PostCell: UITableViewCell {
         return activityIndicator
     }()
     
-    private var photoImageViewHeight: NSLayoutConstraint!
+    private var photoImageViewHeight: NSLayoutConstraint?
     private let photoImageViewDefaultHeight: CGFloat = 0
     
     private var postModel: PostViewModel? {
@@ -74,7 +74,7 @@ final class PostCell: UITableViewCell {
             timeLabel.text = postModel.time
             descriptionLabel.text = postModel.description.text
             setPostPhoto(by: postModel.photo?.urlString)
-            photoImageViewHeight.constant = postModel.photo?.size.height ?? 0
+            photoImageViewHeight?.constant = postModel.photo?.size.height ?? 0
         }
     }
 
@@ -107,8 +107,8 @@ final class PostCell: UITableViewCell {
     
     // FIXME:-
     private func setAvatar(by urlString: String) {
-        if urlString != "" {
-            avatarImageView.load(by: urlString) { }
+        if !urlString.isEmpty {
+            avatarImageView.load(by: urlString)
         } else {
             avatarImageView.image = UIImage(named: "defaultAvatar")
         }
@@ -151,6 +151,6 @@ final class PostCell: UITableViewCell {
         ])
         
         photoImageViewHeight = photoImageView.heightAnchor.constraint(equalToConstant: photoImageViewDefaultHeight)
-        photoImageViewHeight.isActive = true
+        photoImageViewHeight?.isActive = true
     }
 }

@@ -87,8 +87,8 @@ final class CommentCell: UITableViewCell {
     
     // FIXME: -
     private func setAvatar(by urlString: String) {
-        if urlString != "" {
-            avatarImageView.load(by: urlString) { }
+        if !urlString.isEmpty {
+            avatarImageView.load(by: urlString)
         } else {
             avatarImageView.image = UIImage(named: "defaultAvatar")
         }

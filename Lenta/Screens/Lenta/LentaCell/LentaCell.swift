@@ -212,7 +212,7 @@ final class LentaCell: UITableViewCell {
         if urlString.isEmpty {
             avatarImageView.image = UIImage(named: "defaultAvatar")
         } else {
-            avatarImageView.load(by: urlString) { }
+            avatarImageView.load(by: urlString)
         }
     }
     

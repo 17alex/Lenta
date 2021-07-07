@@ -13,8 +13,8 @@ extension TimeInterval {
         dateFormatter.locale = Locale(identifier: "en_EN")
         let nowDate = Date()
         let nowDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: nowDate)
-        let startNowDate = Calendar.current.date(from: nowDateComponents)
-        let startNowDateTimeInterval = startNowDate!.timeIntervalSince1970
+        guard let startNowDate = Calendar.current.date(from: nowDateComponents) else { return "" }
+        let startNowDateTimeInterval = startNowDate.timeIntervalSince1970
         var dateString = ""
         let secondsPerDay: Double = 24 * 60 * 60
         dateFormatter.dateFormat = "HH:mm "

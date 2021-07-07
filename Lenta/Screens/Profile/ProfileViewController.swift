@@ -140,7 +140,7 @@ final class ProfileViewController: UIViewController {
             avatarImageView.image = UIImage(named: "avatar")
             avatarImageView.tintColor = Constants.Colors.active
         } else {
-            avatarImageView.load(by: userModel.avatarUrlString) { }
+            avatarImageView.load(by: userModel.avatarUrlString)
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "logout"), style: .plain, target: self, action: #selector(logInOutButtonPress))
     }
