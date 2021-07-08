@@ -127,9 +127,10 @@ final class NewPostViewController: UIViewController {
         if isShowKboard { return }
         isShowKboard = true
         
-        guard let userInfo = notification.userInfo else { return }
-        let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as! Double
-        let kbFrameSize = (userInfo["UIKeyboardFrameEndUserInfoKey"] as! NSValue).cgRectValue
+        guard let userInfo = notification.userInfo,
+              let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as? Double,
+              let kbFrameEndUserInfoKey = userInfo["UIKeyboardFrameEndUserInfoKey"] as? NSValue else { return }
+        let kbFrameSize = (kbFrameEndUserInfoKey).cgRectValue
         let offset = kbFrameSize.height
         
         UIView.animate(withDuration: animDuration) {
@@ -142,8 +143,8 @@ final class NewPostViewController: UIViewController {
         if !isShowKboard { return }
         isShowKboard = false
         
-        guard let userInfo = notification.userInfo else { return }
-        let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as! Double
+        guard let userInfo = notification.userInfo,
+              let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as? Double else { return }
         
         UIView.animate(withDuration: animDuration) {
             self.bottomScrollView?.constant = 0

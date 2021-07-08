@@ -40,6 +40,7 @@ final class LoginViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
+        textField.accessibilityIdentifier = "loginTextField"
         textField.clearButtonMode = .always
         textField.delegate = self
         textField.addTarget(self, action: #selector(valueChangeTextField), for: .editingChanged)
@@ -52,6 +53,7 @@ final class LoginViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
+        textField.accessibilityIdentifier = "passwordTextField"
         textField.clearButtonMode = .always
         textField.isSecureTextEntry = true
         textField.delegate = self
@@ -91,7 +93,7 @@ final class LoginViewController: UIViewController {
         return activityIndicator
     }()
     
-    var presenter: LoginViewOutput!
+    var presenter: LoginViewOutput?
     
     //MARK: - LiveCycles
     
@@ -115,7 +117,7 @@ final class LoginViewController: UIViewController {
     //MARK: - Metods
     
     @objc private func registerButtonPress() {
-        presenter.registerButtonPress()
+        presenter?.registerButtonPress()
     }
     
     @objc private func valueChangeTextField() {
@@ -130,17 +132,17 @@ final class LoginViewController: UIViewController {
         guard let login = loginTextField.text, let password = passwordTextField.text else { return }
         loginButton.isHidden = true
         activityIndicator.startAnimating()
-        presenter.logIn(login: login, password: password)
+        presenter?.logIn(login: login, password: password)
     }
     
     private func enableLoginButton() {
         self.loginButton.isEnabled = true
-        self.loginButton.backgroundColor = Constants.Colors.Buttons.enable
+        self.loginButton.backgroundColor = Constants.Colors.active
     }
     
     private func disableLoginButton() {
         self.loginButton.isEnabled = false
-        self.loginButton.backgroundColor = Constants.Colors.Buttons.disable
+        self.loginButton.backgroundColor = Constants.Colors.deActive
     }
     
     private func setupUI() {

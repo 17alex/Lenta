@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CommentsViewInput: class {
-    func loadingStarted()
+    func showActivityIndicator()
     func loadingEnd()
     func reloadComments()
     func addRow()
@@ -87,10 +87,10 @@ final class CommentsViewController: UIViewController {
         return button
     }()
     
-    private var newCommentTextViewHeight: NSLayoutConstraint!
+    private var newCommentTextViewHeight: NSLayoutConstraint?
     private let newCommentTextViewHeightDefaultConstant: CGFloat = 33
     
-    private var babbleViewBottom: NSLayoutConstraint!
+    private var babbleViewBottom: NSLayoutConstraint?
     private let babbleViewBottomDefaultConstant: CGFloat = -5
     
     private var isShowKboard = false
@@ -139,13 +139,14 @@ final class CommentsViewController: UIViewController {
         if isShowKboard { return }
         isShowKboard = true
         
-        guard let userInfo = notification.userInfo else { return }
-        let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as! Double
-        let kbFrameSize = (userInfo["UIKeyboardFrameEndUserInfoKey"] as! NSValue).cgRectValue
+        guard let userInfo = notification.userInfo,
+              let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as? Double,
+              let kbFrameEndUserInfoKey = userInfo["UIKeyboardFrameEndUserInfoKey"] as? NSValue else { return }
+        let kbFrameSize = (kbFrameEndUserInfoKey).cgRectValue
         let offset = kbFrameSize.height
         
         UIView.animate(withDuration: animDuration) {
-            self.babbleViewBottom.constant = self.babbleViewBottomDefaultConstant - offset
+            self.babbleViewBottom?.constant = self.babbleViewBottomDefaultConstant - offset
             self.view.layoutIfNeeded()
         } completion: { _ in
             let countRow = self.presenter?.commentsViewModel.count ?? 0
@@ -161,11 +162,11 @@ final class CommentsViewController: UIViewController {
         if isShowKboard == false { return }
         isShowKboard = false
         
-        guard let userInfo = notification.userInfo else { return }
-        let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as! Double
+        guard let userInfo = notification.userInfo,
+              let animDuration = userInfo["UIKeyboardAnimationDurationUserInfoKey"] as? Double else { return }
         
         UIView.animate(withDuration: animDuration) {
-            self.babbleViewBottom.constant = self.babbleViewBottomDefaultConstant
+            self.babbleViewBottom?.constant = self.babbleViewBottomDefaultConstant
             self.view.layoutIfNeeded()
         }
     }
@@ -190,7 +191,7 @@ final class CommentsViewController: UIViewController {
         animateActivity(true)
         presenter?.didPressNewCommendSendButton(comment: newComment)
         newCommentTextView.text = ""
-        newCommentTextViewHeight.constant = newCommentTextViewHeightDefaultConstant
+        newCommentTextViewHeight?.constant = newCommentTextViewHeightDefaultConstant
     }
     
     @objc private func closeButtonPress() {
@@ -239,10 +240,10 @@ final class CommentsViewController: UIViewController {
         ])
         
         newCommentTextViewHeight = newCommentTextView.heightAnchor.constraint(equalToConstant: newCommentTextViewHeightDefaultConstant)
-        newCommentTextViewHeight.isActive = true
+        newCommentTextViewHeight?.isActive = true
         
         babbleViewBottom = cardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: babbleViewBottomDefaultConstant)
-        babbleViewBottom.isActive = true
+        babbleViewBottom?.isActive = true
     }
 }
 
@@ -274,7 +275,7 @@ extension CommentsViewController: CommentsViewInput {
         loadActivityIndicator.stopAnimating()
     }
     
-    func loadingStarted() {
+    func showActivityIndicator() {
         loadActivityIndicator.startAnimating()
     }
 }
@@ -321,6 +322,6 @@ extension CommentsViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let size = CGSize(width: newCommentTextView.frame.width, height: .infinity)
         let estimatedSize = newCommentTextView.sizeThatFits(size) //TODO: - max to navBar
-        newCommentTextViewHeight.constant = estimatedSize.height
+        newCommentTextViewHeight?.constant = estimatedSize.height
     }
 }

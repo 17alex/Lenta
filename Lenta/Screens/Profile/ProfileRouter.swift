@@ -13,8 +13,12 @@ protocol ProfileRouterInput {
 
 class ProfileRouter {
     
+    // Propertis
+    
     unowned private let view: UIViewController
     private let assembly: Assembly
+    
+    //Init
     
     init(view: UIViewController, assembly: Assembly) {
         self.view = view

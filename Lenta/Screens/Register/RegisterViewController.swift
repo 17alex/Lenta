@@ -140,14 +140,6 @@ final class RegisterViewController: UIViewController {
         print("RegisterViewController deinit")
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        registerButton.layer.cornerRadius = registerButton.bounds.height / 2 //FIXME: - perenesti
-        avatarButton.layer.cornerRadius = avatarButton.bounds.height / 2
-        avatarButton.clipsToBounds = true
-    }
-    
     //MARK: - Metods
     
     @objc private func addAvatarButtonPress() {
@@ -177,12 +169,12 @@ final class RegisterViewController: UIViewController {
     
     private func enableRegisterButton() {
         self.registerButton.isEnabled = true
-        self.registerButton.backgroundColor = Constants.Colors.Buttons.enable
+        self.registerButton.backgroundColor = Constants.Colors.active
     }
     
     private func disableRegisterButton() {
         self.registerButton.isEnabled = false
-        self.registerButton.backgroundColor = Constants.Colors.Buttons.disable
+        self.registerButton.backgroundColor = Constants.Colors.deActive
     }
         
     private func setupUI() {
@@ -246,6 +238,10 @@ final class RegisterViewController: UIViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: registerButton.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: registerButton.centerYAnchor)
         ])
+        
+        registerButton.layer.cornerRadius = 20
+        avatarButton.layer.cornerRadius = 30
+        avatarButton.clipsToBounds = true
     }
 }
 

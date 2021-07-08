@@ -120,10 +120,11 @@ final class LentaCell: UITableViewCell {
         return button
     }()
     
-    private var postModel: PostViewModel! {
+    private var postModel: PostViewModel? {
         didSet {
-            userNameLabel.text = postModel.user.name
-            setAvatar(by: postModel.user.avatarUrlString)
+            guard let postModel = postModel else { return }
+            userNameLabel.text = postModel.user?.name ?? "NoName"
+            setAvatar(by: postModel.user?.avatarUrlString ?? "")
             timeLabel.text = postModel.time
             descriptionLabel.text = postModel.description.text
             paintLikeButton(isHighlight: postModel.likes.isHighlight)
@@ -147,28 +148,28 @@ final class LentaCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        contentView.frame = .init(x: 0, y: 4, width: contentView.bounds.width, height: postModel.totalHieght - 8)
-        //FIXFE: - Constants
+        guard let postModel = postModel else { return }
+        contentView.frame = CGRect(x: 0, y: 4, width: contentView.bounds.width, height: postModel.totalHieght - 8)
         let cellWidth = contentView.bounds.width
         avatarImageView.frame = CGRect(x: 8, y: 16, width: 60, height: 60)
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
         menuButton.frame = CGRect(x: cellWidth - 65, y: 18, width: 60, height: 60)
         userNameLabel.frame = CGRect(x: 79, y: 23, width: menuButton.frame.minX - 79, height: 24)
         timeLabel.frame = CGRect(x: 87, y: 53, width: menuButton.frame.minX - 87, height: 15)
-        descriptionLabel.frame = .init(x: 8, y: 81, width: cellWidth - 16, height: postModel.description.size.height)
+        descriptionLabel.frame = CGRect(x: 8, y: 81, width: cellWidth - 16, height: postModel.description.size.height)
         let descrMaxY = descriptionLabel.frame.maxY
         photoImageView.frame = CGRect(x: 0, y: descrMaxY + 2, width: cellWidth, height: postModel.photo?.size.height ?? 0)
         photoActivityIndicator.center = photoImageView.center
         let buttonsY = photoImageView.frame.maxY + 2
         let offset: CGFloat = 25
         let space = (cellWidth - 80) / 3
-        likesButton.frame = .init(x: offset, y: buttonsY, width: 30, height: 35)
-        likesCountLabel.frame = .init(x: likesButton.frame.maxX, y: buttonsY, width: 30, height: 35)
-        eyeImageView.frame = .init(x: offset + space, y: buttonsY, width: 30, height: 35)
-        viewsCountLabel.frame = .init(x: eyeImageView.frame.maxX, y: buttonsY, width: 50, height: 35)
-        commentsButton.frame = .init(x: offset + space * 2, y: buttonsY, width: 30, height: 35)
-        commentsCountLabel.frame = .init(x: commentsButton.frame.maxX, y: buttonsY, width: 50, height: 35)
-        shareButton.frame = .init(x: offset + space * 3, y: buttonsY, width: 30, height: 35)
+        likesButton.frame = CGRect(x: offset, y: buttonsY, width: 30, height: 35)
+        likesCountLabel.frame = CGRect(x: likesButton.frame.maxX, y: buttonsY, width: 30, height: 35)
+        eyeImageView.frame = CGRect(x: offset + space, y: buttonsY, width: 30, height: 35)
+        viewsCountLabel.frame = CGRect(x: eyeImageView.frame.maxX, y: buttonsY, width: 50, height: 35)
+        commentsButton.frame = CGRect(x: offset + space * 2, y: buttonsY, width: 30, height: 35)
+        commentsCountLabel.frame = CGRect(x: commentsButton.frame.maxX, y: buttonsY, width: 50, height: 35)
+        shareButton.frame = CGRect(x: offset + space * 3, y: buttonsY, width: 30, height: 35)
     }
            
     //MARK: - PublicMetods
@@ -208,10 +209,10 @@ final class LentaCell: UITableViewCell {
     }
     
     private func setAvatar(by urlString: String) {
-        if urlString != "" {
-            avatarImageView.load(by: urlString) { }
-        } else {
+        if urlString.isEmpty {
             avatarImageView.image = UIImage(named: "defaultAvatar")
+        } else {
+            avatarImageView.load(by: urlString)
         }
     }
     

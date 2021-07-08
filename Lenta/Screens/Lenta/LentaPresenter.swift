@@ -60,7 +60,7 @@ final class LentaPresenter {
 extension LentaPresenter: LentaViewOutput {
     
     func didTapAvatar(by index: Int) {
-        let userViewModel = postsViewModel[index].user
+        guard let userViewModel = postsViewModel[index].user else { return }
         router.showUserInfoModule(user: userViewModel)
     }
     

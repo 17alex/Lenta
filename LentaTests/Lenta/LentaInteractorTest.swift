@@ -19,7 +19,8 @@ final class LentaInteractorTest: XCTestCase {
         networkManager = NetworkManagerMock()
         storeManager = StoreManagerSpy()
         presenter = LentaPresenterSpy()
-        sut = LentaInteractor(presenter: presenter)
+        sut = LentaInteractor()
+        sut.presenter = presenter
         sut.storeManager = storeManager
         sut.networkManager = networkManager
     }

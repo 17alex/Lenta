@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol UserInfoViewInput: AnyObject {
+    func set(user: UserViewModel?)
+}
+
 final class UserInfoViewController: UIViewController {
 
     //MARK: - Propertis
@@ -82,7 +86,7 @@ final class UserInfoViewController: UIViewController {
         return navBar
     }()
     
-    var user: UserViewModel?
+    var presenter: UserInfoViewOutput?
     
     //MARK: - LiveCycles
     
@@ -90,7 +94,7 @@ final class UserInfoViewController: UIViewController {
         super.viewDidLoad()
 
         setupUI()
-        set(user: user)
+        presenter?.viewDidLoad()
     }
     
     override func viewDidLayoutSubviews() {
@@ -102,17 +106,8 @@ final class UserInfoViewController: UIViewController {
     
     //MARK: - Metods
     
-    private func set(user: UserViewModel?) {
-        userNameLabel.text = user?.name
-        userPostCountLabel.text = user?.postsCount
-        userDateRegisterLabel.text = user?.dateRegister
-        if let avatarUrl = user?.avatarUrlString {
-            avatarImageView.load(by: avatarUrl) { }
-        }
-    }
-    
     @objc private func closeButtonPress() {
-        dismiss(animated: true)
+        presenter?.closeButtonPress()
     }
     
     private func setupUI() {
@@ -157,5 +152,19 @@ final class UserInfoViewController: UIViewController {
             userDateRegisterLabel.firstBaselineAnchor.constraint(equalTo: registerLabel.firstBaselineAnchor),
             userDateRegisterLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor)
         ])
+    }
+}
+
+//MARK: - UserInfoViewInput
+
+extension UserInfoViewController: UserInfoViewInput {
+    
+    func set(user: UserViewModel?) {
+        userNameLabel.text = user?.name
+        userPostCountLabel.text = user?.postsCount
+        userDateRegisterLabel.text = user?.dateRegister
+        if let avatarUrl = user?.avatarUrlString {
+            avatarImageView.load(by: avatarUrl)
+        }
     }
 }

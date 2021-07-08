@@ -19,12 +19,11 @@ enum Constants {
         static let register         = "https://monsterok.ru/lenta/register.php"
         static let updatePrifile    = "https://monsterok.ru/lenta/updatePrifile.php"
         static let avatarsPath      = "https://monsterok.ru/lenta/avatars/"
+        static let imagesPath       = "https://monsterok.ru/lenta/images/"
     }
     
     enum Colors {
-        enum Buttons {
-            static let enable = #colorLiteral(red: 0, green: 0.4773686528, blue: 0.8912271857, alpha: 1)
-            static let disable = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        }
+        static let active = #colorLiteral(red: 0, green: 0.4773686528, blue: 0.8912271857, alpha: 1)
+        static let deActive = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
     }
 }

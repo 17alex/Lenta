@@ -21,7 +21,7 @@ final class ProfileViewController: UIViewController {
         let imageView = WebImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "avatar")
-        imageView.tintColor = #colorLiteral(red: 0.01894661598, green: 0.5350132585, blue: 1, alpha: 1)
+        imageView.tintColor = Constants.Colors.active
         imageView.isUserInteractionEnabled = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -29,7 +29,7 @@ final class ProfileViewController: UIViewController {
     
     private let textNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Name"
+        label.text = "Name:"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 17, weight: .thin)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +40,7 @@ final class ProfileViewController: UIViewController {
         let textField = UITextField()
         textField.text = "----"
         textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        textField.textColor = #colorLiteral(red: 0.01894661598, green: 0.5350132585, blue: 1, alpha: 1)
+        textField.textColor = Constants.Colors.active
         textField.addTarget(self, action: #selector(nameTextChange), for: .editingChanged)
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -87,7 +87,7 @@ final class ProfileViewController: UIViewController {
     lazy private var imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(chooseImage))
     lazy private var tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKeyboard))
     
-    var presenter: ProfileViewOutput!
+    var presenter: ProfileViewOutput?
     
     var currentUserModel: UserViewModel? {
         didSet {
@@ -115,37 +115,32 @@ final class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        presenter.start()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
-        avatarImageView.clipsToBounds = true //FiXME: - move to up
+        presenter?.start()
     }
     
     //MARK: - Metods
     
     @objc private func logInOutButtonPress() {
-        presenter.logInOutButtonPress()
+        presenter?.logInOutButtonPress()
     }
     
     @objc private func nameTextChange() {
-        presenter.change(name: nameTextField.text!)
+        guard let name = nameTextField.text else { return }
+        presenter?.change(name: name)
     }
     
     private func showUserInfo(userModel: UserViewModel) {
         nameTextField.isEnabled = true
         avatarImageView.isUserInteractionEnabled = true
         nameTextField.text = userModel.name
+        nameTextField.textColor = Constants.Colors.active
         postsCountLabel.text = userModel.postsCount
         dateRegisterLabel.text = userModel.dateRegister
         if userModel.avatarUrlString.isEmpty {
             avatarImageView.image = UIImage(named: "avatar")
-            avatarImageView.tintColor = #colorLiteral(red: 0, green: 0.5138283968, blue: 1, alpha: 1)
+            avatarImageView.tintColor = Constants.Colors.active
         } else {
-            avatarImageView.load(by: userModel.avatarUrlString) { }
+            avatarImageView.load(by: userModel.avatarUrlString)
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "logout"), style: .plain, target: self, action: #selector(logInOutButtonPress))
     }
@@ -154,11 +149,26 @@ final class ProfileViewController: UIViewController {
         nameTextField.isEnabled = false
         avatarImageView.isUserInteractionEnabled = false
         avatarImageView.image = UIImage(named: "avatar")
-        avatarImageView.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        nameTextField.text = ""
+        avatarImageView.tintColor = Constants.Colors.deActive
+        nameTextField.textColor = Constants.Colors.deActive
+        nameTextField.text = "----"
         postsCountLabel.text = "--"
         dateRegisterLabel.text = "--.--.----"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "login"), style: .plain, target: self, action: #selector(logInOutButtonPress))
+    }
+    
+    @objc private func saveButtonPress() {
+        guard let name = nameTextField.text else { return }
+        nameTextField.resignFirstResponder()
+        presenter?.saveButtonPress(name: name, image: avatarImageView.image)
+    }
+    
+    @objc private func heidKeyboard() {
+        nameTextField.resignFirstResponder()
+    }
+    
+    @objc private func chooseImage() {
+        imagePicker.chooseImage()
     }
     
     private func setupUI() {
@@ -204,19 +214,9 @@ final class ProfileViewController: UIViewController {
             dateRegisterLabel.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
             dateRegisterLabel.firstBaselineAnchor.constraint(equalTo: textDateLabel.firstBaselineAnchor)
         ])
-    }
-    
-    @objc private func saveButtonPress() {
-        nameTextField.resignFirstResponder()
-        presenter.saveButtonPress(name: nameTextField.text!, image: avatarImageView.image)
-    }
-    
-    @objc private func heidKeyboard() {
-        nameTextField.resignFirstResponder()
-    }
-    
-    @objc private func chooseImage() {
-        imagePicker.chooseImage()
+        
+        avatarImageView.layer.cornerRadius = 50
+        avatarImageView.clipsToBounds = true
     }
 }
 
@@ -246,6 +246,6 @@ extension ProfileViewController: ImagePickerDelegate {
     
     func selectImage(_ image: UIImage) {
         self.avatarImageView.image = image
-        presenter.didSelectNewAvatar()
+        presenter?.didSelectNewAvatar()
     }
 }

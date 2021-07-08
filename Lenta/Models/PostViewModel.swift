@@ -8,31 +8,18 @@
 import UIKit
 
 struct UserViewModel {
-//    let id: Int16
     let name: String
     let avatarUrlString: String
     let postsCount: String
     let dateRegister: String
     
-    init(user: User?) {
-        if let user = user {
-            //        self.id = user.id
-            name = user.name
-            avatarUrlString = user.avatar.isEmpty ? "" : Constants.URLs.avatarsPath + user.avatar
-            postsCount = String(user.postsCount)
-            dateRegister = user.dateRegister.toDateString()
-        } else {
-            name = "NoName"
-            avatarUrlString = ""
-            postsCount = "--"
-            dateRegister = "--/--/----"
-        }
+    init?(user: User?) {
+        guard let user = user else { return nil }
+        name = user.name
+        avatarUrlString = user.avatar.isEmpty ? "" : Constants.URLs.avatarsPath + user.avatar
+        postsCount = String(user.postsCount)
+        dateRegister = user.dateRegister.toDateString()
     }
-    
-//    init?(user: User?) {
-//        guard let unwrapUser = user else { return nil }
-//        self.init(user: unwrapUser)
-//    }
 }
 
 struct PhotoViewModel {
@@ -43,7 +30,7 @@ struct PhotoViewModel {
 struct PostViewModel {
     let id: Int16
     let time: String
-    let user: UserViewModel
+    let user: UserViewModel?
     var description: DescriptionViewModel
     var photo: PhotoViewModel?
     var likes: LikesViewModel
@@ -54,7 +41,6 @@ struct PostViewModel {
     struct DescriptionViewModel {
         let text: String
         var size: CGSize
-//        var isExpand: Bool = false
     }
 
     struct LikesViewModel {
@@ -79,8 +65,8 @@ struct PostViewModel {
         
         var photoHeight: CGFloat = 0
         if let postPhoto = post.photo, !postPhoto.name.isEmpty {
-            let postPhotoUrlSting = "https://monsterok.ru/lenta/images/" + postPhoto.name
-            photoHeight = CGFloat(postPhoto.size.height) / CGFloat(postPhoto.size.width) * UIScreen.main.bounds.width //FIXME: - del UIScreen
+            let postPhotoUrlSting = Constants.URLs.imagesPath + postPhoto.name
+            photoHeight = CGFloat(postPhoto.size.height) / CGFloat(postPhoto.size.width) * UIScreen.main.bounds.width
             self.photo = PhotoViewModel(
                 urlString: postPhotoUrlSting,
                 size: CGSize(
@@ -96,15 +82,18 @@ struct PostViewModel {
         
         self.views = ViewsViewModel(count: String(post.viewsCount))
         self.comments = CommentsViewModel(count: String(post.commentsCount))
-        //FIXME: - height descrip = 0
-        let textSize = CGSize(width: UIScreen.main.bounds.width - 16, height: .greatestFiniteMagnitude) //FIXME: - UIScreen delete
+        
+        let textSize = CGSize(width: UIScreen.main.bounds.width - 16, height: .greatestFiniteMagnitude)
         let rect = post.description.boundingRect(with: textSize,
                                      options: .usesLineFragmentOrigin,
                                      attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15)],
                                      context: nil)
         self.description.size = CGSize(width: rect.width, height: rect.height)
         
-        self.totalHieght = 81 + description.size.height + 2 + photoHeight + 40 + 4
+        let postHeaderHeight: CGFloat = 81
+        let spaceHeight: CGFloat = 2
+        let postFooter: CGFloat = 40
+        self.totalHieght = postHeaderHeight + description.size.height + spaceHeight + photoHeight + postFooter + spaceHeight * 2
     }
     
     mutating func update(with post: Post) {

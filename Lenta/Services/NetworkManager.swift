@@ -143,7 +143,7 @@ extension NetworkManager: NetworkManagerProtocol {
             
 //            self.typeDebug(data: data)
             
-            if let _ = error { //FIXME: - вынести в метод
+            if let _ = error {
                 self.onMain { complete(.failure(.network)) }
             } else if let data = data {
                 do {
@@ -211,7 +211,6 @@ extension NetworkManager: NetworkManagerProtocol {
         }
     }
     
-    //FIXME: - user.php
     func updateProfile(id: Int16, name: String, avatar: UIImage?, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
         
         let urlString = Constants.URLs.updatePrifile
@@ -228,8 +227,6 @@ extension NetworkManager: NetworkManagerProtocol {
         var parameters: [String: String] = [:]
         parameters["id"] = String(id)
         parameters["name"] = name
-//        parameters["login"] = login
-//        parameters["password"] = password
         
         for (key, value) in parameters {
             body.append(Data("--\(boundary)\r\n".utf8))
@@ -237,14 +234,13 @@ extension NetworkManager: NetworkManagerProtocol {
             body.append(Data("\(value)\r\n".utf8))
         }
         
-        if let image = avatar {
+        if let image = avatar, let imageData = image.jpegData(compressionQuality: 0.25) {
             let filename = String(Int(Date().timeIntervalSince1970)) + ".jpg"
             let mimetype = "image/jpg"
-            let imageData = image.jpegData(compressionQuality: 0.25)
             body.append(Data("--\(boundary)\r\n".utf8))
             body.append(Data("Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n".utf8))
             body.append(Data("Content-Type: \(mimetype)\r\n\r\n".utf8))
-            body.append(imageData!)
+            body.append(imageData)
             body.append(Data("\r\n".utf8))
             body.append(Data("--\(boundary)--\r\n".utf8))
         }
@@ -319,14 +315,13 @@ extension NetworkManager: NetworkManagerProtocol {
             body.append(Data("\(value)\r\n".utf8))
         }
         
-        if let image = avatar {
+        if let image = avatar, let imageData = image.jpegData(compressionQuality: 0.25) {
             let filename = String(Int(Date().timeIntervalSince1970)) + ".jpg"
             let mimetype = "image/jpg"
-            let imageData = image.jpegData(compressionQuality: 0.25)
             body.append(Data("--\(boundary)\r\n".utf8))
             body.append(Data("Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n".utf8))
             body.append(Data("Content-Type: \(mimetype)\r\n\r\n".utf8))
-            body.append(imageData!)
+            body.append(imageData)
             body.append(Data("\r\n".utf8))
             body.append(Data("--\(boundary)--\r\n".utf8))
         }
@@ -374,14 +369,13 @@ extension NetworkManager: NetworkManagerProtocol {
             body.append(Data("\(value)\r\n".utf8))
         }
         
-        if let image = post.image {
+        if let image = post.image, let imageData = image.jpegData(compressionQuality: 0.25) {
             let filename = String(Int(Date().timeIntervalSince1970)) + ".jpg"
             let mimetype = "image/jpg"
-            let imageData = image.jpegData(compressionQuality: 0.25)
             body.append(Data("--\(boundary)\r\n".utf8))
             body.append(Data("Content-Disposition: form-data; name=\"\(filePathKey)\"; filename=\"\(filename)\"\r\n".utf8))
             body.append(Data("Content-Type: \(mimetype)\r\n\r\n".utf8))
-            body.append(imageData!)
+            body.append(imageData)
             body.append(Data("\r\n".utf8))
             body.append(Data("--\(boundary)--\r\n".utf8))
         }

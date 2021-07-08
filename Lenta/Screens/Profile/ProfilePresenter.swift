@@ -15,57 +15,33 @@ protocol ProfileViewOutput {
     func saveButtonPress(name: String, image: UIImage?)
 }
 
+protocol ProfileInteractorOutput: AnyObject {
+    func saveProfileFailed(serviceError: NetworkServiceError)
+    func saveProfileSuccess()
+    func saveProfileError()
+    func currentUser(currentUser: User?)
+    func changeProfile(_ change: Bool)
+    func toLogin()
+}
+
 final class ProfilePresenter {
     
     //MARK: - Propertis
     
     unowned private let view: ProfileViewInput
-    var storeManager: StoreManagerProtocol!
-    var networkManager: NetworkManagerProtocol!
-    var router: ProfileRouterInput!
-    
-    var currentUser: User? {
-        didSet {
-            if let user = currentUser {
-                newName = user.name
-            } else {
-                newName = ""
-            }
-        }
-    }
-    
-    var isSetNewAvatar = false {
-        didSet {
-            changeProfile()
-        }
-    }
-    
-    var newName = "" {
-        didSet {
-            changeProfile()
-        }
-    }
+    private let interactor: ProfileInteractorInput
+    var router: ProfileRouterInput?
     
     //MARK: - Init
     
-    init(view: ProfileViewInput) {
+    init(view: ProfileViewInput, interactor: ProfileInteractorInput) {
         self.view = view
+        self.interactor = interactor
         print("ProfilePresenter init")
     }
     
     deinit {
         print("ProfilePresenter deinit")
-    }
-    
-    //MARK: - Metods
-    
-    private func changeProfile() {
-        guard let currUser = currentUser  else { view.didChangeProfile(false); return }
-        if !newName.isEmpty && (newName != currUser.name || isSetNewAvatar) {
-            view.didChangeProfile(true)
-        } else {
-            view.didChangeProfile(false)
-        }
     }
 }
 
@@ -74,49 +50,51 @@ final class ProfilePresenter {
 extension ProfilePresenter: ProfileViewOutput {
     
     func saveButtonPress(name: String, image: UIImage?) {
-        var avatarImage: UIImage?
-        if isSetNewAvatar {
-            avatarImage = image
-        }
-        
-        guard let currUser = currentUser else { return }
-        networkManager.updateProfile(id: currUser.id, name: name, avatar: avatarImage) { (result) in //FIXME: - weak self
-            switch result {
-            case .failure(let error):
-                self.view.showMessage(error.localizedDescription)
-            case .success(let users):
-                if let user = users.first {
-                    self.currentUser = user
-                    self.storeManager.save(user: self.currentUser)
-                    self.view.showMessage("update successfull")
-                    self.isSetNewAvatar = false
-                } else {
-                    self.view.showMessage("error update")
-                }
-            }
-        }
+        interactor.saveProfile(name: name, image: image)
     }
     
     func logInOutButtonPress() {
-        if currentUser == nil {
-            router.loginUser()
-        } else {
-            currentUser = nil
-            storeManager.save(user: currentUser)
-            view.userLoginned(UserViewModel(user: currentUser))
-        }
+        interactor.logInOutButtonPress()
     }
     
     func didSelectNewAvatar() {
-        isSetNewAvatar = true
+        interactor.didSelectNewAvatar()
     }
     
     func change(name: String) {
-        self.newName = name
+        interactor.change(name: name)
     }
     
     func start() {
-        currentUser = storeManager.getCurrenUser()
+        interactor.start()
+    }
+}
+
+//MARK: - ProfileInteractorOutput
+
+extension ProfilePresenter: ProfileInteractorOutput {
+    
+    func saveProfileFailed(serviceError: NetworkServiceError) {
+        view.showMessage(serviceError.rawValue)
+    }
+    
+    func saveProfileSuccess() {
+        view.showMessage("update successfull")
+    }
+    
+    func saveProfileError() {
+        view.showMessage("error update")
+    }
+    
+    func currentUser(currentUser: User?) {
         view.userLoginned(UserViewModel(user: currentUser))
+    }
+    
+    func changeProfile(_ change: Bool) {
+        view.didChangeProfile(change)
+    }
+    
+    func toLogin() {
+        router?.loginUser()
     }
 }

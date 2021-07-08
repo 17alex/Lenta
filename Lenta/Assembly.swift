@@ -9,12 +9,22 @@ import UIKit
 
 class Assembly {
     
+    //MARK: - Propertis
+    
     let networkManager = NetworkManager()
     let storeManager = StoreManager()
     
-    init() { print("Assembly init") }
+    //MARK: - Init
     
-    deinit { print("Assembly deinit") }
+    init() {
+        print("Assembly init")
+    }
+    
+    deinit {
+        print("Assembly deinit")
+    }
+    
+    //MARK: - Metods
     
     func startController() -> UIViewController {
         return getTabBarController()
@@ -32,23 +42,26 @@ class Assembly {
         profile.tabBarItem.image = UIImage(systemName: "person")
         
         tbController.viewControllers = [lenta, profile]
-        
         return tbController
     }
     
     func getUserInfoModule(user: UserViewModel) -> UIViewController {
         let view = UserInfoViewController()
-        view.user = user
+        let router = UserInfoRouter(view: view, assembly: self)
+        let presenter = UserInfoPresenter(view: view, router: router, user: user)
+        view.presenter = presenter
         return view
     }
     
     func getProfileModule() -> UIViewController {
         let view = ProfileViewController()
-        let presenter = ProfilePresenter(view: view)
         let router = ProfileRouter(view: view, assembly: self)
+        let interactor = ProfileInteractor()
+        let presenter = ProfilePresenter(view: view, interactor: interactor)
         presenter.router = router
-        presenter.networkManager = networkManager
-        presenter.storeManager = storeManager
+        interactor.presenter = presenter
+        interactor.networkManager = networkManager
+        interactor.storeManager = storeManager
         view.presenter = presenter
         return view
     }
@@ -93,11 +106,13 @@ class Assembly {
     
     func getNewPostModule(callback: @escaping (Response) -> Void) -> UIViewController {
         let view = NewPostViewController()
-        let presenter = NewPostPresenter(view: view, callback: callback)
         let router = NewPostRouter(view: view, assembly: self)
+        let interactor = NewPostInteractor()
+        let presenter = NewPostPresenter(view: view, interactor: interactor, callback: callback)
         view.presenter = presenter
-        presenter.storeManager = storeManager
-        presenter.networkManager = networkManager
+        interactor.presenter = presenter
+        interactor.storeManager = storeManager
+        interactor.networkManager = networkManager
         presenter.router = router
         return view
     }

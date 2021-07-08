@@ -63,7 +63,7 @@ final class CommentsPresenter {
     
     private func getCommentViewModel(comment: Comment) -> CommentViewModel? {
         let user = interactor.users.first(where: {$0.id == comment.userId})
-        return CommentViewModel(comment: comment, user: user!)
+        return CommentViewModel(comment: comment, user: user)
     }
 }
 
@@ -80,7 +80,7 @@ extension CommentsPresenter: CommentsViewOutput {
     }
     
     func viewDidLoad() {
-        view.loadingStarted()
+        view.showActivityIndicator()
         interactor.loadComments(by: postId)
     }
 }

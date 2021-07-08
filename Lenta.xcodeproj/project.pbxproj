@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D074B16269710E5002F7F24 /* LentaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D074B15269710E5002F7F24 /* LentaUITests.swift */; };
 		8D23221126904B2B00AE435C /* RegisterInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D23221026904B2B00AE435C /* RegisterInteractorTest.swift */; };
 		8D2322172690522600AE435C /* NetworkManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2322162690522600AE435C /* NetworkManagerMock.swift */; };
 		8D23221D269053C000AE435C /* StoreManagerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D23221C269053C000AE435C /* StoreManagerSpy.swift */; };
@@ -17,6 +18,10 @@
 		8D54C7C026847C970088D4BE /* LoginInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7BF26847C970088D4BE /* LoginInteractorTest.swift */; };
 		8D54C7D3268750420088D4BE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7D2268750420088D4BE /* Constants.swift */; };
 		8D54C7D9268754E80088D4BE /* Lenta.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7D7268754E80088D4BE /* Lenta.xcdatamodeld */; };
+		8DF298CE2694485D00D20746 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298CD2694485D00D20746 /* NewPostInteractor.swift */; };
+		8DF298D22694687B00D20746 /* ProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298D12694687B00D20746 /* ProfileInteractor.swift */; };
+		8DF298D626947FCD00D20746 /* UserInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298D526947FCD00D20746 /* UserInfoPresenter.swift */; };
+		8DF298DA269482B300D20746 /* UserInfoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298D9269482B300D20746 /* UserInfoRouter.swift */; };
 		8DF356C926888CBD007E02D8 /* MOLike+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C126888CBC007E02D8 /* MOLike+CoreDataClass.swift */; };
 		8DF356CA26888CBD007E02D8 /* MOLike+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C226888CBC007E02D8 /* MOLike+CoreDataProperties.swift */; };
 		8DF356CB26888CBD007E02D8 /* MOPost+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C326888CBC007E02D8 /* MOPost+CoreDataClass.swift */; };
@@ -67,6 +72,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8D074B18269710E6002F7F24 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA8DAD3625AC24E600E9D1B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA8DAD3D25AC24E600E9D1B7;
+			remoteInfo = Lenta;
+		};
 		8D54C741268378610088D4BE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FA8DAD3625AC24E600E9D1B7 /* Project object */;
@@ -77,6 +89,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D074B13269710E5002F7F24 /* LentaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LentaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D074B15269710E5002F7F24 /* LentaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaUITests.swift; sourceTree = "<group>"; };
+		8D074B17269710E6002F7F24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D23221026904B2B00AE435C /* RegisterInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInteractorTest.swift; sourceTree = "<group>"; };
 		8D2322162690522600AE435C /* NetworkManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerMock.swift; sourceTree = "<group>"; };
 		8D23221C269053C000AE435C /* StoreManagerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManagerSpy.swift; sourceTree = "<group>"; };
@@ -89,6 +104,10 @@
 		8D54C7BF26847C970088D4BE /* LoginInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractorTest.swift; sourceTree = "<group>"; };
 		8D54C7D2268750420088D4BE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8D54C7D8268754E80088D4BE /* Lenta.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Lenta.xcdatamodel; sourceTree = "<group>"; };
+		8DF298CD2694485D00D20746 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
+		8DF298D12694687B00D20746 /* ProfileInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInteractor.swift; sourceTree = "<group>"; };
+		8DF298D526947FCD00D20746 /* UserInfoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoPresenter.swift; sourceTree = "<group>"; };
+		8DF298D9269482B300D20746 /* UserInfoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoRouter.swift; sourceTree = "<group>"; };
 		8DF356C126888CBC007E02D8 /* MOLike+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MOLike+CoreDataClass.swift"; sourceTree = "<group>"; };
 		8DF356C226888CBC007E02D8 /* MOLike+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MOLike+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8DF356C326888CBC007E02D8 /* MOPost+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MOPost+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -141,6 +160,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8D074B10269710E5002F7F24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D54C739268378610088D4BE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -158,6 +184,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D074B14269710E5002F7F24 /* LentaUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8D074B15269710E5002F7F24 /* LentaUITests.swift */,
+				8D074B17269710E6002F7F24 /* Info.plist */,
+			);
+			path = LentaUITests;
+			sourceTree = "<group>";
+		};
 		8D23220F26904ADC00AE435C /* Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +233,14 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		8D8B58F92696F5A40032E6AB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FA39E5A425F7B15E00F274FF /* WebImageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		8DF356D92688C01C007E02D8 /* Store */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,6 +279,7 @@
 			children = (
 				FA26A90025B0290900D2B806 /* NewPostViewController.swift */,
 				FA26A90525B029B000D2B806 /* NewPostPresenter.swift */,
+				8DF298CD2694485D00D20746 /* NewPostInteractor.swift */,
 				FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */,
 			);
 			path = NewPost;
@@ -333,6 +377,7 @@
 			children = (
 				FA8DAD4025AC24E600E9D1B7 /* Lenta */,
 				8D54C73D268378610088D4BE /* LentaTests */,
+				8D074B14269710E5002F7F24 /* LentaUITests */,
 				FA8DAD3F25AC24E600E9D1B7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -342,6 +387,7 @@
 			children = (
 				FA8DAD3E25AC24E600E9D1B7 /* Lenta.app */,
 				8D54C73C268378610088D4BE /* LentaTests.xctest */,
+				8D074B13269710E5002F7F24 /* LentaUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -350,9 +396,9 @@
 			isa = PBXGroup;
 			children = (
 				FAC2073425AC616900CD9099 /* Assembly.swift */,
-				FA39E5A425F7B15E00F274FF /* WebImageView.swift */,
 				FA39ECD525C02D7800C52D1E /* Models */,
 				FA33EDE025AC899A00637E3E /* Screens */,
+				8D8B58F92696F5A40032E6AB /* Views */,
 				FA1BB71E25DA5673008F56B9 /* Extensions */,
 				FA33EDE125AC8A1000637E3E /* Services */,
 				FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */,
@@ -380,6 +426,7 @@
 			children = (
 				FA9BFF3925C17A0D00ACA85F /* ProfileViewController.swift */,
 				FA9BFF3F25C17F4500ACA85F /* ProfilePresenter.swift */,
+				8DF298D12694687B00D20746 /* ProfileInteractor.swift */,
 				FA9BFF4225C1825300ACA85F /* ProfileRouter.swift */,
 			);
 			path = Profile;
@@ -397,6 +444,8 @@
 			isa = PBXGroup;
 			children = (
 				FAF49F44260CA71C00199779 /* UserInfoViewController.swift */,
+				8DF298D526947FCD00D20746 /* UserInfoPresenter.swift */,
+				8DF298D9269482B300D20746 /* UserInfoRouter.swift */,
 			);
 			path = UserInfo;
 			sourceTree = "<group>";
@@ -404,6 +453,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8D074B12269710E5002F7F24 /* LentaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8D074B1A269710E6002F7F24 /* Build configuration list for PBXNativeTarget "LentaUITests" */;
+			buildPhases = (
+				8D074B0F269710E5002F7F24 /* Sources */,
+				8D074B10269710E5002F7F24 /* Frameworks */,
+				8D074B11269710E5002F7F24 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8D074B19269710E6002F7F24 /* PBXTargetDependency */,
+			);
+			name = LentaUITests;
+			productName = LentaUITests;
+			productReference = 8D074B13269710E5002F7F24 /* LentaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		8D54C73B268378610088D4BE /* LentaTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D54C745268378610088D4BE /* Build configuration list for PBXNativeTarget "LentaTests" */;
@@ -450,6 +517,10 @@
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
+					8D074B12269710E5002F7F24 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = FA8DAD3D25AC24E600E9D1B7;
+					};
 					8D54C73B268378610088D4BE = {
 						CreatedOnToolsVersion = 12.4;
 						TestTargetID = FA8DAD3D25AC24E600E9D1B7;
@@ -476,11 +547,19 @@
 			targets = (
 				FA8DAD3D25AC24E600E9D1B7 /* Lenta */,
 				8D54C73B268378610088D4BE /* LentaTests */,
+				8D074B12269710E5002F7F24 /* LentaUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8D074B11269710E5002F7F24 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D54C73A268378610088D4BE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -500,6 +579,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8D074B0F269710E5002F7F24 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D074B16269710E5002F7F24 /* LentaUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D54C738268378610088D4BE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -532,6 +619,7 @@
 				FA7DD40225B7006500CB1678 /* RegisterRouter.swift in Sources */,
 				FA2B46A325B5BD3200DC5C1D /* LoginViewController.swift in Sources */,
 				8DF356CD26888CBD007E02D8 /* MOUser+CoreDataClass.swift in Sources */,
+				8DF298CE2694485D00D20746 /* NewPostInteractor.swift in Sources */,
 				FA2B46A825B5BDBE00DC5C1D /* LoginPresenter.swift in Sources */,
 				FA396F5B25F8EBF9009B79F5 /* CommentsPresenter.swift in Sources */,
 				FA396F6325F8F435009B79F5 /* CommentsInteractor.swift in Sources */,
@@ -545,9 +633,11 @@
 				FAC2073225AC5FE300CD9099 /* Response.swift in Sources */,
 				8DF356D026888CBD007E02D8 /* MOPhoto+CoreDataProperties.swift in Sources */,
 				8DF356CB26888CBD007E02D8 /* MOPost+CoreDataClass.swift in Sources */,
+				8DF298D22694687B00D20746 /* ProfileInteractor.swift in Sources */,
 				FA7DD3FD25B6F8F600CB1678 /* RegisterViewController.swift in Sources */,
 				8DF356CE26888CBD007E02D8 /* MOUser+CoreDataProperties.swift in Sources */,
 				FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */,
+				8DF298D626947FCD00D20746 /* UserInfoPresenter.swift in Sources */,
 				8D54C7D9268754E80088D4BE /* Lenta.xcdatamodeld in Sources */,
 				FA8A308425FA448C00A02751 /* PostCell.swift in Sources */,
 				FA396F6E25F8FF5E009B79F5 /* CommentCell.swift in Sources */,
@@ -560,6 +650,7 @@
 				FA9BFF4025C17F4500ACA85F /* ProfilePresenter.swift in Sources */,
 				FA2B469C25B5706400DC5C1D /* StoreManager.swift in Sources */,
 				8DF356C926888CBD007E02D8 /* MOLike+CoreDataClass.swift in Sources */,
+				8DF298DA269482B300D20746 /* UserInfoRouter.swift in Sources */,
 				FA396F5F25F8F230009B79F5 /* CommentsViewController.swift in Sources */,
 				FA7DD40825B71F3600CB1678 /* RegisterInteractor.swift in Sources */,
 				FAC2073B25AC61B200CD9099 /* LentaInteractor.swift in Sources */,
@@ -572,6 +663,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8D074B19269710E6002F7F24 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA8DAD3D25AC24E600E9D1B7 /* Lenta */;
+			targetProxy = 8D074B18269710E6002F7F24 /* PBXContainerItemProxy */;
+		};
 		8D54C742268378610088D4BE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FA8DAD3D25AC24E600E9D1B7 /* Lenta */;
@@ -591,6 +687,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8D074B1B269710E6002F7F24 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = LentaUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = home.LentaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Lenta;
+			};
+			name = Debug;
+		};
+		8D074B1C269710E6002F7F24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = LentaUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = home.LentaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Lenta;
+			};
+			name = Release;
+		};
 		8D54C743268378610088D4BE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -794,6 +928,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8D074B1A269710E6002F7F24 /* Build configuration list for PBXNativeTarget "LentaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D074B1B269710E6002F7F24 /* Debug */,
+				8D074B1C269710E6002F7F24 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8D54C745268378610088D4BE /* Build configuration list for PBXNativeTarget "LentaTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

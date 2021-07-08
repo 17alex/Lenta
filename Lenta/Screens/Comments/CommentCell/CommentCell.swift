@@ -49,17 +49,18 @@ final class CommentCell: UITableViewCell {
         return label
     }()
     
-    private var commentModel: CommentViewModel! {
+    private var commentModel: CommentViewModel? {
         didSet {
-            userNameLabel.text = commentModel.user.name
+            guard let commentModel = commentModel else { return }
+            userNameLabel.text = commentModel.user?.name ?? "NoName"
             dateLabel.text = commentModel.time
             commentLabel.text = commentModel.text
-            setAvatar(by: commentModel.user.avatarUrlString)
+            setAvatar(by: commentModel.user?.avatarUrlString ?? "")
         }
     }
     
     //MARK: - Init
-    //FIXME: - metod Constrains
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -84,10 +85,9 @@ final class CommentCell: UITableViewCell {
         self.commentModel = commentModel
     }
     
-    // FIXME: -
     private func setAvatar(by urlString: String) {
-        if urlString != "" {
-            avatarImageView.load(by: urlString) { }
+        if !urlString.isEmpty {
+            avatarImageView.load(by: urlString)
         } else {
             avatarImageView.image = UIImage(named: "defaultAvatar")
         }
