@@ -40,6 +40,7 @@ final class LoginViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
+        textField.accessibilityIdentifier = "loginTextField"
         textField.clearButtonMode = .always
         textField.delegate = self
         textField.addTarget(self, action: #selector(valueChangeTextField), for: .editingChanged)
@@ -52,6 +53,7 @@ final class LoginViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
+        textField.accessibilityIdentifier = "passwordTextField"
         textField.clearButtonMode = .always
         textField.isSecureTextEntry = true
         textField.delegate = self

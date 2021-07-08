@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D074B16269710E5002F7F24 /* LentaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D074B15269710E5002F7F24 /* LentaUITests.swift */; };
 		8D23221126904B2B00AE435C /* RegisterInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D23221026904B2B00AE435C /* RegisterInteractorTest.swift */; };
 		8D2322172690522600AE435C /* NetworkManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2322162690522600AE435C /* NetworkManagerMock.swift */; };
 		8D23221D269053C000AE435C /* StoreManagerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D23221C269053C000AE435C /* StoreManagerSpy.swift */; };
@@ -71,6 +72,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8D074B18269710E6002F7F24 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA8DAD3625AC24E600E9D1B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA8DAD3D25AC24E600E9D1B7;
+			remoteInfo = Lenta;
+		};
 		8D54C741268378610088D4BE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FA8DAD3625AC24E600E9D1B7 /* Project object */;
@@ -81,6 +89,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D074B13269710E5002F7F24 /* LentaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LentaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D074B15269710E5002F7F24 /* LentaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaUITests.swift; sourceTree = "<group>"; };
+		8D074B17269710E6002F7F24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D23221026904B2B00AE435C /* RegisterInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterInteractorTest.swift; sourceTree = "<group>"; };
 		8D2322162690522600AE435C /* NetworkManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerMock.swift; sourceTree = "<group>"; };
 		8D23221C269053C000AE435C /* StoreManagerSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManagerSpy.swift; sourceTree = "<group>"; };
@@ -149,6 +160,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8D074B10269710E5002F7F24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D54C739268378610088D4BE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -166,6 +184,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D074B14269710E5002F7F24 /* LentaUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8D074B15269710E5002F7F24 /* LentaUITests.swift */,
+				8D074B17269710E6002F7F24 /* Info.plist */,
+			);
+			path = LentaUITests;
+			sourceTree = "<group>";
+		};
 		8D23220F26904ADC00AE435C /* Register */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +377,7 @@
 			children = (
 				FA8DAD4025AC24E600E9D1B7 /* Lenta */,
 				8D54C73D268378610088D4BE /* LentaTests */,
+				8D074B14269710E5002F7F24 /* LentaUITests */,
 				FA8DAD3F25AC24E600E9D1B7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -359,6 +387,7 @@
 			children = (
 				FA8DAD3E25AC24E600E9D1B7 /* Lenta.app */,
 				8D54C73C268378610088D4BE /* LentaTests.xctest */,
+				8D074B13269710E5002F7F24 /* LentaUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -424,6 +453,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8D074B12269710E5002F7F24 /* LentaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8D074B1A269710E6002F7F24 /* Build configuration list for PBXNativeTarget "LentaUITests" */;
+			buildPhases = (
+				8D074B0F269710E5002F7F24 /* Sources */,
+				8D074B10269710E5002F7F24 /* Frameworks */,
+				8D074B11269710E5002F7F24 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8D074B19269710E6002F7F24 /* PBXTargetDependency */,
+			);
+			name = LentaUITests;
+			productName = LentaUITests;
+			productReference = 8D074B13269710E5002F7F24 /* LentaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		8D54C73B268378610088D4BE /* LentaTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D54C745268378610088D4BE /* Build configuration list for PBXNativeTarget "LentaTests" */;
@@ -470,6 +517,10 @@
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
+					8D074B12269710E5002F7F24 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = FA8DAD3D25AC24E600E9D1B7;
+					};
 					8D54C73B268378610088D4BE = {
 						CreatedOnToolsVersion = 12.4;
 						TestTargetID = FA8DAD3D25AC24E600E9D1B7;
@@ -496,11 +547,19 @@
 			targets = (
 				FA8DAD3D25AC24E600E9D1B7 /* Lenta */,
 				8D54C73B268378610088D4BE /* LentaTests */,
+				8D074B12269710E5002F7F24 /* LentaUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8D074B11269710E5002F7F24 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D54C73A268378610088D4BE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -520,6 +579,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8D074B0F269710E5002F7F24 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D074B16269710E5002F7F24 /* LentaUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D54C738268378610088D4BE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -596,6 +663,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8D074B19269710E6002F7F24 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA8DAD3D25AC24E600E9D1B7 /* Lenta */;
+			targetProxy = 8D074B18269710E6002F7F24 /* PBXContainerItemProxy */;
+		};
 		8D54C742268378610088D4BE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FA8DAD3D25AC24E600E9D1B7 /* Lenta */;
@@ -615,6 +687,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8D074B1B269710E6002F7F24 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = LentaUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = home.LentaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Lenta;
+			};
+			name = Debug;
+		};
+		8D074B1C269710E6002F7F24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = LentaUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = home.LentaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Lenta;
+			};
+			name = Release;
+		};
 		8D54C743268378610088D4BE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -818,6 +928,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8D074B1A269710E6002F7F24 /* Build configuration list for PBXNativeTarget "LentaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D074B1B269710E6002F7F24 /* Debug */,
+				8D074B1C269710E6002F7F24 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8D54C745268378610088D4BE /* Build configuration list for PBXNativeTarget "LentaTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
