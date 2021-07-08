@@ -9,12 +9,22 @@ import UIKit
 
 class Assembly {
     
+    //MARK: - Propertis
+    
     let networkManager = NetworkManager()
     let storeManager = StoreManager()
     
-    init() { print("Assembly init") }
+    //MARK: - Init
     
-    deinit { print("Assembly deinit") }
+    init() {
+        print("Assembly init")
+    }
+    
+    deinit {
+        print("Assembly deinit")
+    }
+    
+    //MARK: - Metods
     
     func startController() -> UIViewController {
         return getTabBarController()
@@ -32,7 +42,6 @@ class Assembly {
         profile.tabBarItem.image = UIImage(systemName: "person")
         
         tbController.viewControllers = [lenta, profile]
-        
         return tbController
     }
     

@@ -80,7 +80,7 @@ extension CommentsPresenter: CommentsViewOutput {
     }
     
     func viewDidLoad() {
-        view.loadingStarted() //FIXME: - activeLoader
+        view.showActivityIndicator()
         interactor.loadComments(by: postId)
     }
 }

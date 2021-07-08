@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CommentsViewInput: class {
-    func loadingStarted()
+    func showActivityIndicator()
     func loadingEnd()
     func reloadComments()
     func addRow()
@@ -275,7 +275,7 @@ extension CommentsViewController: CommentsViewInput {
         loadActivityIndicator.stopAnimating()
     }
     
-    func loadingStarted() {
+    func showActivityIndicator() {
         loadActivityIndicator.startAnimating()
     }
 }

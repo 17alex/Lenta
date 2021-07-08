@@ -113,7 +113,7 @@ extension LentaInteractor: LentaInteractorInput {
             case .failure(let serviceError):
                 strongSelf.presenter?.show(message: serviceError.rawValue)
             case .success(let response):
-                strongSelf.posts = response.posts //FIXME: - metodSave
+                strongSelf.posts = response.posts
                 strongSelf.users = Set(response.users)
                 strongSelf.presenter?.didLoadFirst(posts: response.posts)
                 strongSelf.storeManager?.save(posts: response.posts)

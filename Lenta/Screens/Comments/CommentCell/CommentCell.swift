@@ -60,7 +60,7 @@ final class CommentCell: UITableViewCell {
     }
     
     //MARK: - Init
-    //FIXME: - metod Constrains
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -85,7 +85,6 @@ final class CommentCell: UITableViewCell {
         self.commentModel = commentModel
     }
     
-    // FIXME: -
     private func setAvatar(by urlString: String) {
         if !urlString.isEmpty {
             avatarImageView.load(by: urlString)

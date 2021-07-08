@@ -206,6 +206,14 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		8D8B58F92696F5A40032E6AB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FA39E5A425F7B15E00F274FF /* WebImageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		8DF356D92688C01C007E02D8 /* Store */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,9 +367,9 @@
 			isa = PBXGroup;
 			children = (
 				FAC2073425AC616900CD9099 /* Assembly.swift */,
-				FA39E5A425F7B15E00F274FF /* WebImageView.swift */,
 				FA39ECD525C02D7800C52D1E /* Models */,
 				FA33EDE025AC899A00637E3E /* Screens */,
+				8D8B58F92696F5A40032E6AB /* Views */,
 				FA1BB71E25DA5673008F56B9 /* Extensions */,
 				FA33EDE125AC8A1000637E3E /* Services */,
 				FA8DAD4125AC24E600E9D1B7 /* AppDelegate.swift */,

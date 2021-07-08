@@ -96,7 +96,6 @@ final class PostCell: UITableViewCell {
         self.postModel = postModel
     }
     
-    // FIXME:-
     private func setPostPhoto(by urlString: String?) {
         guard let urlString = urlString else { return }
         fotoActivityIndicator.startAnimating()
@@ -105,7 +104,6 @@ final class PostCell: UITableViewCell {
         }
     }
     
-    // FIXME:-
     private func setAvatar(by urlString: String) {
         if !urlString.isEmpty {
             avatarImageView.load(by: urlString)
