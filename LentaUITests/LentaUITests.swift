@@ -30,7 +30,10 @@ class LentaUITests: XCTestCase {
             .typeLogin(login: "q")
             .typePassword(password: "a")
             .tapLoginButton()
-            .then { XCTAssertTrue(app.textFields.firstMatch.value as! String == "Alex") }
+            .then {
+                XCTAssertTrue(app.textFields.firstMatch.value as! String == "Alex")
+                XCTAssertFalse(app.alerts["Error loginned"].exists)
+            }
     }
     
     func testLoginnedFailed() {

@@ -59,6 +59,16 @@
                ReferencedContainer = "container:Lenta.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8D77338126980892006D4821"
+               BuildableName = "LentaSnapShotTests.xctest"
+               BlueprintName = "LentaSnapShotTests"
+               ReferencedContainer = "container:Lenta.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

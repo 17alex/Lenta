@@ -19,10 +19,9 @@ protocol StoreManagerProtocol {
 
 class StoreManager {
     
+    // MARK: - Propertis
+    
     private let userStoreKey = "userStoreKey"
-    
-    // MARK: - Core Data stack
-    
     private lazy var context = persistentContainer.viewContext
     private lazy var bgContext = persistentContainer.newBackgroundContext()
 
@@ -35,6 +34,16 @@ class StoreManager {
         })
         return container
     }()
+    
+    //MARK: - Init
+    
+    init() {
+        print("StoreManager init")
+    }
+    
+    deinit {
+        print("StoreManager deinit")
+    }
 
     // MARK: - Core Data Saving support
 
