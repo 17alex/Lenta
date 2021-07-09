@@ -44,7 +44,6 @@ final class CommentsInteractor {
 extension CommentsInteractor: CommentsInteractorInput {
     
     func sendNewComment(_ comment: String) {
-//        currentUser = storeManager?.getCurrenUser() //TODO: - guard
         guard let currentUser = storeManager?.getCurrenUser() else {
             presenter?.show(message: "User not loginned")
             return

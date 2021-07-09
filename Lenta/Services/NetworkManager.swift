@@ -76,19 +76,29 @@ extension NetworkManager: NetworkManagerProtocol {
         let postSting = "comment=\(comment)&postId=\(postId)&userId=\(userId)"
         urlRequest.httpBody = postSting.data(using: .utf8)
         
-        taskResume(with: urlRequest) { (data, error) in
-            
+        taskResume(with: urlRequest) { [weak self] (data, error) in
+            guard let strongSelf = self else { return }
 //            self.typeDebug(data: data)
             
-            if let _ = error {
-                self.onMain { complete(.failure(.network)) }
-            } else if let data = data {
-                do {
-                    let decodePost = try JSONDecoder().decode(ResponseComment.self, from: data)
-                    self.onMain { complete(.success(decodePost)) }
-                } catch {
-                    self.onMain { complete(.failure(.decodable)) }
-                }
+//            if let _ = error {
+//                self.onMain { complete(.failure(.network)) }
+//            } else if let data = data {
+//                do {
+//                    let decodePost = try JSONDecoder().decode(ResponseComment.self, from: data)
+//                    self.onMain { complete(.success(decodePost)) }
+//                } catch {
+//                    self.onMain { complete(.failure(.decodable)) }
+//                }
+//            }
+            
+            if let _ = error { strongSelf.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            
+            do {
+                let responseComment = try JSONDecoder().decode(ResponseComment.self, from: data)
+                strongSelf.onMain { complete(.success(responseComment)) }
+            } catch {
+                strongSelf.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -106,20 +116,30 @@ extension NetworkManager: NetworkManagerProtocol {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         
-        taskResume(with: urlRequest) { data, error in
-            
+        taskResume(with: urlRequest) { [weak self] data, error in
+            guard let strongSelf = self else { return }
 //            self.typeDebug(data: data)
             
-            if let _ = error {
-                self.onMain { complete(.failure(.network)) }
-            } else if let data = data {
-                do {
-                    let pesponseComment = try JSONDecoder().decode(ResponseComment.self, from: data)
-                    self.onMain { complete(.success(pesponseComment)) }
-                } catch let error {
-                    print("error = ", error)
-                    self.onMain { complete(.failure(.decodable)) }
-                }
+//            if let _ = error {
+//                self.onMain { complete(.failure(.network)) }
+//            } else if let data = data {
+//                do {
+//                    let pesponseComment = try JSONDecoder().decode(ResponseComment.self, from: data)
+//                    self.onMain { complete(.success(pesponseComment)) }
+//                } catch let error {
+//                    print("error = ", error)
+//                    self.onMain { complete(.failure(.decodable)) }
+//                }
+//            }
+            
+            if let _ = error { strongSelf.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            
+            do {
+                let pesponseComment = try JSONDecoder().decode(ResponseComment.self, from: data)
+                strongSelf.onMain { complete(.success(pesponseComment)) }
+            } catch {
+                strongSelf.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -139,20 +159,30 @@ extension NetworkManager: NetworkManagerProtocol {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         
-        taskResume(with: urlRequest) { data, error in
-            
+        taskResume(with: urlRequest) { [weak self] data, error in
+            guard let strongSelf = self else { return }
 //            self.typeDebug(data: data)
             
-            if let _ = error {
-                self.onMain { complete(.failure(.network)) }
-            } else if let data = data {
-                do {
-                    let pesponse = try JSONDecoder().decode(Response.self, from: data)
-                    self.onMain { complete(.success(pesponse)) }
-                } catch let error {
-                    print("error =", error.localizedDescription)
-                    self.onMain { complete(.failure(.decodable)) }
-                }
+//            if let _ = error {
+//                self.onMain { complete(.failure(.network)) }
+//            } else if let data = data {
+//                do {
+//                    let pesponse = try JSONDecoder().decode(Response.self, from: data)
+//                    self.onMain { complete(.success(pesponse)) }
+//                } catch let error {
+//                    print("error =", error.localizedDescription)
+//                    self.onMain { complete(.failure(.decodable)) }
+//                }
+//            }
+            
+            if let _ = error { strongSelf.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            
+            do {
+                let pesponse = try JSONDecoder().decode(Response.self, from: data)
+                strongSelf.onMain { complete(.success(pesponse)) }
+            } catch {
+                strongSelf.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -167,19 +197,29 @@ extension NetworkManager: NetworkManagerProtocol {
         let postSting = "postId=\(postId)"
         urlRequest.httpBody = postSting.data(using: .utf8)
         
-        taskResume(with: urlRequest) { (data, error) in
-            
+        taskResume(with: urlRequest) { [weak self] (data, error) in
+            guard let strongSelf = self else { return }
 //            self.typeDebug(data: data)
             
-            if let _ = error {
-                self.onMain { complete(.failure(.network)) }
-            } else if let data = data {
-                do {
-                    let pesponse = try JSONDecoder().decode(Response.self, from: data)
-                    self.onMain { complete(.success(pesponse)) }
-                } catch {
-                    self.onMain { complete(.failure(.decodable)) }
-                }
+//            if let _ = error {
+//                self.onMain { complete(.failure(.network)) }
+//            } else if let data = data {
+//                do {
+//                    let pesponse = try JSONDecoder().decode(Response.self, from: data)
+//                    self.onMain { complete(.success(pesponse)) }
+//                } catch {
+//                    self.onMain { complete(.failure(.decodable)) }
+//                }
+//            }
+            
+            if let _ = error { strongSelf.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            
+            do {
+                let pesponse = try JSONDecoder().decode(Response.self, from: data)
+                strongSelf.onMain { complete(.success(pesponse)) }
+            } catch {
+                strongSelf.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -194,19 +234,29 @@ extension NetworkManager: NetworkManagerProtocol {
         let dataSting = "postId=\(postId)&userId=\(userId)"
         urlRequest.httpBody = dataSting.data(using: .utf8)
 
-        taskResume(with: urlRequest) { (data, error) in
-            
+        taskResume(with: urlRequest) { [weak self] (data, error) in
+            guard let strongSelf = self else { return }
 //            self.typeDebug(data: data)
             
-            if let _ = error {
-                self.onMain { complete(.failure(.network)) }
-            } else if let data = data {
-                do {
-                    let decodePost = try JSONDecoder().decode(Post.self, from: data)
-                    self.onMain { complete(.success(decodePost)) }
-                } catch {
-                    self.onMain { complete(.failure(.decodable)) }
-                }
+//            if let _ = error {
+//                self.onMain { complete(.failure(.network)) }
+//            } else if let data = data {
+//                do {
+//                    let decodePost = try JSONDecoder().decode(Post.self, from: data)
+//                    self.onMain { complete(.success(decodePost)) }
+//                } catch {
+//                    self.onMain { complete(.failure(.decodable)) }
+//                }
+//            }
+            
+            if let _ = error { strongSelf.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            
+            do {
+                let decodePost = try JSONDecoder().decode(Post.self, from: data)
+                strongSelf.onMain { complete(.success(decodePost)) }
+            } catch {
+                strongSelf.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -247,19 +297,29 @@ extension NetworkManager: NetworkManagerProtocol {
         
         urlRequest.httpBody = body
         
-        taskResume(with: urlRequest) { (data, error) in
-            
+        taskResume(with: urlRequest) { [weak self] (data, error) in
+            guard let strongSelf = self else { return }
 //            self.typeDebug(data: data)
             
-            if let _ = error {
-                self.onMain { complete(.failure(.network)) }
-            } else if let data = data {
-                do {
-                    let decodeUsers = try JSONDecoder().decode([User].self, from: data)
-                    self.onMain { complete(.success(decodeUsers)) }
-                } catch {
-                    self.onMain { complete(.failure(.decodable)) }
-                }
+//            if let _ = error {
+//                self.onMain { complete(.failure(.network)) }
+//            } else if let data = data {
+//                do {
+//                    let decodeUsers = try JSONDecoder().decode([User].self, from: data)
+//                    self.onMain { complete(.success(decodeUsers)) }
+//                } catch {
+//                    self.onMain { complete(.failure(.decodable)) }
+//                }
+//            }
+            
+            if let _ = error { strongSelf.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            
+            do {
+                let decodeUsers = try JSONDecoder().decode([User].self, from: data)
+                strongSelf.onMain { complete(.success(decodeUsers)) }
+            } catch {
+                strongSelf.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -274,19 +334,29 @@ extension NetworkManager: NetworkManagerProtocol {
         let dataSting = "login=\(login)&password=\(password)"
         urlRequest.httpBody = dataSting.data(using: .utf8)
         
-        taskResume(with: urlRequest) { (data, error) in
+        taskResume(with: urlRequest) { [weak self] (data, error) in
+            guard let strongSelf = self else { return }
+//            self.typeDebug(data: data)
+//
+//            if let _ = error {
+//                self.onMain { complete(.failure(.network)) }
+//            } else if let data = data {
+//                do {
+//                    let decodeUsers = try JSONDecoder().decode([User].self, from: data)
+//                    self.onMain { complete(.success(decodeUsers)) }
+//                } catch {
+//                    self.onMain { complete(.failure(.decodable)) }
+//                }
+//            }
             
-            self.typeDebug(data: data)
+            if let _ = error { strongSelf.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
             
-            if let _ = error {
-                self.onMain { complete(.failure(.network)) }
-            } else if let data = data {
-                do {
-                    let decodeUsers = try JSONDecoder().decode([User].self, from: data)
-                    self.onMain { complete(.success(decodeUsers)) }
-                } catch {
-                    self.onMain { complete(.failure(.decodable)) }
-                }
+            do {
+                let decodeUsers = try JSONDecoder().decode([User].self, from: data)
+                strongSelf.onMain { complete(.success(decodeUsers)) }
+            } catch {
+                strongSelf.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -328,19 +398,29 @@ extension NetworkManager: NetworkManagerProtocol {
         
         urlRequest.httpBody = body
         
-        taskResume(with: urlRequest) { (data, error) in
-            
+        taskResume(with: urlRequest) { [weak self] (data, error) in
+            guard let strongSelf = self else { return }
 //            self.typeDebug(data: data)
             
-            if let _ = error {
-                self.onMain { complete(.failure(.network)) }
-            } else if let data = data {
-                do {
-                    let decodeUsers = try JSONDecoder().decode([User].self, from: data)
-                    self.onMain { complete(.success(decodeUsers)) }
-                } catch {
-                    self.onMain { complete(.failure(.decodable)) }
-                }
+//            if let _ = error {
+//                self.onMain { complete(.failure(.network)) }
+//            } else if let data = data {
+//                do {
+//                    let decodeUsers = try JSONDecoder().decode([User].self, from: data)
+//                    self.onMain { complete(.success(decodeUsers)) }
+//                } catch {
+//                    self.onMain { complete(.failure(.decodable)) }
+//                }
+//            }
+            
+            if let _ = error { strongSelf.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            
+            do {
+                let decodeUsers = try JSONDecoder().decode([User].self, from: data)
+                strongSelf.onMain { complete(.success(decodeUsers)) }
+            } catch {
+                strongSelf.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -382,19 +462,29 @@ extension NetworkManager: NetworkManagerProtocol {
         
         urlRequest.httpBody = body
         
-        taskResume(with: urlRequest) { (data, error) in
-            
+        taskResume(with: urlRequest) { [weak self] (data, error) in
+            guard let strongSelf = self else { return }
 //            self.typeDebug(data: data)
             
-            if let _ = error {
-                self.onMain { complete(.failure(.network)) }
-            } else if let data = data {
-                do {
-                    let pesponse = try JSONDecoder().decode(Response.self, from: data)
-                    self.onMain { complete(.success(pesponse)) }
-                } catch {
-                    self.onMain { complete(.failure(.decodable)) }
-                }
+//            if let _ = error {
+//                self.onMain { complete(.failure(.network)) }
+//            } else if let data = data {
+//                do {
+//                    let pesponse = try JSONDecoder().decode(Response.self, from: data)
+//                    self.onMain { complete(.success(pesponse)) }
+//                } catch {
+//                    self.onMain { complete(.failure(.decodable)) }
+//                }
+//            }
+            
+            if let _ = error { strongSelf.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            
+            do {
+                let response = try JSONDecoder().decode(Response.self, from: data)
+                strongSelf.onMain { complete(.success(response)) }
+            } catch {
+                strongSelf.onMain { complete(.failure(.decodable)) }
             }
         }
     }
