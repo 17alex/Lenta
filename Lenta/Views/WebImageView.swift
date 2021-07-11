@@ -31,16 +31,6 @@ final class WebImageView: UIImageView {
                 complete?()
             }
         }
-        
-//        if !urlString.isEmpty, let url = URL(string: urlString) {
-//            imageUrlString = urlString
-//            loadImage(for: url) { (image, imageUrl) in
-//                if self.imageUrlString == imageUrl.absoluteString {
-//                    self.image = image
-//                    complete?()
-//                }
-//            }
-//        }
     }
     
     private func loadImage(from url: URL, complete: @escaping (UIImage, URL) -> Void) {
