@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol ImagePickerDelegate: class {
+protocol ImagePickerDelegate: AnyObject {
     func selectImage(_ image: UIImage)
 }
 
-class ImagePicker: NSObject {
+final class ImagePicker: NSObject {
     
     private unowned let view: UIViewController
     private weak var delegate: ImagePickerDelegate?

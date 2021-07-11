@@ -11,7 +11,7 @@ protocol ProfileRouterInput {
     func loginUser()
 }
 
-class ProfileRouter {
+final class ProfileRouter {
     
     // Propertis
     

@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol PostCellDelegate: class {
+protocol PostCellDelegate: AnyObject {
     func didTapLikeButton(cell: UITableViewCell)
     func didTapMenuButton(cell: UITableViewCell)
     func didTapCommentsButton(cell: UITableViewCell)

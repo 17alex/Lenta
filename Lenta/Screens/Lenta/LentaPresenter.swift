@@ -21,7 +21,7 @@ protocol LentaViewOutput {
     func didTapAvatar(by index: Int)
 }
 
-protocol LentaInteractorOutput: class {
+protocol LentaInteractorOutput: AnyObject {
     func didLoadFirst(posts: [Post])
     func didLoadNext(posts: [Post])
     func didLoadNew(post: Post)
@@ -131,16 +131,38 @@ extension LentaPresenter: LentaInteractorOutput {
     }
     
     func didLoadFirst(posts: [Post]) {
-        postsViewModel = posts.map(getPostViewModel(post:)) //TODO: - todo
-        view.loadingEnd()
-        view.reloadLenta()
+        let group = DispatchGroup()
+        group.enter()
+        DispatchQueue.global().async { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.postsViewModel = posts.map(strongSelf.getPostViewModel(post:))
+            group.leave()
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.view.loadingEnd()
+            strongSelf.view.reloadLenta()
+        }
     }
     
     func didLoadNext(posts: [Post]) {
-        let startIndex = postsViewModel.count
-        postsViewModel.append(contentsOf: posts.map(getPostViewModel(post:)))
-        let endIndex = postsViewModel.count
-        view.insertPosts(fromIndex: startIndex, toIndex: endIndex)
+        var startIndex = 0
+        var endIndex = 0
+        let group = DispatchGroup()
+        group.enter()
+        DispatchQueue.global().async { [weak self] in
+            guard let strongSelf = self else { return }
+            startIndex = strongSelf.postsViewModel.count
+            strongSelf.postsViewModel.append(contentsOf: posts.map(strongSelf.getPostViewModel(post:)))
+            endIndex = strongSelf.postsViewModel.count
+            group.leave()
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.view.insertPosts(fromIndex: startIndex, toIndex: endIndex)
+        }
     }
     
     func didUpdatePost(by index: Int) {

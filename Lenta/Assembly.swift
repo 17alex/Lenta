@@ -7,12 +7,12 @@
 
 import UIKit
 
-class Assembly {
+final class Assembly {
     
     //MARK: - Propertis
     
-    let networkManager = NetworkManager()
-    let storeManager = StoreManager()
+    private let networkManager = NetworkManager()
+    private let storeManager = StoreManager()
     
     //MARK: - Init
     

@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol LentaViewInput: class {
+protocol LentaViewInput: AnyObject {
     func reloadLenta()
     func reloadPost(by index: Int)
     func insertPost(by index: Int)
@@ -24,16 +24,14 @@ final class LentaViewController: UIViewController {
     
     //MARK: - Propertis
     
-    var presenter: LentaViewOutput?
-    
-    private var activityIndicator: UIActivityIndicatorView = {
+    private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.hidesWhenStopped = true
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
     }()
     
-    let refreshControl: UIRefreshControl = {
+    private let refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         return refreshControl
@@ -45,12 +43,14 @@ final class LentaViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.refreshControl = refreshControl
-        tableView.backgroundColor = #colorLiteral(red: 0.1367115593, green: 0.5836390616, blue: 0.6736763277, alpha: 1)
+        tableView.backgroundColor = Constants.Colors.bgTable
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    
+    var presenter: LentaViewOutput?
     
     //MARK: - LiveCycles
     

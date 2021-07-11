@@ -16,7 +16,7 @@ protocol CommentsViewOutput {
     func didCloseButtonPress()
 }
 
-protocol CommentsInteractorOutput: class {
+protocol CommentsInteractorOutput: AnyObject {
     func didLoadComments()
     func didSendComment(_ comments: [Comment])
     func show(message: String)

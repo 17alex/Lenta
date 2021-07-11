@@ -12,7 +12,7 @@ protocol RegisterViewOutput: AnyObject {
     func signInButtonPress()
 }
 
-protocol RegisterInteractorOutput: class {
+protocol RegisterInteractorOutput: AnyObject {
     func userDidRegistered()
     func userDidRegisteredFail(message: String)
 }

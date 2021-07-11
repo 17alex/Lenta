@@ -57,7 +57,6 @@ struct PostViewModel {
     }
     
     init(post: Post, user: User?, currenUser: User? = nil) {
-        
         self.id = post.id
         self.user = UserViewModel(user: user)
         self.time = post.timeInterval.toDateString()
@@ -87,7 +86,7 @@ struct PostViewModel {
         let rect = post.description.boundingRect(with: textSize,
                                      options: .usesLineFragmentOrigin,
                                      attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15)],
-                                     context: nil)
+                                     context: nil) // FIXME: - to static cell
         self.description.size = CGSize(width: rect.width, height: rect.height)
         
         let postHeaderHeight: CGFloat = 81

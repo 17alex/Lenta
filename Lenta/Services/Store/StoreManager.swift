@@ -17,7 +17,7 @@ protocol StoreManagerProtocol {
     func append(posts: [Post])
 }
 
-class StoreManager {
+final class StoreManager {
     
     // MARK: - Propertis
     

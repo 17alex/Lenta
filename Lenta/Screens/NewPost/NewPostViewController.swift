@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol NewPostViewInput: class {
+protocol NewPostViewInput: AnyObject {
     func newPostSendFailed(text: String)
 }
 

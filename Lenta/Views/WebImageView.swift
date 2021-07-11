@@ -7,17 +7,18 @@
 
 import UIKit
 
-class WebImageView: UIImageView {
+final class WebImageView: UIImageView {
     
-    //MARk: - Propertis
+    //MARK: - Propertis
     
-    var imageUrlString: String = ""
+    private var imageUrlString: String = ""
     
     //MARK: - Metods
     
     func load(by urlString: String, complete: (() -> Void)? = nil) {
         
         if urlString != imageUrlString {
+            imageUrlString = urlString
             image = nil
         }
         

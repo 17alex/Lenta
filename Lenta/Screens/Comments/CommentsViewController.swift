@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CommentsViewInput: class {
+protocol CommentsViewInput: AnyObject {
     func showActivityIndicator()
     func loadingEnd()
     func reloadComments()

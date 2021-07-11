@@ -25,5 +25,6 @@ enum Constants {
     enum Colors {
         static let active = #colorLiteral(red: 0, green: 0.4773686528, blue: 0.8912271857, alpha: 1)
         static let deActive = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        static let bgTable = #colorLiteral(red: 0.1367115593, green: 0.5836390616, blue: 0.6736763277, alpha: 1)
     }
 }
