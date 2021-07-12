@@ -54,4 +54,3 @@ struct User: Codable, Hashable {
     let dateRegister: TimeInterval
     let avatar: String
 }
-

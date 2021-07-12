@@ -8,43 +8,43 @@
 import UIKit
 
 final class Assembly {
-    
-    //MARK: - Propertis
-    
+
+    // MARK: - Propertis
+
     private let networkManager = NetworkManager()
     private let storeManager = StoreManager()
-    
-    //MARK: - Init
-    
+
+    // MARK: - Init
+
     init() {
         print("Assembly init")
     }
-    
+
     deinit {
         print("Assembly deinit")
     }
-    
-    //MARK: - Metods
-    
+
+    // MARK: - Metods
+
     func startController() -> UIViewController {
         return getTabBarController()
     }
-    
+
     func getTabBarController() -> UIViewController {
         let tbController = UITabBarController()
-        
+
         let lenta = UINavigationController(rootViewController: getLentaModule())
         lenta.tabBarItem.title = "Lenta"
         lenta.tabBarItem.image = UIImage(systemName: "scribble")
-        
+
         let profile = UINavigationController(rootViewController: getProfileModule())
         profile.tabBarItem.title = "Profile"
         profile.tabBarItem.image = UIImage(systemName: "person")
-        
+
         tbController.viewControllers = [lenta, profile]
         return tbController
     }
-    
+
     func getUserInfoModule(user: UserViewModel) -> UIViewController {
         let view = UserInfoViewController()
         let router = UserInfoRouter(view: view, assembly: self)
@@ -52,7 +52,7 @@ final class Assembly {
         view.presenter = presenter
         return view
     }
-    
+
     func getProfileModule() -> UIViewController {
         let view = ProfileViewController()
         let router = ProfileRouter(view: view, assembly: self)
@@ -65,7 +65,7 @@ final class Assembly {
         view.presenter = presenter
         return view
     }
-    
+
     func getRegisterModule() -> UIViewController {
         let view = RegisterViewController()
         let presenter = RegisterPresenter(view: view)
@@ -78,7 +78,7 @@ final class Assembly {
         view.presenter = presenter
         return view
     }
-    
+
     func getLoginModule() -> UIViewController {
         let view = LoginViewController()
         let presenter = LoginPresenter(view: view)
@@ -91,7 +91,7 @@ final class Assembly {
         view.presenter = presenter
         return view
     }
-    
+
     func getLentaModule() -> UIViewController {
         let view = LentaViewController()
         let router = LentaRouter(view: view, assembly: self)
@@ -103,7 +103,7 @@ final class Assembly {
         interactor.storeManager = storeManager
         return view
     }
-    
+
     func getNewPostModule(callback: @escaping (Response) -> Void) -> UIViewController {
         let view = NewPostViewController()
         let router = NewPostRouter(view: view, assembly: self)
@@ -116,7 +116,7 @@ final class Assembly {
         presenter.router = router
         return view
     }
-    
+
     func getCommentsModule(by postId: Int16) -> UIViewController {
         let view = CommentsViewController()
         let router = CommentsRouter(view: view, assembly: self)

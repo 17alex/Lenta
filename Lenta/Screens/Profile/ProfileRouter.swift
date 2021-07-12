@@ -12,24 +12,24 @@ protocol ProfileRouterInput {
 }
 
 final class ProfileRouter {
-    
+
     // Propertis
-    
+
     unowned private let view: UIViewController
     private let assembly: Assembly
-    
-    //Init
-    
+
+    // Init
+
     init(view: UIViewController, assembly: Assembly) {
         self.view = view
         self.assembly = assembly
     }
 }
 
-//MARK: - ProfileRouterInput
+// MARK: - ProfileRouterInput
 
 extension ProfileRouter: ProfileRouterInput {
-    
+
     func loginUser() {
         let loginVC = assembly.getLoginModule()
         loginVC.modalPresentationStyle = .fullScreen

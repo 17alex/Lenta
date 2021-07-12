@@ -16,39 +16,39 @@ protocol CommentsInteractorInput {
 }
 
 final class CommentsInteractor {
-    
-    //MARK: - Propertis
-    
+
+    // MARK: - Propertis
+
     weak var presenter: CommentsInteractorOutput?
     var networkManager: NetworkManagerProtocol?
     var storeManager: StoreManagerProtocol?
-    
+
     var posts: [Post] = []
     var comments: [Comment] = []
     var users: Set<User> = []
     private var currentUser: User?
-    
-    //MARK: - Init
-    
+
+    // MARK: - Init
+
     init() {
         print("CommentsInteractor init")
     }
-    
+
     deinit {
         print("CommentsInteractor deinit")
     }
 }
 
-//MARK: - CommentsInteractorInput
+// MARK: - CommentsInteractorInput
 
 extension CommentsInteractor: CommentsInteractorInput {
-    
+
     func sendNewComment(_ comment: String) {
         guard let currentUser = storeManager?.getCurrenUser() else {
             presenter?.show(message: "User not loginned")
             return
         }
-        
+
         networkManager?.sendComment(comment, postId: posts[0].id, userId: currentUser.id) { [weak self] (result) in
             guard let strongSelf = self else { return }
             switch result {
@@ -61,7 +61,7 @@ extension CommentsInteractor: CommentsInteractorInput {
             }
         }
     }
-    
+
     func loadComments(by postId: Int16) {
         networkManager?.loadComments(for: postId) { [weak self] result in
             guard let strongSelf = self else { return }

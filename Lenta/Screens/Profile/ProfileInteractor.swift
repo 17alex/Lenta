@@ -16,13 +16,13 @@ protocol ProfileInteractorInput {
 }
 
 final class ProfileInteractor {
-    
-    //MARK: - Propertis
-    
+
+    // MARK: - Propertis
+
     var storeManager: StoreManagerProtocol?
     var networkManager: NetworkManagerProtocol?
     weak var presenter: ProfileInteractorOutput?
-    
+
     var currentUser: User? {
         didSet {
             if let user = currentUser {
@@ -32,51 +32,51 @@ final class ProfileInteractor {
             }
         }
     }
-    
+
     var isSetNewAvatar = false {
         didSet {
             changeProfile()
         }
     }
-    
+
     var newName = "" {
         didSet {
             changeProfile()
         }
     }
-    
-    //MARK: - Metods
-    
+
+    // MARK: - Metods
+
     private func changeProfile() {
         guard let currUser = currentUser  else { presenter?.changeProfile(false); return }
-        
+
 //        if !newName.isEmpty && (newName != currUser.name || isSetNewAvatar) {
 //            presenter?.changeProfile(true)
 //        } else {
 //            presenter?.changeProfile(false)
 //        }
-        
+
         presenter?.changeProfile(!newName.isEmpty && (newName != currUser.name || isSetNewAvatar))
     }
 }
 
-//MARK: - ProfileInteractorInput
+// MARK: - ProfileInteractorInput
 
 extension ProfileInteractor: ProfileInteractorInput {
-    
+
     func start() {
         currentUser = storeManager?.getCurrenUser()
         presenter?.currentUser(currentUser: currentUser)
     }
-    
+
     func didSelectNewAvatar() {
         isSetNewAvatar = true
     }
-    
+
     func change(name: String) {
         self.newName = name
     }
-    
+
     func logInOutButtonPress() {
         if currentUser == nil {
             presenter?.toLogin()
@@ -86,15 +86,15 @@ extension ProfileInteractor: ProfileInteractorInput {
             presenter?.currentUser(currentUser: currentUser)
         }
     }
-    
+
     func saveProfile(name: String, image: UIImage?) {
         var avatarImage: UIImage?
         if isSetNewAvatar {
             avatarImage = image
         }
-        
+
         guard let currUser = currentUser else { return }
-        networkManager?.updateProfile(id: currUser.id, name: name, avatar: avatarImage) { [weak self] (result) in
+        networkManager?.updateProfile(userId: currUser.id, name: name, avatar: avatarImage) { [weak self] (result) in
             guard let strongSelf = self else { return }
             switch result {
             case .failure(let error):

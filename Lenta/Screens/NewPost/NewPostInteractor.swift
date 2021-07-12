@@ -12,29 +12,29 @@ protocol NewPostInteractorInput {
 }
 
 final class NewPostInteractor {
-    
-    //MARK: - Propertis
-    
+
+    // MARK: - Propertis
+
     weak var presenter: NewPostInteractorOutput?
     var networkManager: NetworkManagerProtocol?
     var storeManager: StoreManagerProtocol?
-    
-    //MARF: - Init
-    
+
+    // MARF: - Init
+
     init() {
         print("NewPostInteractor init")
     }
-    
+
     deinit {
         print("NewPostInteractor deinit")
     }
-    
+
 }
 
-//MARK: - NewPostInteractorInput
+// MARK: - NewPostInteractorInput
 
 extension NewPostInteractor: NewPostInteractorInput {
-    
+
     func sendPost(description: String, image: UIImage?) {
         guard let currentUser = storeManager?.getCurrenUser() else { return }
         let sendPost = SendPost(userId: currentUser.id, description: description, image: image)
@@ -48,5 +48,5 @@ extension NewPostInteractor: NewPostInteractorInput {
             }
         }
     }
-    
+
 }

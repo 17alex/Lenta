@@ -9,7 +9,7 @@ import XCTest
 @testable import Lenta
 
 final class LentaInteractorTest: XCTestCase {
-    
+
     var sut: LentaInteractor!
     var storeManager: StoreManagerSpy!
     var presenter: LentaPresenterSpy!
@@ -33,25 +33,26 @@ final class LentaInteractorTest: XCTestCase {
     }
 
     func testGetCurrentUser() {
-        
-        //Arrange
+
+        // Arrange
         let expectedStoreCallCount = 1
-        
-        //Act
+
+        // Act
         sut.getCurrenUser()
-        
-        //Assert
+
+        // Assert
         XCTAssertEqual(expectedStoreCallCount, storeManager.getCurrenUserCallCount)
         XCTAssertEqual(storeManager.sendUser, sut.currentUser)
     }
-    
+
     func testSuccessChangeLike() {
-        
-        //Arrange
+
+        // Arrange
         let postIndex = 0
         sut.currentUser = User(id: 0, name: "Baz", postsCount: 1, dateRegister: 1234, avatar: "avatar")
-        sut.posts = [Post(id: 0, userId: 0, timeInterval: 2345, description: "Bar", photo: nil, likeUserIds: [0], viewsCount: 1, commentsCount: 0)]
-        
+        sut.posts = [Post(id: 0, userId: 0, timeInterval: 2345, description: "Bar",
+                          photo: nil, likeUserIds: [0], viewsCount: 1, commentsCount: 0)]
+
         let expectedPostId: Int16 = 0
         let expectedUserId: Int16 = 0
         let expectedChangeLikeCallCount = 1
@@ -59,11 +60,11 @@ final class LentaInteractorTest: XCTestCase {
         let expectedRecivedIndex = 0
         let expectedShowMessageCallCount = 0
         let expectedMessage = ""
-        
-        //Act
+
+        // Act
         sut.changeLike(by: postIndex)
-        
-        //Assert
+
+        // Assert
         XCTAssertEqual(expectedPostId, networkManager.recivePostId)
         XCTAssertEqual(expectedUserId, networkManager.reciveUserId)
         XCTAssertEqual(expectedChangeLikeCallCount, networkManager.changeLikeCallCount)
@@ -73,14 +74,15 @@ final class LentaInteractorTest: XCTestCase {
         XCTAssertEqual(expectedShowMessageCallCount, presenter.expectedShowMessageCallCount)
         XCTAssertEqual(expectedMessage, presenter.recivedMessage)
     }
-    
+
     func testFailureChangeLike() {
-        
-        //Arrange
+
+        // Arrange
         let postIndex = 0
         sut.currentUser = User(id: -1, name: "Baz", postsCount: 1, dateRegister: 1234, avatar: "avatar")
-        sut.posts = [Post(id: -1, userId: 0, timeInterval: 2345, description: "Bar", photo: nil, likeUserIds: [0], viewsCount: 1, commentsCount: 0)]
-        
+        sut.posts = [Post(id: -1, userId: 0, timeInterval: 2345, description: "Bar",
+                          photo: nil, likeUserIds: [0], viewsCount: 1, commentsCount: 0)]
+
         let expectedPostId: Int16 = -1
         let expectedUserId: Int16 = -1
         let expectedChangeLikeCallCount = 1
@@ -88,11 +90,11 @@ final class LentaInteractorTest: XCTestCase {
         let expectedRecivedIndex = -1
         let expectedShowMessageCallCount = 1
         let expectedMessage = NetworkServiceError.network.rawValue
-        
-        //Act
+
+        // Act
         sut.changeLike(by: postIndex)
-        
-        //Assert
+
+        // Assert
         XCTAssertEqual(expectedPostId, networkManager.recivePostId)
         XCTAssertEqual(expectedUserId, networkManager.reciveUserId)
         XCTAssertEqual(expectedChangeLikeCallCount, networkManager.changeLikeCallCount)

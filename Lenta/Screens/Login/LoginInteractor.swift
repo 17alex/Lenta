@@ -12,26 +12,26 @@ protocol LoginInteractorInput {
 }
 
 final class LoginInteractor {
-    
+
     unowned private let presenter: LoginInteractorOutput
     var networkManager: NetworkManagerProtocol?
     var storeManager: StoreManagerProtocol?
-    
-    //MARK: - Init
-    
+
+    // MARK: - Init
+
     init(presenter: LoginInteractorOutput) {
         print("LoginInteractor init")
         self.presenter = presenter
     }
-    
+
     deinit { print("LoginInteractor deinit") }
-    
+
 }
 
-//MARK: - LoginInteractorInput
+// MARK: - LoginInteractorInput
 
 extension LoginInteractor: LoginInteractorInput {
-    
+
     func logIn(login: String, password: String) {
         networkManager?.logIn(login: login, password: password) { [weak self] (result) in
             guard let strongSelf = self else { return }

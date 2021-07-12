@@ -17,7 +17,7 @@ protocol PostCellDelegate: AnyObject {
 
 final class LentaCell: UITableViewCell {
 
-    //MARK: - Propertis
+    // MARK: - Propertis
 
     lazy private var avatarImageView: WebImageView = {
         let imageView = WebImageView()
@@ -27,38 +27,38 @@ final class LentaCell: UITableViewCell {
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
-    
+
     private var userNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         return label
     }()
-    
+
     private var timeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .light)
         return label
     }()
-    
+
     private var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.numberOfLines = 0
         return label
     }()
-    
+
     private var photoImageView: WebImageView = {
         let imageView = WebImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    
+
     private var photoActivityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.hidesWhenStopped = true
         return activityIndicator
     }()
-    
+
     lazy private var likesButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "heart"), for: .normal)
@@ -66,14 +66,14 @@ final class LentaCell: UITableViewCell {
         button.addTarget(self, action: #selector(likesButtonPress), for: .touchUpInside)
         return button
     }()
-    
+
     private var likesCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.textColor = .systemGray
         return label
     }()
-    
+
     private var eyeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "eye")
@@ -81,14 +81,14 @@ final class LentaCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    
+
     private var viewsCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.textColor = .systemGray
         return label
     }()
-    
+
     lazy private var commentsButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "bubble.right"), for: .normal)
@@ -96,14 +96,14 @@ final class LentaCell: UITableViewCell {
         button.addTarget(self, action: #selector(commentsButtonPress), for: .touchUpInside)
         return button
     }()
-    
+
     private var commentsCountLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.textColor = .systemGray
         return label
     }()
-    
+
     lazy private var shareButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "arrowshape.turn.up.right"), for: .normal)
@@ -111,7 +111,7 @@ final class LentaCell: UITableViewCell {
         button.addTarget(self, action: #selector(shareButtonPress), for: .touchUpInside)
         return button
     }()
-    
+
     lazy private var menuButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "text.justify"), for: .normal)
@@ -119,7 +119,7 @@ final class LentaCell: UITableViewCell {
         button.addTarget(self, action: #selector(menuButtonPress), for: .touchUpInside)
         return button
     }()
-    
+
     private var postModel: PostViewModel? {
         didSet {
             guard let postModel = postModel else { return }
@@ -134,20 +134,20 @@ final class LentaCell: UITableViewCell {
             setPostPhoto(by: postModel.photo?.urlString)
         }
     }
-    
+
     weak var delegate: PostCellDelegate?
-    
-    //MARK: - LiveCycles
-    
+
+    // MARK: - LiveCycles
+
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-        
+
         setupUI()
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         guard let postModel = postModel else { return }
         contentView.frame = CGRect(x: 0, y: 4, width: contentView.bounds.width, height: postModel.totalHieght - 8)
         let cellWidth = contentView.bounds.width
@@ -158,7 +158,8 @@ final class LentaCell: UITableViewCell {
         timeLabel.frame = CGRect(x: 87, y: 53, width: menuButton.frame.minX - 87, height: 15)
         descriptionLabel.frame = CGRect(x: 8, y: 81, width: cellWidth - 16, height: postModel.description.size.height)
         let descrMaxY = descriptionLabel.frame.maxY
-        photoImageView.frame = CGRect(x: 0, y: descrMaxY + 2, width: cellWidth, height: postModel.photo?.size.height ?? 0)
+        photoImageView.frame = CGRect(x: 0, y: descrMaxY + 2, width: cellWidth,
+                                      height: postModel.photo?.size.height ?? 0)
         photoActivityIndicator.center = photoImageView.center
         let buttonsY = photoImageView.frame.maxY + 2
         let offset: CGFloat = 25
@@ -171,43 +172,43 @@ final class LentaCell: UITableViewCell {
         commentsCountLabel.frame = CGRect(x: commentsButton.frame.maxX, y: buttonsY, width: 50, height: 35)
         shareButton.frame = CGRect(x: offset + space * 3, y: buttonsY, width: 30, height: 35)
     }
-           
-    //MARK: - PublicMetods
-    
+
+    // MARK: - PublicMetods
+
     func likeUpdate(post: PostViewModel) {
         likesCountLabel.text = post.likes.count
         paintLikeButton(isHighlight: post.likes.isHighlight)
     }
-    
+
     func set(postModel: PostViewModel) {
         self.postModel = postModel
     }
-    
-    //MARK: - PrivateMetods
-    
+
+    // MARK: - PrivateMetods
+
     private func getPhotoHeight(photoViewModel: PhotoViewModel, width: CGFloat) -> CGFloat {
         return CGFloat(photoViewModel.size.height) / CGFloat(photoViewModel.size.width) * width
     }
-    
+
     private func getDescriptionSize(text: String, width: CGFloat) -> CGSize {
         let maxDescriptionSize = CGSize(width: width, height: .greatestFiniteMagnitude)
         return descriptionLabel.sizeThatFits(maxDescriptionSize)
     }
-    
+
     private func paintLikeButton(isHighlight: Bool) {
         likesButton.tintColor = isHighlight ? .systemRed : .systemGray
         let likeImage = isHighlight ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
         likesButton.setImage(likeImage, for: .normal)
     }
-    
+
     private func setPostPhoto(by urlString: String?) {
-        guard let urlString = urlString else  { return }
+        guard let urlString = urlString else { return }
         photoActivityIndicator.startAnimating()
         photoImageView.load(by: urlString) {
             self.photoActivityIndicator.stopAnimating()
         }
     }
-    
+
     private func setAvatar(by urlString: String) {
         if urlString.isEmpty {
             avatarImageView.image = UIImage(named: "defaultAvatar")
@@ -215,22 +216,22 @@ final class LentaCell: UITableViewCell {
             avatarImageView.load(by: urlString)
         }
     }
-    
+
     @objc private func didTapAvatar() {
         print("didTapAvatar")
         delegate?.didTapAvatar(cell: self)
     }
-    
+
     @objc private func likesButtonPress() {
         print("likesButtonPress")
         delegate?.didTapLikeButton(cell: self)
     }
-    
+
     @objc private func commentsButtonPress(_ sender: UIButton) {
         print("commentsButtonPress")
         delegate?.didTapCommentsButton(cell: self)
     }
-    
+
     @objc private func shareButtonPress(_ sender: UIButton) {
         print("share post")
         var sendObjects: [Any] = []
@@ -238,16 +239,16 @@ final class LentaCell: UITableViewCell {
         if let image = photoImageView.image { sendObjects.append(image) }
         delegate?.didTapShareButton(cell: self, with: sendObjects)
     }
-    
+
     @objc  func menuButtonPress() {
         delegate?.didTapMenuButton(cell: self)
     }
-    
+
     private func setupUI() {
         selectionStyle = .none
         backgroundColor = .clear
         contentView.backgroundColor = .white
-        
+
         contentView.addSubview(avatarImageView)
         contentView.addSubview(userNameLabel)
         contentView.addSubview(timeLabel)

@@ -13,8 +13,8 @@ protocol UserInfoViewInput: AnyObject {
 
 final class UserInfoViewController: UIViewController {
 
-    //MARK: - Propertis
-    
+    // MARK: - Propertis
+
     let avatarImageView: WebImageView = {
         let imageView = WebImageView()
         imageView.contentMode = .scaleAspectFill
@@ -22,7 +22,7 @@ final class UserInfoViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
+
     let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -31,7 +31,7 @@ final class UserInfoViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let countLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -40,7 +40,7 @@ final class UserInfoViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let registerLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -49,7 +49,7 @@ final class UserInfoViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let userNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -58,7 +58,7 @@ final class UserInfoViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let userPostCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -67,7 +67,7 @@ final class UserInfoViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let userDateRegisterLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -76,44 +76,45 @@ final class UserInfoViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let navBar: UINavigationBar = {
         let navBar = UINavigationBar()
         let navItem = UINavigationItem(title: "User info")
-        navItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPress))
+        navItem.rightBarButtonItem =
+            UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeButtonPress))
         navBar.items = [navItem]
         navBar.translatesAutoresizingMaskIntoConstraints = false
         return navBar
     }()
-    
+
     var presenter: UserInfoViewOutput?
-    
-    //MARK: - LiveCycles
-    
+
+    // MARK: - LiveCycles
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
         presenter?.viewDidLoad()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         avatarImageView.layer.cornerRadius = avatarImageView.bounds.width / 2
         avatarImageView.clipsToBounds = true
     }
-    
-    //MARK: - Metods
-    
+
+    // MARK: - Metods
+
     @objc private func closeButtonPress() {
         presenter?.closeButtonPress()
     }
-    
+
     private func setupUI() {
-        
+
         view.backgroundColor = .systemBackground
-        
+
         view.addSubview(avatarImageView)
         view.addSubview(nameLabel)
         view.addSubview(countLabel)
@@ -122,43 +123,43 @@ final class UserInfoViewController: UIViewController {
         view.addSubview(userPostCountLabel)
         view.addSubview(userDateRegisterLabel)
         view.addSubview(navBar)
-        
+
         NSLayoutConstraint.activate([
-            
+
             navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
+
             avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             avatarImageView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 30),
             avatarImageView.widthAnchor.constraint(equalToConstant: 100),
             avatarImageView.heightAnchor.constraint(equalToConstant: 100),
-            
+
             nameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 20),
             nameLabel.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -15),
-            
+
             countLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20),
             countLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-            
+
             registerLabel.topAnchor.constraint(equalTo: countLabel.bottomAnchor, constant: 20),
             registerLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-            
+
             userNameLabel.firstBaselineAnchor.constraint(equalTo: nameLabel.firstBaselineAnchor),
             userNameLabel.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 10),
-            
+
             userPostCountLabel.firstBaselineAnchor.constraint(equalTo: countLabel.firstBaselineAnchor),
             userPostCountLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor),
-            
+
             userDateRegisterLabel.firstBaselineAnchor.constraint(equalTo: registerLabel.firstBaselineAnchor),
             userDateRegisterLabel.leadingAnchor.constraint(equalTo: userNameLabel.leadingAnchor)
         ])
     }
 }
 
-//MARK: - UserInfoViewInput
+// MARK: - UserInfoViewInput
 
 extension UserInfoViewController: UserInfoViewInput {
-    
+
     func set(user: UserViewModel?) {
         userNameLabel.text = user?.name
         userPostCountLabel.text = user?.postsCount

@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension MOUser {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MOUser> {
@@ -24,6 +23,6 @@ extension MOUser {
 
 }
 
-extension MOUser : Identifiable {
+extension MOUser: Identifiable {
 
 }

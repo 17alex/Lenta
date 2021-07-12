@@ -13,31 +13,31 @@ protocol RegisterRouterInput {
 }
 
 final class RegisterRouter {
-    
+
     private let assembly: Assembly
     unowned private let view: UIViewController
-    
-    //MARK: - Init
-    
+
+    // MARK: - Init
+
     init(assembly: Assembly, view: UIViewController) {
         self.assembly = assembly
         self.view = view
         print("RegisterRouter init")
     }
-    
+
     deinit {
         print("RegisterRouter deinit")
     }
 }
 
-//MARK: - RegisterRouterInput
+// MARK: - RegisterRouterInput
 
 extension RegisterRouter: RegisterRouterInput {
-    
+
     func dissmis() {
         view.dismiss(animated: true, completion: nil)
     }
-    
+
     func showLoginedModule() {
         let loginVC = assembly.getLoginModule()
         loginVC.modalPresentationStyle = .fullScreen

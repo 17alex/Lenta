@@ -21,39 +21,39 @@ protocol LentaInteractorInput {
 }
 
 final class LentaInteractor {
-    
+
     weak var presenter: LentaInteractorOutput?
     var networkManager: NetworkManagerProtocol?
     var storeManager: StoreManagerProtocol?
-    
+
     var currentUser: User?
     var posts: [Post] = []
     var users: Set<User> = []
     var isLoadingPosts = false
     var isEndingPosts = false
-    
-    //MARK: - Init
-    
+
+    // MARK: - Init
+
     init() {
         print("LentaInteractor init")
     }
-    
+
     deinit {
         print("LentaInteractor deinit")
     }
 }
 
-//MARK: - LentaInteractorInput
+// MARK: - LentaInteractorInput
 
 extension LentaInteractor: LentaInteractorInput {
-    
+
     func addNewPost(response: Response) {
         guard let post = response.posts.first else { return }
         posts.insert(post, at: 0)
         users = self.users.union(response.users)
         presenter?.didLoadNew(post: post)
     }
-    
+
     func deletePost(by index: Int) {
         networkManager?.removePost(postId: posts[index].id) { [weak self] (result) in
             guard let strongSelf = self else { return }
@@ -62,14 +62,14 @@ extension LentaInteractor: LentaInteractorInput {
                 strongSelf.presenter?.show(message: serviceError.rawValue)
             case .success(let response):
                 guard let deletePost = response.posts.first else { return }
-                if let deleteIndex = strongSelf.posts.firstIndex(where: { $0.id == deletePost.id })  {
+                if let deleteIndex = strongSelf.posts.firstIndex(where: { $0.id == deletePost.id }) {
                     strongSelf.posts.remove(at: deleteIndex)
                     strongSelf.presenter?.didRemovePost(by: deleteIndex)
                 }
             }
         }
     }
-    
+
     func loadNextPosts() {
         guard !isLoadingPosts && !isEndingPosts else { return }
         isLoadingPosts = true
@@ -93,7 +93,7 @@ extension LentaInteractor: LentaInteractorInput {
             }
         }
     }
-    
+
     func loadFromStore() {
         storeManager?.load { [weak self] posts, users in
             guard let strongSelf = self else { return }
@@ -101,7 +101,7 @@ extension LentaInteractor: LentaInteractorInput {
             strongSelf.posts = posts
         }
     }
-    
+
     func loadPosts() {
         guard !isLoadingPosts else { return }
         isLoadingPosts = true
@@ -121,7 +121,7 @@ extension LentaInteractor: LentaInteractorInput {
             }
         }
     }
-    
+
     func changeLike(by index: Int) {
         guard let currentUser = currentUser else { return }
         let postId = posts[index].id
@@ -136,7 +136,7 @@ extension LentaInteractor: LentaInteractorInput {
             }
         }
     }
-    
+
     func getCurrenUser() {
         currentUser = storeManager?.getCurrenUser()
     }

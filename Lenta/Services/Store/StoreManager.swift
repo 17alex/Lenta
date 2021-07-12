@@ -18,29 +18,29 @@ protocol StoreManagerProtocol {
 }
 
 final class StoreManager {
-    
+
     // MARK: - Propertis
-    
+
     private let userStoreKey = "userStoreKey"
     private lazy var context = persistentContainer.viewContext
     private lazy var bgContext = persistentContainer.newBackgroundContext()
 
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Lenta")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
         return container
     }()
-    
-    //MARK: - Init
-    
+
+    // MARK: - Init
+
     init() {
         print("StoreManager init")
     }
-    
+
     deinit {
         print("StoreManager deinit")
     }
@@ -59,7 +59,7 @@ final class StoreManager {
             }
         }
     }
-    
+
     private func deleteAllPosts() {
         print("deleteAllPosts")
         let fetchRequest: NSFetchRequest = MOPost.fetchRequest()
@@ -72,7 +72,7 @@ final class StoreManager {
             fatalError("deleteAllPosts Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
-    
+
     private func deleteAllUsers() {
         print("deleteAllUsers")
         let fetchRequest: NSFetchRequest = MOUser.fetchRequest()
@@ -85,7 +85,7 @@ final class StoreManager {
             fatalError("deleteAllUsers Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
-    
+
     private func add(users: [User]) {
         print("add users")
         users.forEach { user in
@@ -96,20 +96,20 @@ final class StoreManager {
             moUser.dateRegister = Int32(user.dateRegister)
             moUser.avatar = user.avatar
         }
-        
+
         saveContext()
     }
-    
+
     private func add(posts: [Post]) {
         print("add posts")
         posts.forEach { post in
-            
+
             let moPost = MOPost(context: bgContext)
             moPost.id = post.id
             moPost.userId = post.userId
             moPost.timeInterval = Int32(post.timeInterval)
             moPost.descr = post.description
-            
+
             if let photo = post.photo {
                 let moPhoto = MOPhoto(context: bgContext)
                 moPhoto.name = photo.name
@@ -127,40 +127,40 @@ final class StoreManager {
 //            moPost.addToLikes(<#T##values: NSSet##NSSet#>)
             moPost.likes = NSSet(array: moLikes)
 */
-            
+
             post.likeUserIds.forEach { userId in
                 let moLike = MOLike(context: bgContext)
                 moLike.userId = userId
                 moPost.addToLikes(moLike)
             }
-            
+
             moPost.viewsCount = post.viewsCount
             moPost.commentsCount = post.commentsCount
         }
-        
+
         saveContext()
     }
-    
+
     private func loadPosts() -> [Post] {
         let fetchRequestPosts: NSFetchRequest = MOPost.fetchRequest()
         fetchRequestPosts.sortDescriptors = [NSSortDescriptor(key: #keyPath(MOPost.timeInterval), ascending: false)]
-        
+
         do {
             let moPosts = try context.fetch(fetchRequestPosts)
             let posts: [Post] = moPosts.map { moPost in
-                
+
                 var photo: PostPhoto?
                 if let moPhoto = moPost.photo {
                     photo = PostPhoto(name: moPhoto.name, size: Size(width: moPhoto.width, height: moPhoto.height))
                 }
-                
+
                 var likes: [Int16] = []
                 if let moLikes = moPost.likes.allObjects as? [MOLike] {
                     likes = moLikes.map { moLike in
                         moLike.userId
                     }
                 }
-                
+
                 return Post(id: moPost.id,
                             userId: moPost.userId,
                             timeInterval: TimeInterval(moPost.timeInterval),
@@ -177,10 +177,10 @@ final class StoreManager {
             fatalError("loadPosts Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
-    
+
     private func loadUsers() -> [User] {
         let fetchRequestUsers: NSFetchRequest = MOUser.fetchRequest()
-        
+
         do {
             let moUsers = try context.fetch(fetchRequestUsers)
             let users: [User] = moUsers.map { moUser in
@@ -199,10 +199,10 @@ final class StoreManager {
     }
 }
 
-//MARK: - StoreManagerProtocol
+// MARK: - StoreManagerProtocol
 
 extension StoreManager: StoreManagerProtocol {
-    
+
     func getCurrenUser() -> User? {
         if let userData = UserDefaults.standard.data(forKey: userStoreKey),
            let currentUser = try? JSONDecoder().decode(User.self, from: userData) {
@@ -213,31 +213,31 @@ extension StoreManager: StoreManagerProtocol {
             return nil
         }
     }
-    
+
     func save(user: User?) {
         var data: Data?
         if let user = user, let userData = try? JSONEncoder().encode(user) {
             data = userData
         }
-        
+
         UserDefaults.standard.setValue(data, forKey: userStoreKey)
     }
-    
+
     func load(complete: @escaping ([Post], [User]) -> Void) {
         let posts = loadPosts()
         let users = loadUsers()
         complete(posts, users)
     }
-    
+
     func save(posts: [Post]) {
         deleteAllPosts()
         add(posts: posts)
     }
-    
+
     func append(posts: [Post]) {
         add(posts: posts)
     }
-    
+
     func save(users: [User]) {
         deleteAllUsers()
         add(users: users)

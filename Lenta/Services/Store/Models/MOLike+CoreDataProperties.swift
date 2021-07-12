@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension MOLike {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MOLike> {
@@ -21,6 +20,6 @@ extension MOLike {
 
 }
 
-extension MOLike : Identifiable {
+extension MOLike: Identifiable {
 
 }

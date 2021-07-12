@@ -14,7 +14,7 @@ class LoginInteractorTest: XCTestCase {
     var presenter: LoginPresenterSpy!
     var networkManager: NetworkManagerMock!
     var storeManager: StoreManagerSpy!
-    
+
     override func setUpWithError() throws {
         networkManager = NetworkManagerMock()
         storeManager = StoreManagerSpy()
@@ -32,8 +32,8 @@ class LoginInteractorTest: XCTestCase {
     }
 
     func testSuccessLoginned() {
-        
-        //Arrange
+
+        // Arrange
         let rightLogin = "Boo"
         let rightPassword = "Baz"
 
@@ -42,11 +42,11 @@ class LoginInteractorTest: XCTestCase {
         let expectedUserDidLoginnedCallCount = 1
         let expectedUserLoginFailCallCount = 0
         let expectedUserLoginFailMessage = ""
-        
-        //Act
+
+        // Act
         sut.logIn(login: rightLogin, password: rightPassword)
-        
-        //Assert
+
+        // Assert
         XCTAssertEqual(networkManager.logInCallCount, expectNetworkCallCount)
         XCTAssertEqual(rightLogin, networkManager.recivedUserLogin)
         XCTAssertEqual(rightPassword, networkManager.recivedUserPassword)
@@ -55,10 +55,10 @@ class LoginInteractorTest: XCTestCase {
         XCTAssertEqual(expectedUserLoginFailCallCount, presenter.userLoginFailCount)
         XCTAssertEqual(expectedUserLoginFailMessage, presenter.message)
     }
-    
+
     func testFailureLoginned() {
 
-        //Arrange
+        // Arrange
         let badLogin = "Baa"
         let badPassword = "Bzz"
 
@@ -67,11 +67,11 @@ class LoginInteractorTest: XCTestCase {
         let expectedUserDidLoginnedCallCount = 0
         let expectedUserLoginFailCallCount = 1
         let expectedUserLoginFailMessage = NetworkServiceError.network.rawValue
-        
-        //Act
+
+        // Act
         sut.logIn(login: badLogin, password: badPassword)
-        
-        //Assert
+
+        // Assert
         XCTAssertEqual(networkManager.logInCallCount, expectNetworkCallCount)
         XCTAssertEqual(badLogin, networkManager.recivedUserLogin)
         XCTAssertEqual(badPassword, networkManager.recivedUserPassword)

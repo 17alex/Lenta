@@ -14,35 +14,35 @@ protocol LentaRouterInput {
 }
 
 final class LentaRouter {
-    
+
     let assembly: Assembly
     unowned let view: UIViewController
-    
+
     init(view: UIViewController, assembly: Assembly) {
         self.view = view
         self.assembly = assembly
         print("LentaRouter init")
     }
-    
+
     deinit {
         print("LentaRouter deinit")
     }
 }
 
-//MARK: - LentaRouterInput
+// MARK: - LentaRouterInput
 
 extension LentaRouter: LentaRouterInput {
-    
+
     func showUserInfoModule(user: UserViewModel) {
         let userInfoVC = assembly.getUserInfoModule(user: user)
         view.present(userInfoVC, animated: true)
     }
-    
+
     func showCommentsModule(by postId: Int16) {
         let commensVC = assembly.getCommentsModule(by: postId)
         view.present(commensVC, animated: true)
     }
-    
+
     func showNewPostModule(callback: @escaping (Response) -> Void) {
         let newPostVC = assembly.getNewPostModule(callback: callback)
         view.present(newPostVC, animated: true)

@@ -13,7 +13,7 @@ class LentaSnapShotTests: XCTestCase {
 
     func testRegisterVC() throws {
         let regVC = Assembly().getRegisterModule()
-        
+
 //        isRecording = true
         assertSnapshot(matching: regVC, as: .image(on: .iPhone8))
     }

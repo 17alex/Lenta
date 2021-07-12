@@ -17,46 +17,45 @@ protocol NewPostInteractorOutput: AnyObject {
 }
 
 final class NewPostPresenter {
-    
-    //MARK: - Propertis
-    
+
+    // MARK: - Propertis
+
     unowned private let view: NewPostViewInput
     private let interactor: NewPostInteractorInput
     var router: NewPostRouterInput?
     let callback: (Response) -> Void
-    
-    //MARK: - Init
-    
+
+    // MARK: - Init
+
     init(view: NewPostViewInput, interactor: NewPostInteractorInput, callback: @escaping (Response) -> Void) {
         self.view = view
         self.callback = callback
         self.interactor = interactor
         print("NewPostPresenter init")
     }
-    
+
     deinit {
         print("NewPostPresenter deinit")
     }
 }
 
-//MARK: - NewPostViewOutput
+// MARK: - NewPostViewOutput
 
 extension NewPostPresenter: NewPostViewOutput {
-        
+
     func pressSendButton(description: String, image: UIImage?) {
         interactor.sendPost(description: description, image: image)
     }
 }
 
-
-//MARK: - NewPostInteractorOutput
+// MARK: - NewPostInteractorOutput
 
 extension NewPostPresenter: NewPostInteractorOutput {
-    
+
     func newPostSendFailed(serviceError: NetworkServiceError) {
         view.newPostSendFailed(text: serviceError.rawValue)
     }
-    
+
     func newPostSendSuccess(response: Response) {
         callback(response)
         router?.dismiss()

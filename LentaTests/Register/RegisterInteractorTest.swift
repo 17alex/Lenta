@@ -14,9 +14,9 @@ class RegisterInteractorTest: XCTestCase {
     var presenter: RegisterPresenterSpy!
     var networkManager: NetworkManagerMock!
     var storeManager: StoreManagerSpy!
-    
+
     override func setUpWithError() throws {
-        
+
         networkManager = NetworkManagerMock()
         storeManager = StoreManagerSpy()
         presenter = RegisterPresenterSpy()
@@ -26,7 +26,7 @@ class RegisterInteractorTest: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        
+
         networkManager = nil
         storeManager = nil
         presenter  = nil
@@ -34,8 +34,8 @@ class RegisterInteractorTest: XCTestCase {
     }
 
     func testSuccessRegister() {
-        
-        //Arrange
+
+        // Arrange
         let rightUserName = "Bar"
         let rightUserLogin = "Boo"
         let rightUserPassword = "Baz"
@@ -46,11 +46,12 @@ class RegisterInteractorTest: XCTestCase {
         let expectedUserDidRegisterCallCount = 1
         let expectedUserRegisterFailCallCount = 0
         let expectedUserRegisterFailMessage = ""
-        
-        //Act
-        sut.register(name: rightUserName, login: rightUserLogin, password: rightUserPassword, avatarImage: userAvatarImage)
-        
-        //Assert
+
+        // Act
+        sut.register(name: rightUserName, login: rightUserLogin, password: rightUserPassword,
+                     avatarImage: userAvatarImage)
+
+        // Assert
         XCTAssertEqual(networkManager.registerCallCount, expectNetworkCallCount)
         XCTAssertEqual(rightUserName, networkManager.recivedUserName)
         XCTAssertEqual(rightUserLogin, networkManager.recivedUserLogin)
@@ -60,25 +61,25 @@ class RegisterInteractorTest: XCTestCase {
         XCTAssertEqual(expectedUserRegisterFailCallCount, presenter.userRegisterFailCount)
         XCTAssertEqual(expectedUserRegisterFailMessage, presenter.message)
     }
-    
+
     func testFailureRegister() {
 
-        //Arrange
+        // Arrange
         let badUserName = "Baa"
         let badUserLogin = "Bbo"
         let badUserPassword = "Bzz"
         let userAvatarImage: UIImage? = nil
-        
+
         let expectNetworkCallCount = 1
         let expectedStoreCallCount = 0
         let expectedUserDidRegisterCallCount = 0
         let expectedUserRegisterFailCallCount = 1
         let expectedUserRegisterFailMessage = NetworkServiceError.network.rawValue
-        
-        //Act
+
+        // Act
         sut.register(name: badUserName, login: badUserLogin, password: badUserPassword, avatarImage: userAvatarImage)
-        
-        //Assert
+
+        // Assert
         XCTAssertEqual(networkManager.registerCallCount, expectNetworkCallCount)
         XCTAssertEqual(badUserName, networkManager.recivedUserName)
         XCTAssertEqual(badUserLogin, networkManager.recivedUserLogin)

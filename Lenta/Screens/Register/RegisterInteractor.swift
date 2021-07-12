@@ -12,26 +12,27 @@ protocol RegisterInteractorInput {
 }
 
 final class RegisterInteractor {
-    
+
     unowned private let presenter: RegisterInteractorOutput
     var networkManager: NetworkManagerProtocol?
     var storeManager: StoreManagerProtocol?
-    
+
     init(presenter: RegisterInteractorOutput) {
         print("RegisterInteractor init")
         self.presenter = presenter
     }
-    
+
     deinit { print("RegisterInteractor deinit") }
-    
+
 }
 
-//MARK: - RegisterInteractorInput
+// MARK: - RegisterInteractorInput
 
 extension RegisterInteractor: RegisterInteractorInput {
-    
+
     func register(name: String, login: String, password: String, avatarImage: UIImage?) {
-        networkManager?.register(name: name, login: login, password: password, avatar: avatarImage) { [weak self] (result) in
+        networkManager?.register(name: name, login: login, password: password,
+                                 avatar: avatarImage) { [weak self] (result) in
             guard let strongSelf = self else { return }
             switch result {
             case .failure(let serviceError):

@@ -12,29 +12,29 @@ protocol UserInfoRouterInput {
 }
 
 final class UserInfoRouter {
-    
-    //MARK: - Propertis
-    
+
+    // MARK: - Propertis
+
     unowned private let view: UIViewController
     private let assembly: Assembly
-    
-    //MARK: - Init
-    
+
+    // MARK: - Init
+
     init(view: UIViewController, assembly: Assembly) {
         self.view = view
         self.assembly = assembly
         print("UserInfoRouter init")
     }
-    
+
     deinit {
         print("UserInfoRouter deinit")
     }
 }
 
-//MARK: - UserInfoRouterInput
+// MARK: - UserInfoRouterInput
 
 extension UserInfoRouter: UserInfoRouterInput {
-    
+
     func dismiss(animated: Bool) {
         view.dismiss(animated: animated)
     }

@@ -18,45 +18,45 @@ protocol LoginInteractorOutput: AnyObject {
 }
 
 final class LoginPresenter {
-    
+
     unowned private let view: LoginViewInput
     var interactor: LoginInteractorInput?
     var router: LoginRouterInput?
-    
-    //MARk: - Init
-    
+
+    // MARk: - Init
+
     init(view: LoginViewInput) {
         print("LoginPresenter init")
         self.view = view
     }
-    
+
     deinit {
         print("LoginPresenter deinit")
     }
-    
+
 }
 
-//MARK: - LoginViewOutput
+// MARK: - LoginViewOutput
 
 extension LoginPresenter: LoginViewOutput {
-    
+
     func registerButtonPress() {
         router?.showRegisterModule()
     }
-    
+
     func logIn(login: String, password: String) {
         interactor?.logIn(login: login, password: password)
     }
 }
 
-//MARK: - LoginInteractorOutput
+// MARK: - LoginInteractorOutput
 
 extension LoginPresenter: LoginInteractorOutput {
-    
+
     func userDidLogined() {
         router?.dissmis()
     }
-    
+
     func userLoginFail(message: String) {
         view.userNotLoginned(message: message)
     }

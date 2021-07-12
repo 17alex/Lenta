@@ -21,7 +21,7 @@ enum Constants {
         static let avatarsPath      = "https://monsterok.ru/lenta/avatars/"
         static let imagesPath       = "https://monsterok.ru/lenta/images/"
     }
-    
+
     enum Colors {
         static let active = #colorLiteral(red: 0, green: 0.4773686528, blue: 0.8912271857, alpha: 1)
         static let deActive = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)

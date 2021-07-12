@@ -14,9 +14,9 @@ protocol ProfileViewInput: AnyObject {
 }
 
 final class ProfileViewController: UIViewController {
-     
-    //MARK: - Propertis
-    
+
+    // MARK: - Propertis
+
     private let avatarImageView: WebImageView = {
         let imageView = WebImageView()
         imageView.contentMode = .scaleAspectFit
@@ -26,7 +26,7 @@ final class ProfileViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
+
     private let textNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name:"
@@ -35,7 +35,7 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let nameTextField: UITextField = {
         let textField = UITextField()
         textField.text = "----"
@@ -45,7 +45,7 @@ final class ProfileViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
-    
+
     private let textCountLabel: UILabel = {
         let label = UILabel()
         label.text = "Posts count:"
@@ -54,7 +54,7 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let postsCountLabel: UILabel = {
         let label = UILabel()
         label.text = "--"
@@ -63,7 +63,7 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let textDateLabel: UILabel = {
         let label = UILabel()
         label.text = "Date register:"
@@ -72,7 +72,7 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let dateRegisterLabel: UILabel = {
         let label = UILabel()
         label.text = "--.--.----"
@@ -81,14 +81,15 @@ final class ProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     lazy private var imagePicker = ImagePicker(view: self, delegate: self)
-    lazy private var saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveButtonPress))
+    lazy private var saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self,
+                                                  action: #selector(saveButtonPress))
     lazy private var imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(chooseImage))
     lazy private var tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKeyboard))
-    
+
     var presenter: ProfileViewOutput?
-    
+
     var currentUserModel: UserViewModel? {
         didSet {
             if let currentUserModel = currentUserModel {
@@ -98,37 +99,37 @@ final class ProfileViewController: UIViewController {
             }
         }
     }
-    
-    //MARK: - LiveCycles
-    
+
+    // MARK: - LiveCycles
+
     deinit {
         print("ProfileViewController deinit")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         print("ProfileViewController init")
         setupUI()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         presenter?.start()
     }
-    
-    //MARK: - Metods
-    
+
+    // MARK: - Metods
+
     @objc private func logInOutButtonPress() {
         presenter?.logInOutButtonPress()
     }
-    
+
     @objc private func nameTextChange() {
         guard let name = nameTextField.text else { return }
         presenter?.change(name: name)
     }
-    
+
     private func showUserInfo(userModel: UserViewModel) {
         nameTextField.isEnabled = true
         avatarImageView.isUserInteractionEnabled = true
@@ -142,9 +143,11 @@ final class ProfileViewController: UIViewController {
         } else {
             avatarImageView.load(by: userModel.avatarUrlString)
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "logout"), style: .plain, target: self, action: #selector(logInOutButtonPress))
+        navigationItem.rightBarButtonItem =
+            UIBarButtonItem(image: UIImage(named: "logout"), style: .plain,
+                            target: self, action: #selector(logInOutButtonPress))
     }
-    
+
     private func clearUserInfo() {
         nameTextField.isEnabled = false
         avatarImageView.isUserInteractionEnabled = false
@@ -154,30 +157,32 @@ final class ProfileViewController: UIViewController {
         nameTextField.text = "----"
         postsCountLabel.text = "--"
         dateRegisterLabel.text = "--.--.----"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "login"), style: .plain, target: self, action: #selector(logInOutButtonPress))
+        navigationItem.rightBarButtonItem =
+            UIBarButtonItem(image: UIImage(named: "login"), style: .plain,
+                            target: self, action: #selector(logInOutButtonPress))
     }
-    
+
     @objc private func saveButtonPress() {
         guard let name = nameTextField.text else { return }
         nameTextField.resignFirstResponder()
         presenter?.saveButtonPress(name: name, image: avatarImageView.image)
     }
-    
+
     @objc private func heidKeyboard() {
         nameTextField.resignFirstResponder()
     }
-    
+
     @objc private func chooseImage() {
         imagePicker.chooseImage()
     }
-    
+
     private func setupUI() {
         view.backgroundColor = .systemBackground
         saveButton.isEnabled = false
         navigationItem.leftBarButtonItem = saveButton
         avatarImageView.addGestureRecognizer(imageTapGesture)
         view.addGestureRecognizer(tapRecognizer)
-        
+
         view.addSubview(avatarImageView)
         view.addSubview(textNameLabel)
         view.addSubview(nameTextField)
@@ -185,65 +190,65 @@ final class ProfileViewController: UIViewController {
         view.addSubview(postsCountLabel)
         view.addSubview(textDateLabel)
         view.addSubview(dateRegisterLabel)
-        
+
         NSLayoutConstraint.activate([
-        
+
             avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             avatarImageView.widthAnchor.constraint(equalToConstant: 100),
             avatarImageView.heightAnchor.constraint(equalToConstant: 100),
-            
+
             textNameLabel.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -5),
             textNameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 32),
-            
+
             textCountLabel.trailingAnchor.constraint(equalTo: textNameLabel.trailingAnchor),
             textCountLabel.topAnchor.constraint(equalTo: textNameLabel.bottomAnchor, constant: 16),
-            
+
             textDateLabel.trailingAnchor.constraint(equalTo: textNameLabel.trailingAnchor),
             textDateLabel.topAnchor.constraint(equalTo: textCountLabel.bottomAnchor, constant: 16),
-        
+
             nameTextField.leadingAnchor.constraint(equalTo: textNameLabel.trailingAnchor, constant: 10),
             nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16),
             nameTextField.firstBaselineAnchor.constraint(equalTo: textNameLabel.firstBaselineAnchor),
-            
+
             postsCountLabel.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
             postsCountLabel.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
             postsCountLabel.firstBaselineAnchor.constraint(equalTo: textCountLabel.firstBaselineAnchor),
-            
+
             dateRegisterLabel.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
             dateRegisterLabel.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
             dateRegisterLabel.firstBaselineAnchor.constraint(equalTo: textDateLabel.firstBaselineAnchor)
         ])
-        
+
         avatarImageView.layer.cornerRadius = 50
         avatarImageView.clipsToBounds = true
     }
 }
 
-//MARK: - ProfileViewInput
+// MARK: - ProfileViewInput
 
 extension ProfileViewController: ProfileViewInput {
-    
+
     func showMessage(_ message: String) {
         let alertController = UIAlertController(title: "Profile", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
-    
+
     func didChangeProfile(_ change: Bool) {
         saveButton.isEnabled = change
     }
-    
+
     func userLoginned(_ currentUserModel: UserViewModel?) {
         self.currentUserModel = currentUserModel
     }
 }
 
-//MARK: - ImagePickerDelegate
+// MARK: - ImagePickerDelegate
 
 extension ProfileViewController: ImagePickerDelegate {
-    
+
     func selectImage(_ image: UIImage) {
         self.avatarImageView.image = image
         presenter?.didSelectNewAvatar()

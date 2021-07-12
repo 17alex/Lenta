@@ -12,25 +12,25 @@ protocol NewPostRouterInput {
 }
 
 final class NewPostRouter {
-    
+
     let assembly: Assembly
     unowned let  view: UIViewController
-    
-    //MARK: - Init
-    
+
+    // MARK: - Init
+
     init(view: UIViewController, assembly: Assembly) {
         print("NewPostRouter init")
         self.view = view
         self.assembly = assembly
     }
-    
+
     deinit { print("NewPostRouter deinit") }
 }
 
-//MARK: - NewPostRouterInput
+// MARK: - NewPostRouterInput
 
 extension NewPostRouter: NewPostRouterInput {
-    
+
     func dismiss() {
         view.dismiss(animated: true)
     }

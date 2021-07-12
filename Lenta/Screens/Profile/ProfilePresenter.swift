@@ -25,75 +25,75 @@ protocol ProfileInteractorOutput: AnyObject {
 }
 
 final class ProfilePresenter {
-    
-    //MARK: - Propertis
-    
+
+    // MARK: - Propertis
+
     unowned private let view: ProfileViewInput
     private let interactor: ProfileInteractorInput
     var router: ProfileRouterInput?
-    
-    //MARK: - Init
-    
+
+    // MARK: - Init
+
     init(view: ProfileViewInput, interactor: ProfileInteractorInput) {
         self.view = view
         self.interactor = interactor
         print("ProfilePresenter init")
     }
-    
+
     deinit {
         print("ProfilePresenter deinit")
     }
 }
 
-//MARK: - ProfileViewOutput
+// MARK: - ProfileViewOutput
 
 extension ProfilePresenter: ProfileViewOutput {
-    
+
     func saveButtonPress(name: String, image: UIImage?) {
         interactor.saveProfile(name: name, image: image)
     }
-    
+
     func logInOutButtonPress() {
         interactor.logInOutButtonPress()
     }
-    
+
     func didSelectNewAvatar() {
         interactor.didSelectNewAvatar()
     }
-    
+
     func change(name: String) {
         interactor.change(name: name)
     }
-    
+
     func start() {
         interactor.start()
     }
 }
 
-//MARK: - ProfileInteractorOutput
+// MARK: - ProfileInteractorOutput
 
 extension ProfilePresenter: ProfileInteractorOutput {
-    
+
     func saveProfileFailed(serviceError: NetworkServiceError) {
         view.showMessage(serviceError.rawValue)
     }
-    
+
     func saveProfileSuccess() {
         view.showMessage("update successfull")
     }
-    
+
     func saveProfileError() {
         view.showMessage("error update")
     }
-    
+
     func currentUser(currentUser: User?) {
         view.userLoginned(UserViewModel(user: currentUser))
     }
-    
+
     func changeProfile(_ change: Bool) {
         view.didChangeProfile(change)
     }
-    
+
     func toLogin() {
         router?.loginUser()
     }
