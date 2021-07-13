@@ -15,8 +15,8 @@ final class CommentCell: UITableViewCell {
         return self.description()
     }
 
-    private let avatarImageView: WebImageView = {
-        let imageView = WebImageView()
+    private let avatarImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
@@ -55,9 +55,14 @@ final class CommentCell: UITableViewCell {
             userNameLabel.text = commentModel.user?.name ?? "NoName"
             dateLabel.text = commentModel.time
             commentLabel.text = commentModel.text
-            setAvatar(by: commentModel.user?.avatarUrlString ?? "")
+            let newAvatarUrlString = commentModel.user?.avatarUrlString ?? ""
+            if avatarUrlString != newAvatarUrlString {
+                avatarImageView.image = nil
+            }
         }
     }
+
+    private var avatarUrlString: String = ""
 
     // MARK: - Init
 
@@ -85,12 +90,8 @@ final class CommentCell: UITableViewCell {
         self.commentModel = commentModel
     }
 
-    private func setAvatar(by urlString: String) {
-        if !urlString.isEmpty {
-            avatarImageView.load(by: urlString)
-        } else {
-            avatarImageView.image = UIImage(named: "defaultAvatar")
-        }
+    func set(avatar: UIImage?) {
+        avatarImageView.image = avatar
     }
 
     private func setupUI() {

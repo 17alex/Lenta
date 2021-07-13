@@ -9,14 +9,15 @@ import UIKit
 
 protocol UserInfoViewInput: AnyObject {
     func set(user: UserViewModel?)
+    func set(avatar: UIImage?)
 }
 
 final class UserInfoViewController: UIViewController {
 
     // MARK: - Propertis
 
-    let avatarImageView: WebImageView = {
-        let imageView = WebImageView()
+    let avatarImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "defaultAvatar")
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -86,6 +87,14 @@ final class UserInfoViewController: UIViewController {
         navBar.translatesAutoresizingMaskIntoConstraints = false
         return navBar
     }()
+
+    private var user: UserViewModel? {
+        didSet {
+            userNameLabel.text = user?.name
+            userPostCountLabel.text = user?.postsCount
+            userDateRegisterLabel.text = user?.dateRegister
+        }
+    }
 
     var presenter: UserInfoViewOutput?
 
@@ -161,11 +170,10 @@ final class UserInfoViewController: UIViewController {
 extension UserInfoViewController: UserInfoViewInput {
 
     func set(user: UserViewModel?) {
-        userNameLabel.text = user?.name
-        userPostCountLabel.text = user?.postsCount
-        userDateRegisterLabel.text = user?.dateRegister
-        if let avatarUrl = user?.avatarUrlString {
-            avatarImageView.load(by: avatarUrl)
-        }
+        self.user = user
+    }
+
+    func set(avatar: UIImage?) {
+        avatarImageView.image = avatar
     }
 }

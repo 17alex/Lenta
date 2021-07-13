@@ -5,7 +5,7 @@
 //  Created by Alex on 11.01.2021.
 //
 
-import Foundation
+import UIKit
 
 protocol LentaInteractorInput {
     var currentUser: User? { get }
@@ -18,6 +18,7 @@ protocol LentaInteractorInput {
     func deletePost(by index: Int)
     func changeLike(by index: Int)
     func getCurrenUser()
+    func getImage(from urlString: String?, complete: @escaping (UIImage?) -> Void)
 }
 
 final class LentaInteractor {
@@ -47,6 +48,10 @@ final class LentaInteractor {
 
 extension LentaInteractor: LentaInteractorInput {
 
+    func getImage(from urlString: String?, complete: @escaping (UIImage?) -> Void) {
+        networkManager?.loadImage(from: urlString, complete: complete)
+    }
+
     func addNewPost(response: Response) {
         guard let post = response.posts.first else { return }
         posts.insert(post, at: 0)
@@ -56,15 +61,15 @@ extension LentaInteractor: LentaInteractorInput {
 
     func deletePost(by index: Int) {
         networkManager?.removePost(postId: posts[index].id) { [weak self] (result) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                strongSelf.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(message: serviceError.rawValue)
             case .success(let response):
                 guard let deletePost = response.posts.first else { return }
-                if let deleteIndex = strongSelf.posts.firstIndex(where: { $0.id == deletePost.id }) {
-                    strongSelf.posts.remove(at: deleteIndex)
-                    strongSelf.presenter?.didRemovePost(by: deleteIndex)
+                if let deleteIndex = self.posts.firstIndex(where: { $0.id == deletePost.id }) {
+                    self.posts.remove(at: deleteIndex)
+                    self.presenter?.didRemovePost(by: deleteIndex)
                 }
             }
         }
@@ -75,20 +80,20 @@ extension LentaInteractor: LentaInteractorInput {
         isLoadingPosts = true
         let lastPostId = posts[posts.count - 1].id
         networkManager?.getPosts(fromPostId: lastPostId) { [weak self] (result) in
-            guard let strongSelf = self else { return }
-            strongSelf.isLoadingPosts = false
+            guard let self = self else { return }
+            self.isLoadingPosts = false
             switch result {
             case .failure(let serviceError):
-                strongSelf.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(message: serviceError.rawValue)
             case .success(let response):
-                strongSelf.posts.append(contentsOf: response.posts)
-                strongSelf.users = strongSelf.users.union(response.users)
-                strongSelf.storeManager?.append(posts: response.posts)
-                strongSelf.storeManager?.save(users: Array(strongSelf.users))
+                self.posts.append(contentsOf: response.posts)
+                self.users = self.users.union(response.users)
+                self.storeManager?.append(posts: response.posts)
+                self.storeManager?.save(users: Array(self.users))
                 if response.posts.count == 0 {
-                    strongSelf.isEndingPosts = true
+                    self.isEndingPosts = true
                 } else {
-                    strongSelf.presenter?.didLoadNext(posts: response.posts)
+                    self.presenter?.didLoadNext(posts: response.posts)
                 }
             }
         }
@@ -96,9 +101,9 @@ extension LentaInteractor: LentaInteractorInput {
 
     func loadFromStore() {
         storeManager?.load { [weak self] posts, users in
-            guard let strongSelf = self else { return }
-            strongSelf.users = Set(users)
-            strongSelf.posts = posts
+            guard let self = self else { return }
+            self.users = Set(users)
+            self.posts = posts
         }
     }
 
@@ -107,17 +112,17 @@ extension LentaInteractor: LentaInteractorInput {
         isLoadingPosts = true
         isEndingPosts = false
         networkManager?.getPosts(fromPostId: nil) { [weak self] (result) in
-            guard let strongSelf = self else { return }
-            strongSelf.isLoadingPosts = false
+            guard let self = self else { return }
+            self.isLoadingPosts = false
             switch result {
             case .failure(let serviceError):
-                strongSelf.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(message: serviceError.rawValue)
             case .success(let response):
-                strongSelf.posts = response.posts
-                strongSelf.users = Set(response.users)
-                strongSelf.presenter?.didLoadFirst(posts: response.posts)
-                strongSelf.storeManager?.save(posts: response.posts)
-                strongSelf.storeManager?.save(users: response.users)
+                self.posts = response.posts
+                self.users = Set(response.users)
+                self.presenter?.didLoadFirst(posts: response.posts)
+                self.storeManager?.save(posts: response.posts)
+                self.storeManager?.save(users: response.users)
             }
         }
     }
@@ -126,13 +131,13 @@ extension LentaInteractor: LentaInteractorInput {
         guard let currentUser = currentUser else { return }
         let postId = posts[index].id
         networkManager?.changeLike(postId: postId, userId: currentUser.id) { [weak self] (result) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                strongSelf.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(message: serviceError.rawValue)
             case .success(let post):
-                strongSelf.posts[index] = post
-                strongSelf.presenter?.didUpdatePost(by: index)
+                self.posts[index] = post
+                self.presenter?.didUpdatePost(by: index)
             }
         }
     }

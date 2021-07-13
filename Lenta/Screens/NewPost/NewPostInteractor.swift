@@ -39,12 +39,12 @@ extension NewPostInteractor: NewPostInteractorInput {
         guard let currentUser = storeManager?.getCurrenUser() else { return }
         let sendPost = SendPost(userId: currentUser.id, description: description, image: image)
         networkManager?.sendPost(post: sendPost) { [weak self] (result) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                strongSelf.presenter?.newPostSendFailed(serviceError: serviceError)
+                self.presenter?.newPostSendFailed(serviceError: serviceError)
             case .success(let response):
-                strongSelf.presenter?.newPostSendSuccess(response: response)
+                self.presenter?.newPostSendSuccess(response: response)
             }
         }
     }

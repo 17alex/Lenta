@@ -48,7 +48,10 @@ final class Assembly {
     func getUserInfoModule(user: UserViewModel) -> UIViewController {
         let view = UserInfoViewController()
         let router = UserInfoRouter(view: view, assembly: self)
+        let interactor = UserInfoInteractor()
         let presenter = UserInfoPresenter(view: view, router: router, user: user)
+        presenter.interactor = interactor
+        interactor.networkManager = networkManager
         view.presenter = presenter
         return view
     }

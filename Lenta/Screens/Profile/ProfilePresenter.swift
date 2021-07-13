@@ -87,7 +87,12 @@ extension ProfilePresenter: ProfileInteractorOutput {
     }
 
     func currentUser(currentUser: User?) {
-        view.userLoginned(UserViewModel(user: currentUser))
+        let userViewModel = UserViewModel(user: currentUser)
+        view.userLoginned(userViewModel)
+        interactor.getImage(from: userViewModel?.avatarUrlString) { [weak self] avatarImage in
+            guard let self = self else { return }
+            self.view.set(avatar: avatarImage ?? UIImage(named: "avatar"))
+        }
     }
 
     func changeProfile(_ change: Bool) {

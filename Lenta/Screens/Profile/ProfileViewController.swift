@@ -11,14 +11,15 @@ protocol ProfileViewInput: AnyObject {
     func userLoginned(_ currentUserModel: UserViewModel?)
     func didChangeProfile(_ change: Bool)
     func showMessage(_ message: String)
+    func set(avatar: UIImage?)
 }
 
 final class ProfileViewController: UIViewController {
 
     // MARK: - Propertis
 
-    private let avatarImageView: WebImageView = {
-        let imageView = WebImageView()
+    private let avatarImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "avatar")
         imageView.tintColor = Constants.Colors.active
@@ -137,12 +138,12 @@ final class ProfileViewController: UIViewController {
         nameTextField.textColor = Constants.Colors.active
         postsCountLabel.text = userModel.postsCount
         dateRegisterLabel.text = userModel.dateRegister
-        if userModel.avatarUrlString.isEmpty {
-            avatarImageView.image = UIImage(named: "avatar")
-            avatarImageView.tintColor = Constants.Colors.active
-        } else {
-            avatarImageView.load(by: userModel.avatarUrlString)
-        }
+//        if userModel.avatarUrlString.isEmpty {
+//            avatarImageView.image = UIImage(named: "avatar")
+//            avatarImageView.tintColor = Constants.Colors.active
+//        } else {
+//            avatarImageView.load(by: userModel.avatarUrlString)
+//        }
         navigationItem.rightBarButtonItem =
             UIBarButtonItem(image: UIImage(named: "logout"), style: .plain,
                             target: self, action: #selector(logInOutButtonPress))
@@ -242,6 +243,10 @@ extension ProfileViewController: ProfileViewInput {
 
     func userLoginned(_ currentUserModel: UserViewModel?) {
         self.currentUserModel = currentUserModel
+    }
+
+    func set(avatar: UIImage?) {
+        avatarImageView.image = avatar
     }
 }
 

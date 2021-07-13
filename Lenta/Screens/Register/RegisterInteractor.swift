@@ -33,16 +33,16 @@ extension RegisterInteractor: RegisterInteractorInput {
     func register(name: String, login: String, password: String, avatarImage: UIImage?) {
         networkManager?.register(name: name, login: login, password: password,
                                  avatar: avatarImage) { [weak self] (result) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                strongSelf.presenter.userDidRegisteredFail(message: serviceError.rawValue)
+                self.presenter.userDidRegisteredFail(message: serviceError.rawValue)
             case .success(let users):
                 if let currentUser = users.first {
-                    strongSelf.storeManager?.save(user: currentUser)
-                    strongSelf.presenter.userDidRegistered()
+                    self.storeManager?.save(user: currentUser)
+                    self.presenter.userDidRegistered()
                 } else {
-                    strongSelf.presenter.userDidRegisteredFail(message: "unkmon error")
+                    self.presenter.userDidRegisteredFail(message: "unkmon error")
                 }
             }
         }

@@ -28,6 +28,7 @@ protocol NetworkManagerProtocol {
     func loadComments(for postId: Int16, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void)
     func sendComment(_ comment: String, postId: Int16, userId: Int16,
                      complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void)
+    func loadImage(from urlString: String?, complete: @escaping (UIImage?) -> Void)
 }
 
 final class NetworkManager {
@@ -54,22 +55,39 @@ final class NetworkManager {
         DispatchQueue.main.async { blok() }
     }
 
-    private func typeDebug(data: Data?) {
-        if let myData = data, let dataString = String(data: myData, encoding: .utf8) {
-            print("dataString: " + dataString)
-        }
-    }
+//    private func typeDebug(data: Data?) {
+//        if let myData = data, let dataString = String(data: myData, encoding: .utf8) {
+//            print("dataString: " + dataString)
+//        }
+//    }
 }
 
 // MARK: - NetworkManagerProtocol
 
 extension NetworkManager: NetworkManagerProtocol {
 
+    func loadImage(from urlString: String?, complete: @escaping (UIImage?) -> Void) {
+
+        guard let urlString = urlString, let url = URL(string: urlString) else {
+            onMain { complete(nil) }
+            return
+        }
+
+        let urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
+        URLSession.shared.dataTask(with: urlRequest) { [weak self] (data, _, _) in
+            guard let self = self else { return }
+            if let data = data, let loadImage = UIImage(data: data) {
+                self.onMain { complete(loadImage) }
+            } else {
+                self.onMain { complete(nil) }
+            }
+        }.resume()
+    }
+
     func sendComment(_ comment: String, postId: Int16, userId: Int16,
                      complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.sendComment
-
         guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
@@ -77,16 +95,16 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpBody = postSting.data(using: .utf8)
 
         taskResume(with: urlRequest) { [weak self] (data, error) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
 
-            if error != nil { strongSelf.onMain { complete(.failure(.network)) }; return }
-            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            if error != nil { self.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { self.onMain { complete(.failure(.unknown)) }; return }
 
             do {
                 let responseComment = try JSONDecoder().decode(ResponseComment.self, from: data)
-                strongSelf.onMain { complete(.success(responseComment)) }
+                self.onMain { complete(.success(responseComment)) }
             } catch {
-                strongSelf.onMain { complete(.failure(.decodable)) }
+                self.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -94,7 +112,6 @@ extension NetworkManager: NetworkManagerProtocol {
     func loadComments(for postId: Int16, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.getComments
-
         var components = URLComponents(string: urlString)
         components?.queryItems = [
             URLQueryItem(name: "postId", value: String(postId))
@@ -105,16 +122,16 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpMethod = "GET"
 
         taskResume(with: urlRequest) { [weak self] data, error in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
 
-            if error != nil { strongSelf.onMain { complete(.failure(.network)) }; return }
-            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            if error != nil { self.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { self.onMain { complete(.failure(.unknown)) }; return }
 
             do {
                 let pesponseComment = try JSONDecoder().decode(ResponseComment.self, from: data)
-                strongSelf.onMain { complete(.success(pesponseComment)) }
+                self.onMain { complete(.success(pesponseComment)) }
             } catch {
-                strongSelf.onMain { complete(.failure(.decodable)) }
+                self.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -122,7 +139,6 @@ extension NetworkManager: NetworkManagerProtocol {
     func getPosts(fromPostId: Int16? = nil, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.getPosts
-
         var components = URLComponents(string: urlString)
         if let fromPostId = fromPostId {
             components?.queryItems = [
@@ -135,16 +151,16 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpMethod = "GET"
 
         taskResume(with: urlRequest) { [weak self] data, error in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
 
-            if error != nil { strongSelf.onMain { complete(.failure(.network)) }; return }
-            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            if error != nil { self.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { self.onMain { complete(.failure(.unknown)) }; return }
 
             do {
                 let pesponse = try JSONDecoder().decode(Response.self, from: data)
-                strongSelf.onMain { complete(.success(pesponse)) }
+                self.onMain { complete(.success(pesponse)) }
             } catch {
-                strongSelf.onMain { complete(.failure(.decodable)) }
+                self.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -152,7 +168,6 @@ extension NetworkManager: NetworkManagerProtocol {
     func removePost(postId: Int16, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.removePost
-
         guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "DELETE"
@@ -160,16 +175,16 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpBody = postSting.data(using: .utf8)
 
         taskResume(with: urlRequest) { [weak self] (data, error) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
 
-            if error != nil { strongSelf.onMain { complete(.failure(.network)) }; return }
-            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            if error != nil { self.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { self.onMain { complete(.failure(.unknown)) }; return }
 
             do {
                 let pesponse = try JSONDecoder().decode(Response.self, from: data)
-                strongSelf.onMain { complete(.success(pesponse)) }
+                self.onMain { complete(.success(pesponse)) }
             } catch {
-                strongSelf.onMain { complete(.failure(.decodable)) }
+                self.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -177,7 +192,6 @@ extension NetworkManager: NetworkManagerProtocol {
     func changeLike(postId: Int16, userId: Int16, complete: @escaping (Result<Post, NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.changeLike
-
         guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "PUT"
@@ -185,16 +199,16 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpBody = dataSting.data(using: .utf8)
 
         taskResume(with: urlRequest) { [weak self] (data, error) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
 
-            if error != nil { strongSelf.onMain { complete(.failure(.network)) }; return }
-            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            if error != nil { self.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { self.onMain { complete(.failure(.unknown)) }; return }
 
             do {
                 let decodePost = try JSONDecoder().decode(Post.self, from: data)
-                strongSelf.onMain { complete(.success(decodePost)) }
+                self.onMain { complete(.success(decodePost)) }
             } catch {
-                strongSelf.onMain { complete(.failure(.decodable)) }
+                self.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -203,7 +217,6 @@ extension NetworkManager: NetworkManagerProtocol {
                        complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.updatePrifile
-
         guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         let filePathKey = "file"
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -212,7 +225,6 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         var body = Data()
-
         var parameters: [String: String] = [:]
         parameters["id"] = String(userId)
         parameters["name"] = name
@@ -236,18 +248,17 @@ extension NetworkManager: NetworkManagerProtocol {
         }
 
         urlRequest.httpBody = body
-
         taskResume(with: urlRequest) { [weak self] (data, error) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
 
-            if error != nil { strongSelf.onMain { complete(.failure(.network)) }; return }
-            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            if error != nil { self.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { self.onMain { complete(.failure(.unknown)) }; return }
 
             do {
                 let decodeUsers = try JSONDecoder().decode([User].self, from: data)
-                strongSelf.onMain { complete(.success(decodeUsers)) }
+                self.onMain { complete(.success(decodeUsers)) }
             } catch {
-                strongSelf.onMain { complete(.failure(.decodable)) }
+                self.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -255,7 +266,6 @@ extension NetworkManager: NetworkManagerProtocol {
     func logIn(login: String, password: String, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.login
-
         guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
@@ -263,16 +273,16 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpBody = dataSting.data(using: .utf8)
 
         taskResume(with: urlRequest) { [weak self] (data, error) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
 
-            if error != nil { strongSelf.onMain { complete(.failure(.network)) }; return }
-            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            if error != nil { self.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { self.onMain { complete(.failure(.unknown)) }; return }
 
             do {
                 let decodeUsers = try JSONDecoder().decode([User].self, from: data)
-                strongSelf.onMain { complete(.success(decodeUsers)) }
+                self.onMain { complete(.success(decodeUsers)) }
             } catch {
-                strongSelf.onMain { complete(.failure(.decodable)) }
+                self.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -281,7 +291,6 @@ extension NetworkManager: NetworkManagerProtocol {
                   complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.register
-
         guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         let filePathKey = "file"
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -290,7 +299,6 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         var body = Data()
-
         var parameters: [String: String] = [:]
         parameters["name"] = name
         parameters["login"] = login
@@ -315,18 +323,17 @@ extension NetworkManager: NetworkManagerProtocol {
         }
 
         urlRequest.httpBody = body
-
         taskResume(with: urlRequest) { [weak self] (data, error) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
 
-            if error != nil { strongSelf.onMain { complete(.failure(.network)) }; return }
-            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            if error != nil { self.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { self.onMain { complete(.failure(.unknown)) }; return }
 
             do {
                 let decodeUsers = try JSONDecoder().decode([User].self, from: data)
-                strongSelf.onMain { complete(.success(decodeUsers)) }
+                self.onMain { complete(.success(decodeUsers)) }
             } catch {
-                strongSelf.onMain { complete(.failure(.decodable)) }
+                self.onMain { complete(.failure(.decodable)) }
             }
         }
     }
@@ -334,7 +341,6 @@ extension NetworkManager: NetworkManagerProtocol {
     func sendPost(post: SendPost, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.sendPost
-
         guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
         let filePathKey = "file"
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -343,7 +349,6 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         var body = Data()
-
         var parameters: [String: String] = [:]
         parameters["userId"] = String(post.userId)
         parameters["description"] = post.description
@@ -367,18 +372,17 @@ extension NetworkManager: NetworkManagerProtocol {
         }
 
         urlRequest.httpBody = body
-
         taskResume(with: urlRequest) { [weak self] (data, error) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
 
-            if error != nil { strongSelf.onMain { complete(.failure(.network)) }; return }
-            guard let data = data else { strongSelf.onMain { complete(.failure(.unknown)) }; return }
+            if error != nil { self.onMain { complete(.failure(.network)) }; return }
+            guard let data = data else { self.onMain { complete(.failure(.unknown)) }; return }
 
             do {
                 let response = try JSONDecoder().decode(Response.self, from: data)
-                strongSelf.onMain { complete(.success(response)) }
+                self.onMain { complete(.success(response)) }
             } catch {
-                strongSelf.onMain { complete(.failure(.decodable)) }
+                self.onMain { complete(.failure(.decodable)) }
             }
         }
     }

@@ -18,6 +18,8 @@ protocol LentaViewInput: AnyObject {
     func showMenu(byPostIndex index: Int, isPostOwner: Bool)
     func loadingStarted()
     func loadingEnd()
+    func set(photo: UIImage?, for index: Int)
+    func set(avatar: UIImage?, for index: Int)
 }
 
 final class LentaViewController: UIViewController {
@@ -38,16 +40,16 @@ final class LentaViewController: UIViewController {
     }()
 
     private lazy var lentaTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.register(LentaCell.self, forCellReuseIdentifier: String(describing: LentaCell.self))
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.refreshControl = refreshControl
-        tableView.backgroundColor = Constants.Colors.bgTable
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
+        let table = UITableView()
+        table.register(LentaCell.self, forCellReuseIdentifier: String(describing: LentaCell.self))
+        table.dataSource = self
+        table.delegate = self
+        table.refreshControl = refreshControl
+        table.backgroundColor = Constants.Colors.bgTable
+        table.separatorStyle = .none
+        table.showsVerticalScrollIndicator = false
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
     }()
 
     var presenter: LentaViewOutput?
@@ -190,6 +192,16 @@ extension LentaViewController: PostCellDelegate {
 // MARK: - LentaViewInput
 
 extension LentaViewController: LentaViewInput {
+
+    func set(photo: UIImage?, for index: Int) {
+        guard let cell = lentaTableView.cellForRow(at: IndexPath(row: index, section: 0)) as? LentaCell else { return }
+        cell.set(photo: photo)
+    }
+
+    func set(avatar: UIImage?, for index: Int) {
+        guard let cell = lentaTableView.cellForRow(at: IndexPath(row: index, section: 0)) as? LentaCell else { return }
+        cell.set(avatar: avatar)
+    }
 
     func loadingEnd() {
         activityIndicator.stopAnimating()

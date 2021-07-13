@@ -5,7 +5,7 @@
 //  Created by Alex on 10.03.2021.
 //
 
-import Foundation
+import UIKit
 
 protocol CommentsInteractorInput {
     var posts: [Post] { get }
@@ -13,6 +13,7 @@ protocol CommentsInteractorInput {
     var users: Set<User> { get }
     func loadComments(by postId: Int16)
     func sendNewComment(_ comment: String)
+    func getImage(from urlString: String?, complete: @escaping (UIImage?) -> Void)
 }
 
 final class CommentsInteractor {
@@ -43,6 +44,10 @@ final class CommentsInteractor {
 
 extension CommentsInteractor: CommentsInteractorInput {
 
+    func getImage(from urlString: String?, complete: @escaping (UIImage?) -> Void) {
+        networkManager?.loadImage(from: urlString, complete: complete)
+    }
+
     func sendNewComment(_ comment: String) {
         guard let currentUser = storeManager?.getCurrenUser() else {
             presenter?.show(message: "User not loginned")
@@ -50,29 +55,29 @@ extension CommentsInteractor: CommentsInteractorInput {
         }
 
         networkManager?.sendComment(comment, postId: posts[0].id, userId: currentUser.id) { [weak self] (result) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                strongSelf.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(message: serviceError.rawValue)
             case .success(let responseComment):
-                strongSelf.comments.append(contentsOf: responseComment.comments)
-                strongSelf.users = strongSelf.users.union(responseComment.users)
-                strongSelf.presenter?.didSendComment(responseComment.comments)
+                self.comments.append(contentsOf: responseComment.comments)
+                self.users = self.users.union(responseComment.users)
+                self.presenter?.didSendComment(responseComment.comments)
             }
         }
     }
 
     func loadComments(by postId: Int16) {
         networkManager?.loadComments(for: postId) { [weak self] result in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                strongSelf.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(message: serviceError.rawValue)
             case .success(let responseComment):
-                strongSelf.posts = responseComment.posts
-                strongSelf.comments = responseComment.comments
-                strongSelf.users = Set(responseComment.users)
-                strongSelf.presenter?.didLoadComments()
+                self.posts = responseComment.posts
+                self.comments = responseComment.comments
+                self.users = Set(responseComment.users)
+                self.presenter?.didLoadComments()
             }
         }
     }
