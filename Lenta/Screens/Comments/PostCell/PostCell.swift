@@ -15,8 +15,8 @@ final class PostCell: UITableViewCell {
         return self.description()
     }
 
-    private let avatarImageView: WebImageView = {
-        let imageView = WebImageView()
+    private let avatarImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 30
         imageView.clipsToBounds = true
@@ -49,8 +49,8 @@ final class PostCell: UITableViewCell {
         return label
     }()
 
-    private let photoImageView: WebImageView = {
-        let imageView = WebImageView()
+    private let photoImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -65,15 +65,26 @@ final class PostCell: UITableViewCell {
 
     private var photoImageViewHeight: NSLayoutConstraint?
     private let photoImageViewDefaultHeight: CGFloat = 0
+    private var photoUrlString: String = ""
+    private var avatarUrlString: String = ""
 
     private var postModel: PostViewModel? {
         didSet {
             guard let postModel = postModel else { return }
             userNameLabel.text = postModel.user?.name ?? "NoName"
-            setAvatar(by: postModel.user?.avatarUrlString ?? "")
+            let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
+            if avatarUrlString != newAvatarUrlString {
+                avatarImageView.image = nil
+            }
+            avatarUrlString = newAvatarUrlString
             timeLabel.text = postModel.time
             descriptionLabel.text = postModel.description.text
-            setPostPhoto(by: postModel.photo?.urlString)
+            let newPhotoUrlString = postModel.photo?.urlString ?? ""
+            if photoUrlString != newPhotoUrlString {
+                photoImageView.image = nil
+            }
+
+            photoUrlString = newPhotoUrlString
             photoImageViewHeight?.constant = postModel.photo?.size.height ?? 0
         }
     }
@@ -96,20 +107,12 @@ final class PostCell: UITableViewCell {
         self.postModel = postModel
     }
 
-    private func setPostPhoto(by urlString: String?) {
-        guard let urlString = urlString else { return }
-        fotoActivityIndicator.startAnimating()
-        photoImageView.load(by: urlString) {
-            self.fotoActivityIndicator.stopAnimating()
-        }
+    func set(photo: UIImage?) {
+        photoImageView.image = photo
     }
 
-    private func setAvatar(by urlString: String) {
-        if !urlString.isEmpty {
-            avatarImageView.load(by: urlString)
-        } else {
-            avatarImageView.image = UIImage(named: "defaultAvatar")
-        }
+    func set(avatar: UIImage?) {
+        avatarImageView.image = avatar
     }
 
     private func setupUI() {

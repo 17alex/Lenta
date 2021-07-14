@@ -34,16 +34,16 @@ extension LoginInteractor: LoginInteractorInput {
 
     func logIn(login: String, password: String) {
         networkManager?.logIn(login: login, password: password) { [weak self] (result) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                strongSelf.presenter.userLoginFail(message: serviceError.rawValue)
+                self.presenter.userLoginFail(message: serviceError.rawValue)
             case .success(let users):
                 if let currentUser = users.first {
-                    strongSelf.storeManager?.save(user: currentUser)
-                    strongSelf.presenter.userDidLogined()
+                    self.storeManager?.save(user: currentUser)
+                    self.presenter.userDidLogined()
                 } else {
-                    strongSelf.presenter.userLoginFail(message: "unkmon error")
+                    self.presenter.userLoginFail(message: "unkmon error")
                 }
             }
         }

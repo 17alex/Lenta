@@ -44,7 +44,11 @@ extension RegisterPresenter: RegisterViewOutput {
     }
 
     func registerButtonPress(name: String, login: String, password: String, avatarImage: UIImage?) {
-        interactor?.register(name: name, login: login, password: password, avatarImage: avatarImage)
+        var imageData: Data?
+        if let avatarImage = avatarImage {
+            imageData = avatarImage.jpegData(compressionQuality: 0.25)
+        }
+        interactor?.register(name: name, login: login, password: password, avatarImage: imageData)
     }
 }
 

@@ -19,8 +19,8 @@ final class LentaCell: UITableViewCell {
 
     // MARK: - Propertis
 
-    lazy private var avatarImageView: WebImageView = {
-        let imageView = WebImageView()
+    lazy private var avatarImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapAvatar)))
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -47,8 +47,8 @@ final class LentaCell: UITableViewCell {
         return label
     }()
 
-    private var photoImageView: WebImageView = {
-        let imageView = WebImageView()
+    private var photoImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -124,16 +124,29 @@ final class LentaCell: UITableViewCell {
         didSet {
             guard let postModel = postModel else { return }
             userNameLabel.text = postModel.user?.name ?? "NoName"
-            setAvatar(by: postModel.user?.avatarUrlString ?? "")
+            let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
+            if avatarUrlString != newAvatarUrlString {
+                avatarImageView.image = nil
+            }
+            avatarUrlString = newAvatarUrlString
             timeLabel.text = postModel.time
             descriptionLabel.text = postModel.description.text
             paintLikeButton(isHighlight: postModel.likes.isHighlight)
             likesCountLabel.text = postModel.likes.count
             viewsCountLabel.text = postModel.views.count
             commentsCountLabel.text = postModel.comments.count
-            setPostPhoto(by: postModel.photo?.urlString)
+
+            let newPhotoUrlString = postModel.photo?.urlString ?? ""
+            if photoUrlString != newPhotoUrlString {
+                photoImageView.image = nil
+                photoActivityIndicator.startAnimating()
+            }
+            photoUrlString = newPhotoUrlString
         }
     }
+
+    private var photoUrlString: String = ""
+    private var avatarUrlString: String = ""
 
     weak var delegate: PostCellDelegate?
 
@@ -184,6 +197,15 @@ final class LentaCell: UITableViewCell {
         self.postModel = postModel
     }
 
+    func set(photo: UIImage?) {
+        photoActivityIndicator.stopAnimating()
+        photoImageView.image = photo
+    }
+
+    func set(avatar: UIImage?) {
+        avatarImageView.image = avatar
+    }
+
     // MARK: - PrivateMetods
 
     private func getPhotoHeight(photoViewModel: PhotoViewModel, width: CGFloat) -> CGFloat {
@@ -199,22 +221,6 @@ final class LentaCell: UITableViewCell {
         likesButton.tintColor = isHighlight ? .systemRed : .systemGray
         let likeImage = isHighlight ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
         likesButton.setImage(likeImage, for: .normal)
-    }
-
-    private func setPostPhoto(by urlString: String?) {
-        guard let urlString = urlString else { return }
-        photoActivityIndicator.startAnimating()
-        photoImageView.load(by: urlString) {
-            self.photoActivityIndicator.stopAnimating()
-        }
-    }
-
-    private func setAvatar(by urlString: String) {
-        if urlString.isEmpty {
-            avatarImageView.image = UIImage(named: "defaultAvatar")
-        } else {
-            avatarImageView.load(by: urlString)
-        }
     }
 
     @objc private func didTapAvatar() {
@@ -240,7 +246,7 @@ final class LentaCell: UITableViewCell {
         delegate?.didTapShareButton(cell: self, with: sendObjects)
     }
 
-    @objc  func menuButtonPress() {
+    @objc private func menuButtonPress() {
         delegate?.didTapMenuButton(cell: self)
     }
 

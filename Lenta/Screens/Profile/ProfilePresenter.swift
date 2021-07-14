@@ -50,7 +50,11 @@ final class ProfilePresenter {
 extension ProfilePresenter: ProfileViewOutput {
 
     func saveButtonPress(name: String, image: UIImage?) {
-        interactor.saveProfile(name: name, image: image)
+        var imageData: Data?
+        if let image = image {
+            imageData = image.jpegData(compressionQuality: 0.25)
+        }
+        interactor.saveProfile(name: name, image: imageData)
     }
 
     func logInOutButtonPress() {
@@ -87,7 +91,13 @@ extension ProfilePresenter: ProfileInteractorOutput {
     }
 
     func currentUser(currentUser: User?) {
-        view.userLoginned(UserViewModel(user: currentUser))
+        let userViewModel = UserViewModel(user: currentUser)
+        view.userLoginned(userViewModel)
+        interactor.getImage(from: userViewModel?.avatarUrlString) { [weak self] avatarData in
+            guard let self = self, let avatarData = avatarData else { return }
+            let avatarImage = UIImage(data: avatarData) ?? UIImage(named: "avatar")
+            self.view.set(avatar: avatarImage)
+        }
     }
 
     func changeProfile(_ change: Bool) {

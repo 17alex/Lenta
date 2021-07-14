@@ -13,6 +13,8 @@ protocol CommentsViewInput: AnyObject {
     func reloadComments()
     func addRow()
     func show(message: String)
+    func set(photo: UIImage?, for indexPath: IndexPath)
+    func set(avatar: UIImage?, for indexPath: IndexPath)
 }
 
 final class CommentsViewController: UIViewController {
@@ -42,7 +44,7 @@ final class CommentsViewController: UIViewController {
         table.register(PostCell.self, forCellReuseIdentifier: PostCell.reuseID)
         table.register(CommentCell.self, forCellReuseIdentifier: CommentCell.reuseID)
         table.dataSource = self
-//        table.delegate = self
+        table.showsVerticalScrollIndicator = false
         table.tableFooterView = UIView()
         table.addGestureRecognizer(tableTap)
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -263,6 +265,22 @@ final class CommentsViewController: UIViewController {
 
 extension CommentsViewController: CommentsViewInput {
 
+    func set(photo: UIImage?, for indexPath: IndexPath) {
+        if let cell = commentsTableView.cellForRow(at: indexPath) as? PostCell {
+            cell.set(photo: photo)
+        }
+    }
+
+    func set(avatar: UIImage?, for indexPath: IndexPath) {
+        if let cell = commentsTableView.cellForRow(at: indexPath) as? PostCell {
+            cell.set(avatar: avatar)
+        }
+
+        if let cell = commentsTableView.cellForRow(at: indexPath) as? CommentCell {
+            cell.set(avatar: avatar)
+        }
+    }
+
     func addRow() {
         guard let presenter = presenter else { return }
         commentsTableView.insertRows(at: [IndexPath(row: presenter.commentsViewModel.count - 1, section: 1)],
@@ -319,12 +337,14 @@ extension CommentsViewController: UITableViewDataSource {
                     withIdentifier: PostCell.reuseID, for: indexPath) as? PostCell else { return UITableViewCell() }
             let postViewModel = presenter.postsViewModel[indexPath.row]
             cell.set(postModel: postViewModel)
+            presenter.loadImages(for: indexPath)
             return cell
         case .comments:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.reuseID,
                     for: indexPath) as? CommentCell else { return UITableViewCell() }
             let commentViewModel = presenter.commentsViewModel[indexPath.row]
             cell.set(commentModel: commentViewModel)
+            presenter.loadImages(for: indexPath)
             return cell
         }
     }

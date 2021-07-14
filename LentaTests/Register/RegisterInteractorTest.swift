@@ -39,7 +39,7 @@ class RegisterInteractorTest: XCTestCase {
         let rightUserName = "Bar"
         let rightUserLogin = "Boo"
         let rightUserPassword = "Baz"
-        let userAvatarImage = UIImage()
+        let userAvatarImage = Data()
 
         let expectNetworkCallCount = 1
         let expectedStoreCallCount = 1
@@ -68,7 +68,7 @@ class RegisterInteractorTest: XCTestCase {
         let badUserName = "Baa"
         let badUserLogin = "Bbo"
         let badUserPassword = "Bzz"
-        let userAvatarImage: UIImage? = nil
+        let userAvatarImage: Data? = nil
 
         let expectNetworkCallCount = 1
         let expectedStoreCallCount = 0

@@ -8,6 +8,7 @@
 import Foundation
 
 extension TimeInterval {
+
     func toDateString() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_EN")

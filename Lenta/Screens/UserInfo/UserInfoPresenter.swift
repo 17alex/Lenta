@@ -5,7 +5,7 @@
 //  Created by Алексей Алексеев on 06.07.2021.
 //
 
-import Foundation
+import UIKit
 
 protocol UserInfoViewOutput {
     func viewDidLoad()
@@ -18,7 +18,7 @@ final class UserInfoPresenter {
 
     unowned private let view: UserInfoViewInput
     private let router: UserInfoRouterInput
-
+    var interactor: UserInfoInteractorInput?
     private var user: UserViewModel
 
     // MARK: - Init
@@ -42,6 +42,11 @@ extension UserInfoPresenter: UserInfoViewOutput {
 
     func viewDidLoad() {
         view.set(user: user)
+        interactor?.getImage(from: user.avatarUrlString, complete: { [weak self] avatarData in
+            guard let self = self, let avatarData = avatarData else { return }
+            let avatarImage = UIImage(data: avatarData) ?? UIImage(named: "defaultAvatar")
+            self.view.set(avatar: avatarImage)
+        })
     }
 
     func closeButtonPress() {

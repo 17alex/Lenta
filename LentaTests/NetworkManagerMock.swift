@@ -9,7 +9,7 @@ import UIKit
 @testable import Lenta
 
 final class NetworkManagerMock: NetworkManagerProtocol {
-
+    
     var logInCallCount = 0
     var registerCallCount = 0
     var changeLikeCallCount = 0
@@ -17,7 +17,7 @@ final class NetworkManagerMock: NetworkManagerProtocol {
     var recivedUserName = ""
     var recivedUserLogin = ""
     var recivedUserPassword = ""
-    var recivadAvatarImage: UIImage?
+    var recivadAvatarImage: Data?
     var recivePostId: Int16 = -1
     var reciveUserId: Int16 = -1
 
@@ -43,7 +43,7 @@ final class NetworkManagerMock: NetworkManagerProtocol {
         }
     }
 
-    func register(name: String, login: String, password: String, avatar: UIImage?,
+    func register(name: String, login: String, password: String, avatar: Data?,
                   complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
         recivedUserName = name
         recivedUserLogin = login
@@ -66,7 +66,7 @@ final class NetworkManagerMock: NetworkManagerProtocol {
         fatalError()
     }
 
-    func updateProfile(userId: Int16, name: String, avatar: UIImage?,
+    func updateProfile(userId: Int16, name: String, avatar: Data?,
                        complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
         fatalError()
     }
@@ -92,6 +92,10 @@ final class NetworkManagerMock: NetworkManagerProtocol {
 
     func sendComment(_ comment: String, postId: Int16, userId: Int16,
                      complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
+        fatalError()
+    }
+    
+    func loadImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
         fatalError()
     }
 }

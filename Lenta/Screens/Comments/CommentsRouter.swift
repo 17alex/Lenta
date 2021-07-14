@@ -16,7 +16,7 @@ final class CommentsRouter {
     private let assembly: Assembly
     unowned private let view: UIViewController
 
-    // MARK: Init
+    // MARK: - Init
 
     init(view: UIViewController, assembly: Assembly) {
         self.view = view

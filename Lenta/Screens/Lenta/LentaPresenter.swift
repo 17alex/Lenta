@@ -5,7 +5,7 @@
 //  Created by Alex on 11.01.2021.
 //
 
-import Foundation
+import UIKit
 
 protocol LentaViewOutput {
     var postsViewModel: [PostViewModel] { get }
@@ -83,6 +83,21 @@ extension LentaPresenter: LentaViewOutput {
     }
 
     func willDisplayCell(by index: Int) {
+        interactor.getImage(from: postsViewModel[index].photo?.urlString) { [weak self] photoData in
+            guard let self = self, let photoData = photoData else { return }
+            let photoImage = UIImage(data: photoData)
+            self.view.set(photo: photoImage, for: index)
+        }
+
+        interactor.getImage(from: postsViewModel[index].user?.avatarUrlString) { [weak self] avatarData in
+            guard let self = self else { return }
+            var avatarImage = UIImage(named: "defaultAvatar")
+            if let avatarData = avatarData {
+                avatarImage = UIImage(data: avatarData)
+            }
+            self.view.set(avatar: avatarImage, for: index)
+        }
+
         let remainingPostsCountForPreload = 4
         guard index >= interactor.posts.count - remainingPostsCountForPreload else { return }
         interactor.loadNextPosts()
@@ -134,15 +149,15 @@ extension LentaPresenter: LentaInteractorOutput {
         let group = DispatchGroup()
         group.enter()
         DispatchQueue.global().async { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.postsViewModel = posts.map(strongSelf.getPostViewModel(post:))
+            guard let self = self else { return }
+            self.postsViewModel = posts.map(self.getPostViewModel(post:))
             group.leave()
         }
 
         group.notify(queue: .main) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.view.loadingEnd()
-            strongSelf.view.reloadLenta()
+            guard let self = self else { return }
+            self.view.loadingEnd()
+            self.view.reloadLenta()
         }
     }
 
@@ -152,16 +167,16 @@ extension LentaPresenter: LentaInteractorOutput {
         let group = DispatchGroup()
         group.enter()
         DispatchQueue.global().async { [weak self] in
-            guard let strongSelf = self else { return }
-            startIndex = strongSelf.postsViewModel.count
-            strongSelf.postsViewModel.append(contentsOf: posts.map(strongSelf.getPostViewModel(post:)))
-            endIndex = strongSelf.postsViewModel.count
+            guard let self = self else { return }
+            startIndex = self.postsViewModel.count
+            self.postsViewModel.append(contentsOf: posts.map(self.getPostViewModel(post:)))
+            endIndex = self.postsViewModel.count
             group.leave()
         }
 
         group.notify(queue: .main) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.view.insertPosts(fromIndex: startIndex, toIndex: endIndex)
+            guard let self = self else { return }
+            self.view.insertPosts(fromIndex: startIndex, toIndex: endIndex)
         }
     }
 

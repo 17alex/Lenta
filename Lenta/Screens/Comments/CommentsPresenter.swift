@@ -5,7 +5,7 @@
 //  Created by Alex on 10.03.2021.
 //
 
-import Foundation
+import UIKit
 
 protocol CommentsViewOutput {
     var postsViewModel: [PostViewModel] { get }
@@ -14,6 +14,7 @@ protocol CommentsViewOutput {
     func viewDidLoad()
     func didPressNewCommendSendButton(comment: String)
     func didCloseButtonPress()
+    func loadImages(for indexPath: IndexPath)
 }
 
 protocol CommentsInteractorOutput: AnyObject {
@@ -70,6 +71,39 @@ final class CommentsPresenter {
 // MARK: - CommentsViewOutput
 
 extension CommentsPresenter: CommentsViewOutput {
+
+    func loadImages(for indexPath: IndexPath) {
+        switch cellTypes[indexPath.section] {
+        case .post:
+            let photoUrlString = postsViewModel[indexPath.row].photo?.urlString
+            interactor.getImage(from: photoUrlString) { [weak self] photoData in
+                guard let self = self, let photoData = photoData else { return }
+                let photoImage = UIImage(data: photoData)
+                self.view.set(photo: photoImage, for: indexPath)
+            }
+
+            let avatarUrlString = postsViewModel[indexPath.row].user?.avatarUrlString
+            interactor.getImage(from: avatarUrlString) { [weak self] avatarData in
+                guard let self = self else { return }
+                var avatarImage = UIImage(named: "defaultAvatar")
+                if let avatarData = avatarData {
+                    avatarImage = UIImage(data: avatarData)
+                }
+                self.view.set(avatar: avatarImage, for: indexPath)
+            }
+
+        case .comments:
+            let avatarUrlString = commentsViewModel[indexPath.row].user?.avatarUrlString
+            interactor.getImage(from: avatarUrlString) { [weak self] avatarData in
+                guard let self = self else { return }
+                var avatarImage = UIImage(named: "defaultAvatar")
+                if let avatarData = avatarData {
+                    avatarImage = UIImage(data: avatarData)
+                }
+                self.view.set(avatar: avatarImage, for: indexPath)
+            }
+        }
+    }
 
     func didCloseButtonPress() {
         router?.dismiss()

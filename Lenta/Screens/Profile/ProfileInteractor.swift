@@ -5,14 +5,15 @@
 //  Created by Алексей Алексеев on 06.07.2021.
 //
 
-import UIKit
+import Foundation
 
 protocol ProfileInteractorInput {
-    func saveProfile(name: String, image: UIImage?)
+    func saveProfile(name: String, image: Data?)
     func start()
     func didSelectNewAvatar()
     func change(name: String)
     func logInOutButtonPress()
+    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void)
 }
 
 final class ProfileInteractor {
@@ -49,13 +50,6 @@ final class ProfileInteractor {
 
     private func changeProfile() {
         guard let currUser = currentUser  else { presenter?.changeProfile(false); return }
-
-//        if !newName.isEmpty && (newName != currUser.name || isSetNewAvatar) {
-//            presenter?.changeProfile(true)
-//        } else {
-//            presenter?.changeProfile(false)
-//        }
-
         presenter?.changeProfile(!newName.isEmpty && (newName != currUser.name || isSetNewAvatar))
     }
 }
@@ -63,6 +57,10 @@ final class ProfileInteractor {
 // MARK: - ProfileInteractorInput
 
 extension ProfileInteractor: ProfileInteractorInput {
+
+    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
+        networkManager?.loadImage(from: urlString, complete: complete)
+    }
 
     func start() {
         currentUser = storeManager?.getCurrenUser()
@@ -87,26 +85,26 @@ extension ProfileInteractor: ProfileInteractorInput {
         }
     }
 
-    func saveProfile(name: String, image: UIImage?) {
-        var avatarImage: UIImage?
+    func saveProfile(name: String, image: Data?) {
+        var avatarImage: Data?
         if isSetNewAvatar {
             avatarImage = image
         }
 
         guard let currUser = currentUser else { return }
         networkManager?.updateProfile(userId: currUser.id, name: name, avatar: avatarImage) { [weak self] (result) in
-            guard let strongSelf = self else { return }
+            guard let self = self else { return }
             switch result {
             case .failure(let error):
-                strongSelf.presenter?.saveProfileFailed(serviceError: error)
+                self.presenter?.saveProfileFailed(serviceError: error)
             case .success(let users):
                 if let user = users.first {
-                    strongSelf.currentUser = user
-                    strongSelf.storeManager?.save(user: strongSelf.currentUser)
-                    strongSelf.presenter?.saveProfileSuccess()
-                    strongSelf.isSetNewAvatar = false
+                    self.currentUser = user
+                    self.storeManager?.save(user: self.currentUser)
+                    self.presenter?.saveProfileSuccess()
+                    self.isSetNewAvatar = false
                 } else {
-                    strongSelf.presenter?.saveProfileError()
+                    self.presenter?.saveProfileError()
                 }
             }
         }
