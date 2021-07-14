@@ -100,9 +100,13 @@ final class UserInfoViewController: UIViewController {
 
     // MARK: - LiveCycles
 
+    deinit {
+        print("UserInfoViewController deinit")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("UserInfoViewController init")
         setupUI()
         presenter?.viewDidLoad()
     }

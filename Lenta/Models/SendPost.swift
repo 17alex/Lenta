@@ -10,5 +10,5 @@ import UIKit
 struct SendPost {
     let userId: Int16
     let description: String
-    let image: UIImage?
+    let imageData: Data?
 }

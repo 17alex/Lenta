@@ -5,7 +5,7 @@
 //  Created by Alex on 11.01.2021.
 //
 
-import UIKit
+import Foundation
 
 enum NetworkServiceError: String, Error {
     case badUrl = "URL error"
@@ -17,18 +17,18 @@ enum NetworkServiceError: String, Error {
 protocol NetworkManagerProtocol {
 
     func logIn(login: String, password: String, complete: @escaping (Result<[User], NetworkServiceError>) -> Void)
-    func register(name: String, login: String, password: String, avatar: UIImage?,
+    func register(name: String, login: String, password: String, avatar: Data?,
                   complete: @escaping (Result<[User], NetworkServiceError>) -> Void)
     func getPosts(fromPostId: Int16?, complete: @escaping (Result<Response, NetworkServiceError>) -> Void)
     func sendPost(post: SendPost, complete: @escaping (Result<Response, NetworkServiceError>) -> Void)
-    func updateProfile(userId: Int16, name: String, avatar: UIImage?,
+    func updateProfile(userId: Int16, name: String, avatar: Data?,
                        complete: @escaping (Result<[User], NetworkServiceError>) -> Void)
     func changeLike(postId: Int16, userId: Int16, complete: @escaping (Result<Post, NetworkServiceError>) -> Void)
     func removePost(postId: Int16, complete: @escaping (Result<Response, NetworkServiceError>) -> Void)
     func loadComments(for postId: Int16, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void)
     func sendComment(_ comment: String, postId: Int16, userId: Int16,
                      complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void)
-    func loadImage(from urlString: String?, complete: @escaping (UIImage?) -> Void)
+    func loadImage(from urlString: String?, complete: @escaping (Data?) -> Void)
 }
 
 final class NetworkManager {
@@ -55,18 +55,18 @@ final class NetworkManager {
         DispatchQueue.main.async { blok() }
     }
 
-//    private func typeDebug(data: Data?) {
-//        if let myData = data, let dataString = String(data: myData, encoding: .utf8) {
-//            print("dataString: " + dataString)
-//        }
-//    }
+    private func typeDebug(data: Data?) {
+        if let myData = data, let dataString = String(data: myData, encoding: .utf8) {
+            print("dataString: " + dataString)
+        }
+    }
 }
 
 // MARK: - NetworkManagerProtocol
 
 extension NetworkManager: NetworkManagerProtocol {
 
-    func loadImage(from urlString: String?, complete: @escaping (UIImage?) -> Void) {
+    func loadImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
 
         guard let urlString = urlString, let url = URL(string: urlString) else {
             onMain { complete(nil) }
@@ -76,8 +76,8 @@ extension NetworkManager: NetworkManagerProtocol {
         let urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
         URLSession.shared.dataTask(with: urlRequest) { [weak self] (data, _, _) in
             guard let self = self else { return }
-            if let data = data, let loadImage = UIImage(data: data) {
-                self.onMain { complete(loadImage) }
+            if let imageData = data {
+                self.onMain { complete(imageData) }
             } else {
                 self.onMain { complete(nil) }
             }
@@ -213,7 +213,7 @@ extension NetworkManager: NetworkManagerProtocol {
         }
     }
 
-    func updateProfile(userId: Int16, name: String, avatar: UIImage?,
+    func updateProfile(userId: Int16, name: String, avatar: Data?,
                        complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.updatePrifile
@@ -235,7 +235,7 @@ extension NetworkManager: NetworkManagerProtocol {
             body.append(Data("\(value)\r\n".utf8))
         }
 
-        if let image = avatar, let imageData = image.jpegData(compressionQuality: 0.25) {
+        if let imageData = avatar {
             let filename = String(Int(Date().timeIntervalSince1970)) + ".jpg"
             let mimetype = "image/jpg"
             body.append(Data("--\(boundary)\r\n".utf8))
@@ -287,7 +287,7 @@ extension NetworkManager: NetworkManagerProtocol {
         }
     }
 
-    func register(name: String, login: String, password: String, avatar: UIImage?,
+    func register(name: String, login: String, password: String, avatar: Data?,
                   complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.register
@@ -310,7 +310,7 @@ extension NetworkManager: NetworkManagerProtocol {
             body.append(Data("\(value)\r\n".utf8))
         }
 
-        if let image = avatar, let imageData = image.jpegData(compressionQuality: 0.25) {
+        if let imageData = avatar {
             let filename = String(Int(Date().timeIntervalSince1970)) + ".jpg"
             let mimetype = "image/jpg"
             body.append(Data("--\(boundary)\r\n".utf8))
@@ -359,7 +359,7 @@ extension NetworkManager: NetworkManagerProtocol {
             body.append(Data("\(value)\r\n".utf8))
         }
 
-        if let image = post.image, let imageData = image.jpegData(compressionQuality: 0.25) {
+        if let imageData = post.imageData {
             let filename = String(Int(Date().timeIntervalSince1970)) + ".jpg"
             let mimetype = "image/jpg"
             body.append(Data("--\(boundary)\r\n".utf8))

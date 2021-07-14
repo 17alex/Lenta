@@ -76,22 +76,31 @@ extension CommentsPresenter: CommentsViewOutput {
         switch cellTypes[indexPath.section] {
         case .post:
             let photoUrlString = postsViewModel[indexPath.row].photo?.urlString
-            interactor.getImage(from: photoUrlString) { [weak self] photoImage in
-                guard let self = self else { return }
+            interactor.getImage(from: photoUrlString) { [weak self] photoData in
+                guard let self = self, let photoData = photoData else { return }
+                let photoImage = UIImage(data: photoData)
                 self.view.set(photo: photoImage, for: indexPath)
             }
 
             let avatarUrlString = postsViewModel[indexPath.row].user?.avatarUrlString
-            interactor.getImage(from: avatarUrlString) { [weak self] avatarImage in
+            interactor.getImage(from: avatarUrlString) { [weak self] avatarData in
                 guard let self = self else { return }
-                self.view.set(avatar: avatarImage ?? UIImage(named: "defaultAvatar"), for: indexPath)
+                var avatarImage = UIImage(named: "defaultAvatar")
+                if let avatarData = avatarData {
+                    avatarImage = UIImage(data: avatarData)
+                }
+                self.view.set(avatar: avatarImage, for: indexPath)
             }
 
         case .comments:
             let avatarUrlString = commentsViewModel[indexPath.row].user?.avatarUrlString
-            interactor.getImage(from: avatarUrlString) { [weak self] avatarImage in
+            interactor.getImage(from: avatarUrlString) { [weak self] avatarData in
                 guard let self = self else { return }
-                self.view.set(avatar: avatarImage ?? UIImage(named: "defaultAvatar"), for: indexPath)
+                var avatarImage = UIImage(named: "defaultAvatar")
+                if let avatarData = avatarData {
+                    avatarImage = UIImage(data: avatarData)
+                }
+                self.view.set(avatar: avatarImage, for: indexPath)
             }
         }
     }

@@ -5,15 +5,15 @@
 //  Created by Алексей Алексеев on 06.07.2021.
 //
 
-import UIKit
+import Foundation
 
 protocol ProfileInteractorInput {
-    func saveProfile(name: String, image: UIImage?)
+    func saveProfile(name: String, image: Data?)
     func start()
     func didSelectNewAvatar()
     func change(name: String)
     func logInOutButtonPress()
-    func getImage(from urlString: String?, complete: @escaping (UIImage?) -> Void)
+    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void)
 }
 
 final class ProfileInteractor {
@@ -58,7 +58,7 @@ final class ProfileInteractor {
 
 extension ProfileInteractor: ProfileInteractorInput {
 
-    func getImage(from urlString: String?, complete: @escaping (UIImage?) -> Void) {
+    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
         networkManager?.loadImage(from: urlString, complete: complete)
     }
 
@@ -85,8 +85,8 @@ extension ProfileInteractor: ProfileInteractorInput {
         }
     }
 
-    func saveProfile(name: String, image: UIImage?) {
-        var avatarImage: UIImage?
+    func saveProfile(name: String, image: Data?) {
+        var avatarImage: Data?
         if isSetNewAvatar {
             avatarImage = image
         }

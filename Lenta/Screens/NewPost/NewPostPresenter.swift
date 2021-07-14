@@ -44,7 +44,11 @@ final class NewPostPresenter {
 extension NewPostPresenter: NewPostViewOutput {
 
     func pressSendButton(description: String, image: UIImage?) {
-        interactor.sendPost(description: description, image: image)
+        var imageData: Data?
+        if let image = image {
+            imageData = image.jpegData(compressionQuality: 0.25)
+        }
+        interactor.sendPost(description: description, image: imageData)
     }
 }
 

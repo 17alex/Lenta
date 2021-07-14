@@ -138,12 +138,6 @@ final class ProfileViewController: UIViewController {
         nameTextField.textColor = Constants.Colors.active
         postsCountLabel.text = userModel.postsCount
         dateRegisterLabel.text = userModel.dateRegister
-//        if userModel.avatarUrlString.isEmpty {
-//            avatarImageView.image = UIImage(named: "avatar")
-//            avatarImageView.tintColor = Constants.Colors.active
-//        } else {
-//            avatarImageView.load(by: userModel.avatarUrlString)
-//        }
         navigationItem.rightBarButtonItem =
             UIBarButtonItem(image: UIImage(named: "logout"), style: .plain,
                             target: self, action: #selector(logInOutButtonPress))

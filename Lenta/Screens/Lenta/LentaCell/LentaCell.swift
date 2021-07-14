@@ -124,13 +124,11 @@ final class LentaCell: UITableViewCell {
         didSet {
             guard let postModel = postModel else { return }
             userNameLabel.text = postModel.user?.name ?? "NoName"
-
             let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
             if avatarUrlString != newAvatarUrlString {
                 avatarImageView.image = nil
             }
             avatarUrlString = newAvatarUrlString
-
             timeLabel.text = postModel.time
             descriptionLabel.text = postModel.description.text
             paintLikeButton(isHighlight: postModel.likes.isHighlight)
@@ -248,7 +246,7 @@ final class LentaCell: UITableViewCell {
         delegate?.didTapShareButton(cell: self, with: sendObjects)
     }
 
-    @objc  func menuButtonPress() {
+    @objc private func menuButtonPress() {
         delegate?.didTapMenuButton(cell: self)
     }
 

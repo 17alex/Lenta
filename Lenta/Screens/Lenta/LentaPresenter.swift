@@ -83,14 +83,19 @@ extension LentaPresenter: LentaViewOutput {
     }
 
     func willDisplayCell(by index: Int) {
-        interactor.getImage(from: postsViewModel[index].photo?.urlString) { [weak self] photoImage in
-            guard let self = self else { return }
+        interactor.getImage(from: postsViewModel[index].photo?.urlString) { [weak self] photoData in
+            guard let self = self, let photoData = photoData else { return }
+            let photoImage = UIImage(data: photoData)
             self.view.set(photo: photoImage, for: index)
         }
 
-        interactor.getImage(from: postsViewModel[index].user?.avatarUrlString) { [weak self] avatarImage in
+        interactor.getImage(from: postsViewModel[index].user?.avatarUrlString) { [weak self] avatarData in
             guard let self = self else { return }
-            self.view.set(avatar: avatarImage ?? UIImage(named: "defaultAvatar"), for: index)
+            var avatarImage = UIImage(named: "defaultAvatar")
+            if let avatarData = avatarData {
+                avatarImage = UIImage(data: avatarData)
+            }
+            self.view.set(avatar: avatarImage, for: index)
         }
 
         let remainingPostsCountForPreload = 4

@@ -42,9 +42,10 @@ extension UserInfoPresenter: UserInfoViewOutput {
 
     func viewDidLoad() {
         view.set(user: user)
-        interactor?.getImage(from: user.avatarUrlString, complete: { [weak self] avatarImage in
-            guard let self = self else { return }
-            self.view.set(avatar: avatarImage ?? UIImage(named: "defaultAvatar"))
+        interactor?.getImage(from: user.avatarUrlString, complete: { [weak self] avatarData in
+            guard let self = self, let avatarData = avatarData else { return }
+            let avatarImage = UIImage(data: avatarData) ?? UIImage(named: "defaultAvatar")
+            self.view.set(avatar: avatarImage)
         })
     }
 

@@ -5,10 +5,10 @@
 //  Created by Алексей Алексеев on 06.07.2021.
 //
 
-import UIKit
+import Foundation
 
 protocol NewPostInteractorInput {
-    func sendPost(description: String, image: UIImage?)
+    func sendPost(description: String, image: Data?)
 }
 
 final class NewPostInteractor {
@@ -35,9 +35,9 @@ final class NewPostInteractor {
 
 extension NewPostInteractor: NewPostInteractorInput {
 
-    func sendPost(description: String, image: UIImage?) {
+    func sendPost(description: String, image: Data?) {
         guard let currentUser = storeManager?.getCurrenUser() else { return }
-        let sendPost = SendPost(userId: currentUser.id, description: description, image: image)
+        let sendPost = SendPost(userId: currentUser.id, description: description, imageData: image)
         networkManager?.sendPost(post: sendPost) { [weak self] (result) in
             guard let self = self else { return }
             switch result {

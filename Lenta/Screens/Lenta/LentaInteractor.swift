@@ -5,7 +5,7 @@
 //  Created by Alex on 11.01.2021.
 //
 
-import UIKit
+import Foundation
 
 protocol LentaInteractorInput {
     var currentUser: User? { get }
@@ -18,7 +18,7 @@ protocol LentaInteractorInput {
     func deletePost(by index: Int)
     func changeLike(by index: Int)
     func getCurrenUser()
-    func getImage(from urlString: String?, complete: @escaping (UIImage?) -> Void)
+    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void)
 }
 
 final class LentaInteractor {
@@ -48,7 +48,7 @@ final class LentaInteractor {
 
 extension LentaInteractor: LentaInteractorInput {
 
-    func getImage(from urlString: String?, complete: @escaping (UIImage?) -> Void) {
+    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
         networkManager?.loadImage(from: urlString, complete: complete)
     }
 

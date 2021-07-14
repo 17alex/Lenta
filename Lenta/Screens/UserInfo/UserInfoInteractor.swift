@@ -5,10 +5,10 @@
 //  Created by Алексей Алексеев on 13.07.2021.
 //
 
-import UIKit //FIXME: - No UIImage to Data
+import Foundation
 
 protocol UserInfoInteractorInput {
-    func getImage(from urlString: String?, complete: @escaping (UIImage?) -> Void)
+    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void)
 }
 
 final class UserInfoInteractor {
@@ -32,7 +32,7 @@ final class UserInfoInteractor {
 
 extension UserInfoInteractor: UserInfoInteractorInput {
 
-    func getImage(from urlString: String?, complete: @escaping (UIImage?) -> Void) {
+    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
         networkManager?.loadImage(from: urlString, complete: complete)
     }
 }

@@ -5,10 +5,10 @@
 //  Created by Alex on 19.01.2021.
 //
 
-import UIKit
+import Foundation
 
 protocol RegisterInteractorInput {
-    func register(name: String, login: String, password: String, avatarImage: UIImage?)
+    func register(name: String, login: String, password: String, avatarImage: Data?)
 }
 
 final class RegisterInteractor {
@@ -30,7 +30,7 @@ final class RegisterInteractor {
 
 extension RegisterInteractor: RegisterInteractorInput {
 
-    func register(name: String, login: String, password: String, avatarImage: UIImage?) {
+    func register(name: String, login: String, password: String, avatarImage: Data?) {
         networkManager?.register(name: name, login: login, password: password,
                                  avatar: avatarImage) { [weak self] (result) in
             guard let self = self else { return }
