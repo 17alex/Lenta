@@ -27,7 +27,7 @@ class LentaUITests: XCTestCase {
             .tapProfileButton()
             .tapLogoutButton()
             .tapEnterButton()
-            .typeLogin(login: "q") // if error on simulator, then show keyboard
+            .typeLogin(login: "alex") // if error on simulator, then show keyboard
             .typePassword(password: "a")
             .tapLoginButton()
             .then {
