@@ -16,8 +16,8 @@ protocol LentaViewInput: AnyObject {
     func userLoginned(_ isLoginned: Bool)
     func show(message: String)
     func showMenu(byPostIndex index: Int, isPostOwner: Bool)
-    func loadingStarted()
-    func loadingEnd()
+    func activityIndicatorStart()
+    func activityIndicatorStop()
     func set(photo: UIImage?, for index: Int)
     func set(avatar: UIImage?, for index: Int)
 }
@@ -203,12 +203,12 @@ extension LentaViewController: LentaViewInput {
         cell.set(avatar: avatar)
     }
 
-    func loadingEnd() {
+    func activityIndicatorStop() {
         activityIndicator.stopAnimating()
         refreshControl.endRefreshing()
     }
 
-    func loadingStarted() {
+    func activityIndicatorStart() {
         activityIndicator.startAnimating()
     }
 

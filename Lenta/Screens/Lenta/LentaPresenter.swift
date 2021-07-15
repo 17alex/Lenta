@@ -80,6 +80,7 @@ extension LentaPresenter: LentaViewOutput {
 
     func didPressDeletePost(by index: Int) {
         interactor.deletePost(by: index)
+        view.activityIndicatorStart()
     }
 
     func didPressLike(postIndex: Int) {
@@ -88,7 +89,7 @@ extension LentaPresenter: LentaViewOutput {
 
     func viewDidLoad() {
         interactor.loadFromStore()
-        view.loadingStarted()
+        view.activityIndicatorStart()
         interactor.loadPosts()
     }
 
@@ -145,6 +146,7 @@ extension LentaPresenter: LentaInteractorOutput {
     func didRemovePost(by index: Int) {
         postsViewModel.remove(at: index)
         view.removePost(by: index)
+        view.activityIndicatorStop()
     }
 
     func didLoadFirst(posts: [Post]) {
@@ -158,7 +160,7 @@ extension LentaPresenter: LentaInteractorOutput {
 
         group.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
-            self.view.loadingEnd()
+            self.view.activityIndicatorStop()
             self.view.reloadLenta()
         }
     }
@@ -188,7 +190,7 @@ extension LentaPresenter: LentaInteractorOutput {
     }
 
     func show(message: String) {
-        view.loadingEnd()
+        view.activityIndicatorStop()
         view.show(message: message)
     }
 }

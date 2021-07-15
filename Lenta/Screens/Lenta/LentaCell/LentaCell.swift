@@ -139,7 +139,11 @@ final class LentaCell: UITableViewCell {
             let newPhotoUrlString = postModel.photo?.urlString ?? ""
             if photoUrlString != newPhotoUrlString {
                 photoImageView.image = nil
-                photoActivityIndicator.startAnimating()
+                if !newPhotoUrlString.isEmpty {
+                    photoActivityIndicator.startAnimating()
+                } else {
+                    photoActivityIndicator.stopAnimating()
+                }
             }
             photoUrlString = newPhotoUrlString
         }
@@ -268,5 +272,6 @@ final class LentaCell: UITableViewCell {
         contentView.addSubview(commentsButton)
         contentView.addSubview(commentsCountLabel)
         contentView.addSubview(shareButton)
+        contentView.addSubview(photoActivityIndicator)
     }
 }
