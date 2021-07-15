@@ -54,7 +54,7 @@ extension CommentsInteractor: CommentsInteractorInput {
             return
         }
 
-        networkManager?.sendComment(comment, postId: posts[0].id, userId: currentUser.id) { [weak self] (result) in
+        networkManager?.sendComment(comment, postId: posts[0].id, userId: currentUser.id) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):

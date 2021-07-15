@@ -29,7 +29,7 @@ class RegisterInteractorTest: XCTestCase {
 
         networkManager = nil
         storeManager = nil
-        presenter  = nil
+        presenter = nil
         sut = nil
     }
 

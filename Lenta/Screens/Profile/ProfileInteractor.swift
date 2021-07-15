@@ -92,7 +92,7 @@ extension ProfileInteractor: ProfileInteractorInput {
         }
 
         guard let currUser = currentUser else { return }
-        networkManager?.updateProfile(userId: currUser.id, name: name, avatar: avatarImage) { [weak self] (result) in
+        networkManager?.updateProfile(userId: currUser.id, name: name, avatar: avatarImage) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):

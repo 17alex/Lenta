@@ -38,7 +38,7 @@ extension NewPostInteractor: NewPostInteractorInput {
     func sendPost(description: String, image: Data?) {
         guard let currentUser = storeManager?.getCurrenUser() else { return }
         let sendPost = SendPost(userId: currentUser.id, description: description, imageData: image)
-        networkManager?.sendPost(post: sendPost) { [weak self] (result) in
+        networkManager?.sendPost(post: sendPost) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):

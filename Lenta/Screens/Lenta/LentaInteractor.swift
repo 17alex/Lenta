@@ -60,7 +60,7 @@ extension LentaInteractor: LentaInteractorInput {
     }
 
     func deletePost(by index: Int) {
-        networkManager?.removePost(postId: posts[index].id) { [weak self] (result) in
+        networkManager?.removePost(postId: posts[index].id) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
@@ -79,7 +79,7 @@ extension LentaInteractor: LentaInteractorInput {
         guard !isLoadingPosts && !isEndingPosts else { return }
         isLoadingPosts = true
         let lastPostId = posts[posts.count - 1].id
-        networkManager?.getPosts(fromPostId: lastPostId) { [weak self] (result) in
+        networkManager?.getPosts(fromPostId: lastPostId) { [weak self] result in
             guard let self = self else { return }
             self.isLoadingPosts = false
             switch result {
@@ -90,7 +90,7 @@ extension LentaInteractor: LentaInteractorInput {
                 self.users = self.users.union(response.users)
                 self.storeManager?.append(posts: response.posts)
                 self.storeManager?.save(users: Array(self.users))
-                if response.posts.count == 0 {
+                if response.posts.isEmpty {
                     self.isEndingPosts = true
                 } else {
                     self.presenter?.didLoadNext(posts: response.posts)
@@ -111,7 +111,7 @@ extension LentaInteractor: LentaInteractorInput {
         guard !isLoadingPosts else { return }
         isLoadingPosts = true
         isEndingPosts = false
-        networkManager?.getPosts(fromPostId: nil) { [weak self] (result) in
+        networkManager?.getPosts(fromPostId: nil) { [weak self] result in
             guard let self = self else { return }
             self.isLoadingPosts = false
             switch result {
@@ -130,7 +130,7 @@ extension LentaInteractor: LentaInteractorInput {
     func changeLike(by index: Int) {
         guard let currentUser = currentUser else { return }
         let postId = posts[index].id
-        networkManager?.changeLike(postId: postId, userId: currentUser.id) { [weak self] (result) in
+        networkManager?.changeLike(postId: postId, userId: currentUser.id) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):

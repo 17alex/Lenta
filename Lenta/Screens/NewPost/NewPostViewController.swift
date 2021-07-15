@@ -109,7 +109,7 @@ final class NewPostViewController: UIViewController {
     }
 
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidDisappear(animated)
 
         unSubscribeKboardNotofication()
     }

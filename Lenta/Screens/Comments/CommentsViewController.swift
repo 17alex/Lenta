@@ -122,7 +122,7 @@ final class CommentsViewController: UIViewController {
     }
 
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidDisappear(animated)
 
         unSubscribeKboardNotofication()
     }

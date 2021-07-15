@@ -32,7 +32,7 @@ extension RegisterInteractor: RegisterInteractorInput {
 
     func register(name: String, login: String, password: String, avatarImage: Data?) {
         networkManager?.register(name: name, login: login, password: password,
-                                 avatar: avatarImage) { [weak self] (result) in
+                                 avatar: avatarImage) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):

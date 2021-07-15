@@ -46,7 +46,7 @@ final class NetworkManager {
     // MARK: - Metods
 
     private func taskResume(with urlRequest: URLRequest, complete: @escaping (Data?, Error?) -> Void) {
-        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+        URLSession.shared.dataTask(with: urlRequest) { data, _, error in
                 complete(data, error)
         }.resume()
     }
@@ -74,7 +74,7 @@ extension NetworkManager: NetworkManagerProtocol {
         }
 
         let urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
-        URLSession.shared.dataTask(with: urlRequest) { [weak self] (data, _, _) in
+        URLSession.shared.dataTask(with: urlRequest) { [weak self] data, _, _ in
             guard let self = self else { return }
             if let imageData = data {
                 self.onMain { complete(imageData) }
@@ -94,7 +94,7 @@ extension NetworkManager: NetworkManagerProtocol {
         let postSting = "comment=\(comment)&postId=\(postId)&userId=\(userId)"
         urlRequest.httpBody = postSting.data(using: .utf8)
 
-        taskResume(with: urlRequest) { [weak self] (data, error) in
+        taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
 
             if error != nil { self.onMain { complete(.failure(.network)) }; return }
@@ -174,7 +174,7 @@ extension NetworkManager: NetworkManagerProtocol {
         let postSting = "postId=\(postId)"
         urlRequest.httpBody = postSting.data(using: .utf8)
 
-        taskResume(with: urlRequest) { [weak self] (data, error) in
+        taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
 
             if error != nil { self.onMain { complete(.failure(.network)) }; return }
@@ -198,7 +198,7 @@ extension NetworkManager: NetworkManagerProtocol {
         let dataSting = "postId=\(postId)&userId=\(userId)"
         urlRequest.httpBody = dataSting.data(using: .utf8)
 
-        taskResume(with: urlRequest) { [weak self] (data, error) in
+        taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
 
             if error != nil { self.onMain { complete(.failure(.network)) }; return }
@@ -248,7 +248,7 @@ extension NetworkManager: NetworkManagerProtocol {
         }
 
         urlRequest.httpBody = body
-        taskResume(with: urlRequest) { [weak self] (data, error) in
+        taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
 
             if error != nil { self.onMain { complete(.failure(.network)) }; return }
@@ -272,7 +272,7 @@ extension NetworkManager: NetworkManagerProtocol {
         let dataSting = "login=\(login)&password=\(password)"
         urlRequest.httpBody = dataSting.data(using: .utf8)
 
-        taskResume(with: urlRequest) { [weak self] (data, error) in
+        taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
 
             if error != nil { self.onMain { complete(.failure(.network)) }; return }
@@ -323,7 +323,7 @@ extension NetworkManager: NetworkManagerProtocol {
         }
 
         urlRequest.httpBody = body
-        taskResume(with: urlRequest) { [weak self] (data, error) in
+        taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
 
             if error != nil { self.onMain { complete(.failure(.network)) }; return }
@@ -372,7 +372,7 @@ extension NetworkManager: NetworkManagerProtocol {
         }
 
         urlRequest.httpBody = body
-        taskResume(with: urlRequest) { [weak self] (data, error) in
+        taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
 
             if error != nil { self.onMain { complete(.failure(.network)) }; return }

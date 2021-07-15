@@ -9,7 +9,7 @@ import UIKit
 @testable import Lenta
 
 final class NetworkManagerMock: NetworkManagerProtocol {
-    
+
     var logInCallCount = 0
     var registerCallCount = 0
     var changeLikeCallCount = 0
@@ -94,7 +94,7 @@ final class NetworkManagerMock: NetworkManagerProtocol {
                      complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
         fatalError()
     }
-    
+
     func loadImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
         fatalError()
     }

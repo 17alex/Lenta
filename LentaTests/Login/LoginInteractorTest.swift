@@ -27,7 +27,7 @@ class LoginInteractorTest: XCTestCase {
     override func tearDownWithError() throws {
         networkManager = nil
         storeManager = nil
-        presenter  = nil
+        presenter = nil
         sut = nil
     }
 

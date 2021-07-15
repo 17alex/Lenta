@@ -50,7 +50,7 @@ final class LentaPresenter {
     }
 
     private func getPostViewModel(post: Post) -> PostViewModel {
-        let user = interactor.users.first(where: {$0.id == post.userId})
+        let user = interactor.users.first(where: { $0.id == post.userId })
         return PostViewModel(post: post, user: user, currenUser: interactor.currentUser)
     }
 }
