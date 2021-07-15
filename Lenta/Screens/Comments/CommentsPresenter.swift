@@ -66,6 +66,14 @@ final class CommentsPresenter {
         let user = interactor.users.first(where: { $0.id == comment.userId })
         return CommentViewModel(comment: comment, user: user)
     }
+
+    private func getAvatar(data: Data?) -> UIImage? {
+        if let avatarData = data {
+            return UIImage(data: avatarData)
+        } else {
+            return UIImage(named: "defaultAvatar")
+        }
+    }
 }
 
 // MARK: - CommentsViewOutput
@@ -85,10 +93,7 @@ extension CommentsPresenter: CommentsViewOutput {
             let avatarUrlString = postsViewModel[indexPath.row].user?.avatarUrlString
             interactor.getImage(from: avatarUrlString) { [weak self] avatarData in
                 guard let self = self else { return }
-                var avatarImage = UIImage(named: "defaultAvatar")
-                if let avatarData = avatarData {
-                    avatarImage = UIImage(data: avatarData)
-                }
+                let avatarImage = self.getAvatar(data: avatarData)
                 self.view.set(avatar: avatarImage, for: indexPath)
             }
 
@@ -96,10 +101,7 @@ extension CommentsPresenter: CommentsViewOutput {
             let avatarUrlString = commentsViewModel[indexPath.row].user?.avatarUrlString
             interactor.getImage(from: avatarUrlString) { [weak self] avatarData in
                 guard let self = self else { return }
-                var avatarImage = UIImage(named: "defaultAvatar")
-                if let avatarData = avatarData {
-                    avatarImage = UIImage(data: avatarData)
-                }
+                let avatarImage = self.getAvatar(data: avatarData)
                 self.view.set(avatar: avatarImage, for: indexPath)
             }
         }

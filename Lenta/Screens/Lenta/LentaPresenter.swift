@@ -82,27 +82,6 @@ extension LentaPresenter: LentaViewOutput {
         interactor.deletePost(by: index)
     }
 
-    func willDisplayCell(by index: Int) {
-        interactor.getImage(from: postsViewModel[index].photo?.urlString) { [weak self] photoData in
-            guard let self = self, let photoData = photoData else { return }
-            let photoImage = UIImage(data: photoData)
-            self.view.set(photo: photoImage, for: index)
-        }
-
-        interactor.getImage(from: postsViewModel[index].user?.avatarUrlString) { [weak self] avatarData in
-            guard let self = self else { return }
-            var avatarImage = UIImage(named: "defaultAvatar")
-            if let avatarData = avatarData {
-                avatarImage = UIImage(data: avatarData)
-            }
-            self.view.set(avatar: avatarImage, for: index)
-        }
-
-        let remainingPostsCountForPreload = 4
-        guard index >= interactor.posts.count - remainingPostsCountForPreload else { return }
-        interactor.loadNextPosts()
-    }
-
     func didPressLike(postIndex: Int) {
         interactor.changeLike(by: postIndex)
     }
@@ -128,6 +107,29 @@ extension LentaPresenter: LentaViewOutput {
 
     func didPressToRefresh() {
         interactor.loadPosts()
+    }
+
+    func willDisplayCell(by index: Int) {
+        interactor.getImage(from: postsViewModel[index].photo?.urlString) { [weak self] photoData in
+            guard let self = self, let photoData = photoData else { return }
+            let photoImage = UIImage(data: photoData)
+            self.view.set(photo: photoImage, for: index)
+        }
+
+        interactor.getImage(from: postsViewModel[index].user?.avatarUrlString) { [weak self] avatarData in
+            guard let self = self else { return }
+            let avatarImage: UIImage?
+            if let avatarData = avatarData {
+                avatarImage = UIImage(data: avatarData)
+            } else {
+                avatarImage = UIImage(named: "defaultAvatar")
+            }
+            self.view.set(avatar: avatarImage, for: index)
+        }
+
+        let remainingPostsCountForPreload = 4
+        guard index >= interactor.posts.count - remainingPostsCountForPreload else { return }
+        interactor.loadNextPosts()
     }
 }
 
