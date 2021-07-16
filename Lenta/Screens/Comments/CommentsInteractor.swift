@@ -22,7 +22,7 @@ final class CommentsInteractor {
 
     weak var presenter: CommentsInteractorOutput?
     var networkManager: NetworkManagerProtocol?
-    var storeManager: StoreManagerProtocol?
+    var storageManager: StorageManagerProtocol?
 
     var posts: [Post] = []
     var comments: [Comment] = []
@@ -49,7 +49,7 @@ extension CommentsInteractor: CommentsInteractorInput {
     }
 
     func sendNewComment(_ comment: String) {
-        guard let currentUser = storeManager?.getCurrenUser() else {
+        guard let currentUser = storageManager?.getCurrenUser() else {
             presenter?.show(message: "User not loginned")
             return
         }

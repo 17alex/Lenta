@@ -13,22 +13,22 @@ class RegisterInteractorTest: XCTestCase {
     var sut: RegisterInteractor!
     var presenter: RegisterPresenterSpy!
     var networkManager: NetworkManagerMock!
-    var storeManager: StoreManagerSpy!
+    var storageManager: storageManagerSpy!
 
     override func setUpWithError() throws {
 
         networkManager = NetworkManagerMock()
-        storeManager = StoreManagerSpy()
+        storageManager = storageManagerSpy()
         presenter = RegisterPresenterSpy()
         sut = RegisterInteractor(presenter: presenter)
         sut.networkManager = networkManager
-        sut.storeManager = storeManager
+        sut.storageManager = storageManager
     }
 
     override func tearDownWithError() throws {
 
         networkManager = nil
-        storeManager = nil
+        storageManager = nil
         presenter = nil
         sut = nil
     }
@@ -42,7 +42,7 @@ class RegisterInteractorTest: XCTestCase {
         let userAvatarImage = Data()
 
         let expectNetworkCallCount = 1
-        let expectedStoreCallCount = 1
+        let expectedStorageCallCount = 1
         let expectedUserDidRegisterCallCount = 1
         let expectedUserRegisterFailCallCount = 0
         let expectedUserRegisterFailMessage = ""
@@ -56,7 +56,7 @@ class RegisterInteractorTest: XCTestCase {
         XCTAssertEqual(rightUserName, networkManager.recivedUserName)
         XCTAssertEqual(rightUserLogin, networkManager.recivedUserLogin)
         XCTAssertEqual(rightUserPassword, networkManager.recivedUserPassword)
-        XCTAssertEqual(expectedStoreCallCount, storeManager.saveUserCallCount)
+        XCTAssertEqual(expectedStorageCallCount, storageManager.saveUserCallCount)
         XCTAssertEqual(expectedUserDidRegisterCallCount, presenter.userDidRegisterCount)
         XCTAssertEqual(expectedUserRegisterFailCallCount, presenter.userRegisterFailCount)
         XCTAssertEqual(expectedUserRegisterFailMessage, presenter.message)
@@ -71,7 +71,7 @@ class RegisterInteractorTest: XCTestCase {
         let userAvatarImage: Data? = nil
 
         let expectNetworkCallCount = 1
-        let expectedStoreCallCount = 0
+        let expectedStorageCallCount = 0
         let expectedUserDidRegisterCallCount = 0
         let expectedUserRegisterFailCallCount = 1
         let expectedUserRegisterFailMessage = NetworkServiceError.network.rawValue
@@ -84,7 +84,7 @@ class RegisterInteractorTest: XCTestCase {
         XCTAssertEqual(badUserName, networkManager.recivedUserName)
         XCTAssertEqual(badUserLogin, networkManager.recivedUserLogin)
         XCTAssertEqual(badUserPassword, networkManager.recivedUserPassword)
-        XCTAssertEqual(expectedStoreCallCount, storeManager.saveUserCallCount)
+        XCTAssertEqual(expectedStorageCallCount, storageManager.saveUserCallCount)
         XCTAssertEqual(expectedUserDidRegisterCallCount, presenter.userDidRegisterCount)
         XCTAssertEqual(expectedUserRegisterFailCallCount, presenter.userRegisterFailCount)
         XCTAssertEqual(expectedUserRegisterFailMessage, presenter.message)

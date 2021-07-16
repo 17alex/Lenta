@@ -15,7 +15,7 @@ final class RegisterInteractor {
 
     unowned private let presenter: RegisterInteractorOutput
     var networkManager: NetworkManagerProtocol?
-    var storeManager: StoreManagerProtocol?
+    var storageManager: StorageManagerProtocol?
 
     init(presenter: RegisterInteractorOutput) {
         print("RegisterInteractor init")
@@ -39,7 +39,7 @@ extension RegisterInteractor: RegisterInteractorInput {
                 self.presenter.userDidRegisteredFail(message: serviceError.rawValue)
             case .success(let users):
                 if let currentUser = users.first {
-                    self.storeManager?.save(user: currentUser)
+                    self.storageManager?.save(user: currentUser)
                     self.presenter.userDidRegistered()
                 } else {
                     self.presenter.userDidRegisteredFail(message: "unkmon error")

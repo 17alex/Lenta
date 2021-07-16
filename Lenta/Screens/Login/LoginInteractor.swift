@@ -15,7 +15,7 @@ final class LoginInteractor {
 
     unowned private let presenter: LoginInteractorOutput
     var networkManager: NetworkManagerProtocol?
-    var storeManager: StoreManagerProtocol?
+    var storageManager: StorageManagerProtocol?
 
     // MARK: - Init
 
@@ -40,7 +40,7 @@ extension LoginInteractor: LoginInteractorInput {
                 self.presenter.userLoginFail(message: serviceError.rawValue)
             case .success(let users):
                 if let currentUser = users.first {
-                    self.storeManager?.save(user: currentUser)
+                    self.storageManager?.save(user: currentUser)
                     self.presenter.userDidLogined()
                 } else {
                     self.presenter.userLoginFail(message: "unkmon error")

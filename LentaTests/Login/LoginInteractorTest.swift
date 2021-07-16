@@ -13,20 +13,20 @@ class LoginInteractorTest: XCTestCase {
     var sut: LoginInteractor!
     var presenter: LoginPresenterSpy!
     var networkManager: NetworkManagerMock!
-    var storeManager: StoreManagerSpy!
+    var storageManager: storageManagerSpy!
 
     override func setUpWithError() throws {
         networkManager = NetworkManagerMock()
-        storeManager = StoreManagerSpy()
+        storageManager = storageManagerSpy()
         presenter = LoginPresenterSpy()
         sut = LoginInteractor(presenter: presenter)
         sut.networkManager = networkManager
-        sut.storeManager = storeManager
+        sut.storageManager = storageManager
     }
 
     override func tearDownWithError() throws {
         networkManager = nil
-        storeManager = nil
+        storageManager = nil
         presenter = nil
         sut = nil
     }
@@ -38,7 +38,7 @@ class LoginInteractorTest: XCTestCase {
         let rightPassword = "Baz"
 
         let expectNetworkCallCount = 1
-        let expectedStoreCallCount = 1
+        let expectedStorageCallCount = 1
         let expectedUserDidLoginnedCallCount = 1
         let expectedUserLoginFailCallCount = 0
         let expectedUserLoginFailMessage = ""
@@ -50,7 +50,7 @@ class LoginInteractorTest: XCTestCase {
         XCTAssertEqual(networkManager.logInCallCount, expectNetworkCallCount)
         XCTAssertEqual(rightLogin, networkManager.recivedUserLogin)
         XCTAssertEqual(rightPassword, networkManager.recivedUserPassword)
-        XCTAssertEqual(expectedStoreCallCount, storeManager.saveUserCallCount)
+        XCTAssertEqual(expectedStorageCallCount, storageManager.saveUserCallCount)
         XCTAssertEqual(expectedUserDidLoginnedCallCount, presenter.userDidLoginedCount)
         XCTAssertEqual(expectedUserLoginFailCallCount, presenter.userLoginFailCount)
         XCTAssertEqual(expectedUserLoginFailMessage, presenter.message)
@@ -63,7 +63,7 @@ class LoginInteractorTest: XCTestCase {
         let badPassword = "Bzz"
 
         let expectNetworkCallCount = 1
-        let expectedStoreCallCount = 0
+        let expectedStorageCallCount = 0
         let expectedUserDidLoginnedCallCount = 0
         let expectedUserLoginFailCallCount = 1
         let expectedUserLoginFailMessage = NetworkServiceError.network.rawValue
@@ -75,7 +75,7 @@ class LoginInteractorTest: XCTestCase {
         XCTAssertEqual(networkManager.logInCallCount, expectNetworkCallCount)
         XCTAssertEqual(badLogin, networkManager.recivedUserLogin)
         XCTAssertEqual(badPassword, networkManager.recivedUserPassword)
-        XCTAssertEqual(expectedStoreCallCount, storeManager.saveUserCallCount)
+        XCTAssertEqual(expectedStorageCallCount, storageManager.saveUserCallCount)
         XCTAssertEqual(expectedUserDidLoginnedCallCount, presenter.userDidLoginedCount)
         XCTAssertEqual(expectedUserLoginFailCallCount, presenter.userLoginFailCount)
         XCTAssertEqual(expectedUserLoginFailMessage, presenter.message)

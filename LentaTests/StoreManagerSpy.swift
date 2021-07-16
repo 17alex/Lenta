@@ -1,5 +1,5 @@
 //
-//  StoreManagerSpy.swift
+//  storageManagerSpy.swift
 //  LentaTests
 //
 //  Created by Алексей Алексеев on 03.07.2021.
@@ -8,7 +8,7 @@
 import Foundation
 @testable import Lenta
 
-final class StoreManagerSpy: StoreManagerProtocol {
+final class storageManagerSpy: StorageManagerProtocol {
 
     var savedUser: User?
     let sendUser = User(id: 1, name: "Baz", postsCount: 5, dateRegister: 1111, avatar: "sendAvatar")

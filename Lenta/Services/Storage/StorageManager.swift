@@ -1,5 +1,5 @@
 //
-//  StoreManager.swift
+//  storageManager.swift
 //  Lenta
 //
 //  Created by Alex on 18.01.2021.
@@ -8,7 +8,7 @@
 import Foundation
 import  CoreData
 
-protocol StoreManagerProtocol {
+protocol StorageManagerProtocol {
     func getCurrenUser() -> User?
     func save(user: User?)
     func load(complete: @escaping ([Post], [User]) -> Void)
@@ -17,15 +17,15 @@ protocol StoreManagerProtocol {
     func append(posts: [Post])
 }
 
-final class StoreManager {
+final class StorageManager {
 
     // MARK: - Propertis
 
-    private let userStoreKey = "userStoreKey"
+    private let userStorageKey = "userStorageKey"
     private lazy var context = persistentContainer.viewContext
     private lazy var bgContext = persistentContainer.newBackgroundContext()
 
-    lazy var persistentContainer: NSPersistentContainer = {
+    private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Lenta")
         container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
@@ -38,21 +38,20 @@ final class StoreManager {
     // MARK: - Init
 
     init() {
-        print("StoreManager init")
+        print("storageManager init")
     }
 
     deinit {
-        print("StoreManager deinit")
+        print("storageManager deinit")
     }
 
     // MARK: - Core Data Saving support
 
     private func saveContext () {
-        print("saveContext")
         if bgContext.hasChanges {
             do {
                 try bgContext.save()
-                print("saved!!!")
+                print("saveContext!!!")
             } catch {
                 let nserror = error as NSError
                 fatalError("saveContext Unresolved error \(nserror), \(nserror.userInfo)")
@@ -160,7 +159,7 @@ final class StoreManager {
                             viewsCount: moPost.viewsCount,
                             commentsCount: moPost.commentsCount)
             }
-            print("LOAD CoreDATA posts =", posts.count)
+            print("LOAD from CoreDATA, posts =", posts.count)
             return posts
         } catch {
             let nserror = error as NSError
@@ -180,7 +179,7 @@ final class StoreManager {
                             dateRegister: TimeInterval(moUser.dateRegister),
                             avatar: moUser.avatar)
             }
-            print("LOAD CoreDATA users =", users.count)
+            print("LOAD from CoreDATA, users =", users.count)
             return users
         } catch {
             let nserror = error as NSError
@@ -189,17 +188,17 @@ final class StoreManager {
     }
 }
 
-// MARK: - StoreManagerProtocol
+// MARK: - storageManagerProtocol
 
-extension StoreManager: StoreManagerProtocol {
+extension StorageManager: StorageManagerProtocol {
 
     func getCurrenUser() -> User? {
-        if let userData = UserDefaults.standard.data(forKey: userStoreKey),
+        if let userData = UserDefaults.standard.data(forKey: userStorageKey),
            let currentUser = try? JSONDecoder().decode(User.self, from: userData) {
-            print("user in store = \(currentUser)")
+            print("user in storage = \(currentUser)")
             return currentUser
         } else {
-            print("user is NOT in store")
+            print("user is NOT in storage")
             return nil
         }
     }
@@ -210,7 +209,7 @@ extension StoreManager: StoreManagerProtocol {
             data = userData
         }
 
-        UserDefaults.standard.setValue(data, forKey: userStoreKey)
+        UserDefaults.standard.setValue(data, forKey: userStorageKey)
     }
 
     func load(complete: @escaping ([Post], [User]) -> Void) {

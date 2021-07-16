@@ -20,7 +20,7 @@ final class ProfileInteractor {
 
     // MARK: - Propertis
 
-    var storeManager: StoreManagerProtocol?
+    var storageManager: StorageManagerProtocol?
     var networkManager: NetworkManagerProtocol?
     weak var presenter: ProfileInteractorOutput?
 
@@ -46,6 +46,16 @@ final class ProfileInteractor {
         }
     }
 
+    // MARK: - Init
+
+    init() {
+        print("ProfileInteractor init")
+    }
+
+    deinit {
+        print("ProfileInteractor deinit")
+    }
+
     // MARK: - Metods
 
     private func changeProfile() {
@@ -63,7 +73,7 @@ extension ProfileInteractor: ProfileInteractorInput {
     }
 
     func start() {
-        currentUser = storeManager?.getCurrenUser()
+        currentUser = storageManager?.getCurrenUser()
         presenter?.currentUser(currentUser: currentUser)
     }
 
@@ -80,7 +90,7 @@ extension ProfileInteractor: ProfileInteractorInput {
             presenter?.toLogin()
         } else {
             currentUser = nil
-            storeManager?.save(user: currentUser)
+            storageManager?.save(user: currentUser)
             presenter?.currentUser(currentUser: currentUser)
         }
     }
@@ -100,7 +110,7 @@ extension ProfileInteractor: ProfileInteractorInput {
             case .success(let users):
                 if let user = users.first {
                     self.currentUser = user
-                    self.storeManager?.save(user: self.currentUser)
+                    self.storageManager?.save(user: self.currentUser)
                     self.presenter?.saveProfileSuccess()
                     self.isSetNewAvatar = false
                 } else {

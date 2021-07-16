@@ -11,23 +11,23 @@ import XCTest
 final class LentaInteractorTest: XCTestCase {
 
     var sut: LentaInteractor!
-    var storeManager: StoreManagerSpy!
+    var storageManager: storageManagerSpy!
     var presenter: LentaPresenterSpy!
     var networkManager: NetworkManagerMock!
 
     override func setUpWithError() throws {
         networkManager = NetworkManagerMock()
-        storeManager = StoreManagerSpy()
+        storageManager = storageManagerSpy()
         presenter = LentaPresenterSpy()
         sut = LentaInteractor()
         sut.presenter = presenter
-        sut.storeManager = storeManager
+        sut.storageManager = storageManager
         sut.networkManager = networkManager
     }
 
     override func tearDownWithError() throws {
         networkManager = nil
-        storeManager = nil
+        storageManager = nil
         presenter = nil
         sut = nil
     }
@@ -35,14 +35,14 @@ final class LentaInteractorTest: XCTestCase {
     func testGetCurrentUser() {
 
         // Arrange
-        let expectedStoreCallCount = 1
+        let expectedStorageCallCount = 1
 
         // Act
         sut.getCurrenUser()
 
         // Assert
-        XCTAssertEqual(expectedStoreCallCount, storeManager.getCurrenUserCallCount)
-        XCTAssertEqual(storeManager.sendUser, sut.currentUser)
+        XCTAssertEqual(expectedStorageCallCount, storageManager.getCurrenUserCallCount)
+        XCTAssertEqual(storageManager.sendUser, sut.currentUser)
     }
 
     func testSuccessChangeLike() {

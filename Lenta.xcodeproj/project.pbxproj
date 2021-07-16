@@ -39,7 +39,7 @@
 		FA26A90625B029B000D2B806 /* NewPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90525B029B000D2B806 /* NewPostPresenter.swift */; };
 		FA26A90C25B02C6800D2B806 /* NewPostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */; };
 		FA26A90F25B0543300D2B806 /* SendPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90E25B0543200D2B806 /* SendPost.swift */; };
-		FA2B469C25B5706400DC5C1D /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B469B25B5706400DC5C1D /* StoreManager.swift */; };
+		FA2B469C25B5706400DC5C1D /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B469B25B5706400DC5C1D /* StorageManager.swift */; };
 		FA2B46A325B5BD3200DC5C1D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46A125B5BD3200DC5C1D /* LoginViewController.swift */; };
 		FA2B46A825B5BDBE00DC5C1D /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46A725B5BDBE00DC5C1D /* LoginPresenter.swift */; };
 		FA2B46AC25B5CE2200DC5C1D /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46AB25B5CE2200DC5C1D /* LoginInteractor.swift */; };
@@ -135,7 +135,7 @@
 		FA26A90525B029B000D2B806 /* NewPostPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostPresenter.swift; sourceTree = "<group>"; };
 		FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostRouter.swift; sourceTree = "<group>"; };
 		FA26A90E25B0543200D2B806 /* SendPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPost.swift; sourceTree = "<group>"; };
-		FA2B469B25B5706400DC5C1D /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		FA2B469B25B5706400DC5C1D /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		FA2B46A125B5BD3200DC5C1D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FA2B46A725B5BDBE00DC5C1D /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		FA2B46AB25B5CE2200DC5C1D /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
@@ -262,13 +262,13 @@
 			path = LentaSnapShotTests;
 			sourceTree = "<group>";
 		};
-		8DF356D92688C01C007E02D8 /* Store */ = {
+		8DF356D92688C01C007E02D8 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				FA2B469B25B5706400DC5C1D /* StoreManager.swift */,
+				FA2B469B25B5706400DC5C1D /* StorageManager.swift */,
 				8DF356DA2688C033007E02D8 /* Models */,
 			);
-			path = Store;
+			path = Storage;
 			sourceTree = "<group>";
 		};
 		8DF356DA2688C033007E02D8 /* Models */ = {
@@ -334,7 +334,7 @@
 		FA33EDE125AC8A1000637E3E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				8DF356D92688C01C007E02D8 /* Store */,
+				8DF356D92688C01C007E02D8 /* Storage */,
 				FA0A1DFB2624844B0061524D /* ImagePicker.swift */,
 				FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */,
 			);
@@ -734,7 +734,7 @@
 				FAC2073825AC61A500CD9099 /* LentaPresenter.swift in Sources */,
 				FA7DD40525B709A400CB1678 /* RegisterPresenter.swift in Sources */,
 				FA9BFF4025C17F4500ACA85F /* ProfilePresenter.swift in Sources */,
-				FA2B469C25B5706400DC5C1D /* StoreManager.swift in Sources */,
+				FA2B469C25B5706400DC5C1D /* StorageManager.swift in Sources */,
 				8DF356C926888CBD007E02D8 /* MOLike+CoreDataClass.swift in Sources */,
 				8DF298DA269482B300D20746 /* UserInfoRouter.swift in Sources */,
 				FA396F5F25F8F230009B79F5 /* CommentsViewController.swift in Sources */,

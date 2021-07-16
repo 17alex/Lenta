@@ -23,6 +23,11 @@ final class ProfileRouter {
     init(view: UIViewController, assembly: Assembly) {
         self.view = view
         self.assembly = assembly
+        print("ProfileRouter init")
+    }
+
+    deinit {
+        print("ProfileRouter deinit")
     }
 }
 

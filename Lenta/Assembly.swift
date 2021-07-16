@@ -12,7 +12,7 @@ final class Assembly {
     // MARK: - Propertis
 
     private let networkManager = NetworkManager()
-    private let storeManager = StoreManager()
+    private let storageManager = StorageManager()
 
     // MARK: - Init
 
@@ -64,7 +64,7 @@ final class Assembly {
         presenter.router = router
         interactor.presenter = presenter
         interactor.networkManager = networkManager
-        interactor.storeManager = storeManager
+        interactor.storageManager = storageManager
         view.presenter = presenter
         return view
     }
@@ -77,7 +77,7 @@ final class Assembly {
         presenter.router = router
         presenter.interactor = interactor
         interactor.networkManager = networkManager
-        interactor.storeManager = storeManager
+        interactor.storageManager = storageManager
         view.presenter = presenter
         return view
     }
@@ -90,7 +90,7 @@ final class Assembly {
         presenter.router = router
         presenter.interactor = interactor
         interactor.networkManager = networkManager
-        interactor.storeManager = storeManager
+        interactor.storageManager = storageManager
         view.presenter = presenter
         return view
     }
@@ -103,7 +103,7 @@ final class Assembly {
         view.presenter = presenter
         interactor.presenter = presenter
         interactor.networkManager = networkManager
-        interactor.storeManager = storeManager
+        interactor.storageManager = storageManager
         return view
     }
 
@@ -114,7 +114,7 @@ final class Assembly {
         let presenter = NewPostPresenter(view: view, interactor: interactor, callback: callback)
         view.presenter = presenter
         interactor.presenter = presenter
-        interactor.storeManager = storeManager
+        interactor.storageManager = storageManager
         interactor.networkManager = networkManager
         presenter.router = router
         return view
@@ -129,7 +129,7 @@ final class Assembly {
         presenter.router = router
         interactor.presenter = presenter
         interactor.networkManager = networkManager
-        interactor.storeManager = storeManager
+        interactor.storageManager = storageManager
         return view
     }
 }
