@@ -14,7 +14,7 @@ protocol LoginViewOutput {
 
 protocol LoginInteractorOutput: AnyObject {
     func userDidLogined()
-    func userLoginFail(message: String)
+    func userLoginFail(error: NetworkServiceError)
 }
 
 final class LoginPresenter {
@@ -57,7 +57,7 @@ extension LoginPresenter: LoginInteractorOutput {
         router?.dissmis()
     }
 
-    func userLoginFail(message: String) {
-        view.userNotLoginned(message: message)
+    func userLoginFail(error: NetworkServiceError) {
+        view.userNotLoginned(message: error.rawValue)
     }
 }

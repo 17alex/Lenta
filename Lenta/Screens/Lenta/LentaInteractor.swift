@@ -66,12 +66,13 @@ extension LentaInteractor: LentaInteractorInput {
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                self.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(error: serviceError)
             case .success(let response):
                 guard let deletePost = response.posts.first else { return }
                 if let deleteIndex = self.posts.firstIndex(where: { $0.id == deletePost.id }) {
                     self.posts.remove(at: deleteIndex)
                     self.presenter?.didRemovePost(by: deleteIndex)
+                    self.storageManager?.save(posts: response.posts)
                 }
             }
         }
@@ -86,7 +87,7 @@ extension LentaInteractor: LentaInteractorInput {
             self.isLoadingPosts = false
             switch result {
             case .failure(let serviceError):
-                self.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(error: serviceError)
             case .success(let response):
                 self.posts.append(contentsOf: response.posts)
                 self.users = self.users.union(response.users)
@@ -118,7 +119,7 @@ extension LentaInteractor: LentaInteractorInput {
             self.isLoadingPosts = false
             switch result {
             case .failure(let serviceError):
-                self.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(error: serviceError)
             case .success(let response):
                 self.posts = response.posts
                 self.users = Set(response.users)
@@ -136,7 +137,7 @@ extension LentaInteractor: LentaInteractorInput {
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                self.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(error: serviceError)
             case .success(let post):
                 self.posts[index] = post
                 self.presenter?.didUpdatePost(by: index)

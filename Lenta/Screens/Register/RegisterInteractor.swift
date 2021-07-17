@@ -36,13 +36,13 @@ extension RegisterInteractor: RegisterInteractorInput {
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                self.presenter.userDidRegisteredFail(message: serviceError.rawValue)
+                self.presenter.userDidRegisteredFail(error: serviceError)
             case .success(let users):
                 if let currentUser = users.first {
                     self.storageManager?.save(user: currentUser)
                     self.presenter.userDidRegistered()
                 } else {
-                    self.presenter.userDidRegisteredFail(message: "unkmon error")
+                    self.presenter.userDidRegisteredFail(error: .unknown)
                 }
             }
         }

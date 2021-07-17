@@ -37,13 +37,13 @@ extension LoginInteractor: LoginInteractorInput {
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                self.presenter.userLoginFail(message: serviceError.rawValue)
+                self.presenter.userLoginFail(error: serviceError)
             case .success(let users):
                 if let currentUser = users.first {
                     self.storageManager?.save(user: currentUser)
                     self.presenter.userDidLogined()
                 } else {
-                    self.presenter.userLoginFail(message: "unkmon error")
+                    self.presenter.userLoginFail(error: .unknown)
                 }
             }
         }

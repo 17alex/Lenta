@@ -27,7 +27,7 @@ protocol LentaInteractorOutput: AnyObject {
     func didLoadNew(post: Post)
     func didUpdatePost(by index: Int)
     func didRemovePost(by index: Int)
-    func show(message: String)
+    func show(error: NetworkServiceError)
 }
 
 final class LentaPresenter {
@@ -189,8 +189,8 @@ extension LentaPresenter: LentaInteractorOutput {
         view.reloadPost(by: index)
     }
 
-    func show(message: String) {
+    func show(error: NetworkServiceError) {
         view.activityIndicatorStop()
-        view.show(message: message)
+        view.show(message: error.rawValue)
     }
 }

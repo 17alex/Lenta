@@ -13,12 +13,12 @@ class RegisterInteractorTest: XCTestCase {
     var sut: RegisterInteractor!
     var presenter: RegisterPresenterSpy!
     var networkManager: NetworkManagerMock!
-    var storageManager: storageManagerSpy!
+    var storageManager: StorageManagerSpy!
 
     override func setUpWithError() throws {
 
         networkManager = NetworkManagerMock()
-        storageManager = storageManagerSpy()
+        storageManager = StorageManagerSpy()
         presenter = RegisterPresenterSpy()
         sut = RegisterInteractor(presenter: presenter)
         sut.networkManager = networkManager
@@ -43,9 +43,9 @@ class RegisterInteractorTest: XCTestCase {
 
         let expectNetworkCallCount = 1
         let expectedStorageCallCount = 1
-        let expectedUserDidRegisterCallCount = 1
-        let expectedUserRegisterFailCallCount = 0
-        let expectedUserRegisterFailMessage = ""
+        let expectedPresenterUserDidRegisterCallCount = 1
+        let expectedPresenterUserRegisterFailCallCount = 0
+        let expectedPresenterUserRegisterFailMessage: NetworkServiceError? = nil
 
         // Act
         sut.register(name: rightUserName, login: rightUserLogin, password: rightUserPassword,
@@ -57,9 +57,9 @@ class RegisterInteractorTest: XCTestCase {
         XCTAssertEqual(rightUserLogin, networkManager.recivedUserLogin)
         XCTAssertEqual(rightUserPassword, networkManager.recivedUserPassword)
         XCTAssertEqual(expectedStorageCallCount, storageManager.saveUserCallCount)
-        XCTAssertEqual(expectedUserDidRegisterCallCount, presenter.userDidRegisterCount)
-        XCTAssertEqual(expectedUserRegisterFailCallCount, presenter.userRegisterFailCount)
-        XCTAssertEqual(expectedUserRegisterFailMessage, presenter.message)
+        XCTAssertEqual(expectedPresenterUserDidRegisterCallCount, presenter.userDidRegisterCount)
+        XCTAssertEqual(expectedPresenterUserRegisterFailCallCount, presenter.userRegisterFailCount)
+        XCTAssertEqual(expectedPresenterUserRegisterFailMessage, presenter.recivedError)
     }
 
     func testFailureRegister() {
@@ -72,9 +72,9 @@ class RegisterInteractorTest: XCTestCase {
 
         let expectNetworkCallCount = 1
         let expectedStorageCallCount = 0
-        let expectedUserDidRegisterCallCount = 0
-        let expectedUserRegisterFailCallCount = 1
-        let expectedUserRegisterFailMessage = NetworkServiceError.network.rawValue
+        let expectedPresenterUserDidRegisterCallCount = 0
+        let expectedPresenterUserRegisterFailCallCount = 1
+        let expectedPresenterRecivedError: NetworkServiceError? = .network
 
         // Act
         sut.register(name: badUserName, login: badUserLogin, password: badUserPassword, avatarImage: userAvatarImage)
@@ -85,8 +85,8 @@ class RegisterInteractorTest: XCTestCase {
         XCTAssertEqual(badUserLogin, networkManager.recivedUserLogin)
         XCTAssertEqual(badUserPassword, networkManager.recivedUserPassword)
         XCTAssertEqual(expectedStorageCallCount, storageManager.saveUserCallCount)
-        XCTAssertEqual(expectedUserDidRegisterCallCount, presenter.userDidRegisterCount)
-        XCTAssertEqual(expectedUserRegisterFailCallCount, presenter.userRegisterFailCount)
-        XCTAssertEqual(expectedUserRegisterFailMessage, presenter.message)
+        XCTAssertEqual(expectedPresenterUserDidRegisterCallCount, presenter.userDidRegisterCount)
+        XCTAssertEqual(expectedPresenterUserRegisterFailCallCount, presenter.userRegisterFailCount)
+        XCTAssertEqual(expectedPresenterRecivedError, presenter.recivedError)
     }
 }

@@ -12,14 +12,14 @@ final class RegisterPresenterSpy: RegisterInteractorOutput {
 
     var userDidRegisterCount = 0
     var userRegisterFailCount = 0
-    var message = ""
+    var recivedError: NetworkServiceError?
 
     func userDidRegistered() {
         userDidRegisterCount += 1
     }
 
-    func userDidRegisteredFail(message: String) {
+    func userDidRegisteredFail(error: NetworkServiceError) {
         userRegisterFailCount += 1
-        self.message = message
+        self.recivedError = error
     }
 }

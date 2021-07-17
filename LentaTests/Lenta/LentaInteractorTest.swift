@@ -11,13 +11,13 @@ import XCTest
 final class LentaInteractorTest: XCTestCase {
 
     var sut: LentaInteractor!
-    var storageManager: storageManagerSpy!
+    var storageManager: StorageManagerSpy!
     var presenter: LentaPresenterSpy!
     var networkManager: NetworkManagerMock!
 
     override func setUpWithError() throws {
         networkManager = NetworkManagerMock()
-        storageManager = storageManagerSpy()
+        storageManager = StorageManagerSpy()
         presenter = LentaPresenterSpy()
         sut = LentaInteractor()
         sut.presenter = presenter
@@ -42,7 +42,7 @@ final class LentaInteractorTest: XCTestCase {
 
         // Assert
         XCTAssertEqual(expectedStorageCallCount, storageManager.getCurrenUserCallCount)
-        XCTAssertEqual(storageManager.sendUser, sut.currentUser)
+        XCTAssertEqual(storageManager.sendedUser, sut.currentUser)
     }
 
     func testSuccessChangeLike() {
@@ -59,7 +59,7 @@ final class LentaInteractorTest: XCTestCase {
         let expectedDidUpdatePostCallCount = 1
         let expectedRecivedIndex = 0
         let expectedShowMessageCallCount = 0
-        let expectedMessage = ""
+        let expectedPresenterRecivedError: NetworkServiceError? = nil
 
         // Act
         sut.changeLike(by: postIndex)
@@ -71,8 +71,8 @@ final class LentaInteractorTest: XCTestCase {
         XCTAssertEqual(sut.posts[postIndex].id, networkManager.post.id)
         XCTAssertEqual(expectedDidUpdatePostCallCount, presenter.didUpdatePostCallCount)
         XCTAssertEqual(expectedRecivedIndex, presenter.recivedIndex)
-        XCTAssertEqual(expectedShowMessageCallCount, presenter.expectedShowMessageCallCount)
-        XCTAssertEqual(expectedMessage, presenter.recivedMessage)
+        XCTAssertEqual(expectedShowMessageCallCount, presenter.showMessageCallCount)
+        XCTAssertEqual(expectedPresenterRecivedError, presenter.recivedError)
     }
 
     func testFailureChangeLike() {
@@ -89,7 +89,7 @@ final class LentaInteractorTest: XCTestCase {
         let expectedDidUpdatePostCallCount = 0
         let expectedRecivedIndex = -1
         let expectedShowMessageCallCount = 1
-        let expectedMessage = NetworkServiceError.network.rawValue
+        let expectedPresenterRecivedError: NetworkServiceError? = .network
 
         // Act
         sut.changeLike(by: postIndex)
@@ -100,7 +100,97 @@ final class LentaInteractorTest: XCTestCase {
         XCTAssertEqual(expectedChangeLikeCallCount, networkManager.changeLikeCallCount)
         XCTAssertEqual(expectedDidUpdatePostCallCount, presenter.didUpdatePostCallCount)
         XCTAssertEqual(expectedRecivedIndex, presenter.recivedIndex)
-        XCTAssertEqual(expectedShowMessageCallCount, presenter.expectedShowMessageCallCount)
-        XCTAssertEqual(expectedMessage, presenter.recivedMessage)
+        XCTAssertEqual(expectedShowMessageCallCount, presenter.showMessageCallCount)
+        XCTAssertEqual(expectedPresenterRecivedError, presenter.recivedError)
+    }
+    
+    func testSuccessDeletePost() {
+        
+        // Arrange
+        let postIndex = 0
+        sut.currentUser = User(id: 0, name: "User0", postsCount: 0, dateRegister: 0, avatar: "avatar")
+        sut.posts = [
+            Post(id: 0, userId: 0, timeInterval: 0, description: "Post0",
+                 photo: nil, likeUserIds: [0], viewsCount: 0, commentsCount: 0),
+            Post(id: 1, userId: 0, timeInterval: 0, description: "Post1",
+                 photo: nil, likeUserIds: [0], viewsCount: 0, commentsCount: 0)
+        ]
+
+        let expectedNetworkPostId: Int16 = 0
+        let expectedNetworkRemovePostCallCount = 1
+        let expectedPostCountAfterDelete = 1
+        let expectedPresenterDidRemovePostCallCount = 1
+        let expectedPresenterRecivedIndex = 0
+        let expectedPresenterShowMessageCallCount = 0
+        let expectedPresenterRecivedError: NetworkServiceError? = nil
+        let expectedStorageSavePostsCallCount = 1
+        let expectedStorageSavedPostCount = 1
+        
+        // Act
+        sut.deletePost(by: postIndex)
+        
+        // Assert
+        XCTAssertEqual(expectedNetworkPostId, networkManager.recivePostId)
+        XCTAssertEqual(expectedNetworkRemovePostCallCount, networkManager.removePostCallCount)
+        XCTAssertEqual(sut.posts.count, expectedPostCountAfterDelete)
+        XCTAssertEqual(expectedPresenterDidRemovePostCallCount, presenter.didRemovePostCallCount)
+        XCTAssertEqual(expectedPresenterRecivedIndex, presenter.recivedIndex)
+        XCTAssertEqual(expectedPresenterShowMessageCallCount, presenter.showMessageCallCount)
+        XCTAssertEqual(expectedPresenterRecivedError, presenter.recivedError)
+        XCTAssertEqual(expectedStorageSavePostsCallCount, storageManager.savePostsCallCount)
+        XCTAssertEqual(expectedStorageSavedPostCount, storageManager.savedPosts.count)
+    }
+    
+    func testFailureDeletePost() {
+        
+        // Arrange
+        let postIndex = 1
+        sut.currentUser = User(id: 0, name: "Baz", postsCount: 1, dateRegister: 1234, avatar: "avatar")
+        sut.posts = [
+            Post(id: 0, userId: 0, timeInterval: 0, description: "Post0",
+                 photo: nil, likeUserIds: [0], viewsCount: 0, commentsCount: 0),
+            Post(id: 1, userId: 0, timeInterval: 0, description: "Post1",
+                 photo: nil, likeUserIds: [0], viewsCount: 0, commentsCount: 0)
+        ]
+
+        let expectedNetworkPostId: Int16 = 1
+        let expectedNetworkRemovePostCallCount = 1
+        let expectedPostCountAfterDelete = 2
+        let expectedPresenterDidRemovePostCallCount = 0
+        let expectedPresenterRemovePostRecivedIndex = -1
+        let expectedPresenterShowMessageCallCount = 1
+        let expectedPresenterRecivedError = NetworkServiceError.network
+        let expectedStorageSavePostsCallCount = 0
+        let expectedStorageSavedPostCount = 0
+        
+        // Act
+        sut.deletePost(by: postIndex)
+        
+        // Assert
+        XCTAssertEqual(expectedNetworkPostId, networkManager.recivePostId)
+        XCTAssertEqual(expectedNetworkRemovePostCallCount, networkManager.removePostCallCount)
+        XCTAssertEqual(sut.posts.count, expectedPostCountAfterDelete)
+        XCTAssertEqual(expectedPresenterDidRemovePostCallCount, presenter.didRemovePostCallCount)
+        XCTAssertEqual(expectedPresenterRemovePostRecivedIndex, presenter.recivedIndex)
+        XCTAssertEqual(expectedPresenterShowMessageCallCount, presenter.showMessageCallCount)
+        XCTAssertEqual(expectedPresenterRecivedError, presenter.recivedError)
+        XCTAssertEqual(expectedStorageSavePostsCallCount, storageManager.savePostsCallCount)
+        XCTAssertEqual(expectedStorageSavedPostCount, storageManager.savedPosts.count)
+    }
+    
+    func testLoadFromStorage() {
+        
+        // Arrange
+        let expectedStorageLoadCallCount = 1
+        let expectedPostsCount = 1
+        let expectedUsersCount = 1
+        
+        // Act
+        sut.loadFromStorage()
+        
+        // Assert
+        XCTAssertEqual(expectedStorageLoadCallCount, storageManager.loadCallCount)
+        XCTAssertEqual(expectedPostsCount, sut.posts.count)
+        XCTAssertEqual(expectedUsersCount, sut.users.count)
     }
 }

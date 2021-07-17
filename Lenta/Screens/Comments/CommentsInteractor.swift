@@ -49,16 +49,12 @@ extension CommentsInteractor: CommentsInteractorInput {
     }
 
     func sendNewComment(_ comment: String) {
-        guard let currentUser = storageManager?.getCurrenUser() else {
-            presenter?.show(message: "User not loginned")
-            return
-        }
-
+        guard let currentUser = storageManager?.getCurrenUser() else { return }
         networkManager?.sendComment(comment, postId: posts[0].id, userId: currentUser.id) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                self.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(error: serviceError)
             case .success(let responseComment):
                 self.comments.append(contentsOf: responseComment.comments)
                 self.users = self.users.union(responseComment.users)
@@ -72,7 +68,7 @@ extension CommentsInteractor: CommentsInteractorInput {
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):
-                self.presenter?.show(message: serviceError.rawValue)
+                self.presenter?.show(error: serviceError)
             case .success(let responseComment):
                 self.posts = responseComment.posts
                 self.comments = responseComment.comments

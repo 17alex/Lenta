@@ -15,6 +15,8 @@
 		8D2322272690568400AE435C /* LoginPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D2322262690568400AE435C /* LoginPresenterSpy.swift */; };
 		8D23222C26908B2D00AE435C /* LentaInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D23222B26908B2D00AE435C /* LentaInteractorTest.swift */; };
 		8D232232269093EB00AE435C /* LentaPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D232231269093EB00AE435C /* LentaPresenterSpy.swift */; };
+		8D3989BB26A30665003A63E9 /* NewPostInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3989BA26A30665003A63E9 /* NewPostInteractorTest.swift */; };
+		8D3989C526A3067E003A63E9 /* NewPostPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3989C426A3067E003A63E9 /* NewPostPresenterSpy.swift */; };
 		8D54C7C026847C970088D4BE /* LoginInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7BF26847C970088D4BE /* LoginInteractorTest.swift */; };
 		8D54C7D3268750420088D4BE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7D2268750420088D4BE /* Constants.swift */; };
 		8D54C7D9268754E80088D4BE /* Lenta.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7D7268754E80088D4BE /* Lenta.xcdatamodeld */; };
@@ -108,6 +110,8 @@
 		8D2322262690568400AE435C /* LoginPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenterSpy.swift; sourceTree = "<group>"; };
 		8D23222B26908B2D00AE435C /* LentaInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaInteractorTest.swift; sourceTree = "<group>"; };
 		8D232231269093EB00AE435C /* LentaPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaPresenterSpy.swift; sourceTree = "<group>"; };
+		8D3989BA26A30665003A63E9 /* NewPostInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractorTest.swift; sourceTree = "<group>"; };
+		8D3989C426A3067E003A63E9 /* NewPostPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostPresenterSpy.swift; sourceTree = "<group>"; };
 		8D54C73C268378610088D4BE /* LentaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LentaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D54C740268378610088D4BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D54C7BF26847C970088D4BE /* LoginInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractorTest.swift; sourceTree = "<group>"; };
@@ -231,6 +235,15 @@
 			path = Lenta;
 			sourceTree = "<group>";
 		};
+		8D3989B926A3060B003A63E9 /* NewPost */ = {
+			isa = PBXGroup;
+			children = (
+				8D3989BA26A30665003A63E9 /* NewPostInteractorTest.swift */,
+				8D3989C426A3067E003A63E9 /* NewPostPresenterSpy.swift */,
+			);
+			path = NewPost;
+			sourceTree = "<group>";
+		};
 		8D54C73D268378610088D4BE /* LentaTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +251,7 @@
 				8D23221C269053C000AE435C /* StoreManagerSpy.swift */,
 				8D23220F26904ADC00AE435C /* Register */,
 				8D54C7BE26847C690088D4BE /* Login */,
+				8D3989B926A3060B003A63E9 /* NewPost */,
 				8D23222A26908AC200AE435C /* Lenta */,
 				8D54C740268378610088D4BE /* Info.plist */,
 			);
@@ -673,7 +687,9 @@
 				8D54C7C026847C970088D4BE /* LoginInteractorTest.swift in Sources */,
 				8D232232269093EB00AE435C /* LentaPresenterSpy.swift in Sources */,
 				8D23221126904B2B00AE435C /* RegisterInteractorTest.swift in Sources */,
+				8D3989C526A3067E003A63E9 /* NewPostPresenterSpy.swift in Sources */,
 				8D23222C26908B2D00AE435C /* LentaInteractorTest.swift in Sources */,
+				8D3989BB26A30665003A63E9 /* NewPostInteractorTest.swift in Sources */,
 				8D2322172690522600AE435C /* NetworkManagerMock.swift in Sources */,
 				8D2322212690563600AE435C /* RegisterPresenetrSpy.swift in Sources */,
 				8D2322272690568400AE435C /* LoginPresenterSpy.swift in Sources */,

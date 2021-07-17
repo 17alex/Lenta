@@ -20,7 +20,7 @@ protocol CommentsViewOutput {
 protocol CommentsInteractorOutput: AnyObject {
     func didLoadComments()
     func didSendComment(_ comments: [Comment])
-    func show(message: String)
+    func show(error: NetworkServiceError)
 }
 
 enum CellType {
@@ -130,8 +130,8 @@ extension CommentsPresenter: CommentsInteractorOutput {
         view.addRow()
     }
 
-    func show(message: String) {
-        view.show(message: message)
+    func show(error: NetworkServiceError) {
+        view.show(message: error.rawValue)
     }
 
     func didLoadComments() {

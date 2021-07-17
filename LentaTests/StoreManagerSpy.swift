@@ -8,17 +8,23 @@
 import Foundation
 @testable import Lenta
 
-final class storageManagerSpy: StorageManagerProtocol {
+final class StorageManagerSpy: StorageManagerProtocol {
 
     var savedUser: User?
-    let sendUser = User(id: 1, name: "Baz", postsCount: 5, dateRegister: 1111, avatar: "sendAvatar")
+    var savedPosts: [Post] = []
+    
+    let sendedUser = User(id: 0, name: "Baz", postsCount: 0, dateRegister: 0, avatar: "sendAvatar")
+    
+    let sendedPost = Post(id: 0, userId: 0, timeInterval: 0, description: "", photo: nil, likeUserIds: [], viewsCount: 0, commentsCount: 0)
 
     var saveUserCallCount = 0
     var getCurrenUserCallCount = 0
+    var savePostsCallCount = 0
+    var loadCallCount = 0
 
     func getCurrenUser() -> User? {
         getCurrenUserCallCount += 1
-        return sendUser
+        return sendedUser
     }
 
     func save(user: User?) {
@@ -27,11 +33,13 @@ final class storageManagerSpy: StorageManagerProtocol {
     }
 
     func load(complete: @escaping ([Post], [User]) -> Void) {
-        fatalError()
+        loadCallCount += 1
+        complete([sendedPost], [sendedUser])
     }
 
     func save(posts: [Post]) {
-        fatalError()
+        savePostsCallCount += 1
+        savedPosts = posts
     }
 
     func save(users: [User]) {

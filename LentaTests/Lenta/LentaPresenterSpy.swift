@@ -11,10 +11,11 @@ import Foundation
 final class LentaPresenterSpy: LentaInteractorOutput {
 
     var didUpdatePostCallCount = 0
-    var expectedShowMessageCallCount = 0
+    var didRemovePostCallCount = 0
+    var showMessageCallCount = 0
 
     var recivedIndex = -1
-    var recivedMessage = ""
+    var recivedError: NetworkServiceError?
 
     func didLoadFirst(posts: [Post]) {
         fatalError()
@@ -34,11 +35,12 @@ final class LentaPresenterSpy: LentaInteractorOutput {
     }
 
     func didRemovePost(by index: Int) {
-        fatalError()
+        didRemovePostCallCount += 1
+        recivedIndex = index
     }
 
-    func show(message: String) {
-        expectedShowMessageCallCount += 1
-        recivedMessage = message
+    func show(error: NetworkServiceError) {
+        showMessageCallCount += 1
+        recivedError = error
     }
 }

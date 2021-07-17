@@ -14,7 +14,7 @@ protocol RegisterViewOutput: AnyObject {
 
 protocol RegisterInteractorOutput: AnyObject {
     func userDidRegistered()
-    func userDidRegisteredFail(message: String)
+    func userDidRegisteredFail(error: NetworkServiceError)
 }
 
 final class RegisterPresenter {
@@ -60,7 +60,7 @@ extension RegisterPresenter: RegisterInteractorOutput {
         router?.dissmis()
     }
 
-    func userDidRegisteredFail(message: String) {
-        view.userNotRegister(message: message)
+    func userDidRegisteredFail(error: NetworkServiceError) {
+        view.userNotRegister(message: error.rawValue)
     }
 }
