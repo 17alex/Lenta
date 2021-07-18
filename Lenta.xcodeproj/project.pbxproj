@@ -348,9 +348,9 @@
 		FA33EDE125AC8A1000637E3E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				8DF356D92688C01C007E02D8 /* Storage */,
 				FA0A1DFB2624844B0061524D /* ImagePicker.swift */,
 				FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */,
+				8DF356D92688C01C007E02D8 /* Storage */,
 			);
 			path = Services;
 			sourceTree = "<group>";

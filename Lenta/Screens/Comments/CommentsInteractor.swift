@@ -18,7 +18,7 @@ protocol CommentsInteractorInput {
 
 final class CommentsInteractor {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     weak var presenter: CommentsInteractorOutput?
     var networkManager: NetworkManagerProtocol?
@@ -45,7 +45,7 @@ final class CommentsInteractor {
 extension CommentsInteractor: CommentsInteractorInput {
 
     func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
-        networkManager?.loadImage(from: urlString, complete: complete)
+        networkManager?.loadImage(from: urlString, completion: complete)
     }
 
     func sendNewComment(_ comment: String) {

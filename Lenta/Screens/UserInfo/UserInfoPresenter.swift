@@ -14,7 +14,7 @@ protocol UserInfoViewOutput {
 
 final class UserInfoPresenter {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     unowned private let view: UserInfoViewInput
     private let router: UserInfoRouterInput

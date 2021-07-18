@@ -18,7 +18,7 @@ protocol ProfileInteractorInput {
 
 final class ProfileInteractor {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     var storageManager: StorageManagerProtocol?
     var networkManager: NetworkManagerProtocol?
@@ -56,7 +56,7 @@ final class ProfileInteractor {
         print("ProfileInteractor deinit")
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     private func changeProfile() {
         guard let currUser = currentUser  else { presenter?.changeProfile(false); return }
@@ -69,7 +69,7 @@ final class ProfileInteractor {
 extension ProfileInteractor: ProfileInteractorInput {
 
     func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
-        networkManager?.loadImage(from: urlString, complete: complete)
+        networkManager?.loadImage(from: urlString, completion: complete)
     }
 
     func start() {

@@ -13,7 +13,7 @@ protocol UserInfoInteractorInput {
 
 final class UserInfoInteractor {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     var networkManager: NetworkManagerProtocol?
 
@@ -33,6 +33,6 @@ final class UserInfoInteractor {
 extension UserInfoInteractor: UserInfoInteractorInput {
 
     func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
-        networkManager?.loadImage(from: urlString, complete: complete)
+        networkManager?.loadImage(from: urlString, completion: complete)
     }
 }

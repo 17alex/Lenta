@@ -9,7 +9,7 @@ import UIKit
 
 final class Assembly {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     private let networkManager = NetworkManager()
     private let storageManager = StorageManager()
@@ -24,7 +24,7 @@ final class Assembly {
         print("Assembly deinit")
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     func startController() -> UIViewController {
         return getTabBarController()

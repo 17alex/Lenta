@@ -13,7 +13,7 @@ protocol ProfileRouterInput {
 
 final class ProfileRouter {
 
-    // Propertis
+    // Properties
 
     unowned private let view: UIViewController
     private let assembly: Assembly

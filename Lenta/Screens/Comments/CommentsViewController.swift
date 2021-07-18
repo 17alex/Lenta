@@ -19,7 +19,7 @@ protocol CommentsViewInput: AnyObject {
 
 final class CommentsViewController: UIViewController {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     private lazy var navItem: UINavigationItem = {
         let navItem = UINavigationItem(title: "Comments")
@@ -127,7 +127,7 @@ final class CommentsViewController: UIViewController {
         unSubscribeKboardNotofication()
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     private func subscribeKboardNotofication() {
         NotificationCenter.default.addObserver(self,

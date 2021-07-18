@@ -9,7 +9,7 @@ import UIKit
 
 final class CommentCell: UITableViewCell {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     static var reuseID: String {
         return self.description()
@@ -84,7 +84,7 @@ final class CommentCell: UITableViewCell {
         avatarImageView.image = nil
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     func set(commentModel: CommentViewModel) {
         self.commentModel = commentModel

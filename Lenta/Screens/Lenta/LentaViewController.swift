@@ -24,7 +24,7 @@ protocol LentaViewInput: AnyObject {
 
 final class LentaViewController: UIViewController {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -74,7 +74,7 @@ final class LentaViewController: UIViewController {
         presenter?.viewWillAppear()
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     @objc private func pullToRefresh() {
         presenter?.didPressToRefresh()

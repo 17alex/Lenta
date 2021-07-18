@@ -17,7 +17,7 @@ protocol PostCellDelegate: AnyObject {
 
 final class LentaCell: UITableViewCell {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     lazy private var avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -190,7 +190,7 @@ final class LentaCell: UITableViewCell {
         shareButton.frame = CGRect(x: offset + space * 3, y: buttonsY, width: 30, height: 35)
     }
 
-    // MARK: - PublicMetods
+    // MARK: - PublicMethods
 
     func likeUpdate(post: PostViewModel) {
         likesCountLabel.text = post.likes.count
@@ -210,7 +210,7 @@ final class LentaCell: UITableViewCell {
         avatarImageView.image = avatar
     }
 
-    // MARK: - PrivateMetods
+    // MARK: - PrivateMethods
 
     private func getPhotoHeight(photoViewModel: PhotoViewModel, width: CGFloat) -> CGFloat {
         return CGFloat(photoViewModel.size.height) / CGFloat(photoViewModel.size.width) * width

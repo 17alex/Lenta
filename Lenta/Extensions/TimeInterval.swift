@@ -20,9 +20,9 @@ extension TimeInterval {
         let secondsPerDay: Double = 24 * 60 * 60
         dateFormatter.dateFormat = "HH:mm "
         if self - startNowDateTimeInterval > 0 {
-            dateString = "today in "
+            dateString = "today at "
         } else if self - startNowDateTimeInterval + secondsPerDay > 0 {
-            dateString = "yesterday in "
+            dateString = "yesterday at "
         } else {
             dateString = ""
             dateFormatter.dateFormat = "HH:mm  d MMMM yyyy"

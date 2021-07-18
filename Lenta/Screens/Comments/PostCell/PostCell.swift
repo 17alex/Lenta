@@ -101,7 +101,7 @@ final class PostCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     func set(postModel: PostViewModel) {
         self.postModel = postModel

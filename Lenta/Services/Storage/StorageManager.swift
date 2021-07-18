@@ -19,7 +19,7 @@ protocol StorageManagerProtocol {
 
 final class StorageManager {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     private let userStorageKey = "userStorageKey"
     private lazy var context = persistentContainer.viewContext

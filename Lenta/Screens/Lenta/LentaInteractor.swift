@@ -49,7 +49,7 @@ final class LentaInteractor {
 extension LentaInteractor: LentaInteractorInput {
 
     func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
-        networkManager?.loadImage(from: urlString, complete: complete)
+        networkManager?.loadImage(from: urlString, completion: complete)
     }
 
     func addNewPost(response: Response) {

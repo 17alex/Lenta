@@ -18,7 +18,7 @@ protocol NewPostInteractorOutput: AnyObject {
 
 final class NewPostPresenter {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     unowned private let view: NewPostViewInput
     private let interactor: NewPostInteractorInput

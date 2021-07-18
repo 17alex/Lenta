@@ -16,7 +16,7 @@ protocol ProfileViewInput: AnyObject {
 
 final class ProfileViewController: UIViewController {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     private let avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -120,7 +120,7 @@ final class ProfileViewController: UIViewController {
         presenter?.start()
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     @objc private func logInOutButtonPress() {
         presenter?.logInOutButtonPress()

@@ -30,7 +30,7 @@ enum CellType {
 
 final class CommentsPresenter {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     unowned private let view: CommentsViewInput
     private let interactor: CommentsInteractorInput
@@ -55,7 +55,7 @@ final class CommentsPresenter {
         print("CommentsPresenter deinit")
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     private func getPostViewModel(post: Post) -> PostViewModel? {
         let user = interactor.users.first(where: { $0.id == post.userId })

@@ -26,7 +26,7 @@ protocol ProfileInteractorOutput: AnyObject {
 
 final class ProfilePresenter {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     unowned private let view: ProfileViewInput
     private let interactor: ProfileInteractorInput

@@ -13,7 +13,7 @@ protocol RegisterViewInput: AnyObject {
 
 final class RegisterViewController: UIViewController {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     private lazy var avatarButton: UIButton = {
         let button = UIButton()
@@ -140,7 +140,7 @@ final class RegisterViewController: UIViewController {
         print("RegisterViewController deinit")
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     @objc private func addAvatarButtonPress() {
         imagePicker.chooseImage()

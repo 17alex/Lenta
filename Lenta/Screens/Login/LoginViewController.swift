@@ -13,7 +13,7 @@ protocol LoginViewInput: AnyObject {
 
 final class LoginViewController: UIViewController {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
@@ -114,7 +114,7 @@ final class LoginViewController: UIViewController {
         loginButton.layer.cornerRadius = loginButton.bounds.height / 2
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     @objc private func registerButtonPress() {
         presenter?.registerButtonPress()

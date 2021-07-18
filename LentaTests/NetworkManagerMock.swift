@@ -49,7 +49,7 @@ final class NetworkManagerMock: NetworkManagerProtocol {
     }
 
     func register(name: String, login: String, password: String, avatar: Data?,
-                  complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
+                  completion: @escaping (Result<[User], NetworkServiceError>) -> Void) {
         recivedUserName = name
         recivedUserLogin = login
         recivedUserPassword = password
@@ -57,64 +57,64 @@ final class NetworkManagerMock: NetworkManagerProtocol {
         registerCallCount += 1
         if name == recivedUserName && login == recivedUserLogin && password == recivedUserPassword
             && recivadAvatarImage != nil {
-            complete(.success([user]))
+            completion(.success([user]))
         } else {
-            complete(.failure(networkServiceError))
+            completion(.failure(networkServiceError))
         }
     }
 
-    func getPosts(fromPostId: Int16?, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
+    func getPosts(fromPostId: Int16?, completion: @escaping (Result<Response, NetworkServiceError>) -> Void) {
         fatalError()
     }
 
-    func sendPost(post: SendPost, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
+    func sendPost(post: SendPost, completion: @escaping (Result<Response, NetworkServiceError>) -> Void) {
         sendPostCallCount += 1
         recivedSendPost = post
         if post.description == "Baz" {
             let returnPost = Post(id: 0, userId: 0, timeInterval: 0, description: post.description, photo: nil, likeUserIds: [], viewsCount: 0, commentsCount: 0)
             let returnResponse = Response(posts: [returnPost], users: [user])
-            complete(.success(returnResponse))
+            completion(.success(returnResponse))
         } else {
-            complete(.failure(networkServiceError))
+            completion(.failure(networkServiceError))
         }
     }
 
     func updateProfile(userId: Int16, name: String, avatar: Data?,
-                       complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
+                       completion: @escaping (Result<[User], NetworkServiceError>) -> Void) {
         fatalError()
     }
 
-    func changeLike(postId: Int16, userId: Int16, complete: @escaping (Result<Post, NetworkServiceError>) -> Void) {
+    func changeLike(postId: Int16, userId: Int16, completion: @escaping (Result<Post, NetworkServiceError>) -> Void) {
         recivePostId = postId
         reciveUserId = userId
         changeLikeCallCount += 1
         if postId == 0 && userId == 0 {
-            complete(.success(post))
+            completion(.success(post))
         } else {
-            complete(.failure(networkServiceError))
+            completion(.failure(networkServiceError))
         }
     }
 
-    func removePost(postId: Int16, complete: @escaping (Result<Response, NetworkServiceError>) -> Void) {
+    func removePost(postId: Int16, completion: @escaping (Result<Response, NetworkServiceError>) -> Void) {
         recivePostId = postId
         removePostCallCount += 1
         if postId == 0 {
-            complete(.success(response))
+            completion(.success(response))
         } else {
-            complete(.failure(networkServiceError))
+            completion(.failure(networkServiceError))
         }
     }
 
-    func loadComments(for postId: Int16, complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
+    func loadComments(for postId: Int16, completion: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
         fatalError()
     }
 
     func sendComment(_ comment: String, postId: Int16, userId: Int16,
-                     complete: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
+                     completion: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
         fatalError()
     }
 
-    func loadImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
+    func loadImage(from urlString: String?, completion: @escaping (Data?) -> Void) {
         fatalError()
     }
 }

@@ -13,7 +13,7 @@ protocol NewPostInteractorInput {
 
 final class NewPostInteractor {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     weak var presenter: NewPostInteractorOutput?
     var networkManager: NetworkManagerProtocol?

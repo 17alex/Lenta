@@ -13,7 +13,7 @@ protocol UserInfoRouterInput {
 
 final class UserInfoRouter {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     unowned private let view: UIViewController
     private let assembly: Assembly

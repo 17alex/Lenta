@@ -13,7 +13,7 @@ protocol NewPostViewInput: AnyObject {
 
 final class NewPostViewController: UIViewController {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     private lazy var navItem: UINavigationItem = {
         let navItem = UINavigationItem(title: "Enter new post...")
@@ -114,7 +114,7 @@ final class NewPostViewController: UIViewController {
         unSubscribeKboardNotofication()
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     private func subscribeKboardNotofication() {
         NotificationCenter.default.addObserver(self, selector: #selector(willShowKboard(notification:)),

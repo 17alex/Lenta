@@ -14,7 +14,7 @@ protocol UserInfoViewInput: AnyObject {
 
 final class UserInfoViewController: UIViewController {
 
-    // MARK: - Propertis
+    // MARK: - Properties
 
     let avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -118,7 +118,7 @@ final class UserInfoViewController: UIViewController {
         avatarImageView.clipsToBounds = true
     }
 
-    // MARK: - Metods
+    // MARK: - Methods
 
     @objc private func closeButtonPress() {
         presenter?.closeButtonPress()
