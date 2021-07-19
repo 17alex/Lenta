@@ -8,22 +8,41 @@
 import UIKit
 
 protocol ProfileViewInput: AnyObject {
-    func userLoginned(_ currentUserModel: UserViewModel?)
+//    func userLoginned(_ currentUserModel: UserViewModel?)
     func didChangeProfile(_ change: Bool)
     func showMessage(_ message: String)
     func set(avatar: UIImage?)
+    func showUserInfo(userModel: UserViewModel)
+    func clearUserInfo()
 }
 
 final class ProfileViewController: UIViewController {
 
     // MARK: - Properties
 
-    private let avatarImageView: UIImageView = {
+    private lazy var navItem: UINavigationItem = {
+        let navItem = UINavigationItem(title: "Profile")
+//        navItem.rightBarButtonItem = newPostButtonItem
+        navItem.leftBarButtonItem = saveButton
+        return navItem
+    }()
+
+    private lazy var navigationBar: UINavigationBar = {
+        let navBar = UINavigationBar()
+        navBar.barStyle = .default
+        navBar.items = [navItem]
+        navBar.isTranslucent = false
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        return navBar
+    }()
+
+    private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "avatar")
         imageView.tintColor = Constants.Colors.active
         imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(imageTapGesture)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -83,23 +102,23 @@ final class ProfileViewController: UIViewController {
         return label
     }()
 
-    lazy private var imagePicker = ImagePicker(view: self, delegate: self)
-    lazy private var saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self,
+    private lazy var imagePicker = ImagePicker(view: self, delegate: self)
+    private lazy var saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self,
                                                   action: #selector(saveButtonPress))
-    lazy private var imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(chooseImage))
-    lazy private var tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKeyboard))
+    private lazy var imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(chooseImage))
+    private lazy var tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKeyboard))
 
     var presenter: ProfileViewOutput?
 
-    var currentUserModel: UserViewModel? {
-        didSet {
-            if let currentUserModel = currentUserModel {
-                showUserInfo(userModel: currentUserModel)
-            } else {
-                clearUserInfo()
-            }
-        }
-    }
+//    var currentUserModel: UserViewModel? { //FIXME: - logik in presenter
+//        didSet {
+//            if let currentUserModel = currentUserModel {
+//                showUserInfo(userModel: currentUserModel)
+//            } else {
+//                clearUserInfo()
+//            }
+//        }
+//    }
 
     // MARK: - LiveCycles
 
@@ -131,32 +150,6 @@ final class ProfileViewController: UIViewController {
         presenter?.change(name: name)
     }
 
-    private func showUserInfo(userModel: UserViewModel) {
-        nameTextField.isEnabled = true
-        avatarImageView.isUserInteractionEnabled = true
-        nameTextField.text = userModel.name
-        nameTextField.textColor = Constants.Colors.active
-        postsCountLabel.text = userModel.postsCount
-        dateRegisterLabel.text = userModel.dateRegister
-        navigationItem.rightBarButtonItem =
-            UIBarButtonItem(image: UIImage(named: "logout"), style: .plain,
-                            target: self, action: #selector(logInOutButtonPress))
-    }
-
-    private func clearUserInfo() {
-        nameTextField.isEnabled = false
-        avatarImageView.isUserInteractionEnabled = false
-        avatarImageView.image = UIImage(named: "avatar")
-        avatarImageView.tintColor = Constants.Colors.deActive
-        nameTextField.textColor = Constants.Colors.deActive
-        nameTextField.text = "----"
-        postsCountLabel.text = "--"
-        dateRegisterLabel.text = "--.--.----"
-        navigationItem.rightBarButtonItem =
-            UIBarButtonItem(image: UIImage(named: "login"), style: .plain,
-                            target: self, action: #selector(logInOutButtonPress))
-    }
-
     @objc private func saveButtonPress() {
         guard let name = nameTextField.text else { return }
         nameTextField.resignFirstResponder()
@@ -174,10 +167,11 @@ final class ProfileViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .systemBackground
         saveButton.isEnabled = false
-        navigationItem.leftBarButtonItem = saveButton
-        avatarImageView.addGestureRecognizer(imageTapGesture)
+//        navigationItem.leftBarButtonItem = saveButton
+//        avatarImageView.addGestureRecognizer(imageTapGesture) //FIXMW: - inhaus
         view.addGestureRecognizer(tapRecognizer)
 
+        view.addSubview(navigationBar)
         view.addSubview(avatarImageView)
         view.addSubview(textNameLabel)
         view.addSubview(nameTextField)
@@ -187,13 +181,16 @@ final class ProfileViewController: UIViewController {
         view.addSubview(dateRegisterLabel)
 
         NSLayoutConstraint.activate([
+            navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
             avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            avatarImageView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: 30),
             avatarImageView.widthAnchor.constraint(equalToConstant: 100),
             avatarImageView.heightAnchor.constraint(equalToConstant: 100),
 
-            textNameLabel.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -5),
+            textNameLabel.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -10),
             textNameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 32),
 
             textCountLabel.trailingAnchor.constraint(equalTo: textNameLabel.trailingAnchor),
@@ -202,7 +199,7 @@ final class ProfileViewController: UIViewController {
             textDateLabel.trailingAnchor.constraint(equalTo: textNameLabel.trailingAnchor),
             textDateLabel.topAnchor.constraint(equalTo: textCountLabel.bottomAnchor, constant: 16),
 
-            nameTextField.leadingAnchor.constraint(equalTo: textNameLabel.trailingAnchor, constant: 10),
+            nameTextField.leadingAnchor.constraint(equalTo: textNameLabel.trailingAnchor, constant: 5),
             nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16),
             nameTextField.firstBaselineAnchor.constraint(equalTo: textNameLabel.firstBaselineAnchor),
 
@@ -235,12 +232,38 @@ extension ProfileViewController: ProfileViewInput {
         saveButton.isEnabled = change
     }
 
-    func userLoginned(_ currentUserModel: UserViewModel?) {
-        self.currentUserModel = currentUserModel
-    }
+//    func userLoginned(_ currentUserModel: UserViewModel?) {
+//        self.currentUserModel = currentUserModel
+//    }
 
     func set(avatar: UIImage?) {
         avatarImageView.image = avatar
+    }
+
+    func showUserInfo(userModel: UserViewModel) {
+        nameTextField.isEnabled = true
+        avatarImageView.isUserInteractionEnabled = true
+        nameTextField.text = userModel.name
+        nameTextField.textColor = Constants.Colors.active
+        postsCountLabel.text = userModel.postsCount
+        dateRegisterLabel.text = userModel.dateRegister
+        navItem.rightBarButtonItem =
+            UIBarButtonItem(image: UIImage(named: "logout"), style: .plain,
+                            target: self, action: #selector(logInOutButtonPress))
+    }
+
+    func clearUserInfo() {
+        nameTextField.isEnabled = false
+        avatarImageView.isUserInteractionEnabled = false
+        avatarImageView.image = UIImage(named: "avatar")
+        avatarImageView.tintColor = Constants.Colors.deActive
+        nameTextField.textColor = Constants.Colors.deActive
+        nameTextField.text = "----"
+        postsCountLabel.text = "--"
+        dateRegisterLabel.text = "--.--.----"
+        navItem.rightBarButtonItem =
+            UIBarButtonItem(image: UIImage(named: "login"), style: .plain,
+                            target: self, action: #selector(logInOutButtonPress))
     }
 }
 

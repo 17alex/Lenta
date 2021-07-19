@@ -15,8 +15,7 @@ enum NetworkServiceError: String, Error {
 }
 
 protocol NetworkManagerProtocol {
-
-    func logIn(login: String, password: String, complete: @escaping (Result<[User], NetworkServiceError>) -> Void)
+    func login(login: String, password: String, completion: @escaping (Result<[User], NetworkServiceError>) -> Void)
     func register(name: String, login: String, password: String, avatar: Data?,
                   completion: @escaping (Result<[User], NetworkServiceError>) -> Void)
     func getPosts(fromPostId: Int16?, completion: @escaping (Result<Response, NetworkServiceError>) -> Void)
@@ -45,9 +44,9 @@ final class NetworkManager {
 
     // MARK: - Methods
 
-    private func taskResume(with urlRequest: URLRequest, complete: @escaping (Data?, Error?) -> Void) {
+    private func taskResume(with urlRequest: URLRequest, completion: @escaping (Data?, Error?) -> Void) {
         URLSession.shared.dataTask(with: urlRequest) { data, _, error in
-                complete(data, error)
+                completion(data, error)
         }.resume()
     }
 
@@ -263,10 +262,10 @@ extension NetworkManager: NetworkManagerProtocol {
         }
     }
 
-    func logIn(login: String, password: String, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
+    func login(login: String, password: String, completion: @escaping (Result<[User], NetworkServiceError>) -> Void) {
 
         let urlString = Constants.URLs.login
-        guard let url = URL(string: urlString) else { complete(.failure(.badUrl)); return }
+        guard let url = URL(string: urlString) else { completion(.failure(.badUrl)); return }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
         let dataSting = "login=\(login)&password=\(password)"
@@ -275,14 +274,14 @@ extension NetworkManager: NetworkManagerProtocol {
         taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
 
-            if error != nil { self.onMain { complete(.failure(.network)) }; return }
-            guard let data = data else { self.onMain { complete(.failure(.unknown)) }; return }
+            if error != nil { self.onMain { completion(.failure(.network)) }; return }
+            guard let data = data else { self.onMain { completion(.failure(.unknown)) }; return }
 
             do {
                 let decodeUsers = try JSONDecoder().decode([User].self, from: data)
-                self.onMain { complete(.success(decodeUsers)) }
+                self.onMain { completion(.success(decodeUsers)) }
             } catch {
-                self.onMain { complete(.failure(.decodable)) }
+                self.onMain { completion(.failure(.decodable)) }
             }
         }
     }

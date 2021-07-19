@@ -33,7 +33,7 @@ final class LoginInteractor {
 extension LoginInteractor: LoginInteractorInput {
 
     func logIn(login: String, password: String) {
-        networkManager?.logIn(login: login, password: password) { [weak self] result in
+        networkManager?.login(login: login, password: password) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let serviceError):

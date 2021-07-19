@@ -37,14 +37,14 @@ final class NetworkManagerMock: NetworkManagerProtocol {
 
     let networkServiceError: NetworkServiceError = .network
 
-    func logIn(login: String, password: String, complete: @escaping (Result<[User], NetworkServiceError>) -> Void) {
+    func login(login: String, password: String, completion: @escaping (Result<[User], NetworkServiceError>) -> Void) {
         recivedUserLogin = login
         recivedUserPassword = password
         logInCallCount += 1
         if login == rightLogin && password == rightPassword {
-            complete(.success([user]))
+            completion(.success([user]))
         } else {
-            complete(.failure(networkServiceError))
+            completion(.failure(networkServiceError))
         }
     }
 

@@ -15,6 +15,20 @@ final class RegisterViewController: UIViewController {
 
     // MARK: - Properties
 
+    private lazy var navItem: UINavigationItem = {
+        let navItem = UINavigationItem(title: "")
+        navItem.rightBarButtonItem = closeButton
+        return navItem
+    }()
+
+    private lazy var navigationBar: UINavigationBar = {
+        let navBar = UINavigationBar()
+        navBar.items = [navItem]
+        navBar.isTranslucent = false
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        return navBar
+    }()
+
     private lazy var avatarButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "avatar"), for: .normal)
@@ -123,6 +137,9 @@ final class RegisterViewController: UIViewController {
         return activityIndicator
     }()
 
+    private lazy var closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self,
+                                                   action: #selector(closeButtonPress))
+
     var presenter: RegisterViewOutput?
     private var avatarImage: UIImage?
     lazy var imagePicker = ImagePicker(view: self, delegate: self)
@@ -167,6 +184,10 @@ final class RegisterViewController: UIViewController {
         presenter?.registerButtonPress(name: name, login: login, password: password, avatarImage: avatarImage)
     }
 
+    @objc private func closeButtonPress() {
+        dismiss(animated: true)
+    }
+
     private func enableRegisterButton() {
         self.registerButton.isEnabled = true
         self.registerButton.backgroundColor = Constants.Colors.active
@@ -193,6 +214,7 @@ final class RegisterViewController: UIViewController {
         view.addSubview(textLoginLabel)
         view.addSubview(textPasswordLabel)
         view.addSubview(activityIndicator)
+        view.addSubview(navigationBar)
 
         textPasswordLabel.setContentHuggingPriority(.init(500), for: .horizontal)
 
@@ -205,6 +227,9 @@ final class RegisterViewController: UIViewController {
 
     private func addConstraints() {
         NSLayoutConstraint.activate([
+            navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
             registerButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             registerButton.heightAnchor.constraint(equalToConstant: 40),
@@ -216,13 +241,13 @@ final class RegisterViewController: UIViewController {
             textPasswordLabel.trailingAnchor.constraint(equalTo: passwordTextField.leadingAnchor, constant: -8),
 
             passwordTextField.trailingAnchor.constraint(equalTo: registerButton.trailingAnchor),
-            passwordTextField.bottomAnchor.constraint(equalTo: registerButton.topAnchor, constant: -16),
+            passwordTextField.bottomAnchor.constraint(equalTo: registerButton.topAnchor, constant: -8),
 
-            loginTextField.bottomAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -16),
+            loginTextField.bottomAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -8),
             loginTextField.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor),
             loginTextField.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor),
 
-            nameTextField.bottomAnchor.constraint(equalTo: loginTextField.topAnchor, constant: -16),
+            nameTextField.bottomAnchor.constraint(equalTo: loginTextField.topAnchor, constant: -8),
             nameTextField.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor),
             nameTextField.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor),
 
@@ -233,14 +258,14 @@ final class RegisterViewController: UIViewController {
             textNameLabel.firstBaselineAnchor.constraint(equalTo: nameTextField.firstBaselineAnchor),
 
             textRegisterLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            textRegisterLabel.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -32),
+            textRegisterLabel.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -24),
 
             avatarButton.heightAnchor.constraint(equalToConstant: 60),
             avatarButton.widthAnchor.constraint(equalToConstant: 60),
-            avatarButton.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -16),
+            avatarButton.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -8),
             avatarButton.trailingAnchor.constraint(equalTo: nameTextField.leadingAnchor, constant: -16),
 
-            logInButton.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -32),
+            logInButton.bottomAnchor.constraint(equalTo: nameTextField.topAnchor, constant: -24),
             logInButton.trailingAnchor.constraint(equalTo: registerButton.trailingAnchor),
 
             activityIndicator.centerXAnchor.constraint(equalTo: registerButton.centerXAnchor),

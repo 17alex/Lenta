@@ -18,7 +18,7 @@ protocol LentaInteractorInput {
     func deletePost(by index: Int)
     func changeLike(by index: Int)
     func getCurrenUser()
-    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void)
+    func getImage(from urlString: String?, completion: @escaping (Data?) -> Void)
 }
 
 final class LentaInteractor {
@@ -48,8 +48,8 @@ final class LentaInteractor {
 
 extension LentaInteractor: LentaInteractorInput {
 
-    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
-        networkManager?.loadImage(from: urlString, completion: complete)
+    func getImage(from urlString: String?, completion: @escaping (Data?) -> Void) {
+        networkManager?.loadImage(from: urlString, completion: completion)
     }
 
     func addNewPost(response: Response) {
@@ -72,7 +72,7 @@ extension LentaInteractor: LentaInteractorInput {
                 if let deleteIndex = self.posts.firstIndex(where: { $0.id == deletePost.id }) {
                     self.posts.remove(at: deleteIndex)
                     self.presenter?.didRemovePost(by: deleteIndex)
-                    self.storageManager?.save(posts: response.posts)
+                    self.storageManager?.save(posts: self.posts)
                 }
             }
         }

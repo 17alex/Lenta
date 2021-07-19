@@ -13,7 +13,7 @@ protocol ProfileInteractorInput {
     func didSelectNewAvatar()
     func change(name: String)
     func logInOutButtonPress()
-    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void)
+    func getImage(from urlString: String?, completion: @escaping (Data?) -> Void)
 }
 
 final class ProfileInteractor {
@@ -68,8 +68,8 @@ final class ProfileInteractor {
 
 extension ProfileInteractor: ProfileInteractorInput {
 
-    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
-        networkManager?.loadImage(from: urlString, completion: complete)
+    func getImage(from urlString: String?, completion: @escaping (Data?) -> Void) {
+        networkManager?.loadImage(from: urlString, completion: completion)
     }
 
     func start() {

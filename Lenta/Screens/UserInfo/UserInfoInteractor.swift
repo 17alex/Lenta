@@ -8,7 +8,7 @@
 import Foundation
 
 protocol UserInfoInteractorInput {
-    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void)
+    func getImage(from urlString: String?, completion: @escaping (Data?) -> Void)
 }
 
 final class UserInfoInteractor {
@@ -32,7 +32,7 @@ final class UserInfoInteractor {
 
 extension UserInfoInteractor: UserInfoInteractorInput {
 
-    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
-        networkManager?.loadImage(from: urlString, completion: complete)
+    func getImage(from urlString: String?, completion: @escaping (Data?) -> Void) {
+        networkManager?.loadImage(from: urlString, completion: completion)
     }
 }

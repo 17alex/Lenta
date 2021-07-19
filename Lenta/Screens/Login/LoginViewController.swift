@@ -15,6 +15,20 @@ final class LoginViewController: UIViewController {
 
     // MARK: - Properties
 
+    private lazy var navItem: UINavigationItem = {
+        let navItem = UINavigationItem(title: "")
+        navItem.rightBarButtonItem = closeButton
+        return navItem
+    }()
+
+    private lazy var navigationBar: UINavigationBar = {
+        let navBar = UINavigationBar()
+        navBar.items = [navItem]
+        navBar.isTranslucent = false
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        return navBar
+    }()
+
     private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Login", for: .normal)
@@ -93,6 +107,9 @@ final class LoginViewController: UIViewController {
         return activityIndicator
     }()
 
+    private lazy var closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self,
+                                                   action: #selector(closeButtonPress))
+
     var presenter: LoginViewOutput?
 
     // MARK: - LiveCycles
@@ -106,12 +123,6 @@ final class LoginViewController: UIViewController {
 
     deinit {
         print("LoginViewController deinit")
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        loginButton.layer.cornerRadius = loginButton.bounds.height / 2
     }
 
     // MARK: - Methods
@@ -133,6 +144,10 @@ final class LoginViewController: UIViewController {
         loginButton.isHidden = true
         activityIndicator.startAnimating()
         presenter?.logIn(login: login, password: password)
+    }
+
+    @objc private func closeButtonPress() {
+        dismiss(animated: true)
     }
 
     private func enableLoginButton() {
@@ -158,12 +173,20 @@ final class LoginViewController: UIViewController {
         view.addSubview(textLoginLabel)
         view.addSubview(textPasswordLabel)
         view.addSubview(activityIndicator)
+        view.addSubview(navigationBar)
 
         textPasswordLabel.setContentHuggingPriority(.init(500), for: .horizontal)
+        addConstraints()
+        loginButton.layer.cornerRadius = 20
+    }
 
+    private func addConstraints() {
         NSLayoutConstraint.activate([
+            navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
-            loginButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40),
+            loginButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -20),
             loginButton.heightAnchor.constraint(equalToConstant: 40),
             loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -183,10 +206,10 @@ final class LoginViewController: UIViewController {
             textLoginLabel.firstBaselineAnchor.constraint(equalTo: loginTextField.firstBaselineAnchor),
 
             textLoginTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            textLoginTitleLabel.bottomAnchor.constraint(equalTo: loginTextField.topAnchor, constant: -34),
+            textLoginTitleLabel.bottomAnchor.constraint(equalTo: loginTextField.topAnchor, constant: -24),
 
             registerButton.trailingAnchor.constraint(equalTo: loginButton.trailingAnchor),
-            registerButton.bottomAnchor.constraint(equalTo: loginTextField.topAnchor, constant: -36),
+            registerButton.bottomAnchor.constraint(equalTo: loginTextField.topAnchor, constant: -24),
 
             activityIndicator.centerXAnchor.constraint(equalTo: loginButton.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: loginButton.centerYAnchor)

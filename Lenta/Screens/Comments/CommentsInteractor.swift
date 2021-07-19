@@ -13,7 +13,7 @@ protocol CommentsInteractorInput {
     var users: Set<User> { get }
     func loadComments(by postId: Int16)
     func sendNewComment(_ comment: String)
-    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void)
+    func getImage(from urlString: String?, completion: @escaping (Data?) -> Void)
 }
 
 final class CommentsInteractor {
@@ -44,8 +44,8 @@ final class CommentsInteractor {
 
 extension CommentsInteractor: CommentsInteractorInput {
 
-    func getImage(from urlString: String?, complete: @escaping (Data?) -> Void) {
-        networkManager?.loadImage(from: urlString, completion: complete)
+    func getImage(from urlString: String?, completion: @escaping (Data?) -> Void) {
+        networkManager?.loadImage(from: urlString, completion: completion)
     }
 
     func sendNewComment(_ comment: String) {

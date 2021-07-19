@@ -11,7 +11,7 @@ import  CoreData
 protocol StorageManagerProtocol {
     func getCurrenUser() -> User?
     func save(user: User?)
-    func load(complete: @escaping ([Post], [User]) -> Void)
+    func load(completion: @escaping ([Post], [User]) -> Void)
     func save(posts: [Post])
     func save(users: [User])
     func append(posts: [Post])
@@ -212,10 +212,10 @@ extension StorageManager: StorageManagerProtocol {
         UserDefaults.standard.setValue(data, forKey: userStorageKey)
     }
 
-    func load(complete: @escaping ([Post], [User]) -> Void) {
+    func load(completion: @escaping ([Post], [User]) -> Void) {
         let posts = loadPosts()
         let users = loadUsers()
-        complete(posts, users)
+        completion(posts, users)
     }
 
     func save(posts: [Post]) {

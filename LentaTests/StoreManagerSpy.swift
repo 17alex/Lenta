@@ -32,9 +32,9 @@ final class StorageManagerSpy: StorageManagerProtocol {
         saveUserCallCount += 1
     }
 
-    func load(complete: @escaping ([Post], [User]) -> Void) {
+    func load(completion: @escaping ([Post], [User]) -> Void) {
         loadCallCount += 1
-        complete([sendedPost], [sendedUser])
+        completion([sendedPost], [sendedUser])
     }
 
     func save(posts: [Post]) {

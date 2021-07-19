@@ -33,11 +33,11 @@ final class Assembly {
     func getTabBarController() -> UIViewController {
         let tbController = UITabBarController()
 
-        let lenta = UINavigationController(rootViewController: getLentaModule())
+        let lenta = getLentaModule()
         lenta.tabBarItem.title = "Lenta"
         lenta.tabBarItem.image = UIImage(systemName: "scribble")
 
-        let profile = UINavigationController(rootViewController: getProfileModule())
+        let profile = getProfileModule()
         profile.tabBarItem.title = "Profile"
         profile.tabBarItem.image = UIImage(systemName: "person")
 

@@ -26,8 +26,22 @@ final class LentaViewController: UIViewController {
 
     // MARK: - Properties
 
+    private lazy var navItem: UINavigationItem = {
+        let navItem = UINavigationItem(title: "Lenta")
+        navItem.rightBarButtonItem = newPostButtonItem
+        return navItem
+    }()
+
+    private lazy var navigationBar: UINavigationBar = {
+        let navBar = UINavigationBar()
+        navBar.items = [navItem]
+        navBar.isTranslucent = false
+        navBar.translatesAutoresizingMaskIntoConstraints = false
+        return navBar
+    }()
+
     private let activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(style: .large)
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.hidesWhenStopped = true
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
@@ -45,12 +59,15 @@ final class LentaViewController: UIViewController {
         table.dataSource = self
         table.delegate = self
         table.refreshControl = refreshControl
-        table.backgroundColor = Constants.Colors.bgTable
+        table.backgroundColor = Constants.Colors.bgTable //FIXME: - TableColor to cell color
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
+
+    private lazy var newPostButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
+                                            target: self, action: #selector(newPostButtonPress))
 
     var presenter: LentaViewOutput?
 
@@ -85,23 +102,23 @@ final class LentaViewController: UIViewController {
     }
 
     private func setupUI() {
-        title = "Lenta"
-
-        let newPostButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
-                                                target: self, action: #selector(newPostButtonPress))
-        navigationItem.rightBarButtonItem = newPostButtonItem
-
+        view.backgroundColor = .systemBackground
         view.addSubview(lentaTableView)
+        view.addSubview(navigationBar)
         view.addSubview(activityIndicator)
 
         NSLayoutConstraint.activate([
-            lentaTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            lentaTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            lentaTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            lentaTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
-            activityIndicator.centerXAnchor.constraint(equalTo: lentaTableView.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: lentaTableView.centerYAnchor)
+            lentaTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            lentaTableView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
+            lentaTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            lentaTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            activityIndicator.centerYAnchor.constraint(equalTo: navigationBar.centerYAnchor),
+            activityIndicator.trailingAnchor.constraint(equalTo: navigationBar.trailingAnchor, constant: -58)
         ])
     }
 }
