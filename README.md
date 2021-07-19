@@ -1,6 +1,6 @@
 # Lenta
 
-View posts in the feed, add new post, and delete old post. Puts likes. Login and registration. Write comments. (in development)
+View posts in the feed, add new post, and delete old post. Puts likes. Login and registration. Write comments.
 ***
 ![](https://monsterok.ru/readme/lenta1.jpg)  
 ***

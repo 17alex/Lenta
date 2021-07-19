@@ -59,7 +59,7 @@ final class LentaViewController: UIViewController {
         table.dataSource = self
         table.delegate = self
         table.refreshControl = refreshControl
-        table.backgroundColor = Constants.Colors.bgTable //FIXME: - TableColor to cell color
+        table.backgroundColor = Constants.Colors.bgTable
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
         table.translatesAutoresizingMaskIntoConstraints = false
