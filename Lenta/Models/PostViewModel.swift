@@ -24,7 +24,7 @@ struct UserViewModel {
 
 struct PhotoViewModel {
     let urlString: String
-    let size: CGSize
+    let ratio: CGFloat
 }
 
 struct PostViewModel {
@@ -36,11 +36,11 @@ struct PostViewModel {
     var likes: LikesViewModel
     let views: ViewsViewModel
     let comments: CommentsViewModel
-    var totalHieght: CGFloat
+//    var totalHieght: CGFloat
 
     struct DescriptionViewModel {
         let text: String
-        var size: CGSize
+//        var size: CGSize
     }
 
     struct LikesViewModel {
@@ -60,18 +60,13 @@ struct PostViewModel {
         self.id = post.id
         self.user = UserViewModel(user: user)
         self.time = post.timeInterval.toDateString()
-        self.description = DescriptionViewModel(text: post.description, size: .zero)
+        self.description = DescriptionViewModel(text: post.description)
 
-        var photoHeight: CGFloat = 0
+//        var photoRatio: CGFloat = 0.001
         if let postPhoto = post.photo, !postPhoto.name.isEmpty {
             let postPhotoUrlSting = Constants.URLs.imagesPath + postPhoto.name
-            photoHeight = CGFloat(postPhoto.size.height) / CGFloat(postPhoto.size.width) * UIScreen.main.bounds.width
-            self.photo = PhotoViewModel(
-                urlString: postPhotoUrlSting,
-                size: CGSize(
-                    width: UIScreen.main.bounds.width,
-                    height: photoHeight)
-            )
+            let photoRatio = CGFloat(postPhoto.size.height) / CGFloat(postPhoto.size.width)
+            self.photo = PhotoViewModel(urlString: postPhotoUrlSting, ratio: photoRatio)
         }
 
         self.likes = LikesViewModel(
@@ -82,18 +77,18 @@ struct PostViewModel {
         self.views = ViewsViewModel(count: String(post.viewsCount))
         self.comments = CommentsViewModel(count: String(post.commentsCount))
 
-        let textSize = CGSize(width: UIScreen.main.bounds.width - 16, height: .greatestFiniteMagnitude)
-        let rect = post.description.boundingRect(with: textSize,
-                                     options: .usesLineFragmentOrigin,
-                                     attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)],
-                                     context: nil)
-        self.description.size = CGSize(width: rect.width, height: rect.height)
+//        let textSize = CGSize(width: UIScreen.main.bounds.width - 16, height: .greatestFiniteMagnitude)
+//        let rect = post.description.boundingRect(with: textSize,
+//                                     options: .usesLineFragmentOrigin,
+//                                     attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)],
+//                                     context: nil)
+//        self.description.size = CGSize(width: rect.width, height: rect.height)
 
-        let postHeaderHeight: CGFloat = 81
-        let spaceHeight: CGFloat = 2
-        let postFooter: CGFloat = 40
-        self.totalHieght = postHeaderHeight + description.size.height
-            + spaceHeight + photoHeight + postFooter + spaceHeight * 2
+//        let postHeaderHeight: CGFloat = 81
+//        let spaceHeight: CGFloat = 2
+//        let postFooter: CGFloat = 40
+//        self.totalHieght = postHeaderHeight + description.size.height
+//            + spaceHeight + photoRatio + postFooter + spaceHeight * 2
     }
 
     mutating func update(with post: Post) {
