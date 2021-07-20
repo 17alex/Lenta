@@ -167,8 +167,6 @@ final class ProfileViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .systemBackground
         saveButton.isEnabled = false
-//        navigationItem.leftBarButtonItem = saveButton
-//        avatarImageView.addGestureRecognizer(imageTapGesture) //FIXMW: - inhaus
         view.addGestureRecognizer(tapRecognizer)
 
         view.addSubview(navigationBar)

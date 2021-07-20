@@ -279,7 +279,7 @@ extension LentaViewController: LentaViewInput {
     }
 
     func userLoginned(_ isLoginned: Bool) {
-        navigationItem.rightBarButtonItem?.isEnabled = isLoginned
+        navItem.rightBarButtonItem?.isEnabled = isLoginned
     }
 
     func reloadLenta() {
