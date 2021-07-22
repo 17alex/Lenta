@@ -203,12 +203,10 @@ final class LentaCell: UITableViewCell {
 
     func set(photo: UIImage?) {
         photoActivityIndicator.stopAnimating()
-        print("setPhoto in cell")
         photoImageView.image = photo
     }
 
     func set(avatar: UIImage?) {
-        print("setAvatar in cell")
         avatarImageView.image = avatar
     }
 

@@ -45,98 +45,87 @@ final class StorageManager {
         print("storageManager deinit")
     }
 
-    // MARK: - Core Data Saving support
-
-    private func saveContext () {
-        if bgContext.hasChanges {
-            do {
-                try bgContext.save()
-                print("saveContext!!!")
-            } catch {
-                let nserror = error as NSError
-                fatalError("saveContext Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-    }
+    // MARK: - Core Data Metods
 
     private func deleteAllPosts() {
         print("deleteAllPosts")
-        let fetchRequest: NSFetchRequest = MOPost.fetchRequest()
-        do {
-            let moPosts = try bgContext.fetch(fetchRequest)
-            moPosts.forEach { bgContext.delete($0) }
-            saveContext()
-        } catch {
-            let nserror = error as NSError
-            fatalError("deleteAllPosts Unresolved error \(nserror), \(nserror.userInfo)")
+        bgContext.performAndWait {
+            let fetchRequest: NSFetchRequest = MOPost.fetchRequest()
+            if let moPosts = try? bgContext.fetch(fetchRequest) {
+                moPosts.forEach { bgContext.delete($0) }
+            }
+            try? bgContext.save()
         }
     }
 
     private func deleteAllUsers() {
         print("deleteAllUsers")
-        let fetchRequest: NSFetchRequest = MOUser.fetchRequest()
-        do {
-            let moUsers = try bgContext.fetch(fetchRequest)
-            moUsers.forEach { bgContext.delete($0) }
-            saveContext()
-        } catch {
-            let nserror = error as NSError
-            fatalError("deleteAllUsers Unresolved error \(nserror), \(nserror.userInfo)")
+        bgContext.performAndWait {
+            let fetchRequest: NSFetchRequest = MOUser.fetchRequest()
+            if let moUsers = try? bgContext.fetch(fetchRequest) {
+                moUsers.forEach { bgContext.delete($0) }
+            }
+
+            try? bgContext.save()
         }
     }
 
     private func add(users: [User]) {
         print("add users")
-        users.forEach { user in
-            let moUser = MOUser(context: bgContext)
-            moUser.id = user.id
-            moUser.name = user.name
-            moUser.postsCount = user.postsCount
-            moUser.dateRegister = Int32(user.dateRegister)
-            moUser.avatar = user.avatar
+        bgContext.performAndWait {
+            users.forEach { user in
+                let moUser = MOUser(context: bgContext)
+                moUser.id = user.id
+                moUser.name = user.name
+                moUser.postsCount = user.postsCount
+                moUser.dateRegister = Int32(user.dateRegister)
+                moUser.avatar = user.avatar
+            }
         }
 
-        saveContext()
+        try? bgContext.save()
     }
 
     private func add(posts: [Post]) {
         print("add posts")
-        posts.forEach { post in
+        bgContext.performAndWait {
+            posts.forEach { post in
 
-            let moPost = MOPost(context: bgContext)
-            moPost.id = post.id
-            moPost.userId = post.userId
-            moPost.timeInterval = Int32(post.timeInterval)
-            moPost.descr = post.description
+                let moPost = MOPost(context: bgContext)
+                moPost.id = post.id
+                moPost.userId = post.userId
+                moPost.timeInterval = Int32(post.timeInterval)
+                moPost.descr = post.description
 
-            if let photo = post.photo {
-                let moPhoto = MOPhoto(context: bgContext)
-                moPhoto.name = photo.name
-                moPhoto.height = photo.size.height
-                moPhoto.width = photo.size.width
-                moPost.photo = moPhoto
+                if let photo = post.photo {
+                    let moPhoto = MOPhoto(context: bgContext)
+                    moPhoto.name = photo.name
+                    moPhoto.height = photo.size.height
+                    moPhoto.width = photo.size.width
+                    moPost.photo = moPhoto
+                }
+
+                post.likeUserIds.forEach { userId in
+                    let moLike = MOLike(context: bgContext)
+                    moLike.userId = userId
+                    moPost.addToLikes(moLike)
+                }
+
+                moPost.viewsCount = post.viewsCount
+                moPost.commentsCount = post.commentsCount
             }
-
-            post.likeUserIds.forEach { userId in
-                let moLike = MOLike(context: bgContext)
-                moLike.userId = userId
-                moPost.addToLikes(moLike)
-            }
-
-            moPost.viewsCount = post.viewsCount
-            moPost.commentsCount = post.commentsCount
         }
 
-        saveContext()
+        try? bgContext.save()
     }
 
     private func loadPosts() -> [Post] {
         let fetchRequestPosts: NSFetchRequest = MOPost.fetchRequest()
         fetchRequestPosts.sortDescriptors = [NSSortDescriptor(key: #keyPath(MOPost.timeInterval), ascending: false)]
-
-        do {
-            let moPosts = try context.fetch(fetchRequestPosts)
-            let posts: [Post] = moPosts.map { moPost in
+        var posts: [Post] = []
+        context.performAndWait {
+            guard let moPosts = try? context.fetch(fetchRequestPosts) else { return }
+            posts = moPosts.map { moPost in
 
                 var photo: PostPhoto?
                 if let moPhoto = moPost.photo {
@@ -159,36 +148,30 @@ final class StorageManager {
                             viewsCount: moPost.viewsCount,
                             commentsCount: moPost.commentsCount)
             }
-            print("LOAD from CoreDATA, posts =", posts.count)
-            return posts
-        } catch {
-            let nserror = error as NSError
-            fatalError("loadPosts Unresolved error \(nserror), \(nserror.userInfo)")
         }
+        print("LOAD from CoreDATA, posts =", posts.count)
+        return posts
     }
 
     private func loadUsers() -> [User] {
         let fetchRequestUsers: NSFetchRequest = MOUser.fetchRequest()
-
-        do {
-            let moUsers = try context.fetch(fetchRequestUsers)
-            let users: [User] = moUsers.map { moUser in
+        var users: [User] = []
+        context.performAndWait {
+            guard let moUsers = try? context.fetch(fetchRequestUsers) else { return }
+            users = moUsers.map { moUser in
                 return User(id: moUser.id,
                             name: moUser.name,
                             postsCount: moUser.postsCount,
                             dateRegister: TimeInterval(moUser.dateRegister),
                             avatar: moUser.avatar)
             }
-            print("LOAD from CoreDATA, users =", users.count)
-            return users
-        } catch {
-            let nserror = error as NSError
-            fatalError("loadUsers Unresolved error \(nserror), \(nserror.userInfo)")
         }
+        print("LOAD from CoreDATA, users =", users.count)
+        return users
     }
 }
 
-// MARK: - storageManagerProtocol
+// MARK: - StorageManagerProtocol
 
 extension StorageManager: StorageManagerProtocol {
 
