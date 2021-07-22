@@ -117,7 +117,7 @@ extension CommentsPresenter: CommentsViewOutput {
 
     func viewDidLoad() {
         view.showActivityIndicator()
-        interactor.loadComments(by: postId)
+        interactor.loadComments(byPostId: postId)
     }
 }
 

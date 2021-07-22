@@ -23,6 +23,61 @@
 		8D6BF11D269DE10800E5CC88 /* UserInfoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6BF11C269DE10800E5CC88 /* UserInfoInteractor.swift */; };
 		8D77338526980892006D4821 /* LentaSnapShotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D77338426980892006D4821 /* LentaSnapShotTests.swift */; };
 		8D7733922698093A006D4821 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8D7733912698093A006D4821 /* SnapshotTesting */; };
+		8D819A9326A963700030A09A /* LentaInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073A25AC61B200CD9099 /* LentaInteractor.swift */; };
+		8D819AA026A96A250030A09A /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073125AC5FE300CD9099 /* Response.swift */; };
+		8D819AA526A96A290030A09A /* SendPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90E25B0543200D2B806 /* SendPost.swift */; };
+		8D819AA626A96A490030A09A /* RegisterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40725B71F3600CB1678 /* RegisterInteractor.swift */; };
+		8D819AAB26A96A670030A09A /* RegisterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40425B709A400CB1678 /* RegisterPresenter.swift */; };
+		8D819AB026A96A870030A09A /* LentaPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073725AC61A500CD9099 /* LentaPresenter.swift */; };
+		8D819AB126A96A980030A09A /* NewPostPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90525B029B000D2B806 /* NewPostPresenter.swift */; };
+		8D819AB626A96A9C0030A09A /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298CD2694485D00D20746 /* NewPostInteractor.swift */; };
+		8D819ABB26A96AA20030A09A /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46A725B5BDBE00DC5C1D /* LoginPresenter.swift */; };
+		8D819ABC26A96AA50030A09A /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46AB25B5CE2200DC5C1D /* LoginInteractor.swift */; };
+		8D819AC126A96AAB0030A09A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */; };
+		8D819AC626A96AB10030A09A /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B469B25B5706400DC5C1D /* StorageManager.swift */; };
+		8D819ACB26A96B550030A09A /* MOLike+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C126888CBC007E02D8 /* MOLike+CoreDataClass.swift */; };
+		8D819ACC26A96B590030A09A /* MOLike+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C226888CBC007E02D8 /* MOLike+CoreDataProperties.swift */; };
+		8D819AD126A96B5C0030A09A /* MOPost+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C326888CBC007E02D8 /* MOPost+CoreDataClass.swift */; };
+		8D819AD626A96B5F0030A09A /* MOPost+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C426888CBD007E02D8 /* MOPost+CoreDataProperties.swift */; };
+		8D819ADB26A96B620030A09A /* MOUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C526888CBD007E02D8 /* MOUser+CoreDataClass.swift */; };
+		8D819AE026A96B660030A09A /* MOUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C626888CBD007E02D8 /* MOUser+CoreDataProperties.swift */; };
+		8D819AE126A96B6A0030A09A /* MOPhoto+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C726888CBD007E02D8 /* MOPhoto+CoreDataClass.swift */; };
+		8D819AE626A96B6E0030A09A /* MOPhoto+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF356C826888CBD007E02D8 /* MOPhoto+CoreDataProperties.swift */; };
+		8D819AEB26A96B720030A09A /* Lenta.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7D7268754E80088D4BE /* Lenta.xcdatamodeld */; };
+		8D819AF426A96B990030A09A /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46A125B5BD3200DC5C1D /* LoginViewController.swift */; };
+		8D819AF526A96B9F0030A09A /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2B46AE25B5D46500DC5C1D /* LoginRouter.swift */; };
+		8D819AFA26A96BA30030A09A /* RegisterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD40125B7006500CB1678 /* RegisterRouter.swift */; };
+		8D819AFF26A96BAA0030A09A /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7DD3FB25B6F8F600CB1678 /* RegisterViewController.swift */; };
+		8D819B0426A96BB00030A09A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF3925C17A0D00ACA85F /* ProfileViewController.swift */; };
+		8D819B0926A96BB40030A09A /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF3F25C17F4500ACA85F /* ProfilePresenter.swift */; };
+		8D819B0E26A96BB70030A09A /* ProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298D12694687B00D20746 /* ProfileInteractor.swift */; };
+		8D819B1326A96BBA0030A09A /* ProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9BFF4225C1825300ACA85F /* ProfileRouter.swift */; };
+		8D819B1426A96BBF0030A09A /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF49F44260CA71C00199779 /* UserInfoViewController.swift */; };
+		8D819B1926A96BC20030A09A /* UserInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298D526947FCD00D20746 /* UserInfoPresenter.swift */; };
+		8D819B1E26A96BC50030A09A /* UserInfoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6BF11C269DE10800E5CC88 /* UserInfoInteractor.swift */; };
+		8D819B1F26A96BC80030A09A /* UserInfoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298D9269482B300D20746 /* UserInfoRouter.swift */; };
+		8D819B2426A96BCF0030A09A /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90025B0290900D2B806 /* NewPostViewController.swift */; };
+		8D819B2526A96BD50030A09A /* NewPostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA26A90B25B02C6800D2B806 /* NewPostRouter.swift */; };
+		8D819B2A26A96BDB0030A09A /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F5D25F8F230009B79F5 /* CommentsViewController.swift */; };
+		8D819B2F26A96BDD0030A09A /* CommentsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F5A25F8EBF9009B79F5 /* CommentsPresenter.swift */; };
+		8D819B3426A96BE00030A09A /* CommentsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6225F8F435009B79F5 /* CommentsInteractor.swift */; };
+		8D819B3926A96BE30030A09A /* CommentsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6825F8FC8E009B79F5 /* CommentsRouter.swift */; };
+		8D819B3E26A96BED0030A09A /* LentaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2072625AC31F400CD9099 /* LentaViewController.swift */; };
+		8D819B4326A96BF40030A09A /* LentaRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2074325AC6C6E00CD9099 /* LentaRouter.swift */; };
+		8D819B4C26A96C150030A09A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D54C7D2268750420088D4BE /* Constants.swift */; };
+		8D819B5126A96C1C0030A09A /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073E25AC689F00CD9099 /* PostViewModel.swift */; };
+		8D819B5226A96C1F0030A09A /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6525F8FACC009B79F5 /* CommentViewModel.swift */; };
+		8D819B5726A96C3B0030A09A /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC2073425AC616900CD9099 /* Assembly.swift */; };
+		8D819B5826A96C430030A09A /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1BB71F25DA56A7008F56B9 /* TimeInterval.swift */; };
+		8D819B5D26A96C470030A09A /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0A1DFB2624844B0061524D /* ImagePicker.swift */; };
+		8D819B6226A96C680030A09A /* LentaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6385CA264D699B006961D0 /* LentaCell.swift */; };
+		8D819B6726A96C6D0030A09A /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8A308225FA448C00A02751 /* PostCell.swift */; };
+		8D819B6C26A96C710030A09A /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA396F6C25F8FF5E009B79F5 /* CommentCell.swift */; };
+		8D819B7326A97CB10030A09A /* UserInfoInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D819B7226A97CB10030A09A /* UserInfoInteractorTest.swift */; };
+		8D819B8626A9829C0030A09A /* CommentsInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D819B8526A9829C0030A09A /* CommentsInteractorTest.swift */; };
+		8D819B9026A984980030A09A /* CommentsPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D819B8F26A984980030A09A /* CommentsPresenterSpy.swift */; };
+		8D819B9726A99FBD0030A09A /* ProfileInteractorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D819B9626A99FBD0030A09A /* ProfileInteractorTest.swift */; };
+		8D819BA126A9A0800030A09A /* ProfilePresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D819BA026A9A0800030A09A /* ProfilePresenterSpy.swift */; };
 		8DF298CE2694485D00D20746 /* NewPostInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298CD2694485D00D20746 /* NewPostInteractor.swift */; };
 		8DF298D22694687B00D20746 /* ProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298D12694687B00D20746 /* ProfileInteractor.swift */; };
 		8DF298D626947FCD00D20746 /* UserInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF298D526947FCD00D20746 /* UserInfoPresenter.swift */; };
@@ -121,6 +176,11 @@
 		8D77338226980892006D4821 /* LentaSnapShotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LentaSnapShotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D77338426980892006D4821 /* LentaSnapShotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentaSnapShotTests.swift; sourceTree = "<group>"; };
 		8D77338626980892006D4821 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D819B7226A97CB10030A09A /* UserInfoInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoInteractorTest.swift; sourceTree = "<group>"; };
+		8D819B8526A9829C0030A09A /* CommentsInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsInteractorTest.swift; sourceTree = "<group>"; };
+		8D819B8F26A984980030A09A /* CommentsPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsPresenterSpy.swift; sourceTree = "<group>"; };
+		8D819B9626A99FBD0030A09A /* ProfileInteractorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInteractorTest.swift; sourceTree = "<group>"; };
+		8D819BA026A9A0800030A09A /* ProfilePresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenterSpy.swift; sourceTree = "<group>"; };
 		8DF298CD2694485D00D20746 /* NewPostInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostInteractor.swift; sourceTree = "<group>"; };
 		8DF298D12694687B00D20746 /* ProfileInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInteractor.swift; sourceTree = "<group>"; };
 		8DF298D526947FCD00D20746 /* UserInfoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoPresenter.swift; sourceTree = "<group>"; };
@@ -249,9 +309,12 @@
 			children = (
 				8D2322162690522600AE435C /* NetworkManagerMock.swift */,
 				8D23221C269053C000AE435C /* StoreManagerSpy.swift */,
+				8D819B9526A99F9C0030A09A /* Profile */,
 				8D23220F26904ADC00AE435C /* Register */,
 				8D54C7BE26847C690088D4BE /* Login */,
+				8D819B8426A982590030A09A /* Comments */,
 				8D3989B926A3060B003A63E9 /* NewPost */,
+				8D819B7126A97C8F0030A09A /* UserInfo */,
 				8D23222A26908AC200AE435C /* Lenta */,
 				8D54C740268378610088D4BE /* Info.plist */,
 			);
@@ -274,6 +337,32 @@
 				8D77338626980892006D4821 /* Info.plist */,
 			);
 			path = LentaSnapShotTests;
+			sourceTree = "<group>";
+		};
+		8D819B7126A97C8F0030A09A /* UserInfo */ = {
+			isa = PBXGroup;
+			children = (
+				8D819B7226A97CB10030A09A /* UserInfoInteractorTest.swift */,
+			);
+			path = UserInfo;
+			sourceTree = "<group>";
+		};
+		8D819B8426A982590030A09A /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				8D819B8526A9829C0030A09A /* CommentsInteractorTest.swift */,
+				8D819B8F26A984980030A09A /* CommentsPresenterSpy.swift */,
+			);
+			path = Comments;
+			sourceTree = "<group>";
+		};
+		8D819B9526A99F9C0030A09A /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				8D819B9626A99FBD0030A09A /* ProfileInteractorTest.swift */,
+				8D819BA026A9A0800030A09A /* ProfilePresenterSpy.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		8DF356D92688C01C007E02D8 /* Storage */ = {
@@ -582,7 +671,6 @@
 					};
 					8D54C73B268378610088D4BE = {
 						CreatedOnToolsVersion = 12.4;
-						TestTargetID = FA8DAD3D25AC24E600E9D1B7;
 					};
 					8D77338126980892006D4821 = {
 						CreatedOnToolsVersion = 12.4;
@@ -683,16 +771,71 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D819AEB26A96B720030A09A /* Lenta.xcdatamodeld in Sources */,
+				8D819B5726A96C3B0030A09A /* Assembly.swift in Sources */,
+				8D819B9726A99FBD0030A09A /* ProfileInteractorTest.swift in Sources */,
+				8D819ADB26A96B620030A09A /* MOUser+CoreDataClass.swift in Sources */,
 				8D23221D269053C000AE435C /* StoreManagerSpy.swift in Sources */,
+				8D819AE126A96B6A0030A09A /* MOPhoto+CoreDataClass.swift in Sources */,
+				8D819B3426A96BE00030A09A /* CommentsInteractor.swift in Sources */,
+				8D819AA626A96A490030A09A /* RegisterInteractor.swift in Sources */,
+				8D819ACB26A96B550030A09A /* MOLike+CoreDataClass.swift in Sources */,
+				8D819B4C26A96C150030A09A /* Constants.swift in Sources */,
+				8D819B0426A96BB00030A09A /* ProfileViewController.swift in Sources */,
 				8D54C7C026847C970088D4BE /* LoginInteractorTest.swift in Sources */,
+				8D819B4326A96BF40030A09A /* LentaRouter.swift in Sources */,
+				8D819AC126A96AAB0030A09A /* NetworkManager.swift in Sources */,
+				8D819AF526A96B9F0030A09A /* LoginRouter.swift in Sources */,
 				8D232232269093EB00AE435C /* LentaPresenterSpy.swift in Sources */,
+				8D819B3926A96BE30030A09A /* CommentsRouter.swift in Sources */,
+				8D819ABB26A96AA20030A09A /* LoginPresenter.swift in Sources */,
 				8D23221126904B2B00AE435C /* RegisterInteractorTest.swift in Sources */,
+				8D819B7326A97CB10030A09A /* UserInfoInteractorTest.swift in Sources */,
+				8D819AA026A96A250030A09A /* Response.swift in Sources */,
+				8D819B5226A96C1F0030A09A /* CommentViewModel.swift in Sources */,
+				8D819B2A26A96BDB0030A09A /* CommentsViewController.swift in Sources */,
+				8D819AF426A96B990030A09A /* LoginViewController.swift in Sources */,
+				8D819B2526A96BD50030A09A /* NewPostRouter.swift in Sources */,
+				8D819B1F26A96BC80030A09A /* UserInfoRouter.swift in Sources */,
 				8D3989C526A3067E003A63E9 /* NewPostPresenterSpy.swift in Sources */,
+				8D819ABC26A96AA50030A09A /* LoginInteractor.swift in Sources */,
+				8D819B1426A96BBF0030A09A /* UserInfoViewController.swift in Sources */,
+				8D819AFF26A96BAA0030A09A /* RegisterViewController.swift in Sources */,
+				8D819B5126A96C1C0030A09A /* PostViewModel.swift in Sources */,
+				8D819AE026A96B660030A09A /* MOUser+CoreDataProperties.swift in Sources */,
+				8D819B6226A96C680030A09A /* LentaCell.swift in Sources */,
+				8D819AD626A96B5F0030A09A /* MOPost+CoreDataProperties.swift in Sources */,
+				8D819AB126A96A980030A09A /* NewPostPresenter.swift in Sources */,
+				8D819A9326A963700030A09A /* LentaInteractor.swift in Sources */,
+				8D819AA526A96A290030A09A /* SendPost.swift in Sources */,
+				8D819B6C26A96C710030A09A /* CommentCell.swift in Sources */,
+				8D819ACC26A96B590030A09A /* MOLike+CoreDataProperties.swift in Sources */,
+				8D819B8626A9829C0030A09A /* CommentsInteractorTest.swift in Sources */,
+				8D819AC626A96AB10030A09A /* StorageManager.swift in Sources */,
 				8D23222C26908B2D00AE435C /* LentaInteractorTest.swift in Sources */,
+				8D819AAB26A96A670030A09A /* RegisterPresenter.swift in Sources */,
+				8D819B1326A96BBA0030A09A /* ProfileRouter.swift in Sources */,
+				8D819AE626A96B6E0030A09A /* MOPhoto+CoreDataProperties.swift in Sources */,
+				8D819B0E26A96BB70030A09A /* ProfileInteractor.swift in Sources */,
+				8D819AB026A96A870030A09A /* LentaPresenter.swift in Sources */,
+				8D819B2426A96BCF0030A09A /* NewPostViewController.swift in Sources */,
+				8D819BA126A9A0800030A09A /* ProfilePresenterSpy.swift in Sources */,
+				8D819AB626A96A9C0030A09A /* NewPostInteractor.swift in Sources */,
+				8D819B1926A96BC20030A09A /* UserInfoPresenter.swift in Sources */,
+				8D819B6726A96C6D0030A09A /* PostCell.swift in Sources */,
+				8D819B5D26A96C470030A09A /* ImagePicker.swift in Sources */,
 				8D3989BB26A30665003A63E9 /* NewPostInteractorTest.swift in Sources */,
 				8D2322172690522600AE435C /* NetworkManagerMock.swift in Sources */,
 				8D2322212690563600AE435C /* RegisterPresenetrSpy.swift in Sources */,
+				8D819B1E26A96BC50030A09A /* UserInfoInteractor.swift in Sources */,
+				8D819B5826A96C430030A09A /* TimeInterval.swift in Sources */,
+				8D819B2F26A96BDD0030A09A /* CommentsPresenter.swift in Sources */,
+				8D819B0926A96BB40030A09A /* ProfilePresenter.swift in Sources */,
+				8D819B9026A984980030A09A /* CommentsPresenterSpy.swift in Sources */,
+				8D819AFA26A96BA30030A09A /* RegisterRouter.swift in Sources */,
+				8D819AD126A96B5C0030A09A /* MOPost+CoreDataClass.swift in Sources */,
 				8D2322272690568400AE435C /* LoginPresenterSpy.swift in Sources */,
+				8D819B3E26A96BED0030A09A /* LentaViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -835,7 +978,6 @@
 		8D54C743268378610088D4BE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = LentaTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
@@ -848,14 +990,12 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lenta.app/Lenta";
 			};
 			name = Debug;
 		};
 		8D54C744268378610088D4BE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = LentaTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
@@ -868,7 +1008,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lenta.app/Lenta";
 			};
 			name = Release;
 		};

@@ -11,7 +11,7 @@ protocol CommentsInteractorInput {
     var posts: [Post] { get }
     var comments: [Comment] { get }
     var users: Set<User> { get }
-    func loadComments(by postId: Int16)
+    func loadComments(byPostId postId: Int16)
     func sendNewComment(_ comment: String)
     func getImage(from urlString: String?, completion: @escaping (Data?) -> Void)
 }
@@ -27,7 +27,7 @@ final class CommentsInteractor {
     var posts: [Post] = []
     var comments: [Comment] = []
     var users: Set<User> = []
-    private var currentUser: User?
+    var currentUser: User?
 
     // MARK: - Init
 
@@ -63,7 +63,7 @@ extension CommentsInteractor: CommentsInteractorInput {
         }
     }
 
-    func loadComments(by postId: Int16) {
+    func loadComments(byPostId postId: Int16) {
         networkManager?.loadComments(for: postId) { [weak self] result in
             guard let self = self else { return }
             switch result {

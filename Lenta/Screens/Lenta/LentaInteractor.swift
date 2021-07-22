@@ -79,7 +79,7 @@ extension LentaInteractor: LentaInteractorInput {
     }
 
     func loadNextPosts() {
-        guard !isLoadingPosts && !isEndingPosts else { return }
+        if isLoadingPosts || isEndingPosts { return }
         isLoadingPosts = true
         let lastPostId = posts[posts.count - 1].id
         networkManager?.getPosts(fromPostId: lastPostId) { [weak self] result in
@@ -111,7 +111,7 @@ extension LentaInteractor: LentaInteractorInput {
     }
 
     func loadPosts() {
-        guard !isLoadingPosts else { return }
+        if isLoadingPosts { return }
         isLoadingPosts = true
         isEndingPosts = false
         networkManager?.getPosts(fromPostId: nil) { [weak self] result in

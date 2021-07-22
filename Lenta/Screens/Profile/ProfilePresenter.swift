@@ -93,7 +93,6 @@ extension ProfilePresenter: ProfileInteractorOutput {
     func currentUser(currentUser: User?) {
         if let userViewModel = UserViewModel(user: currentUser) {
             view.showUserInfo(userModel: userViewModel)
-//            view.userLoginned(userViewModel)
             interactor.getImage(from: userViewModel.avatarUrlString) { [weak self] avatarData in
                 guard let self = self, let avatarData = avatarData else { return }
                 let avatarImage = UIImage(data: avatarData) ?? UIImage(named: "avatar")

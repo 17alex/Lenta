@@ -15,14 +15,23 @@ final class NetworkManagerMock: NetworkManagerProtocol {
     var changeLikeCallCount = 0
     var removePostCallCount = 0
     var sendPostCallCount = 0
+    var loadImageCallCount = 0
+    var sendCommentCallCount = 0
+    var loadCommentsCallCount = 0
+    var updateProfileCallCount = 0
+    var getPostsCallCount = 0
 
     var recivedUserName = ""
     var recivedUserLogin = ""
     var recivedUserPassword = ""
-    var recivadAvatarImage: Data?
+    var recivedUrlString: String?
+    var recivadAvatarImageData: Data?
     var recivePostId: Int16 = -1
     var reciveUserId: Int16 = -1
     var recivedSendPost: SendPost?
+    let sendedData = Data()
+    var recivedNewComment = ""
+    var recivedFromPostId: Int16?
 
     let rightUserName = "Bar"
     let rightLogin = "Boo"
@@ -32,8 +41,11 @@ final class NetworkManagerMock: NetworkManagerProtocol {
 
     let post = Post(id: 0, userId: 0, timeInterval: 2345, description: "Bar",
                     photo: nil, likeUserIds: [0], viewsCount: 1, commentsCount: 0)
+    let comment = Comment(id: 0, timeInterval: 0, postId: 0, userId: 0, text: "text")
     
     lazy var response = Response(posts: [post], users: [user])
+
+    lazy var responseComment = ResponseComment(posts: [post], comments: [comment], users: [user])
 
     let networkServiceError: NetworkServiceError = .network
 
@@ -53,10 +65,10 @@ final class NetworkManagerMock: NetworkManagerProtocol {
         recivedUserName = name
         recivedUserLogin = login
         recivedUserPassword = password
-        recivadAvatarImage = avatar
+        recivadAvatarImageData = avatar
         registerCallCount += 1
         if name == recivedUserName && login == recivedUserLogin && password == recivedUserPassword
-            && recivadAvatarImage != nil {
+            && recivadAvatarImageData != nil {
             completion(.success([user]))
         } else {
             completion(.failure(networkServiceError))
@@ -64,7 +76,9 @@ final class NetworkManagerMock: NetworkManagerProtocol {
     }
 
     func getPosts(fromPostId: Int16?, completion: @escaping (Result<Response, NetworkServiceError>) -> Void) {
-        fatalError()
+        getPostsCallCount += 1
+        recivedFromPostId = fromPostId
+        completion(.success(response))
     }
 
     func sendPost(post: SendPost, completion: @escaping (Result<Response, NetworkServiceError>) -> Void) {
@@ -81,7 +95,15 @@ final class NetworkManagerMock: NetworkManagerProtocol {
 
     func updateProfile(userId: Int16, name: String, avatar: Data?,
                        completion: @escaping (Result<[User], NetworkServiceError>) -> Void) {
-        fatalError()
+        updateProfileCallCount += 1
+        reciveUserId = userId
+        recivedUserName = name
+        recivadAvatarImageData = avatar
+        if reciveUserId == 0 {
+            completion(.success([user]))
+        } else {
+            completion(.failure(networkServiceError))
+        }
     }
 
     func changeLike(postId: Int16, userId: Int16, completion: @escaping (Result<Post, NetworkServiceError>) -> Void) {
@@ -106,15 +128,29 @@ final class NetworkManagerMock: NetworkManagerProtocol {
     }
 
     func loadComments(for postId: Int16, completion: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
-        fatalError()
+        loadCommentsCallCount += 1
+        recivePostId = postId
+        if postId == 0 {
+            completion(.success(responseComment))
+        } else {
+            completion(.failure(networkServiceError))
+        }
     }
 
     func sendComment(_ comment: String, postId: Int16, userId: Int16,
                      completion: @escaping (Result<ResponseComment, NetworkServiceError>) -> Void) {
-        fatalError()
+        recivedNewComment = comment
+        sendCommentCallCount += 1
+        if postId == 0 {
+            completion(.success(responseComment))
+        } else {
+            completion(.failure(networkServiceError))
+        }
     }
 
     func loadImage(from urlString: String?, completion: @escaping (Data?) -> Void) {
-        fatalError()
+        recivedUrlString = urlString
+        loadImageCallCount += 1
+        completion(sendedData)
     }
 }

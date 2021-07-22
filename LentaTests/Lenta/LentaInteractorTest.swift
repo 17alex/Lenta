@@ -193,4 +193,110 @@ final class LentaInteractorTest: XCTestCase {
         XCTAssertEqual(expectedPostsCount, sut.posts.count)
         XCTAssertEqual(expectedUsersCount, sut.users.count)
     }
+    
+    func testGetCurrenUser()  {
+        
+        // Arrange
+        let expectedStorageGetCurrenUserCallCount = 1
+        
+        // Act
+        sut.getCurrenUser()
+        
+        // Assert
+        XCTAssertEqual(expectedStorageGetCurrenUserCallCount, storageManager.getCurrenUserCallCount)
+        XCTAssertEqual(storageManager.sendedUser.name, sut.currentUser?.name)
+    }
+    
+    func testGetImage()  {
+        
+        // Arrange
+        let urlString = "Baz"
+        var expectedData: Data?
+        let expectedNetworkLoadImageCallCount = 1
+        
+        // Act
+        sut.getImage(from: urlString) { recivedData in
+            expectedData = recivedData
+        }
+        
+        // Assert
+        XCTAssertEqual(expectedNetworkLoadImageCallCount, networkManager.loadImageCallCount)
+        XCTAssertEqual(expectedData, networkManager.sendedData)
+    }
+
+    func testAddNewPost()  {
+
+        // Arrange
+        let expectedPostsCount = 1
+        let expectedUsersCount = 1
+        let expectedAppendCallCount = 1
+        let expectedSaveUsersCallCount = 1
+        let expectedPresenterDidLoadNewCallCount = 1
+
+        let user = User(id: 0, name: "Baz", postsCount: 0, dateRegister: 0, avatar: "Avatar")
+        let post = Post(id: 0, userId: 0, timeInterval: 0, description: "Boo", photo: nil, likeUserIds: [], viewsCount: 0, commentsCount: 0)
+        let response = Response(posts: [post], users: [user])
+
+        // Act
+        sut.addNewPost(response: response)
+
+        // Assert
+        XCTAssertEqual(expectedPostsCount, sut.posts.count)
+        XCTAssertEqual(expectedUsersCount, sut.users.count)
+        XCTAssertEqual(expectedAppendCallCount, storageManager.appendCallCount)
+        XCTAssertEqual(response.posts.count, storageManager.savedPosts.count)
+        XCTAssertEqual(expectedSaveUsersCallCount, storageManager.saveUsersCallCount)
+        XCTAssertEqual(response.users.count, storageManager.savedUsers.count)
+        XCTAssertEqual(expectedPresenterDidLoadNewCallCount, presenter.didLoadNewCallCount)
+        XCTAssertEqual(post.description, presenter.recivedPost?.description)
+    }
+
+    func testSuccesLoadPosts() {
+
+        // Arrange
+        let expectedNetworkRecivedFromPostId: Int16? = nil
+        let expectedNetworkGetPostsCallCount = 1
+        let expectedPresenterDidLoadFirstCallCount = 1
+        let expectedPresenterRecivedPostsCount = 1
+        let expectedStorageSavePostsCallCount = 1
+        let expectedStorageSaveUsersCallCount = 1
+
+        // Act
+        sut.isEndingPosts = false
+        sut.loadPosts()
+
+        // Assert
+        XCTAssertEqual(expectedNetworkRecivedFromPostId, networkManager.recivedFromPostId)
+        XCTAssertEqual(expectedNetworkGetPostsCallCount, networkManager.getPostsCallCount)
+        XCTAssertEqual(expectedPresenterDidLoadFirstCallCount, presenter.didLoadFirstCallCount)
+        XCTAssertEqual(expectedPresenterRecivedPostsCount, presenter.recivedPosts.count)
+        XCTAssertEqual(expectedStorageSavePostsCallCount, storageManager.savePostsCallCount)
+        XCTAssertEqual(expectedStorageSaveUsersCallCount, storageManager.saveUsersCallCount)
+
+    }
+
+    func testSuccesLoadNextPosts() {
+
+        // Arrange
+        let expectedNetworkRecivedFromPostId: Int16? = 0
+        let expectedNetworkGetPostsCallCount = 1
+        let expectedPresenterDidLoadNextCallCount = 1
+        let expectedPresenterRecivedPostsCount = 1
+        let expectedStorageAppendCallCount = 1
+        let expectedStorageSaveUsersCallCount = 1
+        let posts = [Post(id: 0, userId: 0, timeInterval: 0, description: "", photo: nil, likeUserIds: [], viewsCount: 0, commentsCount: 0)]
+
+        // Act
+        sut.isEndingPosts = false
+        sut.posts = posts
+        sut.loadNextPosts()
+
+        // Assert
+        XCTAssertEqual(expectedNetworkRecivedFromPostId, networkManager.recivedFromPostId)
+        XCTAssertEqual(expectedNetworkGetPostsCallCount, networkManager.getPostsCallCount)
+        XCTAssertEqual(expectedPresenterDidLoadNextCallCount, presenter.didLoadNextCallCount)
+        XCTAssertEqual(expectedPresenterRecivedPostsCount, presenter.recivedPosts.count)
+        XCTAssertEqual(expectedStorageAppendCallCount, storageManager.appendCallCount)
+        XCTAssertEqual(expectedStorageSaveUsersCallCount, storageManager.saveUsersCallCount)
+    }
 }

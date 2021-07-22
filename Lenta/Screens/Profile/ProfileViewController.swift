@@ -22,7 +22,6 @@ final class ProfileViewController: UIViewController {
 
     private lazy var navItem: UINavigationItem = {
         let navItem = UINavigationItem(title: "Profile")
-//        navItem.rightBarButtonItem = newPostButtonItem
         navItem.leftBarButtonItem = saveButton
         return navItem
     }()
@@ -62,6 +61,7 @@ final class ProfileViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         textField.textColor = Constants.Colors.active
         textField.addTarget(self, action: #selector(nameTextChange), for: .editingChanged)
+        textField.accessibilityIdentifier = "nameTextField"
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -109,16 +109,6 @@ final class ProfileViewController: UIViewController {
     private lazy var tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(heidKeyboard))
 
     var presenter: ProfileViewOutput?
-
-//    var currentUserModel: UserViewModel? { //FIXME: - logik in presenter
-//        didSet {
-//            if let currentUserModel = currentUserModel {
-//                showUserInfo(userModel: currentUserModel)
-//            } else {
-//                clearUserInfo()
-//            }
-//        }
-//    }
 
     // MARK: - LiveCycles
 
@@ -230,10 +220,6 @@ extension ProfileViewController: ProfileViewInput {
         saveButton.isEnabled = change
     }
 
-//    func userLoginned(_ currentUserModel: UserViewModel?) {
-//        self.currentUserModel = currentUserModel
-//    }
-
     func set(avatar: UIImage?) {
         avatarImageView.image = avatar
     }
@@ -241,13 +227,16 @@ extension ProfileViewController: ProfileViewInput {
     func showUserInfo(userModel: UserViewModel) {
         nameTextField.isEnabled = true
         avatarImageView.isUserInteractionEnabled = true
+        avatarImageView.tintColor = Constants.Colors.active
         nameTextField.text = userModel.name
         nameTextField.textColor = Constants.Colors.active
         postsCountLabel.text = userModel.postsCount
         dateRegisterLabel.text = userModel.dateRegister
-        navItem.rightBarButtonItem =
+        let logoutBarButtonItem =
             UIBarButtonItem(image: UIImage(named: "logout"), style: .plain,
                             target: self, action: #selector(logInOutButtonPress))
+        navItem.rightBarButtonItem = logoutBarButtonItem
+        logoutBarButtonItem.accessibilityIdentifier = "loginoutBarButton"
     }
 
     func clearUserInfo() {
@@ -259,9 +248,11 @@ extension ProfileViewController: ProfileViewInput {
         nameTextField.text = "----"
         postsCountLabel.text = "--"
         dateRegisterLabel.text = "--.--.----"
-        navItem.rightBarButtonItem =
+        let loginBarButtonItem =
             UIBarButtonItem(image: UIImage(named: "login"), style: .plain,
                             target: self, action: #selector(logInOutButtonPress))
+        navItem.rightBarButtonItem = loginBarButtonItem
+        loginBarButtonItem.accessibilityIdentifier = "loginoutBarButton"
     }
 }
 

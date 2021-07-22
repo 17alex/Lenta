@@ -13,20 +13,28 @@ final class LentaPresenterSpy: LentaInteractorOutput {
     var didUpdatePostCallCount = 0
     var didRemovePostCallCount = 0
     var showMessageCallCount = 0
+    var didLoadNewCallCount = 0
+    var didLoadFirstCallCount = 0
+    var didLoadNextCallCount = 0
 
     var recivedIndex = -1
     var recivedError: NetworkServiceError?
+    var recivedPost: Post?
+    var recivedPosts: [Post] = []
 
     func didLoadFirst(posts: [Post]) {
-        fatalError()
+        didLoadFirstCallCount += 1
+        recivedPosts = posts
     }
 
     func didLoadNext(posts: [Post]) {
-        fatalError()
+        didLoadNextCallCount += 1
+        recivedPosts = posts
     }
 
     func didLoadNew(post: Post) {
-        fatalError()
+        didLoadNewCallCount += 1
+        recivedPost = post
     }
 
     func didUpdatePost(by index: Int) {

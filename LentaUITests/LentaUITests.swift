@@ -10,6 +10,7 @@ import XCTest
 class LentaUITests: XCTestCase {
 
     var app: XCUIApplication!
+    var nameTextField: XCUIElement { app.textFields["nameTextField"]}
 
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -31,7 +32,7 @@ class LentaUITests: XCTestCase {
             .typePassword(password: "a")
             .tapLoginButton()
             .then {
-                XCTAssertTrue(app.textFields.firstMatch.value as! String == "Alex")
+                XCTAssertTrue(nameTextField.value as! String == "Alex")
                 XCTAssertFalse(app.alerts["Error loginned"].exists)
             }
     }
@@ -71,15 +72,15 @@ class LentaPage: Page {
 class ProfilePage: Page {
 
     var app: XCUIApplication
-    var enterButton: XCUIElement { app.navigationBars["Lenta.ProfileView"]
-        .children(matching: .button).element(boundBy: 1)}
+    var enterButton: XCUIElement { app.buttons["loginoutBarButton"] }
+    var nameTextField: XCUIElement { app.textFields["nameTextField"]}
 
     required init(app: XCUIApplication) {
         self.app = app
     }
 
     func tapLogoutButton() -> ProfilePage {
-        if app.textFields.firstMatch.value as! String != "----" {
+        if nameTextField.value as! String != "----" {
             enterButton.tap()
         }
         return self
@@ -94,7 +95,6 @@ class ProfilePage: Page {
 class LoginPage: Page {
 
     var app: XCUIApplication
-
     var registerButton: XCUIElement { app.buttons["Register"] }
     var loginButton: XCUIElement { app.buttons["Login"] }
 
