@@ -153,6 +153,16 @@ extension LentaViewController: UITableViewDelegate {
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //        return presenter?.postsViewModel[indexPath.row].totalHieght ?? 0
 //    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        print("heightForRowAt = UITableView.automaticDimension")
+        return UITableView.automaticDimension
+    }
+//
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        print("heightForRowAt = UITableView.automaticDimension")
+        return UITableView.automaticDimension
+    }
 }
 
 // MARK: - PostCellDelegate
