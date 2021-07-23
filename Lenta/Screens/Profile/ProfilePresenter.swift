@@ -54,6 +54,7 @@ extension ProfilePresenter: ProfileViewOutput {
         if let image = image {
             imageData = image.jpegData(compressionQuality: 0.25)
         }
+
         interactor.saveProfile(name: name, image: imageData)
     }
 

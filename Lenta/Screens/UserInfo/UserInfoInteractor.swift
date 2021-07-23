@@ -39,6 +39,7 @@ extension UserInfoInteractor: UserInfoInteractorInput {
         let fileterUser = users.filter { user in
             user.id == id
         }
+        print("user =", fileterUser)
         completion(fileterUser.first)
     }
 

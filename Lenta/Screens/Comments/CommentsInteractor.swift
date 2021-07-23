@@ -57,7 +57,7 @@ extension CommentsInteractor: CommentsInteractorInput {
                 self.presenter?.show(error: serviceError)
             case .success(let responseComment):
                 self.comments.append(contentsOf: responseComment.comments)
-                self.users = self.users.union(responseComment.users)
+                self.users = self.users.union(responseComment.users) //FIXME: no union
                 self.presenter?.didSendComment(responseComment.comments)
             }
         }

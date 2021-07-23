@@ -9,8 +9,8 @@ import Foundation
 import  CoreData
 
 protocol StorageManagerProtocol {
-    func getCurrenUser() -> User?
-    func save(user: User?)
+    func getCurrenUserId() -> Int16?
+    func saveCurrentUserId(userId: Int16?)
     func load(completion: @escaping ([Post], [User]) -> Void)
     func save(posts: [Post])
     func save(users: [User])
@@ -168,6 +168,7 @@ final class StorageManager {
             }
         }
         print("LOAD from CoreDATA, users =", users.count)
+        print("LOAD from CoreDATA, users =", users)
         return users
     }
 }
@@ -176,24 +177,28 @@ final class StorageManager {
 
 extension StorageManager: StorageManagerProtocol {
 
-    func getCurrenUser() -> User? {
-        if let userData = UserDefaults.standard.data(forKey: userStorageKey),
-           let currentUser = try? JSONDecoder().decode(User.self, from: userData) {
-            print("user in storage = \(currentUser)")
-            return currentUser
-        } else {
-            print("user is NOT in storage")
-            return nil
-        }
+    func getCurrenUserId() -> Int16? {
+//        if let userData = UserDefaults.standard.data(forKey: userStorageKey),
+//           let currentUser = try? JSONDecoder().decode(User.self, from: userData) {
+//            print("user in storage = \(currentUser)")
+//            return currentUser
+//        } else {
+//            print("user is NOT in storage")
+//            return nil
+//        }
+        let f =  UserDefaults.standard.integer(forKey: userStorageKey)
+        print("f =", f)
+        let g = Int16(f)
+        return g
     }
 
-    func save(user: User?) {
-        var data: Data?
-        if let user = user, let userData = try? JSONEncoder().encode(user) {
-            data = userData
-        }
-
-        UserDefaults.standard.setValue(data, forKey: userStorageKey)
+    func saveCurrentUserId(userId: Int16?) {
+//        var data: Data?
+//        if let user = user, let userData = try? JSONEncoder().encode(user) {
+//            data = userData
+//        }
+        UserDefaults.standard.setValue(userId, forKey: userStorageKey)
+//        UserDefaults.standard.setValue(data, forKey: userStorageKey)
     }
 
     func load(completion: @escaping ([Post], [User]) -> Void) {

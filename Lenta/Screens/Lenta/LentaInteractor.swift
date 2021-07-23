@@ -10,7 +10,7 @@ import Foundation
 protocol LentaInteractorInput {
     var currentUser: User? { get }
     var posts: [Post] { get }
-    var users: Set<User> { get }
+    var users: [Int16: User] { get }
     func loadFromStorage()
     func loadPosts()
     func loadNextPosts()
@@ -29,7 +29,7 @@ final class LentaInteractor {
 
     var currentUser: User?
     var posts: [Post] = []
-    var users: Set<User> = []
+    var users: [Int16: User] = [:]
     var isLoadingPosts = false
     var isEndingPosts = false
 
@@ -55,9 +55,13 @@ extension LentaInteractor: LentaInteractorInput {
     func addNewPost(response: Response) {
         guard let post = response.posts.first else { return }
         posts.insert(post, at: 0)
-        users = self.users.union(response.users)
+        response.users.forEach { responseUser in
+            users.updateValue(responseUser, forKey: responseUser.id)
+        }
+//        users = self.users.union(response.users)
+        print("LentaInteractor =", self.users)
         storageManager?.append(posts: response.posts)
-        storageManager?.save(users: Array(self.users))
+        storageManager?.save(users: Array(self.users.values))
         presenter?.didLoadNew(post: post)
     }
 
@@ -90,9 +94,15 @@ extension LentaInteractor: LentaInteractorInput {
                 self.presenter?.show(error: serviceError)
             case .success(let response):
                 self.posts.append(contentsOf: response.posts)
-                self.users = self.users.union(response.users)
+                response.users.forEach { responseUser in
+                    self.users.updateValue(responseUser, forKey: responseUser.id)
+                }
+//                self.users = self.users.union(response.users)
+                response.users.forEach { user in
+                    self.users.updateValue(user, forKey: user.id)
+                }
                 self.storageManager?.append(posts: response.posts)
-                self.storageManager?.save(users: Array(self.users))
+                self.storageManager?.save(users: Array(self.users.values))
                 if response.posts.isEmpty {
                     self.isEndingPosts = true
                 } else {
@@ -105,7 +115,12 @@ extension LentaInteractor: LentaInteractorInput {
     func loadFromStorage() {
         storageManager?.load { [weak self] posts, users in
             guard let self = self else { return }
-            self.users = Set(users)
+//            self.users = Set(users)
+            self.users = [:]
+            users.forEach { user in
+                self.users.updateValue(user, forKey: user.id)
+            }
+            print("self.users =", self.users)
             self.posts = posts
         }
     }
@@ -122,7 +137,11 @@ extension LentaInteractor: LentaInteractorInput {
                 self.presenter?.show(error: serviceError)
             case .success(let response):
                 self.posts = response.posts
-                self.users = Set(response.users)
+//                self.users = Set(response.users)
+                self.users = [:]
+                response.users.forEach { user in
+                    self.users.updateValue(user, forKey: user.id)
+                }
                 self.presenter?.didLoadFirst(posts: response.posts)
                 self.storageManager?.save(posts: response.posts)
                 self.storageManager?.save(users: response.users)

@@ -24,10 +24,10 @@ final class ProfileInteractor {
     var networkManager: NetworkManagerProtocol?
     weak var presenter: ProfileInteractorOutput?
 
-    var currentUser: User? {
+    var currentUserId: Int16? {
         didSet {
-            if let user = currentUser {
-                newName = user.name
+            if let userId = currentUserId {
+                newName = storageManager.getUser(for: userId).name
             } else {
                 newName = ""
             }
@@ -73,7 +73,9 @@ extension ProfileInteractor: ProfileInteractorInput {
     }
 
     func start() {
-        currentUser = storageManager?.getCurrenUser()
+        currentUserId = storageManager?.getCurrenUserId()
+//        currentUser = storageManager?.getCurrenUser()
+        let currentUser = storageManager.loadUser(id: currentUserId)
         presenter?.currentUser(currentUser: currentUser)
     }
 
@@ -86,10 +88,10 @@ extension ProfileInteractor: ProfileInteractorInput {
     }
 
     func logInOutButtonPress() {
-        if currentUser == nil {
+        if currentUserId == nil {
             presenter?.toLogin()
         } else {
-            currentUser = nil
+            currentUserId = nil
             storageManager?.save(user: currentUser)
             presenter?.currentUser(currentUser: currentUser)
         }
@@ -101,16 +103,17 @@ extension ProfileInteractor: ProfileInteractorInput {
             avatarImage = image
         }
 
-        guard let currUser = currentUser else { return }
-        networkManager?.updateProfile(userId: currUser.id, name: name, avatar: avatarImage) { [weak self] result in
+        guard let currUserId = currentUserId else { return }
+        networkManager?.updateProfile(userId: currUserId, name: name, avatar: avatarImage) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
                 self.presenter?.saveProfileFailed(serviceError: error)
             case .success(let users):
                 if let user = users.first {
-                    self.currentUser = user
-                    self.storageManager?.save(user: self.currentUser)
+                    self.currentUserId = user.id
+                    self.storageManager?.saveCurrentUserId(userId: user.id)
+                    self.storageManager?.save(user: user)
                     self.presenter?.saveProfileSuccess()
                     self.isSetNewAvatar = false
                 } else {
