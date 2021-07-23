@@ -45,13 +45,14 @@ final class Assembly {
         return tbController
     }
 
-    func getUserInfoModule(user: UserViewModel) -> UIViewController {
+    func getUserInfoModule(userId: Int16) -> UIViewController {
         let view = UserInfoViewController()
         let router = UserInfoRouter(view: view, assembly: self)
         let interactor = UserInfoInteractor()
-        let presenter = UserInfoPresenter(view: view, router: router, user: user)
+        let presenter = UserInfoPresenter(view: view, router: router, userId: userId)
         presenter.interactor = interactor
         interactor.networkManager = networkManager
+        interactor.storageManager = storageManager
         view.presenter = presenter
         return view
     }

@@ -34,7 +34,7 @@ final class LentaRouter {
 extension LentaRouter: LentaRouterInput {
 
     func showUserInfoModule(user: UserViewModel) {
-        let userInfoVC = assembly.getUserInfoModule(user: user)
+        let userInfoVC = assembly.getUserInfoModule(userId: user.id)
         view.present(userInfoVC, animated: true)
     }
 

@@ -102,7 +102,8 @@ extension LentaPresenter: LentaViewOutput {
 
     func didPressNewPost() {
         router.showNewPostModule { [weak self] response in
-            self?.interactor.addNewPost(response: response)
+            guard let self = self else { return }
+            self.interactor.addNewPost(response: response)
         }
     }
 

@@ -8,6 +8,7 @@
 import UIKit
 
 struct UserViewModel {
+    let id: Int16
     let name: String
     let avatarUrlString: String
     let postsCount: String
@@ -15,6 +16,7 @@ struct UserViewModel {
 
     init?(user: User?) {
         guard let user = user else { return nil }
+        id = user.id
         name = user.name
         avatarUrlString = user.avatar.isEmpty ? "" : Constants.URLs.avatarsPath + user.avatar
         postsCount = String(user.postsCount)

@@ -14,6 +14,7 @@ protocol StorageManagerProtocol {
     func load(completion: @escaping ([Post], [User]) -> Void)
     func save(posts: [Post])
     func save(users: [User])
+    func loadUsers() -> [User]
     func append(posts: [Post])
 }
 
@@ -119,7 +120,7 @@ final class StorageManager {
         try? bgContext.save()
     }
 
-    private func loadPosts() -> [Post] {
+    private func loadAllPosts() -> [Post] {
         let fetchRequestPosts: NSFetchRequest = MOPost.fetchRequest()
         fetchRequestPosts.sortDescriptors = [NSSortDescriptor(key: #keyPath(MOPost.timeInterval), ascending: false)]
         var posts: [Post] = []
@@ -153,7 +154,7 @@ final class StorageManager {
         return posts
     }
 
-    private func loadUsers() -> [User] {
+    private func loadAllUsers() -> [User] {
         let fetchRequestUsers: NSFetchRequest = MOUser.fetchRequest()
         var users: [User] = []
         context.performAndWait {
@@ -196,8 +197,8 @@ extension StorageManager: StorageManagerProtocol {
     }
 
     func load(completion: @escaping ([Post], [User]) -> Void) {
-        let posts = loadPosts()
-        let users = loadUsers()
+        let posts = loadAllPosts()
+        let users = loadAllUsers()
         completion(posts, users)
     }
 
@@ -213,5 +214,9 @@ extension StorageManager: StorageManagerProtocol {
     func save(users: [User]) {
         deleteAllUsers()
         add(users: users)
+    }
+
+    func loadUsers() -> [User] {
+        return loadAllUsers()
     }
 }
