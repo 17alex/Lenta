@@ -175,17 +175,8 @@ final class LentaCell: UITableViewCell {
     }()
 
     private var photoImageViewHeight: NSLayoutConstraint?
-
-//    private var postModel: PostViewModel? {
-//        didSet {
-//
-//
-//        }
-//    }
-
     private var photoUrlString: String = ""
     private var avatarUrlString: String = ""
-
     weak var delegate: PostCellDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -198,12 +189,6 @@ final class LentaCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - LiveCycles
-
-//    func setupConstraints() {
-//
-//    }
-
     // MARK: - PublicMethods
 
     func likeUpdate(post: PostViewModel) {
@@ -212,9 +197,6 @@ final class LentaCell: UITableViewCell {
     }
 
     func set(postModel: PostViewModel) {
-//        self.postModel = postModel
-
-//        guard let postModel = postModel else { return }
         userNameLabel.text = postModel.user?.name ?? "NoName"
         let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
         if avatarUrlString != newAvatarUrlString {
@@ -227,23 +209,10 @@ final class LentaCell: UITableViewCell {
         likesCountLabel.text = postModel.likes.count
         viewsCountLabel.text = postModel.views.count
         commentsCountLabel.text = postModel.comments.count
-//        print("")
-//        print(">> postModel.photo = ", postModel.photo)
         guard let newPhoto = postModel.photo else {
             photoImageView.image = nil
             photoActivityIndicator.stopAnimating()
-
-//            print("---- NIL-1 photoImageViewHeight =", photoImageViewHeight)
-//                photoImageViewHeight?.isActive = false
-//                print("---- NIL-2")
-//                photoImageViewHeight = photoImageView.heightAnchor.constraint(equalTo: cardView.widthAnchor,
-//                                                                              multiplier: 0.001)
-            photoImageViewHeight?.constant = 5
-//                photoImageViewHeight?.priority = UILayoutPriority(rawValue: 249)
-//                photoImageViewHeight?.isActive = true
-//                print("---- NIL-3")
-//                photoImageViewHeight?.isActive = true
-//            print("---- NIL-4 photoImageViewHeight =", photoImageViewHeight)
+            photoImageViewHeight?.constant = 0
             return
         }
 
@@ -251,47 +220,21 @@ final class LentaCell: UITableViewCell {
             photoImageView.image = nil
             photoActivityIndicator.startAnimating()
             photoUrlString = newPhoto.urlString
-        } else {
-//            print("-- Repeat-1")
         }
 
-//        print("-- noNIL-1 photoImageViewHeight =", photoImageViewHeight)
-        //                photoImageViewHeight?.isActive = false
-        //                print("-- noNIL-2 photoImageViewHeight =", photoImageViewHeight)
-        //                photoImageViewHeight = photoImageView.heightAnchor.constraint(equalTo: cardView.widthAnchor,
-        //                                                                              multiplier: newPhoto.ratio)
-
         photoImageViewHeight?.constant = ceil(cardView.bounds.width * newPhoto.ratio)
-//            photoImageViewHeight?.constant = cardView.bounds.width * newPhoto.ratio
-        //                photoImageViewHeight?.priority = UILayoutPriority(rawValue: 249)
-        //                photoImageViewHeight?.isActive = true
-        //                print("-- noNIL-3 photoImageViewHeight =", photoImageViewHeight)
-        //                photoImageViewHeight?.isActive = true
-//        print("-- noNIL-4 photoImageViewHeight =", photoImageViewHeight)
-//            layoutIfNeeded()
     }
 
     func set(photo: UIImage?) {
         photoActivityIndicator.stopAnimating()
-        //        print("setPhoto in cell")
         photoImageView.image = photo
     }
 
     func set(avatar: UIImage?) {
-        //        print("setAvatar in cell")
         avatarImageView.image = avatar
     }
 
     // MARK: - PrivateMethods
-
-    //    private func getPhotoHeight(photoViewModel: PhotoViewModel, width: CGFloat) -> CGFloat {
-    //        return CGFloat(photoViewModel.size.height) / CGFloat(photoViewModel.size.width) * width
-    //    }
-
-    //    private func getDescriptionSize(text: String, width: CGFloat) -> CGSize {
-    //        let maxDescriptionSize = CGSize(width: width, height: .greatestFiniteMagnitude)
-    //        return descriptionLabel.sizeThatFits(maxDescriptionSize)
-    //    }
 
     private func paintLikeButton(isHighlight: Bool) {
         likesButton.tintColor = isHighlight ? .systemRed : .systemGray
@@ -348,7 +291,10 @@ final class LentaCell: UITableViewCell {
         cardView.addSubview(photoActivityIndicator)
         cardView.addSubview(bottomStackView)
 
-//        setupConstraints()
+        setupConstraints()
+    }
+
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
