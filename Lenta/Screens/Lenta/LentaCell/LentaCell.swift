@@ -176,65 +176,12 @@ final class LentaCell: UITableViewCell {
 
     private var photoImageViewHeight: NSLayoutConstraint?
 
-    private var postModel: PostViewModel? {
-        didSet {
-
-            guard let postModel = postModel else { return }
-            userNameLabel.text = postModel.user?.name ?? "NoName"
-            let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
-            if avatarUrlString != newAvatarUrlString {
-                avatarImageView.image = nil
-            }
-            avatarUrlString = newAvatarUrlString
-            timeLabel.text = postModel.time
-            descriptionLabel.text = postModel.description.text
-            paintLikeButton(isHighlight: postModel.likes.isHighlight)
-            likesCountLabel.text = postModel.likes.count
-            viewsCountLabel.text = postModel.views.count
-            commentsCountLabel.text = postModel.comments.count
-            print("")
-            print(">> postModel.photo = ", postModel.photo)
-            guard let newPhoto = postModel.photo else {
-                photoImageView.image = nil
-                photoActivityIndicator.stopAnimating()
-                print("---- NIL-1 photoImageViewHeight =", photoImageViewHeight)
-//                photoImageViewHeight?.isActive = false
-//                print("---- NIL-2")
-//                photoImageViewHeight = photoImageView.heightAnchor.constraint(equalTo: cardView.widthAnchor,
-//                                                                              multiplier: 0.001)
-                photoImageViewHeight?.constant = 5
-//                photoImageViewHeight?.priority = UILayoutPriority(rawValue: 249)
-//                photoImageViewHeight?.isActive = true
-//                print("---- NIL-3")
-//                photoImageViewHeight?.isActive = true
-                print("---- NIL-4 photoImageViewHeight =", photoImageViewHeight)
-                return
-            }
-
-            if photoUrlString != newPhoto.urlString {
-                photoImageView.image = nil
-                photoActivityIndicator.startAnimating()
-                photoUrlString = newPhoto.urlString
-            } else {
-                print("-- Repeat-1")
-            }
-            
-            print("-- noNIL-1 photoImageViewHeight =", photoImageViewHeight)
-            //                photoImageViewHeight?.isActive = false
-            //                print("-- noNIL-2 photoImageViewHeight =", photoImageViewHeight)
-            //                photoImageViewHeight = photoImageView.heightAnchor.constraint(equalTo: cardView.widthAnchor,
-            //                                                                              multiplier: newPhoto.ratio)
-            
-            photoImageViewHeight?.constant = ceil(cardView.bounds.width * newPhoto.ratio)
-//            photoImageViewHeight?.constant = cardView.bounds.width * newPhoto.ratio
-            //                photoImageViewHeight?.priority = UILayoutPriority(rawValue: 249)
-            //                photoImageViewHeight?.isActive = true
-            //                print("-- noNIL-3 photoImageViewHeight =", photoImageViewHeight)
-            //                photoImageViewHeight?.isActive = true
-            print("-- noNIL-4 photoImageViewHeight =", photoImageViewHeight)
-//            layoutIfNeeded()
-        }
-    }
+//    private var postModel: PostViewModel? {
+//        didSet {
+//
+//
+//        }
+//    }
 
     private var photoUrlString: String = ""
     private var avatarUrlString: String = ""
@@ -253,56 +200,9 @@ final class LentaCell: UITableViewCell {
 
     // MARK: - LiveCycles
 
-    func setupConstraints() {
-        NSLayoutConstraint.activate([
-            cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            cardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-
-            avatarImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 8),
-            avatarImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 16),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 60),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 60),
-
-            menuButton.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 18),
-            menuButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -5),
-            menuButton.widthAnchor.constraint(equalToConstant: 60),
-            menuButton.heightAnchor.constraint(equalToConstant: 60),
-
-            userNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 11),
-            userNameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor, constant: 7),
-            userNameLabel.trailingAnchor.constraint(equalTo: menuButton.leadingAnchor, constant: 0),
-
-            timeLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 19),
-            timeLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 6),
-            timeLabel.trailingAnchor.constraint(equalTo: menuButton.leadingAnchor, constant: 0),
-
-            descriptionLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 8),
-            descriptionLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 5),
-            descriptionLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -8),
-
-            photoImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 0),
-            photoImageView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 0),
-            photoImageView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: 0),
-
-            photoActivityIndicator.centerXAnchor.constraint(equalTo: photoImageView.centerXAnchor),
-            photoActivityIndicator.centerYAnchor.constraint(equalTo: photoImageView.centerYAnchor),
-
-            bottomStackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 25),
-            bottomStackView.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 2),
-            bottomStackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -25),
-            bottomStackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -8),
-            bottomStackView.heightAnchor.constraint(equalToConstant: 35)
-        ])
-
-        avatarImageView.layer.cornerRadius = 30
-//        photoImageViewHeight = photoImageView.heightAnchor.constraint(equalTo: cardView.widthAnchor,
-//                                                                      multiplier: 0.001)
-        photoImageViewHeight = photoImageView.heightAnchor.constraint(equalToConstant: 5)
-//        photoImageViewHeight?.priority = UILayoutPriority(rawValue: 1000)
-        photoImageViewHeight?.isActive = true
-    }
+//    func setupConstraints() {
+//
+//    }
 
     // MARK: - PublicMethods
 
@@ -312,7 +212,63 @@ final class LentaCell: UITableViewCell {
     }
 
     func set(postModel: PostViewModel) {
-        self.postModel = postModel
+//        self.postModel = postModel
+
+//        guard let postModel = postModel else { return }
+        userNameLabel.text = postModel.user?.name ?? "NoName"
+        let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
+        if avatarUrlString != newAvatarUrlString {
+            avatarImageView.image = nil
+        }
+        avatarUrlString = newAvatarUrlString
+        timeLabel.text = postModel.time
+        descriptionLabel.text = postModel.description.text
+        paintLikeButton(isHighlight: postModel.likes.isHighlight)
+        likesCountLabel.text = postModel.likes.count
+        viewsCountLabel.text = postModel.views.count
+        commentsCountLabel.text = postModel.comments.count
+//        print("")
+//        print(">> postModel.photo = ", postModel.photo)
+        guard let newPhoto = postModel.photo else {
+            photoImageView.image = nil
+            photoActivityIndicator.stopAnimating()
+
+//            print("---- NIL-1 photoImageViewHeight =", photoImageViewHeight)
+//                photoImageViewHeight?.isActive = false
+//                print("---- NIL-2")
+//                photoImageViewHeight = photoImageView.heightAnchor.constraint(equalTo: cardView.widthAnchor,
+//                                                                              multiplier: 0.001)
+            photoImageViewHeight?.constant = 5
+//                photoImageViewHeight?.priority = UILayoutPriority(rawValue: 249)
+//                photoImageViewHeight?.isActive = true
+//                print("---- NIL-3")
+//                photoImageViewHeight?.isActive = true
+//            print("---- NIL-4 photoImageViewHeight =", photoImageViewHeight)
+            return
+        }
+
+        if photoUrlString != newPhoto.urlString {
+            photoImageView.image = nil
+            photoActivityIndicator.startAnimating()
+            photoUrlString = newPhoto.urlString
+        } else {
+//            print("-- Repeat-1")
+        }
+
+//        print("-- noNIL-1 photoImageViewHeight =", photoImageViewHeight)
+        //                photoImageViewHeight?.isActive = false
+        //                print("-- noNIL-2 photoImageViewHeight =", photoImageViewHeight)
+        //                photoImageViewHeight = photoImageView.heightAnchor.constraint(equalTo: cardView.widthAnchor,
+        //                                                                              multiplier: newPhoto.ratio)
+
+        photoImageViewHeight?.constant = ceil(cardView.bounds.width * newPhoto.ratio)
+//            photoImageViewHeight?.constant = cardView.bounds.width * newPhoto.ratio
+        //                photoImageViewHeight?.priority = UILayoutPriority(rawValue: 249)
+        //                photoImageViewHeight?.isActive = true
+        //                print("-- noNIL-3 photoImageViewHeight =", photoImageViewHeight)
+        //                photoImageViewHeight?.isActive = true
+//        print("-- noNIL-4 photoImageViewHeight =", photoImageViewHeight)
+//            layoutIfNeeded()
     }
 
     func set(photo: UIImage?) {
@@ -392,6 +348,52 @@ final class LentaCell: UITableViewCell {
         cardView.addSubview(photoActivityIndicator)
         cardView.addSubview(bottomStackView)
 
-        setupConstraints()
+//        setupConstraints()
+        NSLayoutConstraint.activate([
+            cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            cardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
+            avatarImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 8),
+            avatarImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 16),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 60),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 60),
+
+            menuButton.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 18),
+            menuButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -5),
+            menuButton.widthAnchor.constraint(equalToConstant: 60),
+            menuButton.heightAnchor.constraint(equalToConstant: 60),
+
+            userNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 11),
+            userNameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor, constant: 7),
+            userNameLabel.trailingAnchor.constraint(equalTo: menuButton.leadingAnchor, constant: 0),
+
+            timeLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 19),
+            timeLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 6),
+            timeLabel.trailingAnchor.constraint(equalTo: menuButton.leadingAnchor, constant: 0),
+
+            descriptionLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 8),
+            descriptionLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 5),
+            descriptionLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -8),
+
+            photoImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 0),
+            photoImageView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 0),
+            photoImageView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: 0),
+
+            photoActivityIndicator.centerXAnchor.constraint(equalTo: photoImageView.centerXAnchor),
+            photoActivityIndicator.centerYAnchor.constraint(equalTo: photoImageView.centerYAnchor),
+
+            bottomStackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 25),
+            bottomStackView.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 2),
+            bottomStackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -25),
+            bottomStackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -8),
+            bottomStackView.heightAnchor.constraint(equalToConstant: 35)
+        ])
+
+        avatarImageView.layer.cornerRadius = 30
+        photoImageViewHeight = photoImageView.heightAnchor.constraint(equalToConstant: 5)
+        photoImageViewHeight?.priority = UILayoutPriority(rawValue: 999)
+        photoImageViewHeight?.isActive = true
     }
 }
