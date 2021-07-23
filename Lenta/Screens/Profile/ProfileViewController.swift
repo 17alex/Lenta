@@ -59,7 +59,7 @@ final class ProfileViewController: UIViewController {
         let textField = UITextField()
         textField.text = "----"
         textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        textField.textColor = Constants.Colors.active
+        textField.textColor = .black
         textField.addTarget(self, action: #selector(nameTextChange), for: .editingChanged)
         textField.accessibilityIdentifier = "nameTextField"
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -244,7 +244,7 @@ extension ProfileViewController: ProfileViewInput {
         avatarImageView.isUserInteractionEnabled = false
         avatarImageView.image = UIImage(named: "avatar")
         avatarImageView.tintColor = Constants.Colors.deActive
-        nameTextField.textColor = Constants.Colors.deActive
+        nameTextField.textColor = .black
         nameTextField.text = "----"
         postsCountLabel.text = "--"
         dateRegisterLabel.text = "--.--.----"

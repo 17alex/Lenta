@@ -85,7 +85,7 @@ extension NetworkManager: NetworkManagerProtocol {
             return
         }
 
-        var urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
+        var urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 60)
         urlRequest.httpMethod = "GET"
         URLSession.shared.dataTask(with: urlRequest) { [weak self] data, _, _ in
             guard let self = self else { return }
