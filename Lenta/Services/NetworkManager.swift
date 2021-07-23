@@ -59,6 +59,19 @@ final class NetworkManager {
             print("dataString: " + dataString)
         }
     }
+
+    private func handle<T>(_ type: T.Type, from data: Data?, error: Error?,
+                           completion: @escaping (Result<T, NetworkServiceError>) -> Void) where T: Decodable {
+        if error != nil { self.onMain { completion(.failure(.network)) }; return }
+        guard let data = data else { self.onMain { completion(.failure(.unknown)) }; return }
+
+        do {
+            let response = try JSONDecoder().decode(type, from: data)
+            self.onMain { completion(.success(response)) }
+        } catch {
+            self.onMain { completion(.failure(.decodable)) }
+        }
+    }
 }
 
 // MARK: - NetworkManagerProtocol
@@ -72,7 +85,8 @@ extension NetworkManager: NetworkManagerProtocol {
             return
         }
 
-        let urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
+        var urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 30)
+        urlRequest.httpMethod = "GET"
         URLSession.shared.dataTask(with: urlRequest) { [weak self] data, _, _ in
             guard let self = self else { return }
             if let imageData = data {
@@ -95,16 +109,7 @@ extension NetworkManager: NetworkManagerProtocol {
 
         taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
-
-            if error != nil { self.onMain { completion(.failure(.network)) }; return }
-            guard let data = data else { self.onMain { completion(.failure(.unknown)) }; return }
-
-            do {
-                let responseComment = try JSONDecoder().decode(ResponseComment.self, from: data)
-                self.onMain { completion(.success(responseComment)) }
-            } catch {
-                self.onMain { completion(.failure(.decodable)) }
-            }
+            self.handle(ResponseComment.self, from: data, error: error, completion: completion)
         }
     }
 
@@ -122,16 +127,7 @@ extension NetworkManager: NetworkManagerProtocol {
 
         taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
-
-            if error != nil { self.onMain { completion(.failure(.network)) }; return }
-            guard let data = data else { self.onMain { completion(.failure(.unknown)) }; return }
-
-            do {
-                let pesponseComment = try JSONDecoder().decode(ResponseComment.self, from: data)
-                self.onMain { completion(.success(pesponseComment)) }
-            } catch {
-                self.onMain { completion(.failure(.decodable)) }
-            }
+            self.handle(ResponseComment.self, from: data, error: error, completion: completion)
         }
     }
 
@@ -151,16 +147,7 @@ extension NetworkManager: NetworkManagerProtocol {
 
         taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
-
-            if error != nil { self.onMain { completion(.failure(.network)) }; return }
-            guard let data = data else { self.onMain { completion(.failure(.unknown)) }; return }
-
-            do {
-                let pesponse = try JSONDecoder().decode(Response.self, from: data)
-                self.onMain { completion(.success(pesponse)) }
-            } catch {
-                self.onMain { completion(.failure(.decodable)) }
-            }
+            self.handle(Response.self, from: data, error: error, completion: completion)
         }
     }
 
@@ -175,16 +162,7 @@ extension NetworkManager: NetworkManagerProtocol {
 
         taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
-
-            if error != nil { self.onMain { completion(.failure(.network)) }; return }
-            guard let data = data else { self.onMain { completion(.failure(.unknown)) }; return }
-
-            do {
-                let pesponse = try JSONDecoder().decode(Response.self, from: data)
-                self.onMain { completion(.success(pesponse)) }
-            } catch {
-                self.onMain { completion(.failure(.decodable)) }
-            }
+            self.handle(Response.self, from: data, error: error, completion: completion)
         }
     }
 
@@ -199,16 +177,7 @@ extension NetworkManager: NetworkManagerProtocol {
 
         taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
-
-            if error != nil { self.onMain { completion(.failure(.network)) }; return }
-            guard let data = data else { self.onMain { completion(.failure(.unknown)) }; return }
-
-            do {
-                let decodePost = try JSONDecoder().decode(Post.self, from: data)
-                self.onMain { completion(.success(decodePost)) }
-            } catch {
-                self.onMain { completion(.failure(.decodable)) }
-            }
+            self.handle(Post.self, from: data, error: error, completion: completion)
         }
     }
 
@@ -249,16 +218,7 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpBody = body
         taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
-
-            if error != nil { self.onMain { completion(.failure(.network)) }; return }
-            guard let data = data else { self.onMain { completion(.failure(.unknown)) }; return }
-
-            do {
-                let decodeUsers = try JSONDecoder().decode([User].self, from: data)
-                self.onMain { completion(.success(decodeUsers)) }
-            } catch {
-                self.onMain { completion(.failure(.decodable)) }
-            }
+            self.handle([User].self, from: data, error: error, completion: completion)
         }
     }
 
@@ -273,16 +233,7 @@ extension NetworkManager: NetworkManagerProtocol {
 
         taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
-
-            if error != nil { self.onMain { completion(.failure(.network)) }; return }
-            guard let data = data else { self.onMain { completion(.failure(.unknown)) }; return }
-
-            do {
-                let decodeUsers = try JSONDecoder().decode([User].self, from: data)
-                self.onMain { completion(.success(decodeUsers)) }
-            } catch {
-                self.onMain { completion(.failure(.decodable)) }
-            }
+            self.handle([User].self, from: data, error: error, completion: completion)
         }
     }
 
@@ -324,16 +275,7 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpBody = body
         taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
-
-            if error != nil { self.onMain { completion(.failure(.network)) }; return }
-            guard let data = data else { self.onMain { completion(.failure(.unknown)) }; return }
-
-            do {
-                let decodeUsers = try JSONDecoder().decode([User].self, from: data)
-                self.onMain { completion(.success(decodeUsers)) }
-            } catch {
-                self.onMain { completion(.failure(.decodable)) }
-            }
+            self.handle([User].self, from: data, error: error, completion: completion)
         }
     }
 
@@ -373,16 +315,7 @@ extension NetworkManager: NetworkManagerProtocol {
         urlRequest.httpBody = body
         taskResume(with: urlRequest) { [weak self] data, error in
             guard let self = self else { return }
-
-            if error != nil { self.onMain { completion(.failure(.network)) }; return }
-            guard let data = data else { self.onMain { completion(.failure(.unknown)) }; return }
-
-            do {
-                let response = try JSONDecoder().decode(Response.self, from: data)
-                self.onMain { completion(.success(response)) }
-            } catch {
-                self.onMain { completion(.failure(.decodable)) }
-            }
+            self.handle(Response.self, from: data, error: error, completion: completion)
         }
     }
 }
