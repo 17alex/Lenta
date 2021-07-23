@@ -85,7 +85,7 @@ final class PostCell: UITableViewCell {
             }
 
             photoUrlString = newPhotoUrlString
-            photoImageViewHeight?.constant = postModel.photo?.size.height ?? 0
+//            photoImageViewHeight?.constant = postModel.photo?.size.height ?? 0
         }
     }
 

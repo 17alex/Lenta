@@ -19,24 +19,27 @@ final class LentaCell: UITableViewCell {
 
     // MARK: - Properties
 
-    lazy private var avatarImageView: UIImageView = {
+    private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapAvatar)))
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
     private var userNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private var timeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
@@ -44,26 +47,31 @@ final class LentaCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private var photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .red
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
     private var photoActivityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.hidesWhenStopped = true
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicator
     }()
 
-    lazy private var likesButton: UIButton = {
+    private lazy var likesButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.tintColor = .systemGray
         button.addTarget(self, action: #selector(likesButtonPress), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
@@ -71,6 +79,7 @@ final class LentaCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.textColor = .systemGray
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
@@ -79,6 +88,7 @@ final class LentaCell: UITableViewCell {
         imageView.image = UIImage(systemName: "eye")
         imageView.tintColor = .systemGray
         imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
@@ -86,14 +96,16 @@ final class LentaCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.textColor = .systemGray
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    lazy private var commentsButton: UIButton = {
+    private lazy var commentsButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "bubble.right"), for: .normal)
         button.tintColor = .systemGray
         button.addTarget(self, action: #selector(commentsButtonPress), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
@@ -101,93 +113,80 @@ final class LentaCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.textColor = .systemGray
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    lazy private var shareButton: UIButton = {
+    private lazy var shareButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "arrowshape.turn.up.right"), for: .normal)
         button.tintColor = .systemGray
         button.addTarget(self, action: #selector(shareButtonPress), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
-    lazy private var menuButton: UIButton = {
+    private lazy var menuButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "text.justify"), for: .normal)
         button.tintColor = .systemGray
         button.addTarget(self, action: #selector(menuButtonPress), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
-    private var postModel: PostViewModel? {
-        didSet {
-            guard let postModel = postModel else { return }
-            userNameLabel.text = postModel.user?.name ?? "NoName"
-            let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
-            if avatarUrlString != newAvatarUrlString {
-                avatarImageView.image = nil
-            }
-            avatarUrlString = newAvatarUrlString
-            timeLabel.text = postModel.time
-            descriptionLabel.text = postModel.description.text
-            paintLikeButton(isHighlight: postModel.likes.isHighlight)
-            likesCountLabel.text = postModel.likes.count
-            viewsCountLabel.text = postModel.views.count
-            commentsCountLabel.text = postModel.comments.count
+    private lazy var likeStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [likesButton, likesCountLabel])
+        stackView.distribution = .fill
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
 
-            let newPhotoUrlString = postModel.photo?.urlString ?? ""
-            if photoUrlString != newPhotoUrlString {
-                photoImageView.image = nil
-                if !newPhotoUrlString.isEmpty {
-                    photoActivityIndicator.startAnimating()
-                } else {
-                    photoActivityIndicator.stopAnimating()
-                }
-            }
-            photoUrlString = newPhotoUrlString
-        }
-    }
+    private lazy var viewsStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [eyeImageView, viewsCountLabel])
+        stackView.distribution = .fill
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
 
+    private lazy var commentsStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [commentsButton, commentsCountLabel])
+        stackView.distribution = .fill
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
+    private lazy var bottomStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [likeStackView, viewsStackView, commentsStackView, shareButton])
+        stackView.distribution = .equalSpacing
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
+    private let cardView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private var photoImageViewHeight: NSLayoutConstraint?
     private var photoUrlString: String = ""
     private var avatarUrlString: String = ""
-
     weak var delegate: PostCellDelegate?
 
-    // MARK: - LiveCycles
-
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         setupUI()
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        guard let postModel = postModel else { return }
-        contentView.frame = CGRect(x: 0, y: 4, width: contentView.bounds.width, height: postModel.totalHieght - 8)
-        let cellWidth = contentView.bounds.width
-        avatarImageView.frame = CGRect(x: 8, y: 16, width: 60, height: 60)
-        avatarImageView.layer.cornerRadius = avatarImageView.bounds.height / 2
-        menuButton.frame = CGRect(x: cellWidth - 65, y: 18, width: 60, height: 60)
-        userNameLabel.frame = CGRect(x: 79, y: 23, width: menuButton.frame.minX - 79, height: 24)
-        timeLabel.frame = CGRect(x: 87, y: 53, width: menuButton.frame.minX - 87, height: 15)
-        descriptionLabel.frame = CGRect(x: 8, y: 81, width: cellWidth - 16, height: postModel.description.size.height)
-        let descrMaxY = descriptionLabel.frame.maxY
-        photoImageView.frame = CGRect(x: 0, y: descrMaxY + 2, width: cellWidth,
-                                      height: postModel.photo?.size.height ?? 0)
-        photoActivityIndicator.center = photoImageView.center
-        let buttonsY = photoImageView.frame.maxY + 2
-        let offset: CGFloat = 25
-        let space = (cellWidth - 80) / 3
-        likesButton.frame = CGRect(x: offset, y: buttonsY, width: 30, height: 35)
-        likesCountLabel.frame = CGRect(x: likesButton.frame.maxX, y: buttonsY, width: 30, height: 35)
-        eyeImageView.frame = CGRect(x: offset + space, y: buttonsY, width: 30, height: 35)
-        viewsCountLabel.frame = CGRect(x: eyeImageView.frame.maxX, y: buttonsY, width: 50, height: 35)
-        commentsButton.frame = CGRect(x: offset + space * 2, y: buttonsY, width: 30, height: 35)
-        commentsCountLabel.frame = CGRect(x: commentsButton.frame.maxX, y: buttonsY, width: 50, height: 35)
-        shareButton.frame = CGRect(x: offset + space * 3, y: buttonsY, width: 30, height: 35)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - PublicMethods
@@ -198,7 +197,32 @@ final class LentaCell: UITableViewCell {
     }
 
     func set(postModel: PostViewModel) {
-        self.postModel = postModel
+        userNameLabel.text = postModel.user?.name ?? "NoName"
+        let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
+        if avatarUrlString != newAvatarUrlString {
+            avatarImageView.image = nil
+        }
+        avatarUrlString = newAvatarUrlString
+        timeLabel.text = postModel.time
+        descriptionLabel.text = postModel.description.text
+        paintLikeButton(isHighlight: postModel.likes.isHighlight)
+        likesCountLabel.text = postModel.likes.count
+        viewsCountLabel.text = postModel.views.count
+        commentsCountLabel.text = postModel.comments.count
+        guard let newPhoto = postModel.photo else {
+            photoImageView.image = nil
+            photoActivityIndicator.stopAnimating()
+            photoImageViewHeight?.constant = 0
+            return
+        }
+
+        if photoUrlString != newPhoto.urlString {
+            photoImageView.image = nil
+            photoActivityIndicator.startAnimating()
+            photoUrlString = newPhoto.urlString
+        }
+
+        photoImageViewHeight?.constant = ceil(cardView.bounds.width * newPhoto.ratio)
     }
 
     func set(photo: UIImage?) {
@@ -211,15 +235,6 @@ final class LentaCell: UITableViewCell {
     }
 
     // MARK: - PrivateMethods
-
-    private func getPhotoHeight(photoViewModel: PhotoViewModel, width: CGFloat) -> CGFloat {
-        return CGFloat(photoViewModel.size.height) / CGFloat(photoViewModel.size.width) * width
-    }
-
-    private func getDescriptionSize(text: String, width: CGFloat) -> CGSize {
-        let maxDescriptionSize = CGSize(width: width, height: .greatestFiniteMagnitude)
-        return descriptionLabel.sizeThatFits(maxDescriptionSize)
-    }
 
     private func paintLikeButton(isHighlight: Bool) {
         likesButton.tintColor = isHighlight ? .systemRed : .systemGray
@@ -257,21 +272,74 @@ final class LentaCell: UITableViewCell {
     private func setupUI() {
         selectionStyle = .none
         backgroundColor = .clear
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = Constants.Colors.bgTable
 
-        contentView.addSubview(avatarImageView)
-        contentView.addSubview(userNameLabel)
-        contentView.addSubview(timeLabel)
-        contentView.addSubview(menuButton)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(photoImageView)
-        contentView.addSubview(likesButton)
-        contentView.addSubview(likesCountLabel)
-        contentView.addSubview(eyeImageView)
-        contentView.addSubview(viewsCountLabel)
-        contentView.addSubview(commentsButton)
-        contentView.addSubview(commentsCountLabel)
-        contentView.addSubview(shareButton)
-        contentView.addSubview(photoActivityIndicator)
+        contentView.addSubview(cardView)
+        cardView.addSubview(avatarImageView)
+        cardView.addSubview(userNameLabel)
+        cardView.addSubview(timeLabel)
+        cardView.addSubview(menuButton)
+        cardView.addSubview(descriptionLabel)
+        cardView.addSubview(photoImageView)
+        cardView.addSubview(likesButton)
+        cardView.addSubview(likesCountLabel)
+        cardView.addSubview(eyeImageView)
+        cardView.addSubview(viewsCountLabel)
+        cardView.addSubview(commentsButton)
+        cardView.addSubview(commentsCountLabel)
+        cardView.addSubview(shareButton)
+        cardView.addSubview(photoActivityIndicator)
+        cardView.addSubview(bottomStackView)
+
+        setupConstraints()
+    }
+
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            cardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
+            avatarImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 8),
+            avatarImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 16),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 60),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 60),
+
+            menuButton.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 18),
+            menuButton.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -5),
+            menuButton.widthAnchor.constraint(equalToConstant: 60),
+            menuButton.heightAnchor.constraint(equalToConstant: 60),
+
+            userNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 11),
+            userNameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor, constant: 7),
+            userNameLabel.trailingAnchor.constraint(equalTo: menuButton.leadingAnchor, constant: 0),
+
+            timeLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 19),
+            timeLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 6),
+            timeLabel.trailingAnchor.constraint(equalTo: menuButton.leadingAnchor, constant: 0),
+
+            descriptionLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 8),
+            descriptionLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 5),
+            descriptionLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -8),
+
+            photoImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 0),
+            photoImageView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 0),
+            photoImageView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: 0),
+
+            photoActivityIndicator.centerXAnchor.constraint(equalTo: photoImageView.centerXAnchor),
+            photoActivityIndicator.centerYAnchor.constraint(equalTo: photoImageView.centerYAnchor),
+
+            bottomStackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 25),
+            bottomStackView.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 2),
+            bottomStackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -25),
+            bottomStackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -8),
+            bottomStackView.heightAnchor.constraint(equalToConstant: 35)
+        ])
+
+        avatarImageView.layer.cornerRadius = 30
+        photoImageViewHeight = photoImageView.heightAnchor.constraint(equalToConstant: 5)
+        photoImageViewHeight?.priority = UILayoutPriority(rawValue: 999)
+        photoImageViewHeight?.isActive = true
     }
 }
