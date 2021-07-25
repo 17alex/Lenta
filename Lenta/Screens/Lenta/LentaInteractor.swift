@@ -58,12 +58,13 @@ extension LentaInteractor: LentaInteractorInput {
         response.users.forEach { responseUser in
             users.updateValue(responseUser, forKey: responseUser.id)
         }
-//        users = self.users.union(response.users) // navernoe ne nado
-        storageManager?.saveCurrentUserToUserDefaults(user: response.users.first)
+
+        let firstUser = response.users.first
+        storageManager?.saveCurrentUserToUserDefaults(user: firstUser)
+        storageManager?.update(user: firstUser)
 
         print("LentaInteractor =", self.users)
         storageManager?.append(posts: response.posts)
-        storageManager?.save(users: Array(self.users.values)) // navernoe ne nado
         presenter?.didLoadNew(post: post)
     }
 
@@ -74,12 +75,14 @@ extension LentaInteractor: LentaInteractorInput {
             case .failure(let serviceError):
                 self.presenter?.show(error: serviceError)
             case .success(let response):
-                guard let deletePost = response.posts.first else { return }
-                if let deleteIndex = self.posts.firstIndex(where: { $0.id == deletePost.id }) {
-                    self.posts.remove(at: deleteIndex)
-                    self.presenter?.didRemovePost(by: deleteIndex)
-                    self.storageManager?.save(posts: self.posts)
-                }
+                guard let deletePost = response.posts.first,
+                      let deletePostIndex = self.posts.firstIndex(where: { $0.id == deletePost.id }) else { return }
+                self.posts.remove(at: deletePostIndex)
+                self.presenter?.didRemovePost(by: deletePostIndex)
+                self.storageManager?.save(posts: self.posts)
+                let firstUser = response.users.first
+                self.storageManager?.saveCurrentUserToUserDefaults(user: firstUser)
+                self.storageManager?.update(user: firstUser)
             }
         }
     }
@@ -99,10 +102,9 @@ extension LentaInteractor: LentaInteractorInput {
                 response.users.forEach { responseUser in
                     self.users.updateValue(responseUser, forKey: responseUser.id)
                 }
+
 //                self.users = self.users.union(response.users)
-                response.users.forEach { user in
-                    self.users.updateValue(user, forKey: user.id)
-                }
+
                 self.storageManager?.append(posts: response.posts)
                 self.storageManager?.save(users: Array(self.users.values))
                 if response.posts.isEmpty {

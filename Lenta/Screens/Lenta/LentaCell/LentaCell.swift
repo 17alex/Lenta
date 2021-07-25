@@ -19,6 +19,10 @@ final class LentaCell: UITableViewCell {
 
     // MARK: - Properties
 
+    static var reuseID: String {
+        return self.description()
+    }
+
     private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapAvatar)))
@@ -195,7 +199,7 @@ final class LentaCell: UITableViewCell {
         paintLikeButton(isHighlight: post.likes.isHighlight)
     }
 
-    func set(postModel: PostViewModel) {
+    func set(postModel: PostViewModel, cellWidth: CGFloat) {
         userNameLabel.text = postModel.user?.name ?? "NoName"
         let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
         if avatarUrlString != newAvatarUrlString {
@@ -208,6 +212,7 @@ final class LentaCell: UITableViewCell {
         likesCountLabel.text = postModel.likes.count
         viewsCountLabel.text = postModel.views.count
         commentsCountLabel.text = postModel.comments.count
+
         guard let newPhoto = postModel.photo else {
             photoImageView.image = nil
             photoActivityIndicator.stopAnimating()
@@ -221,7 +226,9 @@ final class LentaCell: UITableViewCell {
             photoUrlString = newPhoto.urlString
         }
 
-        photoImageViewHeight?.constant = ceil(cardView.bounds.width * newPhoto.ratio)
+        let photoHeight = ceil(cellWidth * newPhoto.ratio)
+        photoImageViewHeight?.constant = photoHeight
+
     }
 
     func set(photo: UIImage?) {
@@ -337,7 +344,7 @@ final class LentaCell: UITableViewCell {
         ])
 
         avatarImageView.layer.cornerRadius = 30
-        photoImageViewHeight = photoImageView.heightAnchor.constraint(equalToConstant: 5)
+        photoImageViewHeight = photoImageView.heightAnchor.constraint(equalToConstant: 0)
         photoImageViewHeight?.priority = UILayoutPriority(rawValue: 999)
         photoImageViewHeight?.isActive = true
     }

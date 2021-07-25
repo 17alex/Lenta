@@ -18,7 +18,7 @@ protocol StorageManagerProtocol {
     func append(posts: [Post])
     func append(user: User)
     func getUser(for userId: Int16?) -> User?
-    func update(user: User)
+    func update(user: User?)
 }
 
 final class StorageManager {
@@ -246,11 +246,12 @@ extension StorageManager: StorageManagerProtocol {
             }
         }
 
-        print("getUser for id =", userId, ", users =", users)
+        print("CoreData getUser for id =", userId, ", users =", users)
         return users.first
     }
 
-    func update(user: User) {
+    func update(user: User?) {
+        guard let user = user else { return }
         let fetchRequestUsers: NSFetchRequest = MOUser.fetchRequest()
         let predicate = NSPredicate(format: "id == %i", user.id)
         fetchRequestUsers.predicate = predicate
@@ -262,7 +263,7 @@ extension StorageManager: StorageManagerProtocol {
                 moUser.dateRegister = Int32(user.dateRegister)
                 moUser.avatar = user.avatar
                 try? context.save()
-                print("update user =", user)
+                print("CoreData update user =", user)
             } else {
                 let moUser = MOUser(context: context)
                 moUser.id = user.id
@@ -270,7 +271,7 @@ extension StorageManager: StorageManagerProtocol {
                 moUser.postsCount = user.postsCount
                 moUser.dateRegister = Int32(user.dateRegister)
                 moUser.avatar = user.avatar
-                print("update create user =", user)
+                print("CoreData update create user =", user)
             }
         }
     }

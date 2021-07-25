@@ -44,6 +44,7 @@ final class CommentsViewController: UIViewController {
         table.register(PostCell.self, forCellReuseIdentifier: PostCell.reuseID)
         table.register(CommentCell.self, forCellReuseIdentifier: CommentCell.reuseID)
         table.dataSource = self
+        table.delegate = self
         table.showsVerticalScrollIndicator = false
         table.tableFooterView = UIView()
         table.addGestureRecognizer(tableTap)
@@ -336,7 +337,7 @@ extension CommentsViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: PostCell.reuseID, for: indexPath) as? PostCell else { return UITableViewCell() }
             let postViewModel = presenter.postsViewModel[indexPath.row]
-            cell.set(postModel: postViewModel)
+            cell.set(postModel: postViewModel, cellWidth: tableView.bounds.width)
             presenter.loadImages(for: indexPath)
             return cell
         case .comments:
@@ -347,6 +348,19 @@ extension CommentsViewController: UITableViewDataSource {
             presenter.loadImages(for: indexPath)
             return cell
         }
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension CommentsViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
 

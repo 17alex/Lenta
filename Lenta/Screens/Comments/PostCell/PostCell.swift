@@ -56,7 +56,7 @@ final class PostCell: UITableViewCell {
         return imageView
     }()
 
-    private let fotoActivityIndicator: UIActivityIndicatorView = {
+    private let photoActivityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.hidesWhenStopped = true
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -64,30 +64,8 @@ final class PostCell: UITableViewCell {
     }()
 
     private var photoImageViewHeight: NSLayoutConstraint?
-    private let photoImageViewDefaultHeight: CGFloat = 0
     private var photoUrlString: String = ""
     private var avatarUrlString: String = ""
-
-    private var postModel: PostViewModel? {
-        didSet {
-            guard let postModel = postModel else { return }
-            userNameLabel.text = postModel.user?.name ?? "NoName"
-            let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
-            if avatarUrlString != newAvatarUrlString {
-                avatarImageView.image = nil
-            }
-            avatarUrlString = newAvatarUrlString
-            timeLabel.text = postModel.time
-            descriptionLabel.text = postModel.description.text
-            let newPhotoUrlString = postModel.photo?.urlString ?? ""
-            if photoUrlString != newPhotoUrlString {
-                photoImageView.image = nil
-            }
-
-            photoUrlString = newPhotoUrlString
-//            photoImageViewHeight?.constant = postModel.photo?.size.height ?? 0
-        }
-    }
 
     // MARK: - Init
 
@@ -103,11 +81,35 @@ final class PostCell: UITableViewCell {
 
     // MARK: - Methods
 
-    func set(postModel: PostViewModel) {
-        self.postModel = postModel
+    func set(postModel: PostViewModel, cellWidth: CGFloat) {
+        userNameLabel.text = postModel.user?.name ?? "NoName"
+        timeLabel.text = postModel.time
+        descriptionLabel.text = postModel.description.text
+
+        let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
+        if avatarUrlString != newAvatarUrlString {
+            avatarImageView.image = nil
+        }
+        avatarUrlString = newAvatarUrlString
+
+        guard let newPhoto = postModel.photo else {
+            photoImageView.image = nil
+            photoActivityIndicator.stopAnimating()
+            photoImageViewHeight?.constant = 0
+            return
+        }
+
+        if photoUrlString != newPhoto.urlString {
+            photoImageView.image = nil
+            photoActivityIndicator.startAnimating()
+            photoUrlString = newPhoto.urlString
+        }
+
+        photoImageViewHeight?.constant = ceil(cellWidth * newPhoto.ratio)
     }
 
     func set(photo: UIImage?) {
+        photoActivityIndicator.stopAnimating()
         photoImageView.image = photo
     }
 
@@ -122,7 +124,7 @@ final class PostCell: UITableViewCell {
         contentView.addSubview(timeLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(photoImageView)
-        contentView.addSubview(fotoActivityIndicator)
+        contentView.addSubview(photoActivityIndicator)
 
         NSLayoutConstraint.activate([
             avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
@@ -147,11 +149,12 @@ final class PostCell: UITableViewCell {
             photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
             photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
 
-            fotoActivityIndicator.centerXAnchor.constraint(equalTo: photoImageView.centerXAnchor),
-            fotoActivityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            photoActivityIndicator.centerXAnchor.constraint(equalTo: photoImageView.centerXAnchor),
+            photoActivityIndicator.centerYAnchor.constraint(equalTo: photoImageView.centerYAnchor)
         ])
 
-        photoImageViewHeight = photoImageView.heightAnchor.constraint(equalToConstant: photoImageViewDefaultHeight)
+        photoImageViewHeight = photoImageView.heightAnchor.constraint(equalToConstant: 0)
+        photoImageViewHeight?.priority = UILayoutPriority(rawValue: 999)
         photoImageViewHeight?.isActive = true
     }
 }
