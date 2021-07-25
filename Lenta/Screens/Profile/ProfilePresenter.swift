@@ -50,10 +50,13 @@ final class ProfilePresenter {
 extension ProfilePresenter: ProfileViewOutput {
 
     func saveButtonPress(name: String, image: UIImage?) {
+        view.saveButton(isShow: false)
+        view.activityIndicatorStart()
         var imageData: Data?
         if let image = image {
             imageData = image.jpegData(compressionQuality: 0.25)
         }
+
         interactor.saveProfile(name: name, image: imageData)
     }
 
@@ -79,14 +82,19 @@ extension ProfilePresenter: ProfileViewOutput {
 extension ProfilePresenter: ProfileInteractorOutput {
 
     func saveProfileFailed(serviceError: NetworkServiceError) {
+        view.activityIndicatorStop()
+        view.saveButton(isShow: true)
         view.showMessage(serviceError.rawValue)
     }
 
     func saveProfileSuccess() {
+        view.activityIndicatorStop()
         view.showMessage("update successfull")
     }
 
     func saveProfileError() {
+        view.activityIndicatorStop()
+        view.saveButton(isShow: true)
         view.showMessage("error update")
     }
 
@@ -104,7 +112,7 @@ extension ProfilePresenter: ProfileInteractorOutput {
     }
 
     func changeProfile(_ change: Bool) {
-        view.didChangeProfile(change)
+        view.saveButton(isShow: change)
     }
 
     func toLogin() {

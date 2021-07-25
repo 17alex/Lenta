@@ -40,7 +40,8 @@ extension LoginInteractor: LoginInteractorInput {
                 self.presenter.userLoginFail(error: serviceError)
             case .success(let users):
                 if let currentUser = users.first {
-                    self.storageManager?.save(user: currentUser)
+                    self.storageManager?.update(user: currentUser)
+                    self.storageManager?.saveCurrentUserToUserDefaults(user: currentUser)
                     self.presenter.userDidLogined()
                 } else {
                     self.presenter.userLoginFail(error: .unknown)

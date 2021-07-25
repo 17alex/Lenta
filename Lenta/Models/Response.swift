@@ -22,7 +22,7 @@ struct Comment: Decodable {
     let id: Int
     let timeInterval: TimeInterval
     let postId: Int
-    let userId: Int
+    let userId: Int16
     let text: String
 }
 

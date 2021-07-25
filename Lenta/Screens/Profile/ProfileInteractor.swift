@@ -36,13 +36,13 @@ final class ProfileInteractor {
 
     var isSetNewAvatar = false {
         didSet {
-            changeProfile()
+            didChangedProfile()
         }
     }
 
     var newName = "" {
         didSet {
-            changeProfile()
+            didChangedProfile()
         }
     }
 
@@ -58,7 +58,7 @@ final class ProfileInteractor {
 
     // MARK: - Methods
 
-    private func changeProfile() {
+    private func didChangedProfile() {
         guard let currUser = currentUser  else { presenter?.changeProfile(false); return }
         presenter?.changeProfile(!newName.isEmpty && (newName != currUser.name || isSetNewAvatar))
     }
@@ -73,7 +73,7 @@ extension ProfileInteractor: ProfileInteractorInput {
     }
 
     func start() {
-        currentUser = storageManager?.getCurrenUser()
+        currentUser = storageManager?.getCurrenUserFromUserDefaults()
         presenter?.currentUser(currentUser: currentUser)
     }
 
@@ -90,7 +90,7 @@ extension ProfileInteractor: ProfileInteractorInput {
             presenter?.toLogin()
         } else {
             currentUser = nil
-            storageManager?.save(user: currentUser)
+            storageManager?.saveCurrentUserToUserDefaults(user: currentUser)
             presenter?.currentUser(currentUser: currentUser)
         }
     }
@@ -108,9 +108,10 @@ extension ProfileInteractor: ProfileInteractorInput {
             case .failure(let error):
                 self.presenter?.saveProfileFailed(serviceError: error)
             case .success(let users):
-                if let user = users.first {
-                    self.currentUser = user
-                    self.storageManager?.save(user: self.currentUser)
+                if let firstUser = users.first {
+                    self.currentUser = firstUser
+                    self.storageManager?.update(user: firstUser)
+                    self.storageManager?.saveCurrentUserToUserDefaults(user: firstUser)
                     self.presenter?.saveProfileSuccess()
                     self.isSetNewAvatar = false
                 } else {

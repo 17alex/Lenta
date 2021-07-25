@@ -10,7 +10,7 @@ import Foundation
 protocol LentaInteractorInput {
     var currentUser: User? { get }
     var posts: [Post] { get }
-    var users: Set<User> { get }
+    var users: [Int16: User] { get }
     func loadFromStorage()
     func loadPosts()
     func loadNextPosts()
@@ -29,7 +29,7 @@ final class LentaInteractor {
 
     var currentUser: User?
     var posts: [Post] = []
-    var users: Set<User> = []
+    var users: [Int16: User] = [:]
     var isLoadingPosts = false
     var isEndingPosts = false
 
@@ -55,9 +55,14 @@ extension LentaInteractor: LentaInteractorInput {
     func addNewPost(response: Response) {
         guard let post = response.posts.first else { return }
         posts.insert(post, at: 0)
-        users = self.users.union(response.users)
+        response.users.forEach { responseUser in
+            users.updateValue(responseUser, forKey: responseUser.id)
+        }
+
+        let firstUser = response.users.first
+        storageManager?.saveCurrentUserToUserDefaults(user: firstUser)
+        storageManager?.update(user: firstUser)
         storageManager?.append(posts: response.posts)
-        storageManager?.save(users: Array(self.users))
         presenter?.didLoadNew(post: post)
     }
 
@@ -68,12 +73,14 @@ extension LentaInteractor: LentaInteractorInput {
             case .failure(let serviceError):
                 self.presenter?.show(error: serviceError)
             case .success(let response):
-                guard let deletePost = response.posts.first else { return }
-                if let deleteIndex = self.posts.firstIndex(where: { $0.id == deletePost.id }) {
-                    self.posts.remove(at: deleteIndex)
-                    self.presenter?.didRemovePost(by: deleteIndex)
-                    self.storageManager?.save(posts: self.posts)
-                }
+                guard let deletePost = response.posts.first,
+                      let deletePostIndex = self.posts.firstIndex(where: { $0.id == deletePost.id }) else { return }
+                self.posts.remove(at: deletePostIndex)
+                self.presenter?.didRemovePost(by: deletePostIndex)
+                self.storageManager?.save(posts: self.posts)
+                let firstUser = response.users.first
+                self.storageManager?.saveCurrentUserToUserDefaults(user: firstUser)
+                self.storageManager?.update(user: firstUser)
             }
         }
     }
@@ -90,9 +97,14 @@ extension LentaInteractor: LentaInteractorInput {
                 self.presenter?.show(error: serviceError)
             case .success(let response):
                 self.posts.append(contentsOf: response.posts)
-                self.users = self.users.union(response.users)
+                response.users.forEach { responseUser in
+                    self.users.updateValue(responseUser, forKey: responseUser.id)
+                }
+
+//                self.users = self.users.union(response.users)
+
                 self.storageManager?.append(posts: response.posts)
-                self.storageManager?.save(users: Array(self.users))
+                self.storageManager?.save(users: Array(self.users.values))
                 if response.posts.isEmpty {
                     self.isEndingPosts = true
                 } else {
@@ -105,7 +117,12 @@ extension LentaInteractor: LentaInteractorInput {
     func loadFromStorage() {
         storageManager?.load { [weak self] posts, users in
             guard let self = self else { return }
-            self.users = Set(users)
+//            self.users = Set(users)
+            self.users = [:]
+            users.forEach { user in
+                self.users.updateValue(user, forKey: user.id)
+            }
+            print("self.users =", self.users)
             self.posts = posts
         }
     }
@@ -122,7 +139,11 @@ extension LentaInteractor: LentaInteractorInput {
                 self.presenter?.show(error: serviceError)
             case .success(let response):
                 self.posts = response.posts
-                self.users = Set(response.users)
+//                self.users = Set(response.users)
+                self.users = [:]
+                response.users.forEach { user in
+                    self.users.updateValue(user, forKey: user.id)
+                }
                 self.presenter?.didLoadFirst(posts: response.posts)
                 self.storageManager?.save(posts: response.posts)
                 self.storageManager?.save(users: response.users)
@@ -146,6 +167,6 @@ extension LentaInteractor: LentaInteractorInput {
     }
 
     func getCurrenUser() {
-        currentUser = storageManager?.getCurrenUser()
+        currentUser = storageManager?.getCurrenUserFromUserDefaults()
     }
 }

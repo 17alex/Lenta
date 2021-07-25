@@ -19,6 +19,7 @@ protocol LentaViewOutput {
     func didPressLike(postIndex: Int)
     func willDisplayCell(by index: Int)
     func didTapAvatar(by index: Int)
+    func loadImages(by index: Int)
 }
 
 protocol LentaInteractorOutput: AnyObject {
@@ -50,7 +51,7 @@ final class LentaPresenter {
     }
 
     private func getPostViewModel(post: Post) -> PostViewModel {
-        let user = interactor.users.first(where: { $0.id == post.userId })
+        let user = interactor.users[post.userId]
         return PostViewModel(post: post, user: user, currenUser: interactor.currentUser)
     }
 }
@@ -100,18 +101,7 @@ extension LentaPresenter: LentaViewOutput {
         view.userLoginned(interactor.currentUser != nil)
     }
 
-    func didPressNewPost() {
-        router.showNewPostModule { [weak self] response in
-            guard let self = self else { return }
-            self.interactor.addNewPost(response: response)
-        }
-    }
-
-    func didPressToRefresh() {
-        interactor.loadPosts()
-    }
-
-    func willDisplayCell(by index: Int) {
+    func loadImages(by index: Int) {
         interactor.getImage(from: postsViewModel[index].photo?.urlString) { [weak self] photoData in
             guard let self = self, let photoData = photoData else { return }
             let photoImage = UIImage(data: photoData)
@@ -128,7 +118,20 @@ extension LentaPresenter: LentaViewOutput {
             }
             self.view.set(avatar: avatarImage, for: index)
         }
+    }
 
+    func didPressNewPost() {
+        router.showNewPostModule { [weak self] response in
+            guard let self = self else { return }
+            self.interactor.addNewPost(response: response)
+        }
+    }
+
+    func didPressToRefresh() {
+        interactor.loadPosts()
+    }
+
+    func willDisplayCell(by index: Int) {
         let remainingPostsCountForPreload = 4
         guard index >= interactor.posts.count - remainingPostsCountForPreload else { return }
         interactor.loadNextPosts()

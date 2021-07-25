@@ -10,7 +10,7 @@ import Foundation
 protocol CommentsInteractorInput {
     var posts: [Post] { get }
     var comments: [Comment] { get }
-    var users: Set<User> { get }
+    var users: [Int16: User] { get }
     func loadComments(byPostId postId: Int16)
     func sendNewComment(_ comment: String)
     func getImage(from urlString: String?, completion: @escaping (Data?) -> Void)
@@ -26,7 +26,7 @@ final class CommentsInteractor {
 
     var posts: [Post] = []
     var comments: [Comment] = []
-    var users: Set<User> = []
+    var users: [Int16: User] = [:]
     var currentUser: User?
 
     // MARK: - Init
@@ -49,7 +49,7 @@ extension CommentsInteractor: CommentsInteractorInput {
     }
 
     func sendNewComment(_ comment: String) {
-        guard let currentUser = storageManager?.getCurrenUser() else { return }
+        guard let currentUser = storageManager?.getCurrenUserFromUserDefaults() else { return }
         networkManager?.sendComment(comment, postId: posts[0].id, userId: currentUser.id) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -57,7 +57,10 @@ extension CommentsInteractor: CommentsInteractorInput {
                 self.presenter?.show(error: serviceError)
             case .success(let responseComment):
                 self.comments.append(contentsOf: responseComment.comments)
-                self.users = self.users.union(responseComment.users)
+                responseComment.users.forEach { responseUser in
+                    self.users.updateValue(responseUser, forKey: responseUser.id)
+                }
+//                self.users = self.users.union(responseComment.users) //FIXME: no union
                 self.presenter?.didSendComment(responseComment.comments)
             }
         }
@@ -72,7 +75,11 @@ extension CommentsInteractor: CommentsInteractorInput {
             case .success(let responseComment):
                 self.posts = responseComment.posts
                 self.comments = responseComment.comments
-                self.users = Set(responseComment.users)
+                self.users = [:]
+                responseComment.users.forEach { responseUser in
+                    self.users.updateValue(responseUser, forKey: responseUser.id)
+                }
+//                self.users = Set(responseComment.users)
                 self.presenter?.didLoadComments()
             }
         }

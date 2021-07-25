@@ -55,7 +55,7 @@ final class LentaViewController: UIViewController {
 
     private lazy var lentaTableView: UITableView = {
         let table = UITableView()
-        table.register(LentaCell.self, forCellReuseIdentifier: String(describing: LentaCell.self))
+        table.register(LentaCell.self, forCellReuseIdentifier: LentaCell.reuseID)
         table.dataSource = self
         table.delegate = self
         table.refreshControl = refreshControl
@@ -132,12 +132,12 @@ extension LentaViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LentaCell.self),
-                                                       for: indexPath) as? LentaCell,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: LentaCell.reuseID, for: indexPath) as? LentaCell,
               let presenter = presenter else { return UITableViewCell() }
         cell.delegate = self
         let postModel = presenter.postsViewModel[indexPath.row]
-        cell.set(postModel: postModel)
+        cell.set(postModel: postModel, cellWidth: tableView.bounds.width)
+        presenter.loadImages(by: indexPath.row)
         return cell
     }
 }
@@ -150,17 +150,11 @@ extension LentaViewController: UITableViewDelegate {
         presenter?.willDisplayCell(by: indexPath.row)
     }
 
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return presenter?.postsViewModel[indexPath.row].totalHieght ?? 0
-//    }
-
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        print("heightForRowAt = UITableView.automaticDimension")
         return UITableView.automaticDimension
     }
-//
+
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        print("heightForRowAt = UITableView.automaticDimension")
         return UITableView.automaticDimension
     }
 }

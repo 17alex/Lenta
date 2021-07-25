@@ -19,6 +19,10 @@ final class LentaCell: UITableViewCell {
 
     // MARK: - Properties
 
+    static var reuseID: String {
+        return self.description()
+    }
+
     private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapAvatar)))
@@ -54,7 +58,6 @@ final class LentaCell: UITableViewCell {
     private var photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .red
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -196,7 +199,7 @@ final class LentaCell: UITableViewCell {
         paintLikeButton(isHighlight: post.likes.isHighlight)
     }
 
-    func set(postModel: PostViewModel) {
+    func set(postModel: PostViewModel, cellWidth: CGFloat) {
         userNameLabel.text = postModel.user?.name ?? "NoName"
         let newAvatarUrlString = postModel.user?.avatarUrlString ?? ""
         if avatarUrlString != newAvatarUrlString {
@@ -209,6 +212,7 @@ final class LentaCell: UITableViewCell {
         likesCountLabel.text = postModel.likes.count
         viewsCountLabel.text = postModel.views.count
         commentsCountLabel.text = postModel.comments.count
+
         guard let newPhoto = postModel.photo else {
             photoImageView.image = nil
             photoActivityIndicator.stopAnimating()
@@ -222,7 +226,9 @@ final class LentaCell: UITableViewCell {
             photoUrlString = newPhoto.urlString
         }
 
-        photoImageViewHeight?.constant = ceil(cardView.bounds.width * newPhoto.ratio)
+        let photoHeight = ceil(cellWidth * newPhoto.ratio)
+        photoImageViewHeight?.constant = photoHeight
+
     }
 
     func set(photo: UIImage?) {
@@ -331,14 +337,14 @@ final class LentaCell: UITableViewCell {
             photoActivityIndicator.centerYAnchor.constraint(equalTo: photoImageView.centerYAnchor),
 
             bottomStackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 25),
-            bottomStackView.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 2),
+            bottomStackView.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 5),
             bottomStackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -25),
-            bottomStackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -8),
+            bottomStackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -5),
             bottomStackView.heightAnchor.constraint(equalToConstant: 35)
         ])
 
         avatarImageView.layer.cornerRadius = 30
-        photoImageViewHeight = photoImageView.heightAnchor.constraint(equalToConstant: 5)
+        photoImageViewHeight = photoImageView.heightAnchor.constraint(equalToConstant: 0)
         photoImageViewHeight?.priority = UILayoutPriority(rawValue: 999)
         photoImageViewHeight?.isActive = true
     }

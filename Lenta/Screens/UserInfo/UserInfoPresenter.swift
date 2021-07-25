@@ -51,7 +51,6 @@ final class UserInfoPresenter {
 extension UserInfoPresenter: UserInfoViewOutput {
 
     func viewDidLoad() {
-
         interactor?.getUser(for: userId, completion: { [weak self] user in
             guard let self = self else { return }
             if let userViewModel = UserViewModel(user: user) {

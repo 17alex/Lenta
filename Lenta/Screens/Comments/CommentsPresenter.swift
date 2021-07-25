@@ -58,12 +58,12 @@ final class CommentsPresenter {
     // MARK: - Methods
 
     private func getPostViewModel(post: Post) -> PostViewModel? {
-        let user = interactor.users.first(where: { $0.id == post.userId })
+        let user = interactor.users[post.userId]
         return PostViewModel(post: post, user: user)
     }
 
     private func getCommentViewModel(comment: Comment) -> CommentViewModel? {
-        let user = interactor.users.first(where: { $0.id == comment.userId })
+        let user = interactor.users[comment.userId]
         return CommentViewModel(comment: comment, user: user)
     }
 

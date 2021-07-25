@@ -45,6 +45,7 @@ class RegisterInteractorTest: XCTestCase {
         let expectedStorageCallCount = 1
         let expectedPresenterUserDidRegisterCallCount = 1
         let expectedPresenterUserRegisterFailCallCount = 0
+        let expectedStorageAppendUserCallCount = 1
         let expectedPresenterUserRegisterFailMessage: NetworkServiceError? = nil
 
         // Act
@@ -60,6 +61,7 @@ class RegisterInteractorTest: XCTestCase {
         XCTAssertEqual(expectedPresenterUserDidRegisterCallCount, presenter.userDidRegisterCount)
         XCTAssertEqual(expectedPresenterUserRegisterFailCallCount, presenter.userRegisterFailCount)
         XCTAssertEqual(expectedPresenterUserRegisterFailMessage, presenter.recivedError)
+        XCTAssertEqual(expectedStorageAppendUserCallCount, storageManager.appendUserCallCount)
     }
 
     func testFailureRegister() {

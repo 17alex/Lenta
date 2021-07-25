@@ -39,7 +39,8 @@ extension RegisterInteractor: RegisterInteractorInput {
                 self.presenter.userDidRegisteredFail(error: serviceError)
             case .success(let users):
                 if let currentUser = users.first {
-                    self.storageManager?.save(user: currentUser)
+                    self.storageManager?.saveCurrentUserToUserDefaults(user: currentUser)
+                    self.storageManager?.append(user: currentUser)
                     self.presenter.userDidRegistered()
                 } else {
                     self.presenter.userDidRegisteredFail(error: .unknown)

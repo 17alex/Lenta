@@ -34,12 +34,16 @@ final class UserInfoInteractor {
 
 extension UserInfoInteractor: UserInfoInteractorInput {
 
-    func getUser(for id: Int16, completion: @escaping (User?) -> Void) {
-        guard let users = storageManager?.loadUsers() else { completion(nil); return }
-        let fileterUser = users.filter { user in
-            user.id == id
-        }
-        completion(fileterUser.first)
+    func getUser(for userId: Int16, completion: @escaping (User?) -> Void) {
+        let user = storageManager?.getUser(for: userId)
+        completion(user)
+
+//        guard let users = storageManager?.loadUsers() else { completion(nil); return }
+//        let fileterUser = users.filter { user in
+//            user.id == userId
+//        }
+//        print("user =", fileterUser)
+//        completion(fileterUser.first)
     }
 
     func getImage(from urlString: String?, completion: @escaping (Data?) -> Void) {
