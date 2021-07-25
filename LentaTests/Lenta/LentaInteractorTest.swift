@@ -230,8 +230,9 @@ final class LentaInteractorTest: XCTestCase {
         let expectedPostsCount = 1
         let expectedUsersCount = 1
         let expectedAppendCallCount = 1
-        let expectedSaveUsersCallCount = 1
+//        let expectedSaveUsersCallCount = 1
         let expectedPresenterDidLoadNewCallCount = 1
+        let expectedStoragUpdateCallCount = 1
 
         let user = User(id: 0, name: "Baz", postsCount: 0, dateRegister: 0, avatar: "Avatar")
         let post = Post(id: 0, userId: 0, timeInterval: 0, description: "Boo", photo: nil, likeUserIds: [], viewsCount: 0, commentsCount: 0)
@@ -243,12 +244,13 @@ final class LentaInteractorTest: XCTestCase {
         // Assert
         XCTAssertEqual(expectedPostsCount, sut.posts.count)
         XCTAssertEqual(expectedUsersCount, sut.users.count)
-        XCTAssertEqual(expectedAppendCallCount, storageManager.appendCallCount)
+        XCTAssertEqual(expectedAppendCallCount, storageManager.appendPostsCallCount)
         XCTAssertEqual(response.posts.count, storageManager.savedPosts.count)
-        XCTAssertEqual(expectedSaveUsersCallCount, storageManager.saveUsersCallCount)
-        XCTAssertEqual(response.users.count, storageManager.savedUsers.count)
+//        XCTAssertEqual(expectedSaveUsersCallCount, storageManager.saveUsersCallCount)
+//        XCTAssertEqual(response.users.count, storageManager.savedUsers.count)
         XCTAssertEqual(expectedPresenterDidLoadNewCallCount, presenter.didLoadNewCallCount)
         XCTAssertEqual(post.description, presenter.recivedPost?.description)
+        XCTAssertEqual(expectedStoragUpdateCallCount, storageManager.updateUserCallCount)
     }
 
     func testSuccesLoadPosts() {
@@ -296,7 +298,7 @@ final class LentaInteractorTest: XCTestCase {
         XCTAssertEqual(expectedNetworkGetPostsCallCount, networkManager.getPostsCallCount)
         XCTAssertEqual(expectedPresenterDidLoadNextCallCount, presenter.didLoadNextCallCount)
         XCTAssertEqual(expectedPresenterRecivedPostsCount, presenter.recivedPosts.count)
-        XCTAssertEqual(expectedStorageAppendCallCount, storageManager.appendCallCount)
+        XCTAssertEqual(expectedStorageAppendCallCount, storageManager.appendPostsCallCount)
         XCTAssertEqual(expectedStorageSaveUsersCallCount, storageManager.saveUsersCallCount)
     }
 }

@@ -23,14 +23,16 @@ final class StorageManagerSpy: StorageManagerProtocol {
     var savePostsCallCount = 0
     var saveUsersCallCount = 0
     var loadCallCount = 0
-    var appendCallCount = 0
+    var appendPostsCallCount = 0
+    var updateUserCallCount = 0
+    var appendUserCallCount = 0
 
-    func getCurrenUser() -> User? {
+    func getCurrenUserFromUserDefaults() -> User? {
         getCurrenUserCallCount += 1
         return sendedUser
     }
 
-    func save(user: User?) {
+    func saveCurrentUserToUserDefaults(user: User?) {//
         savedUser = user
         saveUserCallCount += 1
     }
@@ -50,8 +52,26 @@ final class StorageManagerSpy: StorageManagerProtocol {
         savedUsers = users
     }
 
-    func append(posts: [Post]) {
-        appendCallCount += 1
+    func append(posts: [Post]) {//
+        appendPostsCallCount += 1
         savedPosts = posts
+    }
+
+    func loadUsers() -> [User] {
+        fatalError()
+    }
+
+    func append(user: User) {
+        appendUserCallCount += 1
+        savedUser = user
+    }
+
+    func getUser(for userId: Int16?) -> User? {
+        fatalError()
+    }
+
+    func update(user: User?) {//
+        updateUserCallCount += 1
+        savedUser = user
     }
 }

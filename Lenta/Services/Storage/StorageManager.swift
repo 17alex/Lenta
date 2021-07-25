@@ -170,7 +170,7 @@ final class StorageManager {
                             avatar: moUser.avatar)
             }
         }
-        print("LOAD from CoreDATA, users =", users.count)
+        print("LOAD from CoreDATA, users.count =", users.count)
         print("LOAD from CoreDATA, users =", users)
         return users
     }
@@ -183,22 +183,22 @@ extension StorageManager: StorageManagerProtocol {
     func getCurrenUserFromUserDefaults() -> User? {
         if let userData = UserDefaults.standard.data(forKey: userStorageKey),
            let currentUser = try? JSONDecoder().decode(User.self, from: userData) {
-            print("user in storage = \(currentUser)")
+            print("user in UserDefaults = \(currentUser)")
             return currentUser
         } else {
-            print("user is NOT in storage")
+            print("user is NOT in UserDefaults")
             return nil
         }
     }
 
     func saveCurrentUserToUserDefaults(user: User?) {
-        var data: Data?
         if let user = user, let userData = try? JSONEncoder().encode(user) {
-            data = userData
+            UserDefaults.standard.setValue(userData, forKey: userStorageKey)
+            print("UserDefaults  saveCurrentUser =", user)
+        } else {
+            UserDefaults.standard.removeObject(forKey: userStorageKey)
+            print("UserDefaults  remove currentUser")
         }
-
-        UserDefaults.standard.setValue(data, forKey: userStorageKey)
-        print("UserDefaults  saveCurrentUser =", user)
     }
 
     func load(completion: @escaping ([Post], [User]) -> Void) {
@@ -271,7 +271,7 @@ extension StorageManager: StorageManagerProtocol {
                 moUser.postsCount = user.postsCount
                 moUser.dateRegister = Int32(user.dateRegister)
                 moUser.avatar = user.avatar
-                print("CoreData update create user =", user)
+                print("CoreData update/create user =", user)
             }
         }
     }

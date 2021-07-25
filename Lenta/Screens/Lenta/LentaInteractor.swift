@@ -62,8 +62,6 @@ extension LentaInteractor: LentaInteractorInput {
         let firstUser = response.users.first
         storageManager?.saveCurrentUserToUserDefaults(user: firstUser)
         storageManager?.update(user: firstUser)
-
-        print("LentaInteractor =", self.users)
         storageManager?.append(posts: response.posts)
         presenter?.didLoadNew(post: post)
     }
