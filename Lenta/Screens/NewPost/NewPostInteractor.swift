@@ -36,9 +36,8 @@ final class NewPostInteractor {
 extension NewPostInteractor: NewPostInteractorInput {
 
     func sendPost(description: String, image: Data?) {
-        guard let currentUserId = storageManager?.getCurrenUserId() else { return }
-//        guard let currentUser = storageManager?.getCurrenUser() else { return }
-        let sendPost = SendPost(userId: currentUserId, description: description, imageData: image)
+        guard let currentUser = storageManager?.getCurrenUserFromUserDefaults() else { return }
+        let sendPost = SendPost(userId: currentUser.id, description: description, imageData: image)
         networkManager?.sendPost(post: sendPost) { [weak self] result in
             guard let self = self else { return }
             switch result {

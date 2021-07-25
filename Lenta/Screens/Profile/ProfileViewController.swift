@@ -8,12 +8,13 @@
 import UIKit
 
 protocol ProfileViewInput: AnyObject {
-//    func userLoginned(_ currentUserModel: UserViewModel?)
-    func didChangeProfile(_ change: Bool)
     func showMessage(_ message: String)
     func set(avatar: UIImage?)
     func showUserInfo(userModel: UserViewModel)
+    func saveButton(isShow: Bool)
     func clearUserInfo()
+    func activityIndicatorStop()
+    func activityIndicatorStart()
 }
 
 final class ProfileViewController: UIViewController {
@@ -102,6 +103,13 @@ final class ProfileViewController: UIViewController {
         return label
     }()
 
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+//        activityIndicator.hidesWhenStopped = true
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+
     private lazy var imagePicker = ImagePicker(view: self, delegate: self)
     private lazy var saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self,
                                                   action: #selector(saveButtonPress))
@@ -167,6 +175,7 @@ final class ProfileViewController: UIViewController {
         view.addSubview(postsCountLabel)
         view.addSubview(textDateLabel)
         view.addSubview(dateRegisterLabel)
+        view.addSubview(activityIndicator)
 
         NSLayoutConstraint.activate([
             navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -197,7 +206,10 @@ final class ProfileViewController: UIViewController {
 
             dateRegisterLabel.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
             dateRegisterLabel.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
-            dateRegisterLabel.firstBaselineAnchor.constraint(equalTo: textDateLabel.firstBaselineAnchor)
+            dateRegisterLabel.firstBaselineAnchor.constraint(equalTo: textDateLabel.firstBaselineAnchor),
+
+            activityIndicator.centerYAnchor.constraint(equalTo: navigationBar.centerYAnchor),
+            activityIndicator.trailingAnchor.constraint(equalTo: navigationBar.leadingAnchor, constant: 80)
         ])
 
         avatarImageView.layer.cornerRadius = 50
@@ -216,8 +228,8 @@ extension ProfileViewController: ProfileViewInput {
         present(alertController, animated: true, completion: nil)
     }
 
-    func didChangeProfile(_ change: Bool) {
-        saveButton.isEnabled = change
+    func saveButton(isShow: Bool) {
+        saveButton.isEnabled = isShow
     }
 
     func set(avatar: UIImage?) {
@@ -253,6 +265,14 @@ extension ProfileViewController: ProfileViewInput {
                             target: self, action: #selector(logInOutButtonPress))
         navItem.rightBarButtonItem = loginBarButtonItem
         loginBarButtonItem.accessibilityIdentifier = "loginoutBarButton"
+    }
+
+    func activityIndicatorStop() {
+        activityIndicator.stopAnimating()
+    }
+
+    func activityIndicatorStart() {
+        activityIndicator.startAnimating()
     }
 }
 

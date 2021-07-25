@@ -54,7 +54,6 @@ final class LentaCell: UITableViewCell {
     private var photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .red
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -331,9 +330,9 @@ final class LentaCell: UITableViewCell {
             photoActivityIndicator.centerYAnchor.constraint(equalTo: photoImageView.centerYAnchor),
 
             bottomStackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 25),
-            bottomStackView.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 2),
+            bottomStackView.topAnchor.constraint(equalTo: photoImageView.bottomAnchor, constant: 5),
             bottomStackView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -25),
-            bottomStackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -8),
+            bottomStackView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -5),
             bottomStackView.heightAnchor.constraint(equalToConstant: 35)
         ])
 

@@ -24,10 +24,10 @@ final class ProfileInteractor {
     var networkManager: NetworkManagerProtocol?
     weak var presenter: ProfileInteractorOutput?
 
-    var currentUserId: Int16? {
+    var currentUser: User? {
         didSet {
-            if let userId = currentUserId {
-                newName = storageManager.getUser(for: userId).name
+            if let user = currentUser {
+                newName = user.name
             } else {
                 newName = ""
             }
@@ -36,13 +36,13 @@ final class ProfileInteractor {
 
     var isSetNewAvatar = false {
         didSet {
-            changeProfile()
+            didChangedProfile()
         }
     }
 
     var newName = "" {
         didSet {
-            changeProfile()
+            didChangedProfile()
         }
     }
 
@@ -58,7 +58,7 @@ final class ProfileInteractor {
 
     // MARK: - Methods
 
-    private func changeProfile() {
+    private func didChangedProfile() {
         guard let currUser = currentUser  else { presenter?.changeProfile(false); return }
         presenter?.changeProfile(!newName.isEmpty && (newName != currUser.name || isSetNewAvatar))
     }
@@ -73,9 +73,7 @@ extension ProfileInteractor: ProfileInteractorInput {
     }
 
     func start() {
-        currentUserId = storageManager?.getCurrenUserId()
-//        currentUser = storageManager?.getCurrenUser()
-        let currentUser = storageManager.loadUser(id: currentUserId)
+        currentUser = storageManager?.getCurrenUserFromUserDefaults()
         presenter?.currentUser(currentUser: currentUser)
     }
 
@@ -88,11 +86,11 @@ extension ProfileInteractor: ProfileInteractorInput {
     }
 
     func logInOutButtonPress() {
-        if currentUserId == nil {
+        if currentUser == nil {
             presenter?.toLogin()
         } else {
-            currentUserId = nil
-            storageManager?.save(user: currentUser)
+            currentUser = nil
+            storageManager?.saveCurrentUserToUserDefaults(user: currentUser)
             presenter?.currentUser(currentUser: currentUser)
         }
     }
@@ -103,17 +101,17 @@ extension ProfileInteractor: ProfileInteractorInput {
             avatarImage = image
         }
 
-        guard let currUserId = currentUserId else { return }
-        networkManager?.updateProfile(userId: currUserId, name: name, avatar: avatarImage) { [weak self] result in
+        guard let currUser = currentUser else { return }
+        networkManager?.updateProfile(userId: currUser.id, name: name, avatar: avatarImage) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .failure(let error):
                 self.presenter?.saveProfileFailed(serviceError: error)
             case .success(let users):
-                if let user = users.first {
-                    self.currentUserId = user.id
-                    self.storageManager?.saveCurrentUserId(userId: user.id)
-                    self.storageManager?.save(user: user)
+                if let firstUser = users.first {
+                    self.currentUser = firstUser
+                    self.storageManager?.update(user: firstUser)
+                    self.storageManager?.saveCurrentUserToUserDefaults(user: firstUser)
                     self.presenter?.saveProfileSuccess()
                     self.isSetNewAvatar = false
                 } else {

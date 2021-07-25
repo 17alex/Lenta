@@ -9,13 +9,16 @@ import Foundation
 import  CoreData
 
 protocol StorageManagerProtocol {
-    func getCurrenUserId() -> Int16?
-    func saveCurrentUserId(userId: Int16?)
+    func getCurrenUserFromUserDefaults() -> User?
+    func saveCurrentUserToUserDefaults(user: User?)
     func load(completion: @escaping ([Post], [User]) -> Void)
     func save(posts: [Post])
     func save(users: [User])
     func loadUsers() -> [User]
     func append(posts: [Post])
+    func append(user: User)
+    func getUser(for userId: Int16?) -> User?
+    func update(user: User)
 }
 
 final class StorageManager {
@@ -72,7 +75,7 @@ final class StorageManager {
     }
 
     private func add(users: [User]) {
-        print("add users")
+        print("add users count =", users.count)
         bgContext.performAndWait {
             users.forEach { user in
                 let moUser = MOUser(context: bgContext)
@@ -88,7 +91,7 @@ final class StorageManager {
     }
 
     private func add(posts: [Post]) {
-        print("add posts")
+        print("add posts count =", posts.count)
         bgContext.performAndWait {
             posts.forEach { post in
 
@@ -177,28 +180,25 @@ final class StorageManager {
 
 extension StorageManager: StorageManagerProtocol {
 
-    func getCurrenUserId() -> Int16? {
-//        if let userData = UserDefaults.standard.data(forKey: userStorageKey),
-//           let currentUser = try? JSONDecoder().decode(User.self, from: userData) {
-//            print("user in storage = \(currentUser)")
-//            return currentUser
-//        } else {
-//            print("user is NOT in storage")
-//            return nil
-//        }
-        let f =  UserDefaults.standard.integer(forKey: userStorageKey)
-        print("f =", f)
-        let g = Int16(f)
-        return g
+    func getCurrenUserFromUserDefaults() -> User? {
+        if let userData = UserDefaults.standard.data(forKey: userStorageKey),
+           let currentUser = try? JSONDecoder().decode(User.self, from: userData) {
+            print("user in storage = \(currentUser)")
+            return currentUser
+        } else {
+            print("user is NOT in storage")
+            return nil
+        }
     }
 
-    func saveCurrentUserId(userId: Int16?) {
-//        var data: Data?
-//        if let user = user, let userData = try? JSONEncoder().encode(user) {
-//            data = userData
-//        }
-        UserDefaults.standard.setValue(userId, forKey: userStorageKey)
-//        UserDefaults.standard.setValue(data, forKey: userStorageKey)
+    func saveCurrentUserToUserDefaults(user: User?) {
+        var data: Data?
+        if let user = user, let userData = try? JSONEncoder().encode(user) {
+            data = userData
+        }
+
+        UserDefaults.standard.setValue(data, forKey: userStorageKey)
+        print("UserDefaults  saveCurrentUser =", user)
     }
 
     func load(completion: @escaping ([Post], [User]) -> Void) {
@@ -216,6 +216,10 @@ extension StorageManager: StorageManagerProtocol {
         add(posts: posts)
     }
 
+    func append(user: User) {
+        add(users: [user])
+    }
+
     func save(users: [User]) {
         deleteAllUsers()
         add(users: users)
@@ -223,5 +227,51 @@ extension StorageManager: StorageManagerProtocol {
 
     func loadUsers() -> [User] {
         return loadAllUsers()
+    }
+
+    func getUser(for userId: Int16?) -> User? {
+        guard let userId = userId else { return nil }
+        let fetchRequestUsers: NSFetchRequest = MOUser.fetchRequest()
+        let predicate = NSPredicate(format: "id == %i", userId)
+        fetchRequestUsers.predicate = predicate
+        var users: [User] = []
+        context.performAndWait {
+            guard let moUsers = try? context.fetch(fetchRequestUsers) else { return }
+            users = moUsers.map { moUser in
+                return User(id: moUser.id,
+                            name: moUser.name,
+                            postsCount: moUser.postsCount,
+                            dateRegister: TimeInterval(moUser.dateRegister),
+                            avatar: moUser.avatar)
+            }
+        }
+
+        print("getUser for id =", userId, ", users =", users)
+        return users.first
+    }
+
+    func update(user: User) {
+        let fetchRequestUsers: NSFetchRequest = MOUser.fetchRequest()
+        let predicate = NSPredicate(format: "id == %i", user.id)
+        fetchRequestUsers.predicate = predicate
+        context.performAndWait {
+            if let moUser = try? context.fetch(fetchRequestUsers).first {
+                moUser.id = user.id
+                moUser.name = user.name
+                moUser.postsCount = Int16(user.postsCount)
+                moUser.dateRegister = Int32(user.dateRegister)
+                moUser.avatar = user.avatar
+                try? context.save()
+                print("update user =", user)
+            } else {
+                let moUser = MOUser(context: context)
+                moUser.id = user.id
+                moUser.name = user.name
+                moUser.postsCount = user.postsCount
+                moUser.dateRegister = Int32(user.dateRegister)
+                moUser.avatar = user.avatar
+                print("update create user =", user)
+            }
+        }
     }
 }

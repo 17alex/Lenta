@@ -42,7 +42,7 @@ final class PostCell: UITableViewCell {
 
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.text = "descriptionLabel"
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false

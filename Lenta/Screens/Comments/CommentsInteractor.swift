@@ -49,7 +49,7 @@ extension CommentsInteractor: CommentsInteractorInput {
     }
 
     func sendNewComment(_ comment: String) {
-        guard let currentUser = storageManager?.getCurrenUser() else { return }
+        guard let currentUser = storageManager?.getCurrenUserFromUserDefaults() else { return }
         networkManager?.sendComment(comment, postId: posts[0].id, userId: currentUser.id) { [weak self] result in
             guard let self = self else { return }
             switch result {

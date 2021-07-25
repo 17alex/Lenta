@@ -58,10 +58,12 @@ extension LentaInteractor: LentaInteractorInput {
         response.users.forEach { responseUser in
             users.updateValue(responseUser, forKey: responseUser.id)
         }
-//        users = self.users.union(response.users)
+//        users = self.users.union(response.users) // navernoe ne nado
+        storageManager?.saveCurrentUserToUserDefaults(user: response.users.first)
+
         print("LentaInteractor =", self.users)
         storageManager?.append(posts: response.posts)
-        storageManager?.save(users: Array(self.users.values))
+        storageManager?.save(users: Array(self.users.values)) // navernoe ne nado
         presenter?.didLoadNew(post: post)
     }
 
@@ -165,6 +167,6 @@ extension LentaInteractor: LentaInteractorInput {
     }
 
     func getCurrenUser() {
-        currentUser = storageManager?.getCurrenUser()
+        currentUser = storageManager?.getCurrenUserFromUserDefaults()
     }
 }
