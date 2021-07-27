@@ -118,7 +118,7 @@ final class ProfileViewController: UIViewController {
 
     var presenter: ProfileViewOutput?
 
-    // MARK: - LiveCycles
+    // MARK: - LifeCycles
 
     deinit {
         print("ProfileViewController deinit")

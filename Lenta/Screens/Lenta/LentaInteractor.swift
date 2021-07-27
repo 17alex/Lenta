@@ -67,8 +67,10 @@ extension LentaInteractor: LentaInteractorInput {
     }
 
     func deletePost(by index: Int) {
+        presenter?.startActiveProcess()
         networkManager?.removePost(postId: posts[index].id) { [weak self] result in
             guard let self = self else { return }
+            self.presenter?.stopActiveProcess()
             switch result {
             case .failure(let serviceError):
                 self.presenter?.show(error: serviceError)
@@ -88,9 +90,11 @@ extension LentaInteractor: LentaInteractorInput {
     func loadNextPosts() {
         if isLoadingPosts || isEndingPosts { return }
         isLoadingPosts = true
+        presenter?.startActiveProcess()
         let lastPostId = posts[posts.count - 1].id
         networkManager?.getPosts(fromPostId: lastPostId) { [weak self] result in
             guard let self = self else { return }
+            self.presenter?.stopActiveProcess()
             self.isLoadingPosts = false
             switch result {
             case .failure(let serviceError):
@@ -100,9 +104,6 @@ extension LentaInteractor: LentaInteractorInput {
                 response.users.forEach { responseUser in
                     self.users.updateValue(responseUser, forKey: responseUser.id)
                 }
-
-//                self.users = self.users.union(response.users)
-
                 self.storageManager?.append(posts: response.posts)
                 self.storageManager?.save(users: Array(self.users.values))
                 if response.posts.isEmpty {
@@ -117,12 +118,10 @@ extension LentaInteractor: LentaInteractorInput {
     func loadFromStorage() {
         storageManager?.load { [weak self] posts, users in
             guard let self = self else { return }
-//            self.users = Set(users)
             self.users = [:]
             users.forEach { user in
                 self.users.updateValue(user, forKey: user.id)
             }
-            print("self.users =", self.users)
             self.posts = posts
         }
     }
@@ -130,16 +129,17 @@ extension LentaInteractor: LentaInteractorInput {
     func loadPosts() {
         if isLoadingPosts { return }
         isLoadingPosts = true
+        presenter?.startActiveProcess()
         isEndingPosts = false
         networkManager?.getPosts(fromPostId: nil) { [weak self] result in
             guard let self = self else { return }
+            self.presenter?.stopActiveProcess()
             self.isLoadingPosts = false
             switch result {
             case .failure(let serviceError):
                 self.presenter?.show(error: serviceError)
             case .success(let response):
                 self.posts = response.posts
-//                self.users = Set(response.users)
                 self.users = [:]
                 response.users.forEach { user in
                     self.users.updateValue(user, forKey: user.id)
@@ -153,9 +153,11 @@ extension LentaInteractor: LentaInteractorInput {
 
     func changeLike(by index: Int) {
         guard let currentUser = currentUser else { return }
+        presenter?.startActiveProcess()
         let postId = posts[index].id
         networkManager?.changeLike(postId: postId, userId: currentUser.id) { [weak self] result in
             guard let self = self else { return }
+            self.presenter?.stopActiveProcess()
             switch result {
             case .failure(let serviceError):
                 self.presenter?.show(error: serviceError)

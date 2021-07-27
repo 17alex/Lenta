@@ -16,6 +16,8 @@ final class LentaPresenterSpy: LentaInteractorOutput {
     var didLoadNewCallCount = 0
     var didLoadFirstCallCount = 0
     var didLoadNextCallCount = 0
+    var startActiveProcessCallCount = 0
+    var stopActiveProcessCallCount = 0
 
     var recivedIndex = -1
     var recivedError: NetworkServiceError?
@@ -50,5 +52,13 @@ final class LentaPresenterSpy: LentaInteractorOutput {
     func show(error: NetworkServiceError) {
         showMessageCallCount += 1
         recivedError = error
+    }
+
+    func startActiveProcess() {
+        startActiveProcessCallCount += 1
+    }
+
+    func stopActiveProcess() {
+        stopActiveProcessCallCount += 1
     }
 }

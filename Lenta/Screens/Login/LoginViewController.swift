@@ -112,7 +112,7 @@ final class LoginViewController: UIViewController {
 
     var presenter: LoginViewOutput?
 
-    // MARK: - LiveCycles
+    // MARK: - LifeCycles
 
     override func viewDidLoad() {
         super.viewDidLoad()

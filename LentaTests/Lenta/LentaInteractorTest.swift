@@ -230,7 +230,6 @@ final class LentaInteractorTest: XCTestCase {
         let expectedPostsCount = 1
         let expectedUsersCount = 1
         let expectedAppendCallCount = 1
-//        let expectedSaveUsersCallCount = 1
         let expectedPresenterDidLoadNewCallCount = 1
         let expectedStoragUpdateCallCount = 1
 
@@ -246,8 +245,6 @@ final class LentaInteractorTest: XCTestCase {
         XCTAssertEqual(expectedUsersCount, sut.users.count)
         XCTAssertEqual(expectedAppendCallCount, storageManager.appendPostsCallCount)
         XCTAssertEqual(response.posts.count, storageManager.savedPosts.count)
-//        XCTAssertEqual(expectedSaveUsersCallCount, storageManager.saveUsersCallCount)
-//        XCTAssertEqual(response.users.count, storageManager.savedUsers.count)
         XCTAssertEqual(expectedPresenterDidLoadNewCallCount, presenter.didLoadNewCallCount)
         XCTAssertEqual(post.description, presenter.recivedPost?.description)
         XCTAssertEqual(expectedStoragUpdateCallCount, storageManager.updateUserCallCount)

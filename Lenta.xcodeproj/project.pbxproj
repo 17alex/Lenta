@@ -437,6 +437,7 @@
 		FA33EDE125AC8A1000637E3E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				FAC2073425AC616900CD9099 /* Assembly.swift */,
 				FA0A1DFB2624844B0061524D /* ImagePicker.swift */,
 				FA33EDE325AC8A5D00637E3E /* NetworkManager.swift */,
 				8DF356D92688C01C007E02D8 /* Storage */,
@@ -521,7 +522,6 @@
 		FA8DAD4025AC24E600E9D1B7 /* Lenta */ = {
 			isa = PBXGroup;
 			children = (
-				FAC2073425AC616900CD9099 /* Assembly.swift */,
 				FA39ECD525C02D7800C52D1E /* Models */,
 				FA33EDE025AC899A00637E3E /* Screens */,
 				FA1BB71E25DA5673008F56B9 /* Extensions */,

@@ -29,6 +29,8 @@ protocol LentaInteractorOutput: AnyObject {
     func didUpdatePost(by index: Int)
     func didRemovePost(by index: Int)
     func show(error: NetworkServiceError)
+    func startActiveProcess()
+    func stopActiveProcess()
 }
 
 final class LentaPresenter {
@@ -81,7 +83,6 @@ extension LentaPresenter: LentaViewOutput {
 
     func didPressDeletePost(by index: Int) {
         interactor.deletePost(by: index)
-        view.activityIndicatorStart()
     }
 
     func didPressLike(postIndex: Int) {
@@ -90,7 +91,6 @@ extension LentaPresenter: LentaViewOutput {
 
     func viewDidLoad() {
         interactor.loadFromStorage()
-        view.activityIndicatorStart()
         interactor.loadPosts()
     }
 
@@ -129,6 +129,7 @@ extension LentaPresenter: LentaViewOutput {
 
     func didPressToRefresh() {
         interactor.loadPosts()
+        view.activityEndRefreshing()
     }
 
     func willDisplayCell(by index: Int) {
@@ -150,42 +151,32 @@ extension LentaPresenter: LentaInteractorOutput {
     func didRemovePost(by index: Int) {
         postsViewModel.remove(at: index)
         view.removePost(by: index)
-        view.activityIndicatorStop()
     }
 
     func didLoadFirst(posts: [Post]) {
-        let group = DispatchGroup()
-        group.enter()
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
             self.postsViewModel = posts.map(self.getPostViewModel(post:))
-            group.leave()
-        }
+            DispatchQueue.main.async {
+                self.view.reloadLenta()
+            }
 
-        group.notify(queue: .main) { [weak self] in
-            guard let self = self else { return }
-            self.view.activityIndicatorStop()
-            self.view.reloadLenta()
         }
     }
 
     func didLoadNext(posts: [Post]) {
         var startIndex = 0
         var endIndex = 0
-        let group = DispatchGroup()
-        group.enter()
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
             startIndex = self.postsViewModel.count
             self.postsViewModel.append(contentsOf: posts.map(self.getPostViewModel(post:)))
             endIndex = self.postsViewModel.count
-            group.leave()
+            DispatchQueue.main.async {
+                self.view.insertPosts(fromIndex: startIndex, toIndex: endIndex)
+            }
         }
 
-        group.notify(queue: .main) { [weak self] in
-            guard let self = self else { return }
-            self.view.insertPosts(fromIndex: startIndex, toIndex: endIndex)
-        }
     }
 
     func didUpdatePost(by index: Int) {
@@ -194,7 +185,14 @@ extension LentaPresenter: LentaInteractorOutput {
     }
 
     func show(error: NetworkServiceError) {
-        view.activityIndicatorStop()
         view.show(message: error.rawValue)
+    }
+
+    func startActiveProcess() {
+        view.activityIndicatorStart()
+    }
+
+    func stopActiveProcess() {
+        view.activityIndicatorStop()
     }
 }

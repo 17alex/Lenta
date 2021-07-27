@@ -18,6 +18,7 @@ protocol LentaViewInput: AnyObject {
     func showMenu(byPostIndex index: Int, isPostOwner: Bool)
     func activityIndicatorStart()
     func activityIndicatorStop()
+    func activityEndRefreshing()
     func set(photo: UIImage?, for index: Int)
     func set(avatar: UIImage?, for index: Int)
 }
@@ -71,7 +72,7 @@ final class LentaViewController: UIViewController {
 
     var presenter: LentaViewOutput?
 
-    // MARK: - LiveCycles
+    // MARK: - LifeCycles
 
     deinit {
         print("LentaViewController deinit")
@@ -224,12 +225,18 @@ extension LentaViewController: LentaViewInput {
         cell.set(avatar: avatar)
     }
 
-    func activityIndicatorStop() {
-        activityIndicator.stopAnimating()
+    func activityEndRefreshing() {
+        print("activityEndRefreshing")
         refreshControl.endRefreshing()
     }
 
+    func activityIndicatorStop() {
+        print("activityIndicatorStop")
+        activityIndicator.stopAnimating()
+    }
+
     func activityIndicatorStart() {
+        print("activityIndicatorStart")
         activityIndicator.startAnimating()
     }
 

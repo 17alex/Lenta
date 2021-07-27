@@ -88,7 +88,7 @@ final class NewPostViewController: UIViewController {
     private lazy var imagePicker = ImagePicker(view: self, delegate: self)
     private var isShowKboard = false
 
-    // MARK: - LiveCycles
+    // MARK: - LifeCycles
 
     deinit {
         print("NewPostViewController deinit")

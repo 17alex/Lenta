@@ -32,7 +32,7 @@ final class StorageManagerSpy: StorageManagerProtocol {
         return sendedUser
     }
 
-    func saveCurrentUserToUserDefaults(user: User?) {//
+    func saveCurrentUserToUserDefaults(user: User?) {
         savedUser = user
         saveUserCallCount += 1
     }
@@ -52,7 +52,7 @@ final class StorageManagerSpy: StorageManagerProtocol {
         savedUsers = users
     }
 
-    func append(posts: [Post]) {//
+    func append(posts: [Post]) {
         appendPostsCallCount += 1
         savedPosts = posts
     }
@@ -70,7 +70,7 @@ final class StorageManagerSpy: StorageManagerProtocol {
         fatalError()
     }
 
-    func update(user: User?) {//
+    func update(user: User?) {
         updateUserCallCount += 1
         savedUser = user
     }

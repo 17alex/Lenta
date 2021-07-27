@@ -98,7 +98,7 @@ final class UserInfoViewController: UIViewController {
 
     var presenter: UserInfoViewOutput?
 
-    // MARK: - LiveCycles
+    // MARK: - LifeCycles
 
     deinit {
         print("UserInfoViewController deinit")

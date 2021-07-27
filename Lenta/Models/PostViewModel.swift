@@ -38,11 +38,9 @@ struct PostViewModel {
     var likes: LikesViewModel
     let views: ViewsViewModel
     let comments: CommentsViewModel
-//    var totalHieght: CGFloat
 
     struct DescriptionViewModel {
         let text: String
-//        var size: CGSize
     }
 
     struct LikesViewModel {
@@ -64,7 +62,6 @@ struct PostViewModel {
         self.time = post.timeInterval.toDateString()
         self.description = DescriptionViewModel(text: post.description)
 
-//        var photoRatio: CGFloat = 0.001
         if let postPhoto = post.photo, !postPhoto.name.isEmpty {
             let postPhotoUrlSting = Constants.URLs.imagesPath + postPhoto.name
             let photoRatio = CGFloat(postPhoto.size.height) / CGFloat(postPhoto.size.width)
@@ -78,19 +75,6 @@ struct PostViewModel {
 
         self.views = ViewsViewModel(count: String(post.viewsCount))
         self.comments = CommentsViewModel(count: String(post.commentsCount))
-
-//        let textSize = CGSize(width: UIScreen.main.bounds.width - 16, height: .greatestFiniteMagnitude)
-//        let rect = post.description.boundingRect(with: textSize,
-//                                     options: .usesLineFragmentOrigin,
-//                                     attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)],
-//                                     context: nil)
-//        self.description.size = CGSize(width: rect.width, height: rect.height)
-
-//        let postHeaderHeight: CGFloat = 81
-//        let spaceHeight: CGFloat = 2
-//        let postFooter: CGFloat = 40
-//        self.totalHieght = postHeaderHeight + description.size.height
-//            + spaceHeight + photoRatio + postFooter + spaceHeight * 2
     }
 
     mutating func update(with post: Post) {

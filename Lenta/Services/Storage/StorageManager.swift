@@ -171,7 +171,6 @@ final class StorageManager {
             }
         }
         print("LOAD from CoreDATA, users.count =", users.count)
-        print("LOAD from CoreDATA, users =", users)
         return users
     }
 }

@@ -60,7 +60,6 @@ extension CommentsInteractor: CommentsInteractorInput {
                 responseComment.users.forEach { responseUser in
                     self.users.updateValue(responseUser, forKey: responseUser.id)
                 }
-//                self.users = self.users.union(responseComment.users) //FIXME: no union
                 self.presenter?.didSendComment(responseComment.comments)
             }
         }
@@ -79,7 +78,6 @@ extension CommentsInteractor: CommentsInteractorInput {
                 responseComment.users.forEach { responseUser in
                     self.users.updateValue(responseUser, forKey: responseUser.id)
                 }
-//                self.users = Set(responseComment.users)
                 self.presenter?.didLoadComments()
             }
         }

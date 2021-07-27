@@ -102,7 +102,7 @@ final class CommentsViewController: UIViewController {
 
     var presenter: CommentsViewOutput?
 
-    // MARK: - LiveCycles
+    // MARK: - LifeCycles
 
     deinit {
         print("CommentsViewController deinit")

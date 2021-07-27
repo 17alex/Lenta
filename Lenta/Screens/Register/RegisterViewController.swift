@@ -144,7 +144,7 @@ final class RegisterViewController: UIViewController {
     private var avatarImage: UIImage?
     lazy var imagePicker = ImagePicker(view: self, delegate: self)
 
-    // MARK: - LiveCycles
+    // MARK: - LifeCycles
 
     override func viewDidLoad() {
         super.viewDidLoad()
