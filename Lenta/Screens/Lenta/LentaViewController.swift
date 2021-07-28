@@ -249,11 +249,6 @@ extension LentaViewController: LentaViewInput {
                 self.presenter?.didPressDeletePost(by: index)
             }
             alertController.addAction(deleteAction)
-
-            let changeAction = UIAlertAction(title: "Change Post (in dev)", style: .default) { _ in
-                print("change post")
-            }
-            alertController.addAction(changeAction)
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
