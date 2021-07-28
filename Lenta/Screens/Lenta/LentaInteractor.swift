@@ -170,5 +170,8 @@ extension LentaInteractor: LentaInteractorInput {
 
     func getCurrenUser() {
         currentUser = storageManager?.getCurrenUserFromUserDefaults()
+        if let currUser = currentUser {
+            users[currUser.id] = currUser
+        }
     }
 }
