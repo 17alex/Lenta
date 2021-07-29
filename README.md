@@ -23,7 +23,7 @@
 ***
 Пишите комментарии
 
-![](https://monsterok.ru/lenta/readme/NewComments.jpg)  
+![](https://monsterok.ru/lenta/readme/NewComment.jpg)  
 ***
 Что бы писать посты и комменты, надо залогинится
 
