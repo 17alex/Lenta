@@ -22,7 +22,7 @@ final class ImagePicker: NSObject {
     }
 
     func chooseImage() {
-        let actionSheet = UIAlertController(title: "Choose", message: "photo source", preferredStyle: .actionSheet)
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         if  UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let photoAction = UIAlertAction(title: "PhotoLibrary", style: .default) { _ in

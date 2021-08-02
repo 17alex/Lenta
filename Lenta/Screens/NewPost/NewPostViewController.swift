@@ -40,7 +40,7 @@ final class NewPostViewController: UIViewController {
     }()
 
     private lazy var toolbar: UIToolbar = {
-        let kbToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 300, height: 50))
+        let kbToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 300, height: 44))
         kbToolbar.barStyle = UIBarStyle.default
         kbToolbar.isTranslucent = true
         let button = UIBarButtonItem(image: UIImage(systemName: "photo"),
@@ -212,7 +212,6 @@ final class NewPostViewController: UIViewController {
 
         bottomScrollView = scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         bottomScrollView?.isActive = true
-        bottomScrollView?.constant = 0
 
         heightTextView = descriptionTextView.heightAnchor.constraint(equalToConstant: 36)
         heightTextView?.isActive = true
