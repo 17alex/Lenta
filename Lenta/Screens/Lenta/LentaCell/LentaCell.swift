@@ -26,7 +26,7 @@ final class LentaCell: UITableViewCell {
     private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapAvatar)))
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.translatesAutoresizingMaskIntoConstraints = false

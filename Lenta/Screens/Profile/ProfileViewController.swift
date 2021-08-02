@@ -38,7 +38,7 @@ final class ProfileViewController: UIViewController {
 
     private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "avatar")
         imageView.tintColor = Constants.Colors.active
         imageView.isUserInteractionEnabled = true
