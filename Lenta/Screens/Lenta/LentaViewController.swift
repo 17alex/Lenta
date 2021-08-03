@@ -13,7 +13,7 @@ protocol LentaViewInput: AnyObject {
     func insertPost(by index: Int)
     func insertPosts(fromIndex: Int, toIndex: Int)
     func removePost(by index: Int)
-    func userLoginned(_ isLoginned: Bool)
+    func showNewPostButton(_ isShow: Bool)
     func show(message: String)
     func showMenu(byPostIndex index: Int, isPostOwner: Bool)
     func activityIndicatorStart()
@@ -284,7 +284,7 @@ extension LentaViewController: LentaViewInput {
         present(alertController, animated: true, completion: nil)
     }
 
-    func userLoginned(_ isLoginned: Bool) {
+    func showNewPostButton(_ isLoginned: Bool) {
         navItem.rightBarButtonItem?.isEnabled = isLoginned
     }
 

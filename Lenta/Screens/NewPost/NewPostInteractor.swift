@@ -48,5 +48,4 @@ extension NewPostInteractor: NewPostInteractorInput {
             }
         }
     }
-
 }

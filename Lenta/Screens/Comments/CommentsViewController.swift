@@ -15,6 +15,7 @@ protocol CommentsViewInput: AnyObject {
     func show(message: String)
     func set(photo: UIImage?, for indexPath: IndexPath)
     func set(avatar: UIImage?, for indexPath: IndexPath)
+    func showCommentSendButton(_ isShow: Bool)
 }
 
 final class CommentsViewController: UIViewController {
@@ -309,6 +310,10 @@ extension CommentsViewController: CommentsViewInput {
 
     func showActivityIndicator() {
         loadActivityIndicator.startAnimating()
+    }
+
+    func showCommentSendButton(_ isShow: Bool) {
+        sendButton.isEnabled = isShow
     }
 }
 

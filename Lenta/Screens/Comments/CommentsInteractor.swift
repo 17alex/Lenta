@@ -11,6 +11,7 @@ protocol CommentsInteractorInput {
     var posts: [Post] { get }
     var comments: [Comment] { get }
     var users: [Int16: User] { get }
+    var currentUser: User? { get }
     func loadComments(byPostId postId: Int16)
     func sendNewComment(_ comment: String)
     func getImage(from urlString: String?, completion: @escaping (Data?) -> Void)
@@ -27,7 +28,10 @@ final class CommentsInteractor {
     var posts: [Post] = []
     var comments: [Comment] = []
     var users: [Int16: User] = [:]
-    var currentUser: User?
+
+    var currentUser: User? {
+        storageManager?.getCurrenUserFromUserDefaults()
+    }
 
     // MARK: - Init
 

@@ -98,7 +98,7 @@ extension LentaPresenter: LentaViewOutput {
         interactor.getCurrenUser()
         postsViewModel = interactor.posts.compactMap(getPostViewModel(post:))
         view.reloadLenta()
-        view.userLoginned(interactor.currentUser != nil)
+        view.showNewPostButton(interactor.currentUser != nil)
     }
 
     func loadImages(by index: Int) {

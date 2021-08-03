@@ -118,6 +118,11 @@ extension CommentsPresenter: CommentsViewOutput {
     func viewDidLoad() {
         view.showActivityIndicator()
         interactor.loadComments(byPostId: postId)
+        if interactor.currentUser != nil {
+            view.showCommentSendButton(true)
+        } else {
+            view.showCommentSendButton(false)
+        }
     }
 }
 
