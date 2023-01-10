@@ -20,6 +20,7 @@ enum Constants {
         static let updatePrifile    = "https://monsterok.ru/lenta/updatePrifile.php"
         static let avatarsPath      = "https://monsterok.ru/lenta/avatars/"
         static let imagesPath       = "https://monsterok.ru/lenta/images/"
+		
     }
 
     enum Colors {
